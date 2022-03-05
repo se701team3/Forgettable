@@ -1,6 +1,8 @@
-const express = require('express');
-import api from './api'
-const Router = express.Router();
-Router.use('/api', api);
+import person from './person.route'
+import {Router} from 'express'
 
-export default Router
+const routes = Router();
+
+routes.use('/api/person', person);
+
+export default routes
