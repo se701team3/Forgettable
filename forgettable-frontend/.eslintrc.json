@@ -29,15 +29,16 @@
             "error",
             "ignorePackages",
             {
-            "ts": "never",
-            "tsx": "never"
+                "ts": "never",
+                "tsx": "never"
             }
-            ],
-            "no-shadow": "off",
-"@typescript-eslint/no-shadow": ["error"],
-"max-len": ["warn", { "code": 80 }],
-"import/prefer-default-export": "off",
-"react/prop-types": "off"
+        ],
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": ["error"],
+        "max-len": ["warn", { "code": 80 }],
+        "import/prefer-default-export": "off",
+        "react/prop-types": "off",
+        "linebreak-style": 0
     },
     "settings": {
         "import/resolver": {
