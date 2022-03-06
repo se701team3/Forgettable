@@ -4,7 +4,7 @@ import cors from 'cors';
 import routes from './routes';
 import config from './utils/config';
 import logger from './utils/logger';
-import middleware from './utils/middleware';
+import middleware from './utils/middleware'
 
 connect(config.MONGODB_URI)
   .then(() => logger.info('connected to MongoDB'))
