@@ -1,8 +1,8 @@
-import person from './person.route'
-import {Router} from 'express'
+import { Router } from 'express';
+import person from './person.route';
 
 const routes = Router();
 
 routes.use('/api/person', person);
 
-export default routes
+export default routes;

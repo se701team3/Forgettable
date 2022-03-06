@@ -1,4 +1,4 @@
-import {Schema, model} from 'mongoose'
+import { Schema, model } from 'mongoose';
 
 interface PersonModel {
     name: string,
@@ -6,8 +6,8 @@ interface PersonModel {
 }
 
 const schema = new Schema<PersonModel>({
-    name: {type: String, required: true},
-    organisation: {type: String, required: true}
-})
+  name: { type: String, required: true },
+  organisation: { type: String, required: true },
+});
 
-export default model<PersonModel>('Person', schema)
+export default model<PersonModel>('Person', schema);

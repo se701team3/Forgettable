@@ -1,9 +1,9 @@
-import {createPerson, getRandomJson} from "../controllers/person.controller";
-import {Router} from 'express'
+import { Router } from 'express';
+import { createPerson, getRandomJson } from '../controllers/person.controller';
 
 const routes = Router();
 
-routes.get('/', getRandomJson)
-routes.post('/', createPerson)
+routes.get('/', getRandomJson);
+routes.post('/', createPerson);
 
-export default routes
+export default routes;
