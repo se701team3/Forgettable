@@ -1,3 +1,6 @@
+/**
+ * Model defines a datatype's schema (kinda like class)
+ */
 import { Schema, model } from 'mongoose';
 
 export interface PersonModel {
