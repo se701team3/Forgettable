@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-interface PersonModel {
+export interface PersonModel {
     name: string,
     organisation: string
 }
