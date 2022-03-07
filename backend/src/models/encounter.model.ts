@@ -4,7 +4,7 @@ interface EncounterModel {
   date: Date,
   location: string,
   description: string,
-  persons: []
+  persons: [Schema.Types.ObjectId]
 }
 
 const schema = new Schema<EncounterModel>({
