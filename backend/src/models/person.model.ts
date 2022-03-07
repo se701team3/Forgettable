@@ -12,7 +12,7 @@ export interface PersonModel {
 }
 
 const schema = new Schema<PersonModel>({
-  first_name: { type: String, required: true },
+  first_name: { type: String, required: false },
   last_name: { type: String, required: false },
   birthday: { type: Date, required: false },
   interests: { type: [String], required: false },
