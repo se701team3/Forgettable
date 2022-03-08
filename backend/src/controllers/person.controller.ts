@@ -1,5 +1,8 @@
+/**
+ * Controller contains high-level operations using services, consumed by routes
+ */
 import { NextFunction, Request, Response } from 'express';
-import PersonModel from '../models/person.model';
+import { createPerson as createPersonService } from '../services/person.service';
 
 export const getRandomJson = async (
   req: Request,
@@ -20,7 +23,7 @@ export const createPerson = async (
 ): Promise<void> => {
   const { name, organisation } = req.body;
   try {
-    await new PersonModel({ name, organisation }).save();
+    await createPersonService({ name, organisation });
     res.status(200).end();
   } catch (e) {
     next(e);
