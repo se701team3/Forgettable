@@ -11,13 +11,28 @@ import { POST } from './controller.types';
 export const createPerson: POST = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
-  logger.info("POST /persons/create request from frontend");
+  logger.info('POST /persons/create request from frontend');
 
   try {
     const person = await personService.createPerson(req.body);
     res.status(httpStatus.CREATED).send(person);
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const getAllPeople = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  logger.info('GET /persons request from frontend');
+
+  try {
+    const people = await personService.getPeople();
+    res.status(httpStatus.OK).json(people);
   } catch (e) {
     next(e);
   }
