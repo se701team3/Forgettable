@@ -1,4 +1,4 @@
-import { Request, Response, ParamsDictionary, Paths } from 'express';
+import { Request, Response, NextFunction, ParamsDictionary, Paths } from 'express';
 
 export type POST = (
     req: Request<ParamsDictionary, {}, Paths.Hangouts.Post.RequestBody>,
@@ -6,5 +6,6 @@ export type POST = (
         | Paths.Hangouts.Post.Responses.$201
         | Paths.Hangouts.Post.Responses.$400
         | Paths.Hangouts.Post.Responses.$404
-    >
-) => void
+    >,
+    next: NextFunction
+) => Promise<void>
