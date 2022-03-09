@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
 import logger from './logger';
 
 const errorHandler = (
@@ -9,7 +10,7 @@ const errorHandler = (
 ) => {
   logger.error(error.message);
   if (error.name === 'ValidationError') {
-    return res.status(400).json({ error: error.message });
+    return res.status(httpStatus.BAD_REQUEST).json({ error: error.message });
   }
   next(error);
 };
