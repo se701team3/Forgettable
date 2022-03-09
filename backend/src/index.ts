@@ -11,7 +11,6 @@ connect(config.MONGODB_URI)
   .catch((err) => logger.error('error connecting to mongodb:', err.message));
 
 const app = express();
-const port = 5000;
 
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
@@ -19,4 +18,4 @@ app.use(express.json());
 app.use('/api', routes);
 app.use(middleware.errorHandler);
 
-app.listen(port, () => logger.info(`App server listening on port ${port}!`));
+app.listen(config.PORT, () => logger.info(`App server listening on port ${config.PORT}!`));
