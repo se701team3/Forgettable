@@ -1,5 +1,5 @@
 import httpStatus from 'http-status';
-import databaseOperations from '../../test/db-handler';
+import databaseOperations from '../../utils/test/db-handler';
 import { PersonModel } from '../../models/person.model';
 import app from '../../index';
 
@@ -31,6 +31,6 @@ describe('person ', () => {
     expect(body).toHaveLength(1);
     const result:PersonModel = body[0];
     expect(result.first_name).toEqual(requestPersonData.first_name);
-    expect(result.first_name).toEqual(requestPersonData.first_name);
+    expect(result.last_name).toEqual(requestPersonData.last_name);
   });
 });
