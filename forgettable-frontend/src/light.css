@@ -1,0 +1,13 @@
+:root {
+    --prmry: #F3D58A; /* main accent */
+    --hilit: #FFF7E3; /* selected cards */
+
+    --bkgd: #FFFFFF; /* background */
+    --icon: #4D4D4D; /* navbar icons */
+    --card: #F9F9F9; /* card background */
+    --text1: #000000; /* heading text */
+    --text2: #666666; /* non-heading text */
+    --text3: #000000; /* yellow button text */
+    --border: #CACACA; /* border for when a lighter card is on top of a darker card */
+
+}
