@@ -9,11 +9,6 @@ import './PersonCard.css';
 
 
 const PersonCard = (props) => {
-  const socialMediaAvatarStyle = {
-    width: '20px',
-    height: '20px',
-  };
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -28,14 +23,14 @@ const PersonCard = (props) => {
       <div className={classes.PersonCard}>
         <div className={classes.ContentContainer}>
           <Avatar
-            // this style is written inline because MUI does not support className
             alt="John Doe"
+            // this style is written inline because MUI does not support className
             style={{
               height: '90px',
               width: '90px',
               marginRight: '28px',
               backgroundColor:
-            getComputedStyle(document.body).getPropertyValue('--prmry'),
+                getComputedStyle(document.body).getPropertyValue('--prmry'),
               fontSize: '30px',
             }}
             src="placeholder"
@@ -103,9 +98,9 @@ const PersonCard = (props) => {
                 <AvatarGroup max={2}
                   spacing={2}
                 >
-                  <Avatar sx={socialMediaAvatarStyle}/>
-                  <Avatar sx={socialMediaAvatarStyle}/>
-                  <Avatar sx={socialMediaAvatarStyle}/>
+                  <Avatar />
+                  <Avatar />
+                  <Avatar />
                 </AvatarGroup>
               </div>
             </div>
