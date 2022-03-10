@@ -3,6 +3,7 @@
         "browser": true,
         "es2021": true
     },
+    "ignorePatterns": ["**/__test__/*.ts"],
     "extends": [
         "airbnb-base"
     ],
