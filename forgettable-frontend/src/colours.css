@@ -2,6 +2,21 @@
     --prmry: #F3D58A; /* main accent */
     --hilit: #FFF7E3; /* selected cards */
 
+    --bkgd: #FFFFFF; /* background */
+    --icon: #4D4D4D; /* navbar icons */
+    --card: #F9F9F9; /* card background */
+    --txt1: #000000; /* heading text */
+    --txt2: #666666; /* non-heading text */
+    --txt3: #000000; /* yellow button text */
+    --bord: #CACACA; /* border for when a lighter card is on top of a darker card */
+
+    /* filter values of colours for SVGs */
+    --fprmry: invert(88%) sepia(54%) saturate(487%) hue-rotate(320deg) brightness(101%) contrast(91%); /* main accent */
+    --ficon: invert(27%) sepia(11%) saturate(10%) hue-rotate(314deg) brightness(105%) contrast(93%); /* navbar icons */
+
+
+    /*TODO: DELETE WHEN PEOPLE ARENT USING THESE ANYMORE*/
+
     --lbkgd: #FFFFFF; /* background */
     --licon: #4D4D4D; /* navbar icons */
     --lcard: #F9F9F9; /* card background */
@@ -17,4 +32,21 @@
     --dtxt2: #CBCBCB; /* non-heading text */
     --dtxt3: #000000; /* yellow button text */
     --dbord: #3A3A3A; /* border for when a lighter card is on top of a darker card */
+
+    /*END TO DELETE*/
+
 }
+
+
+[data-theme='dark'] {
+    --bkgd: #232323; /* background */ 
+    --icon: #BABABA; /* navbar icons */
+    --card: #141414; /* card background */
+    --txt1: #FFFFFF; /* heading text */
+    --txt2: #CBCBCB; /* non-heading text */
+    --txt3: #000000; /* yellow button text */
+    --bord: #3A3A3A; /* border for when a lighter card is on top of a darker card */
+    
+    /* filter values of colours for SVGs */
+    --ficon: invert(83%) sepia(0%) saturate(538%) hue-rotate(185deg) brightness(90%) contrast(94%); /* navbar icons */
+  }
