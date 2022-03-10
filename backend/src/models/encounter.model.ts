@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-interface EncounterModel {
+export interface EncounterModel {
   date: Date,
   location: string,
   description: string,
