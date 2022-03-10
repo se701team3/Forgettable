@@ -1,30 +1,38 @@
 /**
  * Controller contains high-level operations using services, consumed by routes
  */
-import { NextFunction, Request, Response } from 'express';
-import { createPerson as createPersonService } from '../services/person.service';
+import { Request, Response, NextFunction } from 'express';
+import httpStatus from 'http-status';
+import personService from '../services/person.service';
+import logger from '../utils/logger';
 
-export const getRandomJson = async (
+import { POST } from './controller.types';
+
+export const createPerson: POST = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
+  logger.info('POST /persons/create request from frontend');
+
   try {
-    res.json({ someString: 'hello world' });
+    const person = await personService.createPerson(req.body);
+    res.status(httpStatus.CREATED).send(person);
   } catch (e) {
     next(e);
   }
 };
 
-export const createPerson = async (
+export const getAllPeople = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  const { name, organisation } = req.body;
+  logger.info('GET /persons request from frontend');
+
   try {
-    await createPersonService({ name, organisation });
-    res.status(200).end();
+    const people = await personService.getPeople();
+    res.status(httpStatus.OK).json(people);
   } catch (e) {
     next(e);
   }

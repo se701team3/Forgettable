@@ -1,0 +1,20 @@
+:root {
+    --prmry: #F3D58A; /* main accent */
+    --hilit: #FFF7E3; /* selected cards */
+
+    --lbkgd: #FFFFFF; /* background */
+    --licon: #4D4D4D; /* navbar icons */
+    --lcard: #F9F9F9; /* card background */
+    --ltxt1: #000000; /* heading text */
+    --ltxt2: #666666; /* non-heading text */
+    --ltxt3: #000000; /* yellow button text */
+    --lbord: #CACACA; /* border for when a lighter card is on top of a darker card */
+
+    --dbkgd: #232323; /* background */ 
+    --dicon: #BABABA; /* navbar icons */
+    --dcard: #141414; /* card background */
+    --dtxt1: #FFFFFF; /* heading text */
+    --dtxt2: #CBCBCB; /* non-heading text */
+    --dtxt3: #000000; /* yellow button text */
+    --dbord: #3A3A3A; /* border for when a lighter card is on top of a darker card */
+}
