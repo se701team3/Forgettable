@@ -1,0 +1,19 @@
+.personCardAvatar {
+    height: '90px';
+    width: '90px';
+    margin-right: '28px';
+    background-color: var('--prmry');
+    font-size: '30px';
+}
+
+/* .MuiAvatarGroup-root {
+    max-height: 20px;
+    background-color: aqua;
+} */
+
+.MuiAvatarGroup-avatar {
+    height: 20px;
+    width: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
