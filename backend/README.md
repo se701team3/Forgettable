@@ -6,8 +6,7 @@ This is the backend of Forgettable repository.
 1. Make sure your current directory is `Forgettable/backend`
 2. Create .env under repo's `backend` folder
     - `MONGODB_URI` should be set to a running mongodb instance url (should start with `mongodb+src://`)
-    - `PORT` should be set to 3001 (*that is, if proxy on `forgettable-frontend` is set to `http://localhost:3001/`)   
-    - `NODE_ENV` should be set to `test` if you are running `npm run test`
+    - `PORT` should be set to 3001 (*that is, if proxy on `forgettable-frontend` is set to `http://localhost:3001/`)
     
 
 ## To run application
@@ -18,8 +17,7 @@ This is the backend of Forgettable repository.
 
 ### Integration Testing
 Integration testing tests API endpoints through mock in-memory mongodb instance. We use `supertest` for wrapping express app, `mongodb-memory-server` for mock mongodb instance, `jest` for running the tests.
-1. Make sure `NODE_ENV` is set to `test` in `Forgettable/backend/.env`
-2. Run `npm run test` to run all the tests. 
+1. Run `npm run test` to run all the tests. 
 
 ### Static Testing (Lint)
 `ESLint` is set up to enforce coding standard. Our lint setup extends AirBnB's lint settings, with some overridden rules.
