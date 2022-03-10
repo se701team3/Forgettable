@@ -1,0 +1,49 @@
+@import '../../colours.css';
+
+.navBar_container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.navBar_logo {
+    padding: 70px 0px 23px 0px;
+    margin: auto;
+}
+
+.navBar_innerListItem {
+    width: 100%;
+    text-align: center;
+    padding: 15px 0px 15px 0px;
+}
+
+.navBar_linkIcon {
+    filter: var(--ficon);
+    position: relative;
+    left: -5px; /* accounts for the selectMarker */
+}
+
+.navBar_selectMarker {
+    width: 15px;
+    height: 68px;
+    background-color: var(--prmry);
+    position: relative;
+    left: -20px;
+    border-radius: 0px 5px 0px 5px;
+    visibility: hidden;
+}
+
+/* Selected item */
+.navBar_listItem {
+    background-color: var(--bkgd) !important;
+}
+
+.navBar_listItem .navBar_linkIcon {
+    filter: var(--fprmry);
+}
+
+.navBar_listItem .navBar_selectMarker {
+    visibility: visible;
+}
+
+
