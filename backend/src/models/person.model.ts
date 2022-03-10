@@ -22,7 +22,7 @@ const schema = new Schema<PersonModel>({
   organisation: { type: String, required: false },
   time_added: { type: Date, required: true },
   how_we_met: { type: String, required: false },
-  encounters: { type: [Schema.Types.ObjectId], required: false }
+  encounters: { type: [Schema.Types.ObjectId], required: false },
 });
 
 export default model<PersonModel>('Person', schema);
