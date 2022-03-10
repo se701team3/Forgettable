@@ -3,7 +3,20 @@
  */
 import Person, { PersonModel } from '../models/person.model';
 
-export const createPerson = async (personDetails: PersonModel): Promise<string> => {
-  await new Person(personDetails).save();
-  return 'whatever string we wanna return';
+const createPerson = async (personDetails: PersonModel) => {
+  const person = new Person(personDetails);
+  await person.save();
+  return person;
 };
+
+/**
+ * Note that .clone is necessary to avoid error 'Query was already executed'
+ * Refer to section 'Duplicate Query Execution under https://mongoosejs.com/docs/migrating_to_6.html
+ */
+const getPeople = async () => Person.find(() => true).clone();
+const personService = {
+  createPerson,
+  getPeople,
+};
+
+export default personService;

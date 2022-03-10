@@ -3,6 +3,6 @@ import person from './person.route';
 
 const routes = Router();
 
-routes.use('/api/person', person);
+routes.use('/persons', person);
 
 export default routes;
