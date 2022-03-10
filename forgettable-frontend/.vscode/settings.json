@@ -2,7 +2,11 @@
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "eslint.alwaysShowStatus": true,
     "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+        "source.fixAll.eslint": true
     },
-    "eslint.validate": ["javascript"]
+    "eslint.validate": 
+    [
+        "javascript",
+        "javascriptreact"
+    ]
 }

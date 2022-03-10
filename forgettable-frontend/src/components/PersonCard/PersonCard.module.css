@@ -1,0 +1,15 @@
+@import '../../colours.css';
+
+.PersonCard {
+    width: 680px;
+    height: 150px;
+    padding: 28px;
+    border-radius: 13px;
+    background-color: var(--card);
+    transition: 0.3s;
+}
+
+.PersonCard:hover {
+    background-color: var(--hilit);
+}
+
