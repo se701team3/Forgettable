@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 import React from 'react';
 import Drawer from '@mui/material/Drawer';
-import { List, ListItem } from '@mui/material';
+import {List, ListItem} from '@mui/material';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import HomePageLogo from '../../assets/icons/navbar/homepage.svg';
 import PersonsLogo from '../../assets/icons/navbar/persons.svg';
@@ -41,8 +41,8 @@ export default function NavBar() {
   return (
     <Drawer
       sx={{
-        width: DRAWER_WIDTH,
-        flexShrink: 0,
+        'width': DRAWER_WIDTH,
+        'flexShrink': 0,
         '& .MuiDrawer-paper': {
           width: DRAWER_WIDTH,
           boxSizing: 'border-box',
@@ -67,7 +67,7 @@ export default function NavBar() {
               key={linkItem}
               onClick={(event) => handleListItemClick(event, index)}
               selected={selectedIndex === index}
-              classes={{ selected: classes.navBar_listItem }}
+              classes={{selected: classes.navBar_listItem}}
             >
               <div className={classes.navBar_selectMarker} />
               <div className={classes.navBar_innerListItem}>
