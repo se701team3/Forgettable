@@ -1,19 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import  './colours.css';
 
  .container{
     display:flex;
     flex-direction: column;
     align-items: center;
 }
-.avatar{
-    color: #F3D58A;
-}
-
 .card{
     border-radius: 13;
     height: 220px;
     width:245px;
-    background-color: #F9F9F9;
 }
 .header{
     display: flex;
@@ -25,14 +21,14 @@
     font-size: 20px;
     font-family:'Poppins', sans-serif;
     line-height: 30px;
-    color:black
+    color: var(--ltxt1);
 }
 .description{
     font-family: 'Poppins', sans-serif;
     font-size: 13px;
     font-weight: 400;
     line-height: 21px;
-    color: #666666;
+    color: var(--litext2);
     font-style: normal;
 }
 .nameDesc{
@@ -45,7 +41,7 @@
     font-size: 13px;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
-    color:#666666
+    color:var(--litext2);
 }
 .descriptionText{
     padding-left: 20px;
@@ -56,5 +52,5 @@
     line-height: 21px;
     font-family: Poppins;
     font-weight: 400;
-    color:#666666
+    color:var(--litext2);
 }
