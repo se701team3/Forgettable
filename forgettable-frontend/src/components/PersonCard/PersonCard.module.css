@@ -3,13 +3,83 @@
 .PersonCard {
     width: 680px;
     height: 150px;
-    padding: 28px;
     border-radius: 13px;
     background-color: var(--card);
     transition: 0.3s;
+    display: flex;
+    padding: 28px;
+    box-sizing: border-box;
+}
+
+.ContentContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .PersonCard:hover {
     background-color: var(--hilit);
 }
 
+.AvatarContainer {
+    height: 100%;
+}
+
+.Avatar {
+    height: 90px;
+    width: 90px;
+    margin-right: 28px;
+
+}
+
+.InformationContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.MainInformationContainer {
+    background-color: red;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.IdentityInformation {
+    background-color: green;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+}
+
+.IdentityInformation > h2 {
+    font-size: 25px;
+    font-weight: 600;
+    /* line-height: 0; */
+    margin: 0
+}
+
+.IdentityInformation > p {
+    font-size: 16px;
+    /* line-height: 0; */
+    margin: 2px 0;
+}
+
+.SupplementaryInformationContainer {
+    height: 50px;
+    background-color: beige;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
