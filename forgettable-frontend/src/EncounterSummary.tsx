@@ -3,7 +3,10 @@ import Card from '@mui/material/Card';
 import { Avatar } from '@mui/material';
 import './EncounterSummary.css';
 
-export default function EncounterSummary() {
+export default function EncounterSummary(props: { Name: any; Date: any; Description: any; Summary: any; }) {
+  const {
+    Name, Date, Description, Summary,
+  } = props;
   return (
     <div className="container">
       <Card
@@ -17,17 +20,16 @@ export default function EncounterSummary() {
             sx={{ width: 70, height: 70 }}
           />
           <div className="nameDesc">
-            <div>Marley</div>
-            <div className="description">Brief Summary:</div>
+            <div>{Name}</div>
+            <div className="description">{Description}</div>
           </div>
         </div>
         <div className="date">
-          Date you met: 06/03/2022
+          <text>Date you met: </text>
+          {Date}
         </div>
         <div className="descriptionText">
-          Sample description: scelerisque
-          sit ultricies euismod proin
-          ullamcorper proin don ...
+          {Summary}
         </div>
       </Card>
     </div>
