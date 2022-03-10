@@ -1,6 +1,10 @@
 import {Avatar} from '@mui/material';
 import React from 'react';
 import classes from './PersonCard.module.css';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const PersonCard = (props) => {
   return (
@@ -16,15 +20,25 @@ const PersonCard = (props) => {
               <h2>Marley George</h2>
               <p>Adipsicing sit lectus</p>
             </div>
-
+            <IconButton
+              className={classes.IconButton}
+              aria-label="more"
+              id="long-button"
+              aria-controls={open ? 'long-menu' : undefined}
+              aria-expanded={open ? 'true' : undefined}
+              aria-haspopup="true"
+            //   onClick={handleClick}
+            >
+              <MoreHorizIcon />
+            </IconButton>
           </div>
           <div className={classes.SupplementaryInformationContainer}>
-            <div className={classes.Encounters}>
+            <p className={classes.Encounters}>
                   Encounters: 3 times
-            </div>
-            <div className={classes.LastMet}>
+            </p>
+            <p className={classes.LastMet}>
                 Date last met: 06/06/2020
-            </div>
+            </p>
             <div className={classes.SocialMediaContainer}>x</div>
           </div>
         </div>

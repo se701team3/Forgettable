@@ -24,15 +24,14 @@
     background-color: var(--hilit);
 }
 
-.AvatarContainer {
+/* .AvatarContainer {
     height: 100%;
-}
+} */
 
 .Avatar {
     height: 90px;
     width: 90px;
     margin-right: 28px;
-
 }
 
 .InformationContainer {
@@ -45,7 +44,6 @@
 }
 
 .MainInformationContainer {
-    background-color: red;
     width: 100%;
     height: 100%;
     display: flex;
@@ -55,7 +53,6 @@
 }
 
 .IdentityInformation {
-    background-color: green;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -77,9 +74,16 @@
 }
 
 .SupplementaryInformationContainer {
-    height: 50px;
-    background-color: beige;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.SupplementaryInformationContainer > p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.IconButton {
+    align-self: flex-start;
 }
