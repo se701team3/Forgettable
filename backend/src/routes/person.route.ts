@@ -6,7 +6,7 @@ import { createPerson, getAllPeople } from '../controllers/person.controller';
 
 const routes = Router();
 
-routes.post('/create', createPerson);
-routes.get('/', getAllPeople);
+routes.post('/', createPerson)
+      .get('/', getAllPeople);
 
 export default routes;
