@@ -1,11 +1,10 @@
 @import "../../colours.css";
 
-.searchInputs {
-    margin-top: 105px;
+.SearchInputs{
     display: flex;
-  }
-  
-  .searchInputs input {
+}
+
+.SearchNameInput{
     background-color: var(--lbkgd);
     border: 0;
     border-radius: 8px 0px 0px 8px;
@@ -13,25 +12,30 @@
     padding: 15px;
     height: 30px;
     width: 420px;
-  }
-  
-  .searchIcon {
+}
+
+.SearchNameInput:focus{
+    outline: none;
+}
+
+.SearchIcon {
     height: 60px;
     width: 60px;
     border-radius: 0px 8px 8px 0px;
     background-color: var(--lbkgd);
     display: grid;
     place-items: center;
-  }
-  
-  input:focus {
-    outline: none;
-  }
-  .searchIcon svg {
+}
+
+.SearchIcon svg {
     font-size: 35px;
-  }
-  
-  .dataResult {
+}
+
+.ClearBtn{
+    cursor: pointer;
+}
+
+.DataResult {
     margin-top: 0px;
     width: 510px;
     height: fit-content;
@@ -42,32 +46,27 @@
     overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
-  }
-  
-  .dataResult::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .dataResult .dataItem {
+}
+
+.DataResult::-webkit-scrollbar{
+      display: none;
+}
+
+.DataItem {
     width: 100%;
     height: 50px;
     font-size: 20px;
     display: flex;
     align-items: center;
     color: var(--ltxt1);
-  }
-  
-  .dataItem p {
-    margin-left: 10px;
-  }
-  a {
     text-decoration: none;
-  }
-  
-  a:hover {
+}
+
+.DataItem:hover{
     background-color: var(--lcard);
-  }
-  
-  #clearBtn {
-    cursor: pointer;
-  }
+}
+
+.DataItemP {
+    margin-left: 10px;
+}
+

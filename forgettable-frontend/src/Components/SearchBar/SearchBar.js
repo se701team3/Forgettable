@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './SearchBar.css';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
+import classes from './SearchBar.module.css';
 
 function SearchBar({ placeholder, data }) {
   const [filteredData, setFilteredData] = useState([]);
@@ -30,8 +30,8 @@ function SearchBar({ placeholder, data }) {
 
   return (
     <div className="search">
-      <div className="searchInputs">
-        <input
+      <div className={classes.SearchInputs} >
+        <input className={classes.SearchNameInput}
           type="text"
           placeholder={placeholder}
           value={wordEntered}
@@ -39,23 +39,23 @@ function SearchBar({ placeholder, data }) {
         />
         {/* The search icon is variable so that it shows the search icon when the text is empty
          while it shows the clear button when there is text, allowing for easy search bar clearing */}
-        <div className="searchIcon">
+        <div className={classes.SearchIcon}>
           {wordEntered === '' ? (
             <SearchIcon />
           ) : (
-            <CloseIcon id="clearBtn" onClick={clearInput} />
+            <CloseIcon id="clearBtn" className={classes.ClearBtn} onClick={clearInput} />
           )}
         </div>
       </div>
       {filteredData.length !== 0 && (
-      <div className="dataResult">
+      <div className={classes.DataResult}>
         {/* This results are sliced to the first 15 results, so that the list isn't too long
         Right now it is set to grab the link on the mock dataset and use that to open a new page
         but it will be changed with the api */}
         {filteredData.slice(0, 15).map((value, key) => {
           return (
-            <a className="dataItem" href={value.link} target="_blank">
-              <p>{value.title}</p>
+            <a className={classes.DataItem} href={value.link} target="_blank">
+              <p className={classes.DataItemP}>{value.title}</p>
             </a>
           );
         })}
