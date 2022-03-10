@@ -13,8 +13,16 @@ const PersonCard = (props) => {
       <div className={classes.ContentContainer}>
         <Avatar
         // this style is written inline because MUI does not support className
-          style={{height: '90px', width: '90px', marginRight: '28px'}}
-        >JD</Avatar>
+          alt="John Doe"
+          style={{
+            height: '90px',
+            width: '90px',
+            marginRight: '28px',
+            backgroundColor: getComputedStyle(document.body).getPropertyValue('--prmry'),
+            fontSize: '30px',
+          }}
+          src="placeholder"
+        />
         <div className={classes.InformationContainer}>
           <div className={classes.MainInformationContainer}>
             <div className={classes.IdentityInformation}>
