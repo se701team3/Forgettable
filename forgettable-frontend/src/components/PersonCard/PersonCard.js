@@ -11,10 +11,11 @@ const PersonCard = (props) => {
 
     <div className={classes.PersonCard}>
       <div className={classes.ContentContainer}>
-
-        <Avatar className={classes.Avatar}>JD</Avatar>
+        <Avatar
+        // this style is written inline because MUI does not support className
+          style={{height: '90px', width: '90px', marginRight: '28px'}}
+        >JD</Avatar>
         <div className={classes.InformationContainer}>
-
           <div className={classes.MainInformationContainer}>
             <div className={classes.IdentityInformation}>
               <h2>Marley George</h2>
@@ -39,7 +40,7 @@ const PersonCard = (props) => {
             <p className={classes.LastMet}>
                 Date last met: 06/06/2020
             </p>
-            <div className={classes.SocialMediaContainer}>x</div>
+            <div className={classes.SocialMediaContainer}></div>
           </div>
         </div>
       </div>
