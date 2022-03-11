@@ -2,10 +2,11 @@ import {Avatar} from '@mui/material';
 import React from 'react';
 import classes from './PersonCardSummary.module.css';
 import {getFirstMetTimeString} from '../../functions/dateFormatter';
+import PropTypes from 'prop-types';
 
 /*
  * Component for displaying information of a person in a list.
- * This is the full version of the person card.
+ * This is the small version of the person card.
  *
  * Author: Mercury Lin (lin8231)
  */
@@ -28,27 +29,24 @@ const PersonCardSummary = (props) => {
                 getComputedStyle(document.body).getPropertyValue('--prmry'),
             fontSize:
                 getComputedStyle(document.body)
-                    .getPropertyValue('--text-xxlarge')
-            ,
+                    .getPropertyValue('--text-xxlarge'),
           }}
           src={props.img}
         />
         <div className={classes.TextInfoContainer}>
-          <h3>
+          <h3 data-testid="name-element">
             {firstName}
           </h3>
-          <p>
+          <p data-testid="first-met-element">
               First met {getFirstMetTimeString(props.firstMet)}
           </p>
         </div>
       </div>
     </div>
-
-
   );
 };
 
-PersonCard.propTypes = {
+PersonCardSummary.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string.isRequired,
   img: PropTypes.string,

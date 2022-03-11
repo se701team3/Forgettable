@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders PersonCardSummary UI with correct hierarchy 1`] = `
+<div
+  className="PersonCardSummary"
+  onClick={[Function]}
+>
+  <div
+    className="ContentContainer"
+  >
+    <ForwardRef(Avatar)
+      alt="Mercury"
+      style={
+        Object {
+          "backgroundColor": "",
+          "fontSize": "",
+          "height": "70px",
+          "marginRight": "14px",
+          "width": "70px",
+        }
+      }
+    />
+    <div
+      className="TextInfoContainer"
+    >
+      <h3
+        data-testid="name-element"
+      >
+        Mercury
+      </h3>
+      <p
+        data-testid="first-met-element"
+      >
+        First met 
+        once upon a time
+      </p>
+    </div>
+  </div>
+</div>
+`;
