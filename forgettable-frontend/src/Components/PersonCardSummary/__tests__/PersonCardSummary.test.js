@@ -77,9 +77,9 @@ it('successfully fires event when card is clicked', () => {
         onClick={handleClick}
       />);
 
-  const node = within(getByTestId('first-met-element'));
+  const node = within(getByTestId('container-card'));
 
-  fireEvent.click(node.getByText('First met once upon a time'));
+  fireEvent.click(node);
   expect(handleClick).toHaveBeenCalledTimes(1);
 });
 

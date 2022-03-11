@@ -16,6 +16,7 @@ const PersonCardSummary = (props) => {
     <div
       className={classes.PersonCardSummary}
       onClick={props.onClick}
+      data-testid="container-card"
     >
       <div className={classes.ContentContainer}>
         <Avatar
