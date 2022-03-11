@@ -27,15 +27,15 @@ export default function EncounterCard(props) {
                 {title}
               </div>
               <div className={classes.Profile_container}>
-                <AvatarGroup max={4} className={!isMultiplePerson && classes.Avatar_inline}>
+                <AvatarGroup max={4} className={isMultiplePerson ? classes.Avatar_multiple : classes.Avatar_inline}>
                   {persons.map((person, index) => {
                     return (
-                      <>
+                      <div key={index}>
                         <Avatar key={index} className={classes.Avatar} {...stringAvatar(`${person.first_name} ${person.last_name}`)} />
                         {!isMultiplePerson && <div className={classes.Avatar_name}>
                           {person.first_name}
                         </div>}
-                      </>
+                      </div>
                     );
                   },
                   )}

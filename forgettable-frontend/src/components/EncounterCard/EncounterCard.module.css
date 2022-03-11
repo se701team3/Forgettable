@@ -64,6 +64,7 @@
     font-weight: var(--font-semibold);
     max-height: 50px;
     max-width: 480px;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -115,6 +116,10 @@
     flex-direction: row;
     align-items: center;
     cursor: auto;
+}
+
+.Avatar_multiple{
+    width: fit-content;
 }
 
 .Avatar_name{
