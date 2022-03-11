@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import './PersonCard.css';
 import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
+import moment from 'moment';
 
 const PersonCard = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -32,6 +33,29 @@ const PersonCard = (props) => {
       );
     });
 
+  const getFirstMetTimeString = () => {
+    return props.firstMet ?
+                  moment(props.firstMet).fromNow() :
+                  'once upon a time';
+  };
+
+  const getDateLastMetString = () => {
+    return props.lastMet ?
+                  moment(props.lastMet).format('DD/MM/YYYY') :
+                  'never :(';
+  };
+
+  const menuItems = [
+    {
+      label: 'Edit',
+      action: props.onEdit,
+    },
+    {
+      label: 'Delete',
+      action: props.onDelete,
+    },
+  ];
+
   return (
     <StyledEngineProvider injectFirst>
       <div className={classes.PersonCard}>
@@ -52,8 +76,10 @@ const PersonCard = (props) => {
           <div className={classes.InformationContainer}>
             <div className={classes.MainInformationContainer}>
               <div className={classes.IdentityInformation}>
-                <h2>Marley George</h2>
-                <p>Adipsicing sit lectus</p>
+                <h2>{props.name}</h2>
+                <p>
+                  {'First met ' + getFirstMetTimeString()}
+                </p>
               </div>
               <IconButton
                 className={classes.IconButton}
@@ -93,20 +119,26 @@ const PersonCard = (props) => {
                   horizontal: 'right',
                 }}
               >
-                <MenuItem
-                  divider={true}
-                >Item1</MenuItem>
-                <MenuItem
-                  divider={true}
-                >Item2</MenuItem>
+                {menuItems.map((menuItem) => {
+                  return (
+                    <MenuItem
+                      divider={true}
+                      key={menuItem.label}
+                      onClick={menuItem.action}
+                    >
+                      {menuItem.label}
+                    </MenuItem>
+                  );
+                },
+                )}
               </Menu>
             </div>
             <div className={classes.SupplementaryInformationContainer}>
               <p className={classes.Encounters}>
-                  Encounters: 3 times
+                  Encounters: {props.numEncounters} times
               </p>
               <p className={classes.LastMet}>
-                Date last met: 06/06/2020
+                Date last met: {getDateLastMetString()}
               </p>
               <div className={classes.SocialMediaContainer}>
                 <AvatarGroup max={2}
