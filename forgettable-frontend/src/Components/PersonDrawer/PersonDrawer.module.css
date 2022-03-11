@@ -1,7 +1,6 @@
 @import '../../colours.css';
 
 .PersonDrawer {
-    background-color: aliceblue ;
     height: 100%;
     width: 100%;
     display: flex;
@@ -12,7 +11,6 @@
 }
 
 .ContentContainer {
-    background-color: antiquewhite;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -38,3 +36,31 @@
     color: var(--txt2);
     margin: 0;
 }
+
+.InfoContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-sizing: border-box;
+    padding: 0 50px;
+}
+
+.InfoContent > p {
+    font-size: var(--text-medium);
+    font-weight: 400;
+    margin: 15px 0;
+    color: var(--txt2)
+}
+
+.KnownText {
+    font-weight: 500;
+    color: var(--txt3);
+}
+
+.UnknownText {
+    color: var(--bord);
+
+}
+
+
+
