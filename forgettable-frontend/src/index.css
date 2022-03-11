@@ -37,6 +37,10 @@ body {
   background-color: var(--bkgd);
 }
 
+.page-wrapper {
+  margin-left: 128px; /* ACCOUNT FOR SIDEBAR */
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
