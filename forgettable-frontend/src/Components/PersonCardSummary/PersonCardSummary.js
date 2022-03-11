@@ -3,6 +3,12 @@ import React from 'react';
 import classes from './PersonCardSummary.module.css';
 import {getFirstMetTimeString} from '../../functions/dateFormatter';
 
+/*
+ * Component for displaying information of a person in a list.
+ * This is the full version of the person card.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const PersonCardSummary = (props) => {
   const firstName = props.name.split(' ')[0];
   return (
