@@ -3,9 +3,10 @@
 import React from 'react';
 import Drawer from '@mui/material/Drawer';
 import {List, ListItem} from '@mui/material';
+import {Link} from 'react-router-dom';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import HomePageLogo from '../../assets/icons/navbar/homepage.svg';
-import PersonsLogo from '../../assets/icons/navbar/persons.svg';
+import PeopleLogo from '../../assets/icons/navbar/persons.svg';
 import SettingsLogo from '../../assets/icons/navbar/settings.svg';
 import LightThemeLogo from '../../assets/logos/logo-short-black.svg';
 import DarkThemeLogo from '../../assets/logos/logo-short-white.svg';
@@ -23,15 +24,19 @@ export default function NavBar() {
   const linkProperties = [{
     src: HomePageLogo,
     alt: 'Home Page',
+    path: '/',
   }, {
-    src: PersonsLogo,
-    alt: 'Persons Page',
+    src: PeopleLogo,
+    alt: 'People Page',
+    path: '/people',
   }, {
     src: EncountersLogo,
     alt: 'Encounters Page',
+    path: '/encounters',
   }, {
     src: SettingsLogo,
     alt: 'Settings Page',
+    path: '/settings',
   }];
 
   const handleListItemClick = (event, index) => {
@@ -62,24 +67,26 @@ export default function NavBar() {
         />
         <List>
           {linkProperties.map((linkItem, index) => (
-            <ListItem
-              button
-              key={linkItem}
-              onClick={(event) => handleListItemClick(event, index)}
-              selected={selectedIndex === index}
-              classes={{selected: classes.navBar_listItem}}
-            >
-              <div className={classes.navBar_selectMarker} />
-              <div className={classes.navBar_innerListItem}>
-                <img
-                  src={linkItem.src}
-                  alt={linkItem.alt}
-                  height={ICON_SIZE}
-                  width={ICON_SIZE}
-                  className={classes.navBar_linkIcon}
-                />
-              </div>
-            </ListItem>
+            <Link to={linkItem.path} key={linkItem}>
+              <ListItem
+                button
+                onClick={(event) => handleListItemClick(event, index)}
+                selected={selectedIndex === index}
+                classes={{selected: classes.navBar_listItem}}
+              >
+                <div className={classes.navBar_selectMarker} />
+                <div className={classes.navBar_innerListItem}>
+                  <img
+                    src={linkItem.src}
+                    alt={linkItem.alt}
+                    height={ICON_SIZE}
+                    width={ICON_SIZE}
+                    className={classes.navBar_linkIcon}
+                  />
+                </div>
+              </ListItem>
+            </Link>
+
           ))}
         </List>
       </div>
