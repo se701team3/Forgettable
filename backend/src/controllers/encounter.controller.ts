@@ -1,41 +1,28 @@
 /**
  * Controller contains high-level operations using services, consumed by routes
  */
- import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
+import FirebaseAdmin from 'src/firebase-configs/firebase-config';
 
- import EncounterModel from '../models/encounter.model';
- import encounterService from '../services/encounter.service';
- import logger from '../utils/logger';
- 
- export const createEncounter = async (
-   req: Request,
-   res: Response,
-   next: NextFunction,
- ): Promise<void> => {
-   logger.info("POST /encounter/create request from frontend");
- 
-   try {
-     // Grab the data from the req
-     const encounterReq = getEncounterFromReqBody(req.body);
- 
-     // Pass data to service and attempt to save
-     const createdEncounter = await encounterService.createEncounter(encounterReq);
- 
-     // Notify frontend that the operation was successful
-     res.sendStatus(200);
-   } catch (e) {
-     next(e);
-   }
- };
- 
- // Util function that won't be needed regularly
-const getEncounterFromReqBody = (body: any) => {
-    const encounter = {
-        date: body.date,
-        location: body.location,
-        description: body.description,
-        persons: body.persons
-    }
+import encounterService from '../services/encounter.service';
+import logger from '../utils/logger';
 
-   return encounter;
- }
+export const createEncounter = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+
+  //TODO: has to verify user token here first and retreive the list of persons belonging to the user
+  
+
+  try {
+    // Pass data to service and attempt to save
+    const createdEncounter = await encounterService.createEncounter(req.body);
+    // Notify frontend that the operation was successful
+    res.status(httpStatus.CREATED).json(createdEncounter);
+  } catch (e) {
+    next(e);
+  }
+};
