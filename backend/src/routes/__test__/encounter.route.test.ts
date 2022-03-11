@@ -2,7 +2,7 @@ import httpStatus from 'http-status';
 import databaseOperations from '../../utils/test/db-handler';
 import Encounter, { EncounterModel } from '../../models/encounter.model';
 import Person, { PersonModel } from '../../models/person.model';
-import app from '../../server';
+import app from '../../index';
 
 const supertest = require('supertest');
 
