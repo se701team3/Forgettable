@@ -1,37 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders EncounterCard UI to test correct structure 1`] = `
-<ForwardRef(Card)
-  className="Card_special"
+exports[`renders EncounterCard UI to test correct hierarchy 1`] = `
+<div
+  className="Card"
 >
   <div
     className="Card_content"
   >
     <div
-      onClick={[Function]}
+      onClick={[MockFunction]}
     >
-      <section
-        className="Initial_label_container"
-      >
-        <div
-          className="Initial_label"
-        >
-          First Encounter!
-        </div>
-      </section>
       <section
         className="Header"
       >
         <div
           className="Title"
         >
-          Fermentum pellentesque Fermentum pellentesque
+          Example Title
         </div>
         <div
           className="Profile_container"
         >
           <ForwardRef(AvatarGroup)
             className="Avatar_multiple"
+            data-testid="persons-avatar-group"
             max={4}
           >
             <div>
@@ -63,11 +55,11 @@ exports[`renders EncounterCard UI to test correct structure 1`] = `
                 className="Avatar"
                 sx={
                   Object {
-                    "bgcolor": "#085c25",
+                    "bgcolor": "#bde1ac",
                   }
                 }
               >
-                KD
+                MG
               </ForwardRef(Avatar)>
             </div>
             <div>
@@ -75,7 +67,7 @@ exports[`renders EncounterCard UI to test correct structure 1`] = `
                 className="Avatar"
                 sx={
                   Object {
-                    "bgcolor": "#1f6cfa",
+                    "bgcolor": "#9b66d7",
                   }
                 }
               >
@@ -87,23 +79,11 @@ exports[`renders EncounterCard UI to test correct structure 1`] = `
                 className="Avatar"
                 sx={
                   Object {
-                    "bgcolor": "#085c25",
+                    "bgcolor": "#a55c80",
                   }
                 }
               >
-                KD
-              </ForwardRef(Avatar)>
-            </div>
-            <div>
-              <ForwardRef(Avatar)
-                className="Avatar"
-                sx={
-                  Object {
-                    "bgcolor": "#1f6cfa",
-                  }
-                }
-              >
-                JW
+                JD
               </ForwardRef(Avatar)>
             </div>
           </ForwardRef(AvatarGroup)>
@@ -112,7 +92,7 @@ exports[`renders EncounterCard UI to test correct structure 1`] = `
       <section
         className="Body"
       >
-        Diam dictum vestibulum mi nulla vestibulum, id nibh. Nunc consequat amet commodo turpis tellus. Scelerisque a pellentesque vel accumsan sed mauris, ac turpis pharetra. Sem tristique nulla cursussssss praesent tincidunt integer
+        Example Description
       </section>
     </div>
     <section
@@ -123,7 +103,7 @@ exports[`renders EncounterCard UI to test correct structure 1`] = `
       >
         Date we met: 
         <div>
-          13/01/1872
+          once upon a time
         </div>
       </div>
       <div
@@ -131,15 +111,14 @@ exports[`renders EncounterCard UI to test correct structure 1`] = `
       >
         Where we met: 
         <div>
-          Atlantis
+          Example Location
         </div>
       </div>
       <CustomButton
         btnText="Delete"
-        className="Button"
-        onClick={[Function]}
+        onClick={[MockFunction]}
       />
     </section>
   </div>
-</ForwardRef(Card)>
+</div>
 `;

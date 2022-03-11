@@ -4,9 +4,10 @@ import Card from '@mui/material/Card';
 import CustomButton from '../CustomButton/CustomButton';
 import {AvatarGroup, Avatar} from '@mui/material';
 import classes from './EncounterCard.module.css';
-import stringAvatar from '../../functions/helper';
+import {stringAvatar} from '../../functions/helper';
 import './EncounterCard.css';
 import PropTypes from 'prop-types';
+import {getDateString} from '../../functions/dateFormatter';
 
 const DELETE = 'Delete';
 const DATE_WE_MET = 'Date we met: ';
@@ -22,12 +23,6 @@ const EncounterCard = (props) => {
   const {isInitialEncounter, title, persons, description, date, location, onClick, onDelete} = props;
   const isMultiplePerson = persons.length > 1;
 
-  const getDateString = () => {
-    return date ?
-    moment(date).format('DD/MM/YYYY') :
-    'once upon a time';
-  };
-
   return (
     <div className={isInitialEncounter ? classes.Card_special : classes.Card}>
       <div className={classes.Card_content}>
@@ -40,7 +35,10 @@ const EncounterCard = (props) => {
               {title}
             </div>
             <div className={classes.Profile_container}>
-              <AvatarGroup max={4} className={isMultiplePerson ? classes.Avatar_multiple : classes.Avatar_inline}>
+              <AvatarGroup max={4}
+                className={isMultiplePerson ? classes.Avatar_multiple : classes.Avatar_inline}
+                data-testid="persons-avatar-group"
+              >
                 {persons.map((person, index) => {
                   return (
                     <div key={`${index}-container`}>
@@ -61,7 +59,7 @@ const EncounterCard = (props) => {
         </div>
         <section className={classes.Footer}>
           <div className={classes.Date}>
-            {DATE_WE_MET}<div>{getDateString()}</div>
+            {DATE_WE_MET}<div>{getDateString(date)}</div>
           </div>
           <div className={classes.Location}>
             {WHERE_WE_MET}<div>{location}</div>
