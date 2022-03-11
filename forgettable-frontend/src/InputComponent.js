@@ -8,9 +8,9 @@ import {StyledEngineProvider} from '@mui/material';
  * React input component used for text entry with the possibility of
  * various stylings that can be applied.
  *
- * Note the type parameter that must be passed in. Pass in 'primary' for primary
- * input style, 'secondary' for the secondary input style, 'multiLine' for
- * the multiline style. See UI design for more details.
+ * Note the inputType parameter that must be passed in. Pass in 'primary' for
+ * primary input style, 'secondary' for the secondary input style, 'multiLine'
+ * for the multiline style. See UI design for more details.
  */
 
 export default function InputComponent({inputLabel, inputType, placeholder}) {
