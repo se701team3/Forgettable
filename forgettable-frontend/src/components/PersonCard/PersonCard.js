@@ -1,4 +1,4 @@
-import {Avatar, AvatarGroup, StyledEngineProvider} from '@mui/material';
+import {Avatar, AvatarGroup, StyledEngineProvider, SvgIcon} from '@mui/material';
 import React from 'react';
 import classes from './PersonCard.module.css';
 import IconButton from '@mui/material/IconButton';
@@ -6,24 +6,69 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import './PersonCard.css';
+import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 
-
+/*
+ * Component for displaying information of a person in a list.
+ * This is the full version of the person card.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const PersonCard = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const socialMediaIcons = props.socialMedias &&
+    props.socialMedias.map((socialMedia) => {
+      return (
+        <Avatar
+          key={socialMedia}
+          src={convertSocialMediaToIcon(socialMedia)}
+          alt={socialMedia}
+        >
+        </Avatar>
+      );
+    });
+
+  const getFirstMetTimeString = () => {
+    return props.firstMet ?
+                  moment(props.firstMet).fromNow() :
+                  'once upon a time';
+  };
+
+  const getDateLastMetString = () => {
+    return props.lastMet ?
+                  moment(props.lastMet).format('DD/MM/YYYY') :
+                  'never :(';
+  };
+
+  const menuItems = [
+    {
+      label: 'Edit',
+      action: props.onEdit,
+    },
+    {
+      label: 'Delete',
+      action: props.onDelete,
+    },
+  ];
 
   return (
     <StyledEngineProvider injectFirst>
       <div className={classes.PersonCard}>
         <div className={classes.ContentContainer}>
           <Avatar
-            alt="John Doe"
+            alt={props.name}
             // this style is written inline because MUI does not support className
             style={{
               height: '90px',
@@ -31,15 +76,19 @@ const PersonCard = (props) => {
               marginRight: '28px',
               backgroundColor:
                 getComputedStyle(document.body).getPropertyValue('--prmry'),
-              fontSize: '30px',
+              fontSize:
+                getComputedStyle(document.body).getPropertyValue('--text-xxlarge')
+              ,
             }}
-            src="placeholder"
+            src={props.img}
           />
           <div className={classes.InformationContainer}>
             <div className={classes.MainInformationContainer}>
               <div className={classes.IdentityInformation}>
-                <h2>Marley George</h2>
-                <p>Adipsicing sit lectus</p>
+                <h2 data-testid="name-element">{props.name}</h2>
+                <p data-testid="first-met-element">
+                  {'First met ' + getFirstMetTimeString()}
+                </p>
               </div>
               <IconButton
                 className={classes.IconButton}
@@ -79,28 +128,38 @@ const PersonCard = (props) => {
                   horizontal: 'right',
                 }}
               >
-                <MenuItem
-                  divider={true}
-                >Item1</MenuItem>
-                <MenuItem
-                  divider={true}
-                >Item2</MenuItem>
+                {menuItems.map((menuItem) => {
+                  return (
+                    <MenuItem
+                      divider={true}
+                      key={menuItem.label}
+                      onClick={menuItem.action}
+                    >
+                      {menuItem.label}
+                    </MenuItem>
+                  );
+                },
+                )}
               </Menu>
             </div>
             <div className={classes.SupplementaryInformationContainer}>
-              <p className={classes.Encounters}>
-                  Encounters: 3 times
+              <p className={classes.Encounters}
+                data-testid="encounters-element"
+              >
+                  Encounters: {props.numEncounters} times
               </p>
-              <p className={classes.LastMet}>
-                Date last met: 06/06/2020
+              <p className={classes.LastMet}
+                data-testid="last-met-element"
+              >
+                Date last met: {getDateLastMetString()}
               </p>
               <div className={classes.SocialMediaContainer}>
                 <AvatarGroup max={2}
                   spacing={2}
+                  aria-label="social-media-icons"
+                  data-testid="social-media-icons-element"
                 >
-                  <Avatar />
-                  <Avatar />
-                  <Avatar />
+                  { socialMediaIcons }
                 </AvatarGroup>
               </div>
             </div>
@@ -110,5 +169,18 @@ const PersonCard = (props) => {
     </StyledEngineProvider>
   );
 };
+
+PersonCard.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  img: PropTypes.string,
+  socialMedias: PropTypes.arrayOf(PropTypes.string),
+  numEncounters: PropTypes.number,
+  lastMet: PropTypes.instanceOf(Date),
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  firstMet: PropTypes.instanceOf(Date),
+};
+
 
 export default PersonCard;
