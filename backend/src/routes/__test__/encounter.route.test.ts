@@ -46,12 +46,10 @@ const encounter2Data: EncounterModel = {
     persons: [] as any
 }
 
-//Bad encounter entry as persons are not given
+//Bad encounter entry as description is not given
 const encounter3Data = {
     date: new Date('2022-05-25'),
-    description: 'Play badminton together',
     location: 'Auckland',
-    persons: null
 }
 
 const encounter4Data = {
@@ -70,6 +68,12 @@ const encounter6Data = {
     date: new Date('2022-05-25'),
     description: 'Play badminton together',
     persons: []
+}
+
+const encounter7Data = {
+    date: new Date('2022-02-23'),
+    description: 'Met at a cafe',
+    location: 'Auckland',
 }
 
 describe('POST /encounter', () => {
@@ -141,6 +145,13 @@ describe('POST /encounter', () => {
         await supertest(app).post('/api/encounters')
             .set('Accept', 'application/json')
             .send(encounter6Data)
+            .expect(httpStatus.CREATED);
+    })
+
+    it('Successfuly creating an encounter without a persons field', async () => {
+        await supertest(app).post('/api/encounters')
+            .set('Accept', 'application/json')
+            .send(encounter7Data)
             .expect(httpStatus.CREATED);
     })
 
