@@ -3,12 +3,12 @@ import React from 'react';
 import classes from './PersonCardSummary.module.css';
 
 const PersonCardSummary = (props) => {
+  const firstName = props.name.split(' ')[0];
   return (
-
     <div className={classes.PersonCardSummary}>
       <div className={classes.ContentContainer}>
         <Avatar
-          alt={'Person Name'}
+          alt={firstName}
           // this style is written inline because MUI does not support className
           style={{
             height: '70px',
@@ -25,7 +25,7 @@ const PersonCardSummary = (props) => {
         />
         <div className={classes.TextInfoContainer}>
           <h3>
-            {props.name || 'Person'}
+            {firstName}
           </h3>
           <p>
               allalaal ajfksl iwfqoj askl fwqai o
@@ -37,5 +37,6 @@ const PersonCardSummary = (props) => {
 
   );
 };
+
 
 export default PersonCardSummary;
