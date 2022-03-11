@@ -9,6 +9,12 @@ import './PersonCard.css';
 import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import moment from 'moment';
 
+/**
+ * Component for displaying information of a person in a list.
+ * This is the full version of the person card.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const PersonCard = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
