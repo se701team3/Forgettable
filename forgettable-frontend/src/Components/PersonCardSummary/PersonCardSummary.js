@@ -1,6 +1,7 @@
 import {Avatar} from '@mui/material';
 import React from 'react';
 import classes from './PersonCardSummary.module.css';
+import {getFirstMetTimeString} from '../../functions/dateFormatter';
 
 const PersonCardSummary = (props) => {
   const firstName = props.name.split(' ')[0];
@@ -28,7 +29,7 @@ const PersonCardSummary = (props) => {
             {firstName}
           </h3>
           <p>
-              allalaal ajfksl iwfqoj askl fwqai o
+              First met {getFirstMetTimeString(props.firstMet)}
           </p>
         </div>
       </div>

@@ -7,8 +7,8 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import './PersonCard.css';
 import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
-import moment from 'moment';
 import PropTypes from 'prop-types';
+import {getFirstMetTimeString, getDateLastMetString} from '../../functions/dateFormatter';
 
 /*
  * Component for displaying information of a person in a list.
@@ -39,18 +39,6 @@ const PersonCard = (props) => {
         </Avatar>
       );
     });
-
-  const getFirstMetTimeString = () => {
-    return props.firstMet ?
-                  moment(props.firstMet).fromNow() :
-                  'once upon a time';
-  };
-
-  const getDateLastMetString = () => {
-    return props.lastMet ?
-                  moment(props.lastMet).format('DD/MM/YYYY') :
-                  'never :(';
-  };
 
   const menuItems = [
     {
