@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 function App() {
   // @TODO: Input real data.
-  const user = {first_name: 'Noah'};
+  const user = {first_name: 'PersonName'};
 
   return (
     <div className={classes.home_container}>
