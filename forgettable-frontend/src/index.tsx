@@ -1,12 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import NavBar from './components/NavBar/NavBar';
+import Settings from './pages/settings/settings';
+import People from './pages/people/people';
+import Encounters from './pages/encounters/encounters';
 
 ReactDOM.render(
     <React.StrictMode>
-      <App />
+      <BrowserRouter>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<App/>} />
+          <Route path="settings" element={<Settings/>} />
+          <Route path="people" element={<People/>} />
+          <Route path="encounters" element={<Encounters/>} />
+        </Routes>
+      </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root'),
 );
