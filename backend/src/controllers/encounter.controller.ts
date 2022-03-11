@@ -15,7 +15,7 @@ export const createEncounter = async (
 ): Promise<void> => {
 
   //TODO: has to verify user token here first and retreive the list of persons belonging to the user
-  
+
 
   try {
     // Pass data to service and attempt to save
