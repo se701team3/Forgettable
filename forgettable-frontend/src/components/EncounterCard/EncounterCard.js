@@ -5,13 +5,20 @@ import CustomButton from '../CustomButton/CustomButton';
 import {AvatarGroup, Avatar} from '@mui/material';
 import classes from './EncounterCard.module.css';
 import stringAvatar from '../../functions/helper';
+import PropTypes from 'prop-types';
 
 const DELETE = 'Delete';
 const DATE_WE_MET = 'Date we met: ';
 const WHERE_WE_MET = 'Where we met: ';
 
-export default function EncounterCard(props) {
-  const {isInitialEncounter, title, persons, details, date, location, onClick, onDelete} = props;
+/*
+ * Component for displaying information of encounter details.
+ * This is the full version of the encounter card.
+ *
+ * Author: Raina Song (rainasong)
+ */
+const EncounterCard = (props) => {
+  const {isInitialEncounter, title, persons, description, date, location, onClick, onDelete} = props;
   const isMultiplePerson = persons.length > 1;
 
   return (
@@ -57,4 +64,21 @@ export default function EncounterCard(props) {
       </div>
     </Card>
   );
-}
+};
+
+EncounterCard.propTypes = {
+  id: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  persons: PropTypes.arrayOf(PropTypes.shape({
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+  })).isRequired,
+  date: PropTypes.instanceOf(Date),
+  location: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  isInitialEncounter: PropTypes.bool.isRequired,
+};
+
+export default EncounterCard;
