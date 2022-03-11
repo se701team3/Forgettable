@@ -6,7 +6,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import './PersonCard.css';
-
+import {converSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 
 const PersonCard = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -18,12 +18,23 @@ const PersonCard = (props) => {
     setAnchorEl(null);
   };
 
+  const socialMediaIcons =
+    props.socialMedias.map((socialMedia) => {
+      return (
+        <Avatar
+          key={socialMedia}
+          src={converSocialMediaToIcon(socialMedia)}
+          alt={socialMedia}
+        />
+      );
+    });
+
   return (
     <StyledEngineProvider injectFirst>
       <div className={classes.PersonCard}>
         <div className={classes.ContentContainer}>
           <Avatar
-            alt="John Doe"
+            alt={props.name}
             // this style is written inline because MUI does not support className
             style={{
               height: '90px',
@@ -33,7 +44,7 @@ const PersonCard = (props) => {
                 getComputedStyle(document.body).getPropertyValue('--prmry'),
               fontSize: '30px',
             }}
-            src="placeholder"
+            src={props.img}
           />
           <div className={classes.InformationContainer}>
             <div className={classes.MainInformationContainer}>
@@ -98,9 +109,7 @@ const PersonCard = (props) => {
                 <AvatarGroup max={2}
                   spacing={2}
                 >
-                  <Avatar />
-                  <Avatar />
-                  <Avatar />
+                  { socialMediaIcons }
                 </AvatarGroup>
               </div>
             </div>
