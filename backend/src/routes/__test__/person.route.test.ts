@@ -10,14 +10,14 @@ afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
 const requestPersonData:PersonModel = {
-  first_name: 'new person',
-  last_name: 'hellob',
+  first_name: 'testname',
+  last_name: 'testlname',
   interests: ['a', 'b'],
-  organisation: 'helloc',
+  organisation: 'testorg',
   time_added: new Date('2022-01-01'),
-  how_we_met: 'helloe',
+  how_we_met: 'testmet',
   birthday: new Date('2002-12-12'),
-  encounters: [] as any,
+  encounters: [] as any
 };
 
 describe('person ', () => {
