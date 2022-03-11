@@ -1,0 +1,15 @@
+.textFieldPrimary {
+    width: 375px;   
+    height: 60px;
+}
+
+.textFieldSecondary {
+    width: 245px;   
+    height: 55px;
+}
+
+.textFieldMultiLine {
+    width: 780px;   
+    height: 370px;
+}
+
