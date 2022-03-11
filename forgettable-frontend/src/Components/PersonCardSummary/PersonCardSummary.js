@@ -48,5 +48,12 @@ const PersonCardSummary = (props) => {
   );
 };
 
+PersonCard.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  img: PropTypes.string,
+  firstMet: PropTypes.instanceOf(Date),
+  onClick: PropTypes.func.isRequired,
+};
 
 export default PersonCardSummary;
