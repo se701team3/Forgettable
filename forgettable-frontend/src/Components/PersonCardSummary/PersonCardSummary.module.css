@@ -1,6 +1,7 @@
 @import '../../colours.css';
 
 .PersonCardSummary {
+    cursor: pointer;
     height: 120px;
     width: 240px;
     border-radius: var(--radius-card);
