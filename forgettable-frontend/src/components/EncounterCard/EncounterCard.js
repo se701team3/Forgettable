@@ -4,30 +4,21 @@ import Card from '@mui/material/Card';
 import CustomButton from '../CustomButton/CustomButton';
 import {AvatarGroup, Avatar} from '@mui/material';
 import classes from './EncounterCard.module.css';
+import stringAvatar from './helper';
+
+const DELETE = 'Delete';
+const DATE_WE_MET = 'Date we met: ';
+const WHERE_WE_MET = 'Where we met: ';
 
 export default function EncounterCard(props) {
-  const {title, details, date, location} = props;
-  const isInitialEncounter = false;
-  const person = 'Marley';
-  const persons = [
-    {name: 'sam', avatar: 'r'},
-    {name: 'sam', avatar: 'r'},
-    {name: 'sam', avatar: 'r'},
-  ];
-
-  const handleCardClick = () => {
-    console.log('card click!');
-  };
-
-  const handleDelete = () => {
-    console.log('delete');
-  };
+  const {isInitialEncounter, title, persons, details, date, location, onClick, onDelete} = props;
+  const isMultiplePerson = persons.length > 1;
 
   return (
     <div className={classes.Container}>
       <Card className={isInitialEncounter ? classes.Card_special : classes.Card}>
         <div className={classes.Card_content}>
-          <div onClick={handleCardClick}>
+          <div onClick={onClick}>
             {isInitialEncounter && <section className={classes.Initial_label_container}>
               <div className={classes.Initial_label}>First Encounter!</div>
             </section>}
@@ -36,7 +27,19 @@ export default function EncounterCard(props) {
                 {title}
               </div>
               <div className={classes.Profile_container}>
-                {person}
+                <AvatarGroup max={4} className={!isMultiplePerson && classes.Avatar_inline}>
+                  {persons.map((person, index) => {
+                    return (
+                      <>
+                        <Avatar key={index} className={classes.Avatar} {...stringAvatar(`${person.first_name} ${person.last_name}`)} />
+                        {!isMultiplePerson && <div className={classes.Avatar_name}>
+                          {person.first_name}
+                        </div>}
+                      </>
+                    );
+                  },
+                  )}
+                </AvatarGroup>
               </div>
             </section>
             <section className={classes.Body}>
@@ -45,12 +48,12 @@ export default function EncounterCard(props) {
           </div>
           <section className={classes.Footer}>
             <div className={classes.Date}>
-                Date we met: <div>{date}</div>
+              {DATE_WE_MET}<div>{date}</div>
             </div>
             <div className={classes.Location}>
-                Where we met: <div>{location}</div>
+              {WHERE_WE_MET}<div>{location}</div>
             </div>
-            <CustomButton className={classes.Button} btnText={'Delete'} onClick={handleDelete}/>
+            <CustomButton className={classes.Button} btnText={DELETE} onClick={onDelete}/>
           </section>
         </div>
       </Card>

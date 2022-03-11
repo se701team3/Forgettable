@@ -99,3 +99,20 @@
     font-weight: var(--font-regular);
     color: var(--txt2);
 }
+
+.Avatar{
+    font-family: 'Poppins', sans-serif;
+    font-weight: var(--font-regular);
+    font-size: var(--text-normal);
+}
+
+.Avatar_inline{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: auto;
+}
+
+.Avatar_name{
+    margin-left: 10px;
+}
