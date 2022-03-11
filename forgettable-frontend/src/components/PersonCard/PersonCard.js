@@ -1,4 +1,4 @@
-import {Avatar, AvatarGroup, StyledEngineProvider} from '@mui/material';
+import {Avatar, AvatarGroup, StyledEngineProvider, SvgIcon} from '@mui/material';
 import React from 'react';
 import classes from './PersonCard.module.css';
 import IconButton from '@mui/material/IconButton';
@@ -6,14 +6,16 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import './PersonCard.css';
-import {converSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
+import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 
 const PersonCard = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -23,9 +25,10 @@ const PersonCard = (props) => {
       return (
         <Avatar
           key={socialMedia}
-          src={converSocialMediaToIcon(socialMedia)}
+          src={convertSocialMediaToIcon(socialMedia)}
           alt={socialMedia}
-        />
+        >
+        </Avatar>
       );
     });
 
