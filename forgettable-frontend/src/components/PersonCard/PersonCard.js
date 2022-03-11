@@ -21,7 +21,7 @@ const PersonCard = (props) => {
     setAnchorEl(null);
   };
 
-  const socialMediaIcons =
+  const socialMediaIcons = props.socialMedias &&
     props.socialMedias.map((socialMedia) => {
       return (
         <Avatar
@@ -76,7 +76,7 @@ const PersonCard = (props) => {
           <div className={classes.InformationContainer}>
             <div className={classes.MainInformationContainer}>
               <div className={classes.IdentityInformation}>
-                <h2>{props.name}</h2>
+                <h2 data-testid="name-element">{props.name}</h2>
                 <p>
                   {'First met ' + getFirstMetTimeString()}
                 </p>
