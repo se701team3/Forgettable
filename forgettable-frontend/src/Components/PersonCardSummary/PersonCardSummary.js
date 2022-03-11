@@ -13,7 +13,7 @@ const PersonCardSummary = (props) => {
           style={{
             height: '70px',
             width: '70px',
-            marginRight: '28px',
+            marginRight: '14px',
             backgroundColor:
                 getComputedStyle(document.body).getPropertyValue('--prmry'),
             fontSize:
@@ -24,7 +24,12 @@ const PersonCardSummary = (props) => {
           src={props.img}
         />
         <div className={classes.TextInfoContainer}>
-
+          <h3>
+            {props.name || 'Person'}
+          </h3>
+          <p>
+              allalaal ajfksl iwfqoj askl fwqai o
+          </p>
         </div>
       </div>
     </div>

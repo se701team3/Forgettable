@@ -21,7 +21,7 @@
 }
 
 .PersonCardSummary:hover{ 
-    background-color: var(--prmry);
+    background-color: var(--hilit);
 }
 
 .TextInfoContainer {
@@ -29,7 +29,29 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: stretch;
-    background-color: lightblue;
+    padding: 5px 0;
+    align-items: flex-start;
+    box-sizing: border-box;
+}
+
+.TextInfoContainer > h3 {
+    font-size: var(--text-medium);
+    font-weight: 600;
+    margin: 0;
+    text-align: left;
+}
+
+.TextInfoContainer > p {
+    font-size: var(--text-card-body-normal);
+    margin: 0;
+    color: var(--ltxt2);
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+            line-clamp: 2; 
+    -webkit-box-orient: vertical;
 }
