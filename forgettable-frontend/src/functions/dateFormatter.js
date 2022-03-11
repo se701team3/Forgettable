@@ -11,3 +11,9 @@ export const getDateLastMetString = (timeInMs) => {
                   moment(timeInMs).format('DD/MM/YYYY') :
                   'never :(';
 };
+
+export const getDateString = (timeInMs) => {
+  return timeInMs ?
+  moment(timeInMs).format('DD/MM/YYYY') :
+  'once upon a time';
+};
