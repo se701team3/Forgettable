@@ -1,7 +1,7 @@
 @import '../../colours.css';
 
 .PersonCardSummary {
-    height: 220px;
+    height: 120px;
     width: 240px;
     border-radius: var(--radius-card);
     background-color: var(--card);
@@ -15,7 +15,21 @@
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+.PersonCardSummary:hover{ 
+    background-color: var(--prmry);
+}
+
+.TextInfoContainer {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    background-color: lightblue;
 }
