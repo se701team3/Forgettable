@@ -67,3 +67,20 @@ it('displays the firstMet string when there is no date', () => {
       getByText('First met once upon a time'),
   ).toBeInTheDocument();
 });
+
+it('successfully fires event when card is clicked', () => {
+  const handleClick = jest.fn();
+
+  const {getByTestId} = render(
+      <PersonCardSummary
+        name="Mercury Lin"
+        onClick={handleClick}
+      />);
+
+  const node = within(getByTestId('first-met-element'));
+
+  fireEvent.click(node.getByText('First met once upon a time'));
+  expect(handleClick).toHaveBeenCalledTimes(1);
+});
+
+
