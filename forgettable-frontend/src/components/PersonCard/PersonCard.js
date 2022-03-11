@@ -75,7 +75,7 @@ const PersonCard = (props) => {
               <div className={classes.IdentityInformation}>
                 <h2 data-testid="name-element">{props.name}</h2>
                 <p data-testid="first-met-element">
-                  {'First met ' + getFirstMetTimeString()}
+                  {'First met ' + getFirstMetTimeString(props.firstMet)}
                 </p>
               </div>
               <IconButton
@@ -139,7 +139,7 @@ const PersonCard = (props) => {
               <p className={classes.LastMet}
                 data-testid="last-met-element"
               >
-                Date last met: {getDateLastMetString()}
+                Date last met: {getDateLastMetString(props.lastMet)}
               </p>
               <div className={classes.SocialMediaContainer}>
                 <AvatarGroup max={2}
