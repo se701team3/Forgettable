@@ -16,7 +16,7 @@ export default function EncounterSummary(props: { Name: any; Date: any; Descript
       >
         <div className="header">
           <Avatar
-            alt="Remy Sharp"
+            alt={Name}
             src="Avatar.png"
             sx={{width: 70, height: 70}}
           />
@@ -26,7 +26,7 @@ export default function EncounterSummary(props: { Name: any; Date: any; Descript
           </div>
         </div>
         <div className="date">
-          <text>Date you met: </text>
+          <div>Date you met:</div>
           {Date}
         </div>
         <div className="descriptionText">

@@ -35,6 +35,8 @@
     padding-left: 8px;
 }
 .date{
+    display: flex;
+    flex-direction: row;
     padding-left: 20px;
     padding-right:20px;
     padding-top:10px;
