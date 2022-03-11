@@ -1,7 +1,12 @@
 @import "../../colours.css";
 
+.SearchContainer {
+}
+
 .SearchInputs{
     display: flex;
+    border: 1px solid var(--bord);
+    border-radius: 8px 8px 8px 8px;
 }
 
 .SearchNameInput{
