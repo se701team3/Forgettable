@@ -1,0 +1,86 @@
+@import '../../colours.css';
+
+.Container{
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.Card, .Card_special{
+    width: fit-content;
+    height: fit-content;
+    background-color: var(--card);
+    box-shadow: none;
+    border-radius: 13px;
+    z-index: 1;
+    user-select: none;
+}
+
+.Card_special{
+    border: 4px solid var(--prmry);
+}
+
+.Card:hover, .Card_special:hover{
+    background-color: var(--hilit);
+    cursor: pointer;
+}
+
+.Card_content{
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    width: 715px;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 45px 15px 45px;
+}
+
+.Header{
+    width: inherit;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.Title{
+    font-size: var(--text-card-title);
+    font-weight: var(--font-semibold);
+}
+
+.Profile_container{
+    font-size: var(--text-normal);
+    font-weight: var(--font-regular);
+}
+
+.Body{
+    margin-top: 15px;
+    height: 80px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: var(--text-small);
+    font-weight: var(--font-regular);
+    color: var(--txt2);
+}
+
+.Footer{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    align-items: baseline;
+    justify-content: space-between;
+    width: inherit;
+    margin-top: 15px;
+}
+
+.Date, .Location{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: var(--text-small);
+    font-weight: var(--font-regular);
+    color: var(--txt2);
+}
