@@ -3,7 +3,7 @@
 .PersonCard {
     width: 680px;
     height: 150px;
-    border-radius: 13px;
+    border-radius: var(--radius-card);
     background-color: var(--card);
     transition: 0.3s;
     display: flex;
@@ -51,14 +51,14 @@
 }
 
 .IdentityInformation > h2 {
-    font-size: 25px;
+    font-size: var(--text-card-title);
     font-weight: 600;
     /* line-height: 0; */
     margin: 0
 }
 
 .IdentityInformation > p {
-    font-size: 16px;
+    font-size: var(--text-card-body-large);
     /* line-height: 0; */
     margin: 2px 0;
     color: var(--ltxt2)
@@ -72,7 +72,7 @@
 
 .SupplementaryInformationContainer > p {
     margin: 0;
-    font-size: 14px;
+    font-size: var(--text-card-body-normal);
     color: var(--ltxt2)
 }
 

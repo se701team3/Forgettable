@@ -76,7 +76,9 @@ const PersonCard = (props) => {
               marginRight: '28px',
               backgroundColor:
                 getComputedStyle(document.body).getPropertyValue('--prmry'),
-              fontSize: '30px',
+              fontSize:
+                getComputedStyle(document.body).getPropertyValue('--text-xxlarge')
+              ,
             }}
             src={props.img}
           />
