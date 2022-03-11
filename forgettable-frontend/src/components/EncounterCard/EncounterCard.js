@@ -42,7 +42,7 @@ const EncounterCard = (props) => {
                 {persons.map((person, index) => {
                   return (
                     <div key={`${index}-container`}>
-                      <Avatar key={index} className={classes.Avatar} {...stringAvatar(`${person.first_name} ${person.last_name}`)} />
+                      <Avatar key={index} alt={`${person.first_name} ${person.last_name}`} className={classes.Avatar} {...!person.img && stringAvatar(`${person.first_name} ${person.last_name}`)} src={person.img} />
                       {!isMultiplePerson && <div className={classes.Avatar_name}>
                         {person.first_name}
                       </div>}
@@ -76,9 +76,10 @@ EncounterCard.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   persons: PropTypes.arrayOf(PropTypes.shape({
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
-  })).isRequired,
+    first_name: PropTypes.string.isRequired,
+    last_name: PropTypes.string.isRequired,
+    img: PropTypes.string,
+  })),
   date: PropTypes.instanceOf(Date),
   location: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
