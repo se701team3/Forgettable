@@ -52,37 +52,37 @@ const PersonDrawer = (props) => {
             <p>
               {'Gender: '}
               {props.gender ?
-              <span>{capitalise(props.gender)}</span> :
+              <span className={classes.KnownText}>{capitalise(props.gender)}</span> :
               unknownDetail}
             </p>
             <p>
               {'Birthday: '}
               {props.birthday ?
-              <span>{getBirthdayString(props.birthday)}</span> :
+              <span className={classes.KnownText}>{getBirthdayString(props.birthday)}</span> :
               unknownDetail}
             </p>
             <p>
               {'Organisation: '}
               {props.organisation ?
-              <span>{capitalise(props.organisation)}</span> :
+              <span className={classes.KnownText}>{capitalise(props.organisation)}</span> :
               unknownDetail}
             </p>
             <p>
               {' Location: '}
               {props.location ?
-              <span>{capitalise(props.location)}</span> :
+              <span className={classes.KnownText}>{capitalise(props.location)}</span> :
               unknownDetail}
             </p>
             <p>
               {'Date first met: '}
               {props.firstMet ?
-                <span>{getFirstMetTimeString(props.firstMet)}</span> :
+                <span className={classes.KnownText}>{getFirstMetTimeString(props.firstMet)}</span> :
                  unknownDetail}
             </p>
             <p>
-              {'Their interests: '}
+              {'Interests: '}
               {props.interests ?
-               <span>{props.interests.join(', ')}</span> :
+               <span className={classes.KnownText}>{props.interests.join(', ')}</span> :
                unknownDetail}
             </p>
           </div>
