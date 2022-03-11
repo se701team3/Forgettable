@@ -11,7 +11,11 @@ import {
 
 it('renders PersonCard UI with correct hierarchy', () => {
   const renderer = new ShallowRenderer();
-  renderer.render(<PersonCard />);
+  renderer.render(<PersonCard
+    name={'Mercury Lin'}
+    onDelete={jest.fn()}
+    onEdit={jest.fn()}
+  />);
   const result = renderer.getRenderOutput();
 
   expect(result).toMatchSnapshot();
@@ -25,6 +29,8 @@ it('Name prop passed in is displayed correctly', () => {
   const {getByTestId} = render(
       <PersonCard
         name={name}
+        onDelete={jest.fn()}
+        onEdit={jest.fn()}
       />);
 
   const {getByText} = within(getByTestId('name-element'));
@@ -37,7 +43,10 @@ it('renders the correct number of social media icons', () => {
 
   const {getByTestId} = render(
       <PersonCard
+        onDelete={jest.fn()}
+        onEdit={jest.fn()}
         socialMedias={socialMedias}
+        name={'Mercury Lin'}
       />);
 
   const socialMediaContainer = getByTestId('social-media-icons-element');
@@ -50,6 +59,9 @@ it('displays the correct number of encounters', () => {
 
   const {getByTestId} = render(
       <PersonCard
+        name={'Mercury Lin'}
+        onDelete={jest.fn()}
+        onEdit={jest.fn()}
         numEncounters={numEncounters}
       />);
 
@@ -61,10 +73,13 @@ it('displays the correct number of encounters', () => {
 });
 
 it('displays the correct format for lastMet', () => {
-  const lastMet = 1646965503063;
+  const lastMet = new Date(1646965503063);
 
   const {getByTestId} = render(
       <PersonCard
+        name={'Mercury Lin'}
+        onDelete={jest.fn()}
+        onEdit={jest.fn()}
         lastMet={lastMet}
       />);
 
@@ -76,10 +91,13 @@ it('displays the correct format for lastMet', () => {
 });
 
 it('displays the correct format for firstMet for an existing date', () => {
-  const twoYearsAgo = Date.now() - (365 * 24 * 60 * 60 * 1000 * 2);
+  const twoYearsAgo = new Date(Date.now() - (365 * 24 * 60 * 60 * 1000 * 2));
 
   const {getByTestId} = render(
       <PersonCard
+        name={'Mercury Lin'}
+        onDelete={jest.fn()}
+        onEdit={jest.fn()}
         firstMet={twoYearsAgo}
       />);
 
@@ -93,6 +111,9 @@ it('displays the correct format for firstMet for an existing date', () => {
 it('displays the firstMet string when there is no date', () => {
   const {getByTestId} = render(
       <PersonCard
+        name={'Mercury Lin'}
+        onDelete={jest.fn()}
+        onEdit={jest.fn()}
       />);
 
   const {getByText} = within(getByTestId('first-met-element'));
