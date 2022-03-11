@@ -25,7 +25,6 @@ function LoggedIn(props: any) {
 
 ReactDOM.render(
     <React.StrictMode>
-<<<<<<< HEAD
       <BrowserRouter>
         <LoggedIn loggedIn={false}/>
         <Routes>
@@ -36,9 +35,6 @@ ReactDOM.render(
           <Route path="person/:id" element={<PersonPage/>} />
         </Routes>
       </BrowserRouter>
-=======
-      <App />
->>>>>>> 23cf60f (feat: made the input component)
     </React.StrictMode>,
     document.getElementById('root'),
 );
