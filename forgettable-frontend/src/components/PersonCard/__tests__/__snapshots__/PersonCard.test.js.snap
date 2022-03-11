@@ -33,7 +33,9 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
             <h2
               data-testid="name-element"
             />
-            <p>
+            <p
+              data-testid="first-met-element"
+            >
               First met once upon a time
             </p>
           </div>
@@ -97,12 +99,14 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
         >
           <p
             className="Encounters"
+            data-testid="encounters-element"
           >
             Encounters: 
              times
           </p>
           <p
             className="LastMet"
+            data-testid="last-met-element"
           >
             Date last met: 
             never :(
@@ -111,6 +115,8 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
             className="SocialMediaContainer"
           >
             <ForwardRef(AvatarGroup)
+              aria-label="social-media-icons"
+              data-testid="social-media-icons-element"
               max={2}
               spacing={2}
             />

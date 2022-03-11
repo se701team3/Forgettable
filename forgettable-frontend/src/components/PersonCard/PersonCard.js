@@ -77,7 +77,7 @@ const PersonCard = (props) => {
             <div className={classes.MainInformationContainer}>
               <div className={classes.IdentityInformation}>
                 <h2 data-testid="name-element">{props.name}</h2>
-                <p>
+                <p data-testid="first-met-element">
                   {'First met ' + getFirstMetTimeString()}
                 </p>
               </div>
@@ -134,15 +134,21 @@ const PersonCard = (props) => {
               </Menu>
             </div>
             <div className={classes.SupplementaryInformationContainer}>
-              <p className={classes.Encounters}>
+              <p className={classes.Encounters}
+                data-testid="encounters-element"
+              >
                   Encounters: {props.numEncounters} times
               </p>
-              <p className={classes.LastMet}>
+              <p className={classes.LastMet}
+                data-testid="last-met-element"
+              >
                 Date last met: {getDateLastMetString()}
               </p>
               <div className={classes.SocialMediaContainer}>
                 <AvatarGroup max={2}
                   spacing={2}
+                  aria-label="social-media-icons"
+                  data-testid="social-media-icons-element"
                 >
                   { socialMediaIcons }
                 </AvatarGroup>

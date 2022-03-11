@@ -19,23 +19,85 @@ it('renders PersonCard UI with correct hierarchy', () => {
 
 afterEach(cleanup);
 
-it('Text in state is changed when button clicked', () => {
+it('Name prop passed in is displayed correctly', () => {
+  const name = 'Mercury Lin';
+
   const {getByTestId} = render(
       <PersonCard
-        name="Mercury Lin"
+        name={name}
       />);
 
   const {getByText} = within(getByTestId('name-element'));
 
-  expect(getByText('Mercury Lin')).toBeInTheDocument();
+  expect(getByText(name)).toBeInTheDocument();
+});
 
-  // screen.getByRole('button', {
-  //     name: /edit/i
-  //   })
+it('renders the correct number of social media icons', () => {
+  const socialMedias = ['instagram', 'facebook'];
 
-  // expect(getByText(/Initial/i).textContent).toBe("Initial State")
+  const {getByTestId} = render(
+      <PersonCard
+        socialMedias={socialMedias}
+      />);
 
-  // fireEvent.click(getByText("State Change Button"))
+  const socialMediaContainer = getByTestId('social-media-icons-element');
 
-  // expect(getByText(/Initial/i).textContent).toBe("Initial State Changed")
+  expect(socialMediaContainer.childElementCount).toBe(socialMedias.length);
+});
+
+it('displays the correct number of encounters', () => {
+  const numEncounters = 14;
+
+  const {getByTestId} = render(
+      <PersonCard
+        numEncounters={numEncounters}
+      />);
+
+  const {getByText} = within(getByTestId('encounters-element'));
+
+  expect(
+      getByText('Encounters: ' + numEncounters + ' times'),
+  ).toBeInTheDocument();
+});
+
+it('displays the correct format for lastMet', () => {
+  const lastMet = 1646965503063;
+
+  const {getByTestId} = render(
+      <PersonCard
+        lastMet={lastMet}
+      />);
+
+  const {getByText} = within(getByTestId('last-met-element'));
+
+  expect(
+      getByText('Date last met: 11/03/2022'),
+  ).toBeInTheDocument();
+});
+
+it('displays the correct format for firstMet for an existing date', () => {
+  const twoYearsAgo = Date.now() - (365 * 24 * 60 * 60 * 1000 * 2);
+
+  const {getByTestId} = render(
+      <PersonCard
+        firstMet={twoYearsAgo}
+      />);
+
+  const {getByText} = within(getByTestId('first-met-element'));
+
+  expect(
+      getByText('First met 2 years ago'),
+  ).toBeInTheDocument();
+});
+
+it('displays the firstMet string when there is no date', () => {
+  const {getByTestId} = render(
+      <PersonCard
+      />);
+
+  const {getByText} = within(getByTestId('first-met-element'));
+
+  expect(
+      getByText('First met once upon a time'),
+  ).toBeInTheDocument();
 });
