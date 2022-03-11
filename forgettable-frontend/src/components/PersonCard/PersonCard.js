@@ -8,6 +8,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import './PersonCard.css';
 import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 /*
  * Component for displaying information of a person in a list.
@@ -166,5 +167,18 @@ const PersonCard = (props) => {
     </StyledEngineProvider>
   );
 };
+
+PersonCard.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  img: PropTypes.string,
+  socialMedias: PropTypes.arrayOf(PropTypes.string),
+  numEncounters: PropTypes.number,
+  lastMet: PropTypes.instanceOf(Date),
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  firstMet: PropTypes.instanceOf(Date),
+};
+
 
 export default PersonCard;
