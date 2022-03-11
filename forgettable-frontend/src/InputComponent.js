@@ -38,6 +38,7 @@ export default function InputComponent({inputLabel, inputType, placeholder}) {
          <TextField
            className={styles.textFieldPrimary}
            label={inputLabel}
+           InputLabelProps={{shrink: true}}
            value={inputState}
            placeholder={placeholder}
            onChange={(event) => setInput(event.target.value)}
@@ -52,6 +53,7 @@ export default function InputComponent({inputLabel, inputType, placeholder}) {
          <TextField
            className={styles.textFieldSecondary}
            label={inputLabel}
+           InputLabelProps={{shrink: true}}
            value={inputState}
            placeholder={placeholder}
            onChange={(event) => setInput(event.target.value)}
@@ -66,6 +68,7 @@ export default function InputComponent({inputLabel, inputType, placeholder}) {
          <TextField
            className={styles.textFieldMultiLine}
            label={inputLabel}
+           InputLabelProps={{shrink: true}}
            value={inputState}
            placeholder={placeholder}
            onChange={(event) => setInput(event.target.value)}
