@@ -15,7 +15,24 @@
   color: #000;
 }
 
-.title{
+.SmallDialog {
+  position: fixed;
+  background: white;
+  width: 525px;
+  height: 320px;
+  z-index: 2;
+  border-radius: 4px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 20px;
+  color: #000;
+}
+
+.RedTitle{
   font-size: 30px;
   color: brown;
   margin-top: 50px;
@@ -23,6 +40,17 @@
   margin-right: 123px;
   text-align: center;
   font-style: normal;
+  font-weight: 600;
+}
+
+.title{
+  font-size: 30px;
+  margin-top: 50px;
+  margin-left: 123px;
+  margin-right: 123px;
+  text-align: center;
+  font-style: normal;
+  font-weight: 600;
 }
 
 .description{
@@ -30,18 +58,39 @@
   align-content: center;
   margin-left: 84px;
   margin-right: 84px;
-  margin-top: 30px;
+  margin-top: 20px;
   font-style: normal;
 }
 
 .toolbar{
-  margin-top: 30px;
+  margin: 15px;
+  margin-top: 20px;
 }
 
 .button{
   border-radius: 4px;
   background-color: white;
-  margin: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
   height: 30px;
   width: 100px;
+}
+
+.LargeButton{
+  border-radius: 4px;
+  background-color: #F2D58A;
+  margin-left: 15px;
+  margin-right: 15px;
+  height: 60px;
+  width: 180px;
+  border: white;
+}
+
+.label{
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+.img{
+  margin-right: 30px;
 }
