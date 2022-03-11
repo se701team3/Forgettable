@@ -7,8 +7,8 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import './PersonCard.css';
 import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
-import moment from 'moment';
 import PropTypes from 'prop-types';
+import {getFirstMetTimeString, getDateLastMetString} from '../../functions/dateFormatter';
 
 /*
  * Component for displaying information of a person in a list.
@@ -39,18 +39,6 @@ const PersonCard = (props) => {
         </Avatar>
       );
     });
-
-  const getFirstMetTimeString = () => {
-    return props.firstMet ?
-                  moment(props.firstMet).fromNow() :
-                  'once upon a time';
-  };
-
-  const getDateLastMetString = () => {
-    return props.lastMet ?
-                  moment(props.lastMet).format('DD/MM/YYYY') :
-                  'never :(';
-  };
 
   const menuItems = [
     {
@@ -87,7 +75,7 @@ const PersonCard = (props) => {
               <div className={classes.IdentityInformation}>
                 <h2 data-testid="name-element">{props.name}</h2>
                 <p data-testid="first-met-element">
-                  {'First met ' + getFirstMetTimeString()}
+                  {'First met ' + getFirstMetTimeString(props.firstMet)}
                 </p>
               </div>
               <IconButton
@@ -151,7 +139,7 @@ const PersonCard = (props) => {
               <p className={classes.LastMet}
                 data-testid="last-met-element"
               >
-                Date last met: {getDateLastMetString()}
+                Date last met: {getDateLastMetString(props.lastMet)}
               </p>
               <div className={classes.SocialMediaContainer}>
                 <AvatarGroup max={2}
