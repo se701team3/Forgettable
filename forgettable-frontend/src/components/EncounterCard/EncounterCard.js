@@ -5,6 +5,7 @@ import CustomButton from '../CustomButton/CustomButton';
 import {AvatarGroup, Avatar} from '@mui/material';
 import classes from './EncounterCard.module.css';
 import stringAvatar from '../../functions/helper';
+import './EncounterCard.css';
 import PropTypes from 'prop-types';
 
 const DELETE = 'Delete';
