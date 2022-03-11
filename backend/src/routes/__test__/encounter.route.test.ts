@@ -18,7 +18,7 @@ const requestEncounterData:EncounterModel = {
 
 describe('encounter ', () => {
   it('can be created correctly', async () => {
-    await supertest(app).post('/api/encounters/create')
+    await supertest(app).post('/api/encounters')
       .set('Accept', 'application/json')
       .send(requestEncounterData)
       .expect(httpStatus.CREATED);

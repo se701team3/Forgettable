@@ -22,7 +22,7 @@ const requestPersonData:PersonModel = {
 
 describe('person ', () => {
   it('can be created correctly', async () => {
-    await supertest(app).post('/api/persons/create')
+    await supertest(app).post('/api/persons')
       .set('Accept', 'application/json')
       .send(requestPersonData)
       .expect(httpStatus.CREATED);

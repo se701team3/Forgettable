@@ -19,7 +19,7 @@ const requestUserData:UserModel = {
 
 describe('user ', () => {
   it('can be created correctly', async () => {
-    await supertest(app).post('/api/users/create')
+    await supertest(app).post('/api/users')
       .set('Accept', 'application/json')
       .send(requestUserData)
       .expect(httpStatus.CREATED);
