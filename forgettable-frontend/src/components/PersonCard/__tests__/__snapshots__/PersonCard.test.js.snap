@@ -11,8 +11,6 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
       className="ContentContainer"
     >
       <ForwardRef(Avatar)
-        alt="John Doe"
-        src="placeholder"
         style={
           Object {
             "backgroundColor": "",
@@ -32,11 +30,13 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
           <div
             className="IdentityInformation"
           >
-            <h2>
-              Marley George
-            </h2>
-            <p>
-              Adipsicing sit lectus
+            <h2
+              data-testid="name-element"
+            />
+            <p
+              data-testid="first-met-element"
+            >
+              First met once upon a time
             </p>
           </div>
           <ForwardRef(IconButton)
@@ -85,12 +85,12 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
             <ForwardRef(MenuItem)
               divider={true}
             >
-              Item1
+              Edit
             </ForwardRef(MenuItem)>
             <ForwardRef(MenuItem)
               divider={true}
             >
-              Item2
+              Delete
             </ForwardRef(MenuItem)>
           </ForwardRef(Menu)>
         </div>
@@ -99,25 +99,27 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
         >
           <p
             className="Encounters"
+            data-testid="encounters-element"
           >
-            Encounters: 3 times
+            Encounters: 
+             times
           </p>
           <p
             className="LastMet"
+            data-testid="last-met-element"
           >
-            Date last met: 06/06/2020
+            Date last met: 
+            never :(
           </p>
           <div
             className="SocialMediaContainer"
           >
             <ForwardRef(AvatarGroup)
+              aria-label="social-media-icons"
+              data-testid="social-media-icons-element"
               max={2}
               spacing={2}
-            >
-              <ForwardRef(Avatar) />
-              <ForwardRef(Avatar) />
-              <ForwardRef(Avatar) />
-            </ForwardRef(AvatarGroup)>
+            />
           </div>
         </div>
       </div>
