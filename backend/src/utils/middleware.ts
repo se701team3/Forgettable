@@ -12,6 +12,10 @@ const errorHandler = (
   if (error.name === 'ValidationError') {
     return res.status(httpStatus.BAD_REQUEST).json({ error: error.message });
   }
+  if (error.name === 'CastError'){
+    // most likely means string could not be casted to mongo ObjectId
+    return res.status(httpStatus.BAD_REQUEST).json({error: error.message});
+  }
   next(error);
 };
 
