@@ -22,6 +22,12 @@ const EncounterCard = (props) => {
   const {isInitialEncounter, title, persons, description, date, location, onClick, onDelete} = props;
   const isMultiplePerson = persons.length > 1;
 
+  const getDateString = () => {
+    return date ?
+    moment(date).format('DD/MM/YYYY') :
+    'once upon a time';
+  };
+
   return (
     <Card className={isInitialEncounter ? classes.Card_special : classes.Card}>
       <div className={classes.Card_content}>
@@ -55,7 +61,7 @@ const EncounterCard = (props) => {
         </div>
         <section className={classes.Footer}>
           <div className={classes.Date}>
-            {DATE_WE_MET}<div>{date}</div>
+            {DATE_WE_MET}<div>{getDateString()}</div>
           </div>
           <div className={classes.Location}>
             {WHERE_WE_MET}<div>{location}</div>
