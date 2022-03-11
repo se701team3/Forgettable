@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders PersonCard UI with correct hierarchy 1`] = `
+<StyledEngineProvider
+  injectFirst={true}
+>
+  <div
+    className="PersonCard"
+  >
+    <div
+      className="ContentContainer"
+    >
+      <ForwardRef(Avatar)
+        alt="John Doe"
+        src="placeholder"
+        style={
+          Object {
+            "backgroundColor": "",
+            "fontSize": "30px",
+            "height": "90px",
+            "marginRight": "28px",
+            "width": "90px",
+          }
+        }
+      />
+      <div
+        className="InformationContainer"
+      >
+        <div
+          className="MainInformationContainer"
+        >
+          <div
+            className="IdentityInformation"
+          >
+            <h2>
+              Marley George
+            </h2>
+            <p>
+              Adipsicing sit lectus
+            </p>
+          </div>
+          <ForwardRef(IconButton)
+            aria-haspopup="true"
+            aria-label="more"
+            className="IconButton"
+            id="long-button"
+            onClick={[Function]}
+          >
+            <Memo />
+          </ForwardRef(IconButton)>
+          <ForwardRef(Menu)
+            MenuListProps={
+              Object {
+                "aria-labelledby": "long-button",
+                "disablePadding": true,
+              }
+            }
+            PaperProps={
+              Object {
+                "style": Object {
+                  "boxShadow": "none",
+                  "maxHeight": 157.5,
+                  "outline": "1px solid black",
+                  "width": "130px",
+                },
+              }
+            }
+            anchorEl={null}
+            anchorOrigin={
+              Object {
+                "horizontal": "center",
+                "vertical": "bottom",
+              }
+            }
+            id="long-menu"
+            onClose={[Function]}
+            open={false}
+            transformOrigin={
+              Object {
+                "horizontal": "right",
+                "vertical": "top",
+              }
+            }
+          >
+            <ForwardRef(MenuItem)
+              divider={true}
+            >
+              Item1
+            </ForwardRef(MenuItem)>
+            <ForwardRef(MenuItem)
+              divider={true}
+            >
+              Item2
+            </ForwardRef(MenuItem)>
+          </ForwardRef(Menu)>
+        </div>
+        <div
+          className="SupplementaryInformationContainer"
+        >
+          <p
+            className="Encounters"
+          >
+            Encounters: 3 times
+          </p>
+          <p
+            className="LastMet"
+          >
+            Date last met: 06/06/2020
+          </p>
+          <div
+            className="SocialMediaContainer"
+          >
+            <ForwardRef(AvatarGroup)
+              max={2}
+              spacing={2}
+            >
+              <ForwardRef(Avatar) />
+              <ForwardRef(Avatar) />
+              <ForwardRef(Avatar) />
+            </ForwardRef(AvatarGroup)>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</StyledEngineProvider>
+`;
+
+exports[`renders PersonCard with correct hierarchy 1`] = `
+<StyledEngineProvider
+  injectFirst={true}
+>
+  <div
+    className="PersonCard"
+  >
+    <div
+      className="ContentContainer"
+    >
+      <ForwardRef(Avatar)
+        alt="John Doe"
+        src="placeholder"
+        style={
+          Object {
+            "backgroundColor": "",
+            "fontSize": "30px",
+            "height": "90px",
+            "marginRight": "28px",
+            "width": "90px",
+          }
+        }
+      />
+      <div
+        className="InformationContainer"
+      >
+        <div
+          className="MainInformationContainer"
+        >
+          <div
+            className="IdentityInformation"
+          >
+            <h2>
+              Marley George
+            </h2>
+            <p>
+              Adipsicing sit lectus
+            </p>
+          </div>
+          <ForwardRef(IconButton)
+            aria-haspopup="true"
+            aria-label="more"
+            className="IconButton"
+            id="long-button"
+            onClick={[Function]}
+          >
+            <Memo />
+          </ForwardRef(IconButton)>
+          <ForwardRef(Menu)
+            MenuListProps={
+              Object {
+                "aria-labelledby": "long-button",
+                "disablePadding": true,
+              }
+            }
+            PaperProps={
+              Object {
+                "style": Object {
+                  "boxShadow": "none",
+                  "maxHeight": 157.5,
+                  "outline": "1px solid black",
+                  "width": "130px",
+                },
+              }
+            }
+            anchorEl={null}
+            anchorOrigin={
+              Object {
+                "horizontal": "center",
+                "vertical": "bottom",
+              }
+            }
+            id="long-menu"
+            onClose={[Function]}
+            open={false}
+            transformOrigin={
+              Object {
+                "horizontal": "right",
+                "vertical": "top",
+              }
+            }
+          >
+            <ForwardRef(MenuItem)
+              divider={true}
+            >
+              Item1
+            </ForwardRef(MenuItem)>
+            <ForwardRef(MenuItem)
+              divider={true}
+            >
+              Item2
+            </ForwardRef(MenuItem)>
+          </ForwardRef(Menu)>
+        </div>
+        <div
+          className="SupplementaryInformationContainer"
+        >
+          <p
+            className="Encounters"
+          >
+            Encounters: 3 times
+          </p>
+          <p
+            className="LastMet"
+          >
+            Date last met: 06/06/2020
+          </p>
+          <div
+            className="SocialMediaContainer"
+          >
+            <ForwardRef(AvatarGroup)
+              max={2}
+              spacing={2}
+            >
+              <ForwardRef(Avatar) />
+              <ForwardRef(Avatar) />
+              <ForwardRef(Avatar) />
+            </ForwardRef(AvatarGroup)>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</StyledEngineProvider>
+`;
