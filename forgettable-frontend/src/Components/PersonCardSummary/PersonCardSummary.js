@@ -12,7 +12,10 @@ import {getFirstMetTimeString} from '../../functions/dateFormatter';
 const PersonCardSummary = (props) => {
   const firstName = props.name.split(' ')[0];
   return (
-    <div className={classes.PersonCardSummary}>
+    <div
+      className={classes.PersonCardSummary}
+      onClick={props.onClick}
+    >
       <div className={classes.ContentContainer}>
         <Avatar
           alt={firstName}
