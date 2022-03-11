@@ -29,7 +29,7 @@ const EncounterCard = (props) => {
   };
 
   return (
-    <Card className={isInitialEncounter ? classes.Card_special : classes.Card}>
+    <div className={isInitialEncounter ? classes.Card_special : classes.Card}>
       <div className={classes.Card_content}>
         <div onClick={onClick}>
           {isInitialEncounter && <section className={classes.Initial_label_container}>
@@ -43,7 +43,7 @@ const EncounterCard = (props) => {
               <AvatarGroup max={4} className={isMultiplePerson ? classes.Avatar_multiple : classes.Avatar_inline}>
                 {persons.map((person, index) => {
                   return (
-                    <div key={index}>
+                    <div key={`${index}-container`}>
                       <Avatar key={index} className={classes.Avatar} {...stringAvatar(`${person.first_name} ${person.last_name}`)} />
                       {!isMultiplePerson && <div className={classes.Avatar_name}>
                         {person.first_name}
@@ -69,7 +69,7 @@ const EncounterCard = (props) => {
           <CustomButton className={classes.Button} btnText={DELETE} onClick={onDelete}/>
         </section>
       </div>
-    </Card>
+    </div>
   );
 };
 
