@@ -56,7 +56,7 @@ const EncounterCard = (props) => {
             </div>
           </section>
           <section className={classes.Body}>
-            {details}
+            {description}
           </section>
         </div>
         <section className={classes.Footer}>
@@ -66,7 +66,7 @@ const EncounterCard = (props) => {
           <div className={classes.Location}>
             {WHERE_WE_MET}<div>{location}</div>
           </div>
-          <CustomButton className={classes.Button} btnText={DELETE} onClick={onDelete}/>
+          <CustomButton btnText={DELETE} onClick={onDelete}/>
         </section>
       </div>
     </div>
