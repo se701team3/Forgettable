@@ -28,6 +28,9 @@ export default function EncounterCard(props) {
       <Card className={isInitialEncounter ? classes.Card_special : classes.Card}>
         <div className={classes.Card_content}>
           <div onClick={handleCardClick}>
+            {isInitialEncounter && <section className={classes.Initial_label_container}>
+              <div className={classes.Initial_label}>First Encounter!</div>
+            </section>}
             <section className={classes.Header}>
               <div className={classes.Title}>
                 {title}

@@ -36,6 +36,21 @@
     padding: 15px 45px 15px 45px;
 }
 
+.Initial_label_container{
+    width: inherit;
+    display: flex;
+    align-items: flex-start;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.Initial_label{
+    background-color: var(--prmry);
+    padding: 2px 8px 2px 8px;
+    border-radius: 3px;
+    font-size: var(--text-xsmall);
+}
+
 .Header{
     width: inherit;
     display: flex;
