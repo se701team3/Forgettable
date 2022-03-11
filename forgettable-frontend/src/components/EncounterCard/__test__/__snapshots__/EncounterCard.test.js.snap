@@ -1,149 +1,145 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders EncounterCard UI to test correct structure 1`] = `
-<div
-  className="Container"
+<ForwardRef(Card)
+  className="Card_special"
 >
-  <ForwardRef(Card)
-    className="Card_special"
+  <div
+    className="Card_content"
   >
     <div
-      className="Card_content"
+      onClick={[Function]}
     >
-      <div
-        onClick={[Function]}
-      >
-        <section
-          className="Initial_label_container"
-        >
-          <div
-            className="Initial_label"
-          >
-            First Encounter!
-          </div>
-        </section>
-        <section
-          className="Header"
-        >
-          <div
-            className="Title"
-          >
-            Fermentum pellentesque Fermentum pellentesque
-          </div>
-          <div
-            className="Profile_container"
-          >
-            <ForwardRef(AvatarGroup)
-              className="Avatar_multiple"
-              max={4}
-            >
-              <div>
-                <ForwardRef(Avatar)
-                  className="Avatar"
-                  sx={
-                    Object {
-                      "bgcolor": "#085c25",
-                    }
-                  }
-                >
-                  KD
-                </ForwardRef(Avatar)>
-              </div>
-              <div>
-                <ForwardRef(Avatar)
-                  className="Avatar"
-                  sx={
-                    Object {
-                      "bgcolor": "#1f6cfa",
-                    }
-                  }
-                >
-                  JW
-                </ForwardRef(Avatar)>
-              </div>
-              <div>
-                <ForwardRef(Avatar)
-                  className="Avatar"
-                  sx={
-                    Object {
-                      "bgcolor": "#085c25",
-                    }
-                  }
-                >
-                  KD
-                </ForwardRef(Avatar)>
-              </div>
-              <div>
-                <ForwardRef(Avatar)
-                  className="Avatar"
-                  sx={
-                    Object {
-                      "bgcolor": "#1f6cfa",
-                    }
-                  }
-                >
-                  JW
-                </ForwardRef(Avatar)>
-              </div>
-              <div>
-                <ForwardRef(Avatar)
-                  className="Avatar"
-                  sx={
-                    Object {
-                      "bgcolor": "#085c25",
-                    }
-                  }
-                >
-                  KD
-                </ForwardRef(Avatar)>
-              </div>
-              <div>
-                <ForwardRef(Avatar)
-                  className="Avatar"
-                  sx={
-                    Object {
-                      "bgcolor": "#1f6cfa",
-                    }
-                  }
-                >
-                  JW
-                </ForwardRef(Avatar)>
-              </div>
-            </ForwardRef(AvatarGroup)>
-          </div>
-        </section>
-        <section
-          className="Body"
-        >
-          Diam dictum vestibulum mi nulla vestibulum, id nibh. Nunc consequat amet commodo turpis tellus. Scelerisque a pellentesque vel accumsan sed mauris, ac turpis pharetra. Sem tristique nulla cursussssss praesent tincidunt integer
-        </section>
-      </div>
       <section
-        className="Footer"
+        className="Initial_label_container"
       >
         <div
-          className="Date"
+          className="Initial_label"
         >
-          Date we met: 
-          <div>
-            13/01/1872
-          </div>
+          First Encounter!
+        </div>
+      </section>
+      <section
+        className="Header"
+      >
+        <div
+          className="Title"
+        >
+          Fermentum pellentesque Fermentum pellentesque
         </div>
         <div
-          className="Location"
+          className="Profile_container"
         >
-          Where we met: 
-          <div>
-            Atlantis
-          </div>
+          <ForwardRef(AvatarGroup)
+            className="Avatar_multiple"
+            max={4}
+          >
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#085c25",
+                  }
+                }
+              >
+                KD
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#1f6cfa",
+                  }
+                }
+              >
+                JW
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#085c25",
+                  }
+                }
+              >
+                KD
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#1f6cfa",
+                  }
+                }
+              >
+                JW
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#085c25",
+                  }
+                }
+              >
+                KD
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#1f6cfa",
+                  }
+                }
+              >
+                JW
+              </ForwardRef(Avatar)>
+            </div>
+          </ForwardRef(AvatarGroup)>
         </div>
-        <CustomButton
-          btnText="Delete"
-          className="Button"
-          onClick={[Function]}
-        />
+      </section>
+      <section
+        className="Body"
+      >
+        Diam dictum vestibulum mi nulla vestibulum, id nibh. Nunc consequat amet commodo turpis tellus. Scelerisque a pellentesque vel accumsan sed mauris, ac turpis pharetra. Sem tristique nulla cursussssss praesent tincidunt integer
       </section>
     </div>
-  </ForwardRef(Card)>
-</div>
+    <section
+      className="Footer"
+    >
+      <div
+        className="Date"
+      >
+        Date we met: 
+        <div>
+          13/01/1872
+        </div>
+      </div>
+      <div
+        className="Location"
+      >
+        Where we met: 
+        <div>
+          Atlantis
+        </div>
+      </div>
+      <CustomButton
+        btnText="Delete"
+        className="Button"
+        onClick={[Function]}
+      />
+    </section>
+  </div>
+</ForwardRef(Card)>
 `;
