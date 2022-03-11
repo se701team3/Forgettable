@@ -38,7 +38,7 @@ it('Name prop passed in is displayed correctly', () => {
 });
 
 it('displays the correct format for firstMet for an existing date', () => {
-  const twoYearsAgo = Date.now() - (365 * 24 * 60 * 60 * 1000 * 2);
+  const twoYearsAgo = new Date(Date.now() - (365 * 24 * 60 * 60 * 1000 * 2));
 
   const {getByTestId} = render(
       <PersonCardSummary
@@ -73,11 +73,11 @@ it('successfully fires event when card is clicked', () => {
 
   const {getByTestId} = render(
       <PersonCardSummary
-        name="Mercury Lin"
+        name=" Lin"
         onClick={handleClick}
       />);
 
-  const node = within(getByTestId('container-card'));
+  const node = getByTestId('container-card');
 
   fireEvent.click(node);
   expect(handleClick).toHaveBeenCalledTimes(1);

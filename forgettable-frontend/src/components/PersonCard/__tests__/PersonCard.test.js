@@ -73,7 +73,7 @@ it('displays the correct number of encounters', () => {
 });
 
 it('displays the correct format for lastMet', () => {
-  const lastMet = 1646965503063;
+  const lastMet = new Date(1646965503063);
 
   const {getByTestId} = render(
       <PersonCard
@@ -91,7 +91,7 @@ it('displays the correct format for lastMet', () => {
 });
 
 it('displays the correct format for firstMet for an existing date', () => {
-  const twoYearsAgo = Date.now() - (365 * 24 * 60 * 60 * 1000 * 2);
+  const twoYearsAgo = new Date(Date.now() - (365 * 24 * 60 * 60 * 1000 * 2));
 
   const {getByTestId} = render(
       <PersonCard

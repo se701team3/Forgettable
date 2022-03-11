@@ -3,6 +3,7 @@
 exports[`renders PersonCardSummary UI with correct hierarchy 1`] = `
 <div
   className="PersonCardSummary"
+  data-testid="container-card"
   onClick={[Function]}
 >
   <div
