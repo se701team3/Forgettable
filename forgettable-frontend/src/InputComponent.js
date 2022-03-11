@@ -23,18 +23,18 @@ export default function InputComponent({inputLabel, inputType, placeholder}) {
   /**
    * Types allowed for input component styling.
    */
-  const primary = 'primary';
-  const secondary = 'secondary';
-  const multiLine = 'multiLine';
+  const PRIMARY = 'primary';
+  const SECONDARY = 'secondary';
+  const MULTILINE = 'multiLine';
 
-  const textColour =
+  const TEXT_COLOUR =
     getComputedStyle(document.documentElement).getPropertyValue('--ltxt1');
 
   return (
     <div>
       <StyledEngineProvider injectFirst>
 
-        {inputType === primary &&
+        {inputType === PRIMARY &&
          <TextField
            className={styles.textFieldPrimary}
            label={inputLabel}
@@ -43,13 +43,13 @@ export default function InputComponent({inputLabel, inputType, placeholder}) {
            placeholder={placeholder}
            onChange={(event) => setInput(event.target.value)}
            sx={{
-             input: {color: textColour, fontSize: '23px'},
-             label: {color: textColour, fontSize: '23px'},
+             input: {color: TEXT_COLOUR, fontSize: '23px'},
+             label: {color: TEXT_COLOUR, fontSize: '23px'},
            }}
          />
         }
 
-        {inputType === secondary &&
+        {inputType === SECONDARY &&
          <TextField
            className={styles.textFieldSecondary}
            label={inputLabel}
@@ -58,13 +58,13 @@ export default function InputComponent({inputLabel, inputType, placeholder}) {
            placeholder={placeholder}
            onChange={(event) => setInput(event.target.value)}
            sx={{
-             input: {color: textColour, fontSize: '18px'},
-             label: {color: textColour, fontSize: '18px'},
+             input: {color: TEXT_COLOUR, fontSize: '18px'},
+             label: {color: TEXT_COLOUR, fontSize: '18px'},
            }}
          />
         }
 
-        {inputType === multiLine &&
+        {inputType === MULTILINE &&
          <TextField
            className={styles.textFieldMultiLine}
            label={inputLabel}
@@ -75,8 +75,8 @@ export default function InputComponent({inputLabel, inputType, placeholder}) {
            multiline={true}
            minRows={5}
            sx={{
-             input: {color: textColour, fontSize: '16px'},
-             label: {color: textColour, fontSize: '16px'},
+             input: {color: TEXT_COLOUR, fontSize: '16px'},
+             label: {color: TEXT_COLOUR, fontSize: '16px'},
            }}
          />
         }
