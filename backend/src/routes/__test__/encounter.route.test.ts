@@ -130,7 +130,7 @@ const encounter6Data = {
     persons: []
 }
 
-describe('POST /encounter/:encounterID', () => {
+describe('POST /encounter', () => {
     it('Successfully creating an encounter with empty persons array', async () => {
         await supertest(app).post('/api/encounters')
             .set('Accept', 'application/json')
@@ -151,7 +151,7 @@ describe('POST /encounter/:encounterID', () => {
         await supertest(app).post('/api/encounters')
             .set('Accept', 'application/json')
             .send(encounter3Data)
-            .expect(httpStatus.CREATED);
+            .expect(httpStatus.BAD_REQUEST);
 
         //TODO: needs to get encounter to make a check that the encounter was not stored in database
     })
