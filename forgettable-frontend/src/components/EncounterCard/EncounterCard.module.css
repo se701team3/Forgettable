@@ -56,12 +56,16 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
 }
 
 .Title{
     font-size: var(--text-card-title);
     font-weight: var(--font-semibold);
+    max-height: 50px;
+    max-width: 480px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .Profile_container{
