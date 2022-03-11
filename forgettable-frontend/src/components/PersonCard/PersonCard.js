@@ -9,7 +9,7 @@ import './PersonCard.css';
 import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import moment from 'moment';
 
-/**
+/*
  * Component for displaying information of a person in a list.
  * This is the full version of the person card.
  *
