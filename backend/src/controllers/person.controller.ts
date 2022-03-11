@@ -31,7 +31,7 @@ export const getAllPeople = async (
   logger.info('GET /persons request from frontend');
 
   try {
-    const people = await personService.getPeople();
+    const people = await personService.getPeople(req.query);
     res.status(httpStatus.OK).json(people);
   } catch (e) {
     next(e);
