@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+/* eslint-disable max-len */
+import React, {useState} from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import classes from './SearchBar.module.css';
 
-function SearchBar({ placeholder, data }) {
+function SearchBar({placeholder, data}) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState('');
 
@@ -29,7 +30,7 @@ function SearchBar({ placeholder, data }) {
   };
 
   return (
-    <div className="search">
+    <div className={classes.SearchContainer}>
       <div className={classes.SearchInputs} >
         <input className={classes.SearchNameInput}
           type="text"
@@ -48,18 +49,18 @@ function SearchBar({ placeholder, data }) {
         </div>
       </div>
       {filteredData.length !== 0 && (
-      <div className={classes.DataResult}>
-        {/* This results are sliced to the first 15 results, so that the list isn't too long
+        <div className={classes.DataResult}>
+          {/* This results are sliced to the first 15 results, so that the list isn't too long
         Right now it is set to grab the link on the mock dataset and use that to open a new page
         but it will be changed with the api */}
-        {filteredData.slice(0, 15).map((value, key) => {
-          return (
-            <a className={classes.DataItem} href={value.link} target="_blank">
-              <p className={classes.DataItemP}>{value.title}</p>
-            </a>
-          );
-        })}
-      </div>
+          {filteredData.slice(0, 15).map((value, key) => {
+            return (
+              <a className={classes.DataItem} href={value.link} target="_blank" rel="noreferrer" key={key}>
+                <p className={classes.DataItemP}>{value.title}</p>
+              </a>
+            );
+          })}
+        </div>
       )}
     </div>
   );
