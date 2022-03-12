@@ -2,9 +2,13 @@ import React from 'react';
 import classes from './PersonDrawer.module.css';
 import {Avatar, Drawer} from '@mui/material';
 import PropTypes from 'prop-types';
-import {getDateLastMetString, getFirstMetTimeString} from '../../functions/dateFormatter';
+import {
+  getDateLastMetString,
+  getFirstMetTimeString,
+} from '../../functions/dateFormatter';
 import {capitalise} from '../../functions/stringFormatter';
-import convertSocialMediaNamesToIcons, {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
+import convertSocialMediaNamesToIcons,
+{convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import {IconButton} from '@mui/material';
 import {getBirthdayString} from '../../functions/dateFormatter';
 
@@ -43,8 +47,12 @@ const PersonDrawer = (props) => {
             src={props.img}
           />
           <div className={classes.InfoHeader}>
-            <h1 data-testid="name-element">{props.name}</h1>
-            <h2 data-testid="first-met-element">First met {getFirstMetTimeString(props.firstMet)}</h2>
+            <h1 data-testid="name-element">
+              {props.name}
+            </h1>
+            <h2 data-testid="first-met-element">
+              First met {getFirstMetTimeString(props.firstMet)}
+            </h2>
           </div>
           <div className={classes.InfoContent}>
             <p data-testid="age-element">
@@ -56,37 +64,49 @@ const PersonDrawer = (props) => {
             <p data-testid="gender-element">
               {'Gender: '}
               {props.gender ?
-              <span className={classes.KnownText}>{capitalise(props.gender)}</span> :
+              <span className={classes.KnownText}>
+                {capitalise(props.gender)}
+              </span> :
               unknownDetail}
             </p>
             <p data-testid="birthday-element">
               {'Birthday: '}
               {props.birthday ?
-              <span className={classes.KnownText}>{getBirthdayString(props.birthday)}</span> :
+              <span className={classes.KnownText}>
+                {getBirthdayString(props.birthday)}
+              </span> :
               unknownDetail}
             </p>
             <p data-testid="organisation-element">
               {'Organisation: '}
               {props.organisation ?
-              <span className={classes.KnownText}>{capitalise(props.organisation)}</span> :
+              <span className={classes.KnownText}>
+                {capitalise(props.organisation)}
+              </span> :
               unknownDetail}
             </p>
             <p data-testid="location-element">
               {' Location: '}
               {props.location ?
-              <span className={classes.KnownText}>{capitalise(props.location)}</span> :
+              <span className={classes.KnownText}>
+                {capitalise(props.location)}
+              </span> :
               unknownDetail}
             </p>
             <p data-testid="date-first-met-element">
               {'First met: '}
               {props.firstMet ?
-                <span className={classes.KnownText}>{getDateLastMetString(props.firstMet)}</span> :
+                <span className={classes.KnownText}>
+                  {getDateLastMetString(props.firstMet)}
+                </span> :
                  unknownDetail}
             </p>
             <p data-testid="interests-element">
               {'Interests: '}
               {props.interests ?
-               <span className={classes.KnownText}>{props.interests.join(', ')}</span> :
+               <span className={classes.KnownText}>
+                 {props.interests.join(', ')}
+               </span> :
                unknownDetail}
             </p>
             <p data-testid="social-medias-element">
