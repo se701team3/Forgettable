@@ -11,10 +11,11 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
       className="ContentContainer"
     >
       <ForwardRef(Avatar)
+        alt="Mercury Lin"
         style={
           Object {
             "backgroundColor": "",
-            "fontSize": "30px",
+            "fontSize": "",
             "height": "90px",
             "marginRight": "28px",
             "width": "90px",
@@ -32,7 +33,9 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
           >
             <h2
               data-testid="name-element"
-            />
+            >
+              Mercury Lin
+            </h2>
             <p
               data-testid="first-met-element"
             >
@@ -84,11 +87,13 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
           >
             <ForwardRef(MenuItem)
               divider={true}
+              onClick={[MockFunction]}
             >
               Edit
             </ForwardRef(MenuItem)>
             <ForwardRef(MenuItem)
               divider={true}
+              onClick={[MockFunction]}
             >
               Delete
             </ForwardRef(MenuItem)>

@@ -1,149 +1,124 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders EncounterCard UI to test correct structure 1`] = `
+exports[`renders EncounterCard UI to test correct hierarchy 1`] = `
 <div
-  className="Container"
+  className="Card"
 >
-  <ForwardRef(Card)
-    className="Card_special"
+  <div
+    className="Card_content"
   >
     <div
-      className="Card_content"
+      onClick={[MockFunction]}
     >
-      <div
-        onClick={[Function]}
-      >
-        <section
-          className="Initial_label_container"
-        >
-          <div
-            className="Initial_label"
-          >
-            First Encounter!
-          </div>
-        </section>
-        <section
-          className="Header"
-        >
-          <div
-            className="Title"
-          >
-            Fermentum pellentesque Fermentum pellentesque
-          </div>
-          <div
-            className="Profile_container"
-          >
-            <ForwardRef(AvatarGroup)
-              className="Avatar_multiple"
-              max={4}
-            >
-              <div>
-                <ForwardRef(Avatar)
-                  className="Avatar"
-                  sx={
-                    Object {
-                      "bgcolor": "#085c25",
-                    }
-                  }
-                >
-                  KD
-                </ForwardRef(Avatar)>
-              </div>
-              <div>
-                <ForwardRef(Avatar)
-                  className="Avatar"
-                  sx={
-                    Object {
-                      "bgcolor": "#1f6cfa",
-                    }
-                  }
-                >
-                  JW
-                </ForwardRef(Avatar)>
-              </div>
-              <div>
-                <ForwardRef(Avatar)
-                  className="Avatar"
-                  sx={
-                    Object {
-                      "bgcolor": "#085c25",
-                    }
-                  }
-                >
-                  KD
-                </ForwardRef(Avatar)>
-              </div>
-              <div>
-                <ForwardRef(Avatar)
-                  className="Avatar"
-                  sx={
-                    Object {
-                      "bgcolor": "#1f6cfa",
-                    }
-                  }
-                >
-                  JW
-                </ForwardRef(Avatar)>
-              </div>
-              <div>
-                <ForwardRef(Avatar)
-                  className="Avatar"
-                  sx={
-                    Object {
-                      "bgcolor": "#085c25",
-                    }
-                  }
-                >
-                  KD
-                </ForwardRef(Avatar)>
-              </div>
-              <div>
-                <ForwardRef(Avatar)
-                  className="Avatar"
-                  sx={
-                    Object {
-                      "bgcolor": "#1f6cfa",
-                    }
-                  }
-                >
-                  JW
-                </ForwardRef(Avatar)>
-              </div>
-            </ForwardRef(AvatarGroup)>
-          </div>
-        </section>
-        <section
-          className="Body"
-        >
-          Diam dictum vestibulum mi nulla vestibulum, id nibh. Nunc consequat amet commodo turpis tellus. Scelerisque a pellentesque vel accumsan sed mauris, ac turpis pharetra. Sem tristique nulla cursussssss praesent tincidunt integer
-        </section>
-      </div>
       <section
-        className="Footer"
+        className="Header"
       >
         <div
-          className="Date"
+          className="Title"
         >
-          Date we met: 
-          <div>
-            13/01/1872
-          </div>
+          Example Title
         </div>
         <div
-          className="Location"
+          className="Profile_container"
         >
-          Where we met: 
-          <div>
-            Atlantis
-          </div>
+          <ForwardRef(AvatarGroup)
+            className="Avatar_multiple"
+            data-testid="persons-avatar-group"
+            max={4}
+          >
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#085c25",
+                  }
+                }
+              >
+                KD
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#1f6cfa",
+                  }
+                }
+              >
+                JW
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#bde1ac",
+                  }
+                }
+              >
+                MG
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#9b66d7",
+                  }
+                }
+              >
+                JW
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#a55c80",
+                  }
+                }
+              >
+                JD
+              </ForwardRef(Avatar)>
+            </div>
+          </ForwardRef(AvatarGroup)>
         </div>
-        <CustomButton
-          btnText="Delete"
-          className="Button"
-          onClick={[Function]}
-        />
+      </section>
+      <section
+        className="Body"
+      >
+        Example Description
       </section>
     </div>
-  </ForwardRef(Card)>
+    <section
+      className="Footer"
+    >
+      <div
+        className="Date"
+      >
+        Date we met: 
+        <div>
+          once upon a time
+        </div>
+      </div>
+      <div
+        className="Location"
+      >
+        Where we met: 
+        <div>
+          Example Location
+        </div>
+      </div>
+      <CustomButton
+        btnText="Delete"
+        onClick={[MockFunction]}
+      />
+    </section>
+  </div>
 </div>
 `;
