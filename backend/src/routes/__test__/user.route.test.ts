@@ -1,8 +1,8 @@
 import httpStatus from 'http-status';
 import databaseOperations from '../../utils/test/db-handler';
 
-import User, { UserModel } from '../../models/user.model';
-import Person, { PersonModel } from '../../models/person.model';
+import { UserModel } from '../../models/user.model';
+import { PersonModel } from '../../models/person.model';
 import app from '../../server';
 import FirebaseAdmin from '../../firebase-configs/firebase-config';
 import { auth } from 'firebase-admin';
