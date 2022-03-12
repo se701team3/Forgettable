@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import databaseOperations from '../../utils/test/db-handler';
 import { PersonModel } from '../../models/person.model';
-import app from '../../index';
+import app from '../../server';
 
 const supertest = require('supertest');
 
