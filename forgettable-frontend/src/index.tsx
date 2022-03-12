@@ -16,7 +16,6 @@ import Encounters from './pages/encounters/encounters';
 ReactDOM.render(
     <React.StrictMode>
       <BrowserRouter>
-        <NavBar />
         <Routes>
           <Route path="/" element={<App/>} />
           <Route path="settings" element={<Settings/>} />
