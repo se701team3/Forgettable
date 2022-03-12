@@ -6,6 +6,7 @@ import {getFirstMetTimeString} from '../../functions/dateFormatter';
 import {capitalise} from '../../functions/stringFormatter';
 import convertSocialMediaNamesToIcons, {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import {IconButton} from '@mui/material';
+import {getBirthdayString} from '../../functions/dateFormatter';
 
 const PersonDrawer = (props) => {
   const unknownDetail = <span className={classes.UnknownText}>Unknown</span>;
