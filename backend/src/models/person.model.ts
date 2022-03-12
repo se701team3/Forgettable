@@ -4,8 +4,7 @@
 import mongoose, { Schema, model } from 'mongoose';
 
 export interface PersonModel {
-  first_name: string,
-  last_name: string,
+  full_name: string,
   birthday: Date,
   interests: string[],
   organisation: string,
@@ -15,8 +14,7 @@ export interface PersonModel {
 }
 
 const schema = new Schema<PersonModel>({
-  first_name: { type: String, required: false },
-  last_name: { type: String, required: false },
+  full_name: { type: String, required: true },
   birthday: { type: Date, required: false },
   interests: { type: [String], required: false },
   organisation: { type: String, required: false },
