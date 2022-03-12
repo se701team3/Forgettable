@@ -41,53 +41,53 @@ const PersonDrawer = (props) => {
             src={props.img}
           />
           <div className={classes.InfoHeader}>
-            <h1>{props.name}</h1>
-            <h2>First met {getFirstMetTimeString(props.firstMet)}</h2>
+            <h1 data-testid="name-element">{props.name}</h1>
+            <h2 data-testid="first-met-element">First met {getFirstMetTimeString(props.firstMet)}</h2>
           </div>
           <div className={classes.InfoContent}>
-            <p>
+            <p data-testid="age-element">
               {'Age: '}
               {props.birthday?
               <span className={classes.KnownText}>34</span> :
               unknownDetail}
             </p>
-            <p>
+            <p data-testid="gender-element">
               {'Gender: '}
               {props.gender ?
               <span className={classes.KnownText}>{capitalise(props.gender)}</span> :
               unknownDetail}
             </p>
-            <p>
+            <p data-testid="birthday-element">
               {'Birthday: '}
               {props.birthday ?
               <span className={classes.KnownText}>{getBirthdayString(props.birthday)}</span> :
               unknownDetail}
             </p>
-            <p>
+            <p data-testid="organisation-element">
               {'Organisation: '}
               {props.organisation ?
               <span className={classes.KnownText}>{capitalise(props.organisation)}</span> :
               unknownDetail}
             </p>
-            <p>
+            <p data-testid="location-element">
               {' Location: '}
               {props.location ?
               <span className={classes.KnownText}>{capitalise(props.location)}</span> :
               unknownDetail}
             </p>
-            <p>
+            <p data-testid="date-first-met-element">
               {'Date first met: '}
               {props.firstMet ?
                 <span className={classes.KnownText}>{getFirstMetTimeString(props.firstMet)}</span> :
                  unknownDetail}
             </p>
-            <p>
+            <p data-testid="interests-element">
               {'Interests: '}
               {props.interests ?
                <span className={classes.KnownText}>{props.interests.join(', ')}</span> :
                unknownDetail}
             </p>
-            <p>
+            <p data-testid="social-medias-element">
               {'Social media: '}
               {props.socialMedias?.length ?
                <div className={classes.SocialMediaContainer}>
@@ -96,6 +96,7 @@ const PersonDrawer = (props) => {
 
                    return (icon ?
                     <IconButton
+                      data-testid={`social-media-element-${socialMedia.name}`}
                       onClick={() => window.open(socialMedia.link, '_blank')}
                     >
                       <img src={icon} alt={socialMedia.name} />
