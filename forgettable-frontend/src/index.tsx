@@ -6,7 +6,7 @@ import {
   Route,
 } from 'react-router-dom';
 import './index.css';
-import App from './App';
+import App from './pages/home/App';
 import reportWebVitals from './reportWebVitals';
 import NavBar from './components/NavBar/NavBar';
 import Settings from './pages/settings/settings';
@@ -17,12 +17,14 @@ ReactDOM.render(
     <React.StrictMode>
       <BrowserRouter>
         <NavBar />
-        <Routes>
-          <Route path="/" element={<App/>} />
-          <Route path="settings" element={<Settings/>} />
-          <Route path="people" element={<People/>} />
-          <Route path="encounters" element={<Encounters/>} />
-        </Routes>
+        <div className="page-wrapper">
+          <Routes>
+            <Route path="/" element={<App/>} />
+            <Route path="settings" element={<Settings/>} />
+            <Route path="people" element={<People/>} />
+            <Route path="encounters" element={<Encounters/>} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root'),

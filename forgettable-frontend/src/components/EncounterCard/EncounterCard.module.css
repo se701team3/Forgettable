@@ -8,6 +8,7 @@
     border-radius: 13px;
     z-index: 1;
     user-select: none;
+    color: var(--txt1);
 }
 
 .Card_special{
@@ -24,7 +25,6 @@
     flex-direction: column;
     height: 250px;
     width: 715px;
-    align-items: center;
     justify-content: center;
     padding: 15px 45px 15px 45px;
 }
