@@ -1,8 +1,8 @@
 import httpStatus from 'http-status';
 import databaseOperations from '../../utils/test/db-handler';
-import Encounter, { EncounterModel } from '../../models/encounter.model';
-import Person, { PersonModel } from '../../models/person.model';
-import app from '../../index';
+import { PersonModel } from '../../models/person.model';
+import { EncounterModel } from 'src/models/encounter.model';
+import app from '../../server';
 
 const supertest = require('supertest');
 
@@ -11,25 +11,33 @@ afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
 const person1Data: PersonModel = {
-    first_name: 'Ray',
-    last_name: 'Ping',
+    full_name: 'Ping',
     interests: ['video games', 'hockey'],
     organisation: 'helloc',
-    time_added: new Date('2022-01-01'),
+    time_updated: new Date('2022-01-01'),
     how_we_met: 'Hockey club',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
+    first_met: new Date('2022-01-01'),
+    gender: "male",
+    location: "Auckland",
+    social_media: null as any,
+    image: null as any
 };
 
 const person2Data: PersonModel = {
-    first_name: 'Adam',
-    last_name: 'Bong',
+    full_name: 'Adam Bong',
     interests: ['badminton', 'golf'],
     organisation: 'helloc',
-    time_added: new Date('2022-02-23'),
+    time_updated: new Date('2022-02-23'),
     how_we_met: 'Skype',
     birthday: new Date('2001-07-16'),
     encounters: [] as any,
+    first_met: new Date('2022-02-23'),
+    gender: "female",
+    image: null as any,
+    location: null as any,
+    social_media: null as any
 }
 
 const encounter1Data: EncounterModel = {

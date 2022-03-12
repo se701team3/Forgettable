@@ -29,6 +29,7 @@
         "no-unused-vars": "warn",
         "react/no-deprecated": "warn",
         "require-jsdoc": "off",
-        "linebreak-style": "off"
+        "linebreak-style": "off",
+        "valid-jsdoc": "warn"
     }
 }
