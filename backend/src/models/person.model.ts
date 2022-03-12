@@ -13,7 +13,7 @@ export interface PersonModel {
   interests: string[],
   organisation: string,
   social_media: Map<string, string>,
-  image: string
+  image: string,
   encounters: mongoose.Types.ObjectId[],
 }
 
