@@ -4,9 +4,12 @@ import {Avatar, Drawer} from '@mui/material';
 import PropTypes from 'prop-types';
 import {getFirstMetTimeString} from '../../functions/dateFormatter';
 import {capitalise} from '../../functions/stringFormatter';
+import convertSocialMediaNamesToIcons, {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 
 const PersonDrawer = (props) => {
   const unknownDetail = <span className={classes.UnknownText}>Unknown</span>;
+
+  const hasSocialMedia = props.socialMedias && props.socialMedias.size > 0;
 
   return (
     <Drawer
@@ -85,6 +88,33 @@ const PersonDrawer = (props) => {
                <span className={classes.KnownText}>{props.interests.join(', ')}</span> :
                unknownDetail}
             </p>
+            <p>
+              {'Social media: '}
+              {hasSocialMedia ? '' :unknownDetail}
+            </p>
+            {hasSocialMedia ?
+              <div className={classes.SocialMediaContainer}>
+                {props.socialMedias.forEach((socialMediaName, link) => {
+                  const icon = convertSocialMediaToIcon(socialMediaName);
+                  console.log(socialMediaName);
+                  return ( icon ?
+                    <Avatar
+                      key={socialMedia}
+                      alt={socialMedia}
+                      src={convertSocialMediaToIcon(socialMediaName)}
+                      sx={{
+                        height: '36px',
+                        width: '36px',
+                      }}
+                      onClick={() => window.open(link, '_blank')}
+                    /> :
+                    null
+                  );
+                })}
+
+              </div> :
+              null
+            }
           </div>
         </div>
       </div>
@@ -96,7 +126,7 @@ PersonDrawer.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string.isRequired,
   img: PropTypes.string,
-  socialMedias: PropTypes.arrayOf(PropTypes.string),
+  socialMedias: PropTypes.object,
   firstMet: PropTypes.instanceOf(Date),
   location: PropTypes.string,
   interests: PropTypes.arrayOf(PropTypes.string),

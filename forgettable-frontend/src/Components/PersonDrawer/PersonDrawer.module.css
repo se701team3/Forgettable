@@ -59,8 +59,12 @@
 
 .UnknownText {
     color: var(--bord);
-
 }
 
-
-
+.SocialMediaContainer {
+    background-color: lightblue;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-startp;
+}
