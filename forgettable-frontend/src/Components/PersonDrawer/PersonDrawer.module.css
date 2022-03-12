@@ -62,9 +62,13 @@
 }
 
 .SocialMediaContainer {
-    background-color: lightblue;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: flex-startp;
+    justify-content: flex-start;
+}
+
+.Icon {
+    height: 36px;
+    width: 36px;
 }
