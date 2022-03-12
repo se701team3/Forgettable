@@ -22,7 +22,7 @@ const PersonDrawer = (props) => {
       }}
       variant="persistent"
       anchor="right"
-      open={open}
+      open={props.open}
     >
       <div className={classes.PersonDrawer}>
         <div className={classes.ContentContainer}>
@@ -95,7 +95,9 @@ const PersonDrawer = (props) => {
                    const icon = convertSocialMediaToIcon(socialMedia.name);
 
                    return (icon ?
-                    <IconButton onClick={() => window.open(socialMedia.link, '_blank')}>
+                    <IconButton
+                      onClick={() => window.open(socialMedia.link, '_blank')}
+                    >
                       <img src={icon} alt={socialMedia.name} />
                     </IconButton> :
                     null
@@ -111,6 +113,7 @@ const PersonDrawer = (props) => {
 };
 
 PersonDrawer.propTypes = {
+  open: PropTypes.bool.isRequired,
   id: PropTypes.string,
   name: PropTypes.string.isRequired,
   img: PropTypes.string,
