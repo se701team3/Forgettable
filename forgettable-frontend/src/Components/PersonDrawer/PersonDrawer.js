@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './PersonDrawer.module.css';
 import {Avatar, Drawer} from '@mui/material';
 import PropTypes from 'prop-types';
-import {getFirstMetTimeString} from '../../functions/dateFormatter';
+import {getDateLastMetString, getFirstMetTimeString} from '../../functions/dateFormatter';
 import {capitalise} from '../../functions/stringFormatter';
 import convertSocialMediaNamesToIcons, {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import {IconButton} from '@mui/material';
@@ -24,6 +24,7 @@ const PersonDrawer = (props) => {
       variant="persistent"
       anchor="right"
       open={props.open}
+      data-testid="drawer-element"
     >
       <div className={classes.PersonDrawer}>
         <div className={classes.ContentContainer}>
@@ -77,9 +78,9 @@ const PersonDrawer = (props) => {
               unknownDetail}
             </p>
             <p data-testid="date-first-met-element">
-              {'Date first met: '}
+              {'First met: '}
               {props.firstMet ?
-                <span className={classes.KnownText}>{getFirstMetTimeString(props.firstMet)}</span> :
+                <span className={classes.KnownText}>{getDateLastMetString(props.firstMet)}</span> :
                  unknownDetail}
             </p>
             <p data-testid="interests-element">
@@ -91,7 +92,7 @@ const PersonDrawer = (props) => {
             <p data-testid="social-medias-element">
               {'Social media: '}
               {props.socialMedias?.length ?
-               <div className={classes.SocialMediaContainer}>
+               <span className={classes.SocialMediaContainer}>
                  {props.socialMedias.map((socialMedia) => {
                    const icon = convertSocialMediaToIcon(socialMedia.name);
 
@@ -106,7 +107,7 @@ const PersonDrawer = (props) => {
                     null
                    );
                  })}
-               </div> :unknownDetail}
+               </span> :unknownDetail}
             </p>
           </div>
         </div>
