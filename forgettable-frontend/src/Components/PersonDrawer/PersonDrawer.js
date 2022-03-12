@@ -97,6 +97,7 @@ const PersonDrawer = (props) => {
 
                    return (icon ?
                     <IconButton
+                      key={socialMedia.name}
                       data-testid={`social-media-element-${socialMedia.name}`}
                       onClick={() => window.open(socialMedia.link, '_blank')}
                     >
