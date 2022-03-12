@@ -127,7 +127,7 @@ exports[`renders PersonDrawer UI with correct hierarchy 1`] = `
           data-testid="social-medias-element"
         >
           Social media: 
-          <div
+          <span
             className="SocialMediaContainer"
           >
             <ForwardRef(IconButton)
@@ -148,7 +148,7 @@ exports[`renders PersonDrawer UI with correct hierarchy 1`] = `
                 src="instagram.svg"
               />
             </ForwardRef(IconButton)>
-          </div>
+          </span>
         </p>
       </div>
     </div>
