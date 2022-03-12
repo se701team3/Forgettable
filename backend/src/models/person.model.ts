@@ -13,7 +13,7 @@ export interface PersonModel {
   interests: string[],
   organisation: string,
   social_media: Map<string, string>,
-  image: string,
+  image: Buffer,
   encounters: mongoose.Types.ObjectId[],
 }
 
@@ -27,7 +27,7 @@ const schema = new Schema<PersonModel>({
   interests: { type: [String], required: false },
   organisation: { type: String, required: false },
   social_media: { type: Map, of: String, required: false },
-  image: { type: String, required: false },
+  image: { type: Buffer, required: false },
   encounters: { type: [mongoose.Types.ObjectId], required: false },
 });
 
