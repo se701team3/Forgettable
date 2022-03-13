@@ -6,30 +6,17 @@ import { NextFunction, Request, Response } from 'express';
 import userService from '../services/user.service';
 import FirebaseAdmin from '../firebase-configs/firebase-config';
 import httpStatus from 'http-status';
+import logger from '../utils/logger';
 
 export const createUser = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-
-  try {
-    const authHeader = req.headers['authorization'];
-    let authToken;
-
-    if (authHeader) {
-      authToken = authHeader.split(' ')[1];
-    }
-  
-    const { uid } = await FirebaseAdmin.auth().verifyIdToken(authToken);
-    req.body.auth_id = uid;
-
-  } catch (e) {
-    //Catch all errors as unauthorized access errors
-    const err = new Error('Invalid auth token');
-    err.name = 'Unauthorized';
-    next(err);
-    return;
+  let decodedToken: any;
+  if (req.headers.authorization) {
+    decodedToken = req.headers.authorization as any;
+    req.body.auth_id = decodedToken.uid;
   }
 
   try {
@@ -45,6 +32,9 @@ export const createUser = async (
     });
 
   } catch (e) {
+    if (e.name === 'Conflict') {
+      res.status(httpStatus.CONFLICT).end();
+    }
     next(e);
   }
 };

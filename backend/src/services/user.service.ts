@@ -1,3 +1,4 @@
+import logger from '../utils/logger';
 import User, {UserModel} from '../models/user.model';
 
 export const createUser = async (userDetails: UserModel) => {
@@ -6,8 +7,6 @@ export const createUser = async (userDetails: UserModel) => {
       e.name = 'Conflict';
       throw e;
     }
-
-    //No checks for first name/last name as it is changed to full name
 
     const user = new User(userDetails);
     
