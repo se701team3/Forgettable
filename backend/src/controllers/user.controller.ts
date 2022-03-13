@@ -1,42 +1,39 @@
 /**
  * Controller contains high-level operations using services, consumed by routes
  */
- import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
- import UserModel from '../models/user.model';
- import userService from '../services/user.service';
- import logger from '../utils/logger';
- 
- export const createUser = async (
-   req: Request,
-   res: Response,
-   next: NextFunction,
- ): Promise<void> => {
-   logger.info("POST /encounter/create request from frontend");
- 
-   try {
-     // Grab the data from the req
-     const userReq = getUserFromReqBody(req.body);
- 
-     // Pass data to service and attempt to save
-     const createdUser = await userService.createUser(userReq);
- 
-     // Notify frontend that the operation was successful
-     res.sendStatus(200);
-   } catch (e) {
-     next(e);
-   }
- };
- 
- // Util function that won't be needed regularly
-const getUserFromReqBody = (body: any) => {
-    const user = {
-        auth_id: body.auth_id,
-        first_name: body.first_name,
-        last_name: body.last_name,
-        persons: body.persons,
-        encounters: body.encounters
+import userService from '../services/user.service';
+import httpStatus from 'http-status';
+
+export const createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  
+  let decodedToken: any;
+  if (req.headers.authorization) {
+    decodedToken = req.headers.authorization as any;
+    req.body.auth_id = decodedToken.uid;
+  }
+
+  try {
+    const createdUser = await userService.createUser(req.body);
+
+    // Don't return auth_id in the response
+    res.status(httpStatus.CREATED).json({
+      _id: createdUser._id,
+      first_name: createdUser.first_name,
+      last_name: createdUser.last_name,
+      persons: createdUser.persons,
+      encounters: createdUser.encounters
+    });
+
+  } catch (e) {
+    if (e.name === 'Conflict') {
+      res.status(httpStatus.CONFLICT).end();
     }
-
-   return user;
- }
+    next(e);
+  }
+};
