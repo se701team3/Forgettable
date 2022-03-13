@@ -11,6 +11,9 @@
     height: 220px;
     width:245px;
 }
+.card:hover{
+    background-color: var(--hilit);
+}
 .header{
     display: flex;
     flex-direction: row;
