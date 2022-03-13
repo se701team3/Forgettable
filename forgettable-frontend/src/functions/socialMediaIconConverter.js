@@ -41,7 +41,7 @@ export const convertSocialMediaToIcon = (socialMedia) => {
 export const convertSocialMediaNamesToIcons = (socialMedias) => {
   return socialMedias.map((socialMedia) => {
     convertSocialMediaToIcon(socialMedia);
-  });
+  }).filter((socialMedia) => !!socialMedia);
 };
 
 export default convertSocialMediaNamesToIcons;
