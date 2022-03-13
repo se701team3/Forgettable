@@ -17,3 +17,9 @@ export const getBirthdayString = (timeInMs) => {
                   moment(timeInMs).format('DD MMM YYYY') :
                   '';
 };
+
+export const getDateString = (timeInMs) => {
+  return timeInMs ?
+                  moment(timeInMs).format('DD MMM YYYY') :
+                  'once upon a time';
+};
