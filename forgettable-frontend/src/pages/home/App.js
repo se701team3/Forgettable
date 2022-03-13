@@ -1,13 +1,12 @@
 /* eslint-disable max-len */
-import {Button} from '@mui/material';
 import React from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './App.module.css';
-import AddIcon from '@mui/icons-material/Add';
 import PersonCardSummary from '../../components/PersonCardSummary/PersonCardSummary';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import {Link} from 'react-router-dom';
+import IconButton from '../../components/IconButton/IconButton';
 
 // The maximum summary cards shown on the large screens, small screens show less
 const MAX_LATEST_CARDS = 12;
@@ -15,14 +14,13 @@ const MAX_LATEST_CARDS = 12;
 function App() {
   const [selectedInfo, setSelectedInfo] = React.useState(undefined);
   // @TODO: Input real data. Get 12 people and 12 encounters. Get all info needed for seach bar. Get user.
-  // @TODO: On click on person, go to their page.
-  // @TOOD: Style button properly
   // @TODO: Resize Search bar
 
   // BLOCKED ON:
   // @TODO: Need dialog/popup to do the new entry.
   // @TODO: Need encounter summary cards to do summary grid.
   // @TODO: Need encounter drawer (might make myself) to do side panel.
+  // @TODO: On click on person, go to their page - need to know how person page routing is working.
 
   // TEMPORARY FAKE DATA
   const user = {first_name: 'PersonName'};
@@ -36,8 +34,6 @@ function App() {
     interests: ['art', 'sewing', 'coding'],
   },
   ];
-
-  // fill with fake data
   for (let i = 1; i < MAX_LATEST_CARDS; i++) {
     personList[i] = {...personList[0], name: 'P' + i};
   }
@@ -59,13 +55,7 @@ function App() {
         </div>
         <div className={classes.home_searchArea}>
           <SearchBar />
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            className={classes.home_newEntryBtn}
-          >
-            New Entry
-          </Button>
+          <IconButton btnText="New Entry" onClick={()=>{}} includeIcon={true} />
         </div>
         <div className={classes.home_subtitleContainer}>
           <div className={classes.home_subtitle}>Recently Updated</div>
