@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders EncounterCard UI to test correct hierarchy 1`] = `
+<div
+  className="Card"
+>
+  <div
+    className="Card_content"
+  >
+    <div
+      onClick={[MockFunction]}
+    >
+      <section
+        className="Header"
+      >
+        <div
+          className="Title"
+        >
+          Example Title
+        </div>
+        <div
+          className="Profile_container"
+        >
+          <ForwardRef(AvatarGroup)
+            className="Avatar_multiple"
+            data-testid="persons-avatar-group"
+            max={4}
+          >
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#085c25",
+                  }
+                }
+              >
+                KD
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#1f6cfa",
+                  }
+                }
+              >
+                JW
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#bde1ac",
+                  }
+                }
+              >
+                MG
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#9b66d7",
+                  }
+                }
+              >
+                JW
+              </ForwardRef(Avatar)>
+            </div>
+            <div>
+              <ForwardRef(Avatar)
+                className="Avatar"
+                sx={
+                  Object {
+                    "bgcolor": "#a55c80",
+                  }
+                }
+              >
+                JD
+              </ForwardRef(Avatar)>
+            </div>
+          </ForwardRef(AvatarGroup)>
+        </div>
+      </section>
+      <section
+        className="Body"
+      >
+        Example Description
+      </section>
+    </div>
+    <section
+      className="Footer"
+    >
+      <div
+        className="Date"
+      >
+        Date we met: 
+        <div>
+          once upon a time
+        </div>
+      </div>
+      <div
+        className="Location"
+      >
+        Where we met: 
+        <div>
+          Example Location
+        </div>
+      </div>
+      <CustomButton
+        btnText="Delete"
+        onClick={[MockFunction]}
+      />
+    </section>
+  </div>
+</div>
+`;

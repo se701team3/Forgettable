@@ -1,0 +1,64 @@
+@import '../../colours.css';
+
+.PersonCardSummary {
+    cursor: pointer;
+    height: 120px;
+    width: 240px;
+    border-radius: var(--radius-card);
+    background-color: var(--card);
+    transition: 0.3s;
+    display: flex;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.ContentContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.PersonCardSummary:hover{ 
+    background-color: var(--hilit);
+}
+
+.TextInfoContainer {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 5px 0;
+    align-items: flex-start;
+    box-sizing: border-box;
+}
+
+.TextInfoContainer > h3 {
+    font-size: var(--text-medium);
+    font-weight: 600;
+    margin: 0;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+            line-clamp: 1; 
+    -webkit-box-orient: vertical;
+}
+
+.TextInfoContainer > p {
+    font-size: var(--text-card-body-normal);
+    margin: 0;
+    color: var(--ltxt2);
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+            line-clamp: 2; 
+    -webkit-box-orient: vertical;
+}
