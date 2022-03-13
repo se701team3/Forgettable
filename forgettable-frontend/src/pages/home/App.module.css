@@ -4,7 +4,7 @@
     gap: 32px;
     margin-left: 35px;
     margin-top: 70px;
-    max-width: 775px; /*TEMP: FIGURE OUT THIS WITH THE OTHER COMPONENT*/
+    margin-right: 490px; /* accounts for summary panel + margin */
 }
 
 .home_title {
@@ -17,17 +17,12 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 26px;
 }
 
 .home_newEntryBtn {
-    background-color: var(--prmry);
-    color: var(--txt3);
-    font-weight: var(--font-medium);
-    font-size: var(--text-large);
-    text-transform: none;
-    border-radius: var(--radius-btn);
-    padding-left: 42px;
-    padding-right: 42px; 
+    flex-shrink: 0;
+    height: auto;
 }
 
 .home_subtitleContainer {
@@ -42,4 +37,15 @@
     font-weight: var(--font-semibold);
 }
 
+.home_cardGridContainer {
+    max-width: calc(max-content - 100px); /* max-content is currently limited by the overall view size sooo. need to fix this */
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    row-gap: 24px;
+    overflow-y: hidden; /* cut off all extra ones that don't fit in the two rows */
+}
 
+.home_personGridContainer {
+    max-height: 265px; /* 2 rows TODO: THIS WILL BE DIFFERENT FOR ENCOUNTERS */
+}

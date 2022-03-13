@@ -39,6 +39,7 @@
 
 .TextInfoContainer > h3 {
     font-size: var(--text-medium);
+    color: var(--txt1);
     font-weight: 600;
     margin: 0;
     text-align: left;
