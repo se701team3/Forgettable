@@ -16,11 +16,32 @@ export const createPerson: POST = async (
   next: NextFunction,
 ): Promise<void> => {
   logger.info('POST /persons/create request from frontend');
+  const auth_id = req.headers.authorization?.["user_id"];
 
   try {
-    const person = await personService.createPerson(req.body);
-    res.status(httpStatus.CREATED).send(person);
-  } catch (e) {
+    let user = await userService.getUserByAuthId(auth_id);
+
+    if (!user) {
+      res.status(httpStatus.NOT_FOUND).end();
+    } else {
+      // Create a new person with the provided information
+      const createdPerson = await personService.createPerson(req.body);
+
+      if (!createdPerson) {
+        res.status(httpStatus.BAD_REQUEST).end();
+      } else {
+        // Add a reference to the created person to the user
+        user = await userService.addPersonId(user.auth_id, createdPerson._id)
+        // If user doesn't contain reference to new person return Conflict
+        if (!user?.persons.includes(new mongoose.Types.ObjectId(createdPerson._id))) {
+          res.status(httpStatus.CONFLICT).end();
+        } else {
+          res.status(httpStatus.CREATED).json(createdPerson).end();
+        }
+      }
+    }
+  }
+  catch (e) {
     next(e);
   }
 };
@@ -31,7 +52,6 @@ export const getPersonWithId = async (
   next: NextFunction,
 ): Promise<void> => {
   logger.info('GET /persons/:id request from frontend');
-
   const auth_id = req.headers.authorization?.["user_id"];
 
   try {
@@ -64,7 +84,6 @@ export const getAllPeople = async (
   next: NextFunction,
 ): Promise<void> => {
   logger.info('GET /persons request from frontend');
-
   const auth_id = req.headers.authorization?.["user_id"];
 
   try {
