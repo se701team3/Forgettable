@@ -12,9 +12,21 @@ const updateEncounter = async (objectID: string, encounterDetails: EncounterMode
     return updatedEncounter;
 }
 
+const deleteEncounterPerson = async (personID: string) => {
+  // Service is used for deletePersons endpoint
+
+  await Encounter.updateMany({ }, { $pullAll: {persons: [{ _id: personID}]} });
+  const empty_encounters = await Encounter.find({persons : {$exists:true, $size:0}});
+  await Encounter.deleteMany({persons: {$exists: true, $size: 0}});
+
+  // return encounters that may have empty persons fields
+  return empty_encounters;
+}
+
 const encounterService = {
     createEncounter,
-    updateEncounter
+    updateEncounter,
+    deleteEncounterPerson
   }
 
 export default encounterService;

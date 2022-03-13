@@ -16,11 +16,8 @@ import {getUserByAuthId} from "../services/user.service";
    logger.info("POST /encounter request from frontend");
  
    try {
-     // Grab the data from the req
-     const encounterReq = getEncounterFromReqBody(req.body);
-
      // Pass data to service and attempt to save
-     const createdEncounter = await encounterService.createEncounter(encounterReq);
+     const createdEncounter = await encounterService.createEncounter(req.body);
      // Notify frontend that the operation was successful
      res.status(httpStatus.CREATED).json(createdEncounter).end();
    } catch (e) {
@@ -48,26 +45,12 @@ export const updateEncounter = async (
             return res.status(httpStatus.NOT_FOUND).end()
 
         // update encounter
-        const newEncounterData = getEncounterFromReqBody(req.body);
-        const updatedEncounter = await encounterService.updateEncounter(encounterIdToUpdate, newEncounterData);
+        const updatedEncounter = await encounterService.updateEncounter(encounterIdToUpdate, req.body);
         return res.sendStatus(updatedEncounter?httpStatus.NO_CONTENT:httpStatus.NOT_FOUND).end();
     } catch (e) {
         next(e);
     }
 };
-
- 
- // Util function that won't be needed regularly
-const getEncounterFromReqBody = (body: any) => {
-    const encounter: EncounterModel = {
-        date: body.date,
-        location: body.location,
-        description: body.description,
-        persons: body.persons
-    }
-
-   return encounter;
- }
 
 /**
  * searches for encounter in user by encounter id

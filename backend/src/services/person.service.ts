@@ -50,10 +50,15 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
   return filteredPersons;
 };
 
+const deletePersons = async (personID: string) => {
+  await Person.deleteOne({_id: personID});
+}
+
 const personService = {
   createPerson,
   getPersonWithId,
-  getPeople
+  getPeople,
+  deletePersons
 };
 
 export default personService;
