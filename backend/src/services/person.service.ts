@@ -9,6 +9,10 @@ const createPerson = async (personDetails: PersonModel) => {
   return person;
 };
 
+const getPersonWithId = async (reqPersonID: string) => {
+  return await Person.findOne({_id: reqPersonID});
+}
+
 /**
  * Note that .clone is necessary to avoid error 'Query was already executed'
  * Refer to section 'Duplicate Query Execution under https://mongoosejs.com/docs/migrating_to_6.html
@@ -16,7 +20,8 @@ const createPerson = async (personDetails: PersonModel) => {
 const getPeople = async () => Person.find(() => true).clone();
 const personService = {
   createPerson,
-  getPeople,
+  getPersonWithId,
+  getPeople
 };
 
 export default personService;

@@ -10,7 +10,7 @@ afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
 const requestPersonData:PersonModel = {
-  full_name: 'testname',
+  full_name: 'testlname',
   interests: ['a', 'b'],
   organisation: 'testorg',
   time_updated: new Date('2022-01-01'),
@@ -18,7 +18,7 @@ const requestPersonData:PersonModel = {
   birthday: new Date('2002-12-12'),
   encounters: [] as any,
   first_met: new Date('2022-01-01'),
-  gender: "testGender",
+  gender: "other",
   image: null as any,
   location: null as any,
   social_media: null as any
