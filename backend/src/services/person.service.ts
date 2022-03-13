@@ -5,6 +5,8 @@ import mongoose from 'mongoose';
 import Person, { PersonModel } from '../models/person.model';
 import logger from '../utils/logger';
 
+const stringFields = ['full_name', 'gender', 'location', 'how_we_met', 'organisation'];
+
 const createPerson = async (personDetails: PersonModel) => {
   const person = new Person(personDetails);
   await person.save();
@@ -23,15 +25,22 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
   }
 
   // Get all persons from the db that belong to the user
-  let foundUserPersons =  await Person.find({ _id: { $in: userPersons } });
+  let foundUserPersons = await Person.find({ _id: { $in: userPersons } });
 
-  // Filter them by query params (only works with exact strings)
-  let filteredPersons = foundUserPersons.filter(function(person) {
-    for (var key in queryParams) {
-      if (person[key] === undefined || person[key] != queryParams[key])
-        return false;
+  // Filter them by query params (only works with single string fields)
+  let filteredPersons = foundUserPersons.filter(function (person) {
+    for (let queryKey in queryParams) {
+      if (stringFields.includes(queryKey)) {
+        // Get queryValue and personValue as lowercase strings
+        let queryValue: string = queryParams[queryKey].toLowerCase();
+        let personValue: string = person[queryKey].toLowerCase()
+
+        if (!personValue.includes(queryValue)) {
+          return false;
+        }
+      }
     }
-    return true; 
+    return true;
   });
 
   return filteredPersons;
