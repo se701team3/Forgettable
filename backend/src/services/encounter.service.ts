@@ -12,9 +12,14 @@ const updateEncounter = async (objectID: string, encounterDetails: EncounterMode
     return updatedEncounter;
 }
 
+const deleteEncounters = async (encounterID: string) => {
+    await Encounter.deleteOne({_id: encounterID});
+}
+
 const encounterService = {
     createEncounter,
-    updateEncounter
+    updateEncounter,
+    deleteEncounters,
   }
 
 export default encounterService;

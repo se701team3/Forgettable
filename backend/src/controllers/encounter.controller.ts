@@ -7,6 +7,10 @@
 import httpStatus from "http-status";
 import {EncounterModel} from "../models/encounter.model";
 import {getUserByAuthId} from "../services/user.service";
+
+ import userService from '../services/user.service';
+ import personService from '../services/person.service';
+
  
  export const createEncounter = async (
    req: Request,
@@ -16,11 +20,9 @@ import {getUserByAuthId} from "../services/user.service";
    logger.info("POST /encounter request from frontend");
  
    try {
-     // Grab the data from the req
-     const encounterReq = getEncounterFromReqBody(req.body);
 
      // Pass data to service and attempt to save
-     const createdEncounter = await encounterService.createEncounter(encounterReq);
+     const createdEncounter = await encounterService.createEncounter(req.body);
      // Notify frontend that the operation was successful
      res.status(httpStatus.CREATED).json(createdEncounter).end();
    } catch (e) {
@@ -48,26 +50,45 @@ export const updateEncounter = async (
             return res.status(httpStatus.NOT_FOUND).end()
 
         // update encounter
-        const newEncounterData = getEncounterFromReqBody(req.body);
-        const updatedEncounter = await encounterService.updateEncounter(encounterIdToUpdate, newEncounterData);
+        const updatedEncounter = await encounterService.updateEncounter(encounterIdToUpdate, req.body);
         return res.sendStatus(updatedEncounter?httpStatus.NO_CONTENT:httpStatus.NOT_FOUND).end();
     } catch (e) {
         next(e);
     }
 };
 
- 
- // Util function that won't be needed regularly
-const getEncounterFromReqBody = (body: any) => {
-    const encounter: EncounterModel = {
-        date: body.date,
-        location: body.location,
-        description: body.description,
-        persons: body.persons
-    }
+export const deleteEncounters = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+  ): Promise<void> => {
+    logger.info("DELETE /encounters/:encounterID request from frontend");
+    const auth_id = req.headers.authorization?.["user_id"];
+    
+    const current_user = await userService.getUserByAuthId(auth_id);
+    const id = req.params.id;
+    const user_encounters = current_user?.encounters;
+    let string_encounters = user_encounters?.map(x => x.toString());
 
-   return encounter;
- }
+    if (string_encounters?.includes(id.toString())) {
+      try {
+        // Delete user from database
+        await encounterService.deleteEncounters(req.params.id);
+        await personService.deletePersonEncounters(req.params.id);
+        await userService.deleteUserEncounter(req.params.id);
+        
+        // Notify frontend that the operation was successful
+        res.sendStatus(httpStatus.OK).end();
+      } catch(e) {
+  
+        next(e);
+      }
+    } else {
+      res.sendStatus(httpStatus.NOT_FOUND).end();
+    }
+    
+    res.status(httpStatus.OK).end();
+  };
 
 /**
  * searches for encounter in user by encounter id
