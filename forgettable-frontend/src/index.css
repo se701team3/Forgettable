@@ -11,8 +11,8 @@
   /* font sizes - general */
   --text-xsmall: 14px;
   --text-small: 16px;
-  --text-medium: 18px;
-  --text-normal: 20px;
+  --text-normal: 18px;
+  --text-medium: 20px;
   --text-large: 23px;
   --text-xlarge: 25px;
   --text-xxlarge: 30px;
@@ -23,7 +23,8 @@
   --text-card-title: 25px;
   --text-card-body-normal: 14px;
   --text-card-body-large: 16px;
-
+  --text-drawer-title: 35px;
+  
   /* corner radius */
   --radius-btn: 8px;
   --radius-card: 13px;
@@ -34,6 +35,11 @@ body {
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bkgd);
+}
+
+.page-wrapper {
+  margin-left: 128px; /* ACCOUNT FOR SIDEBAR */
 }
 
 code {
