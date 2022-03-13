@@ -25,3 +25,6 @@ yarn-error.log*
 # VS Code
 .vscode/**/* instead
 !.vscode/settings.json
+
+# Firebase Config
+/src/firebase-config.js
