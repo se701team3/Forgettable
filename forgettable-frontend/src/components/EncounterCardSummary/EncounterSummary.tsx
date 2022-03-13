@@ -12,7 +12,7 @@ export default function EncounterSummary(props: { Name: any; Date: any; Descript
     <div className="container">
       <Card
         className="card"
-        sx={{maxWidth: 220, maxHeight: 240, bgcolor: 'var(--lcard)', borderRadius: 6}}
+        sx={{maxWidth: 220, maxHeight: 240, bgcolor: 'var(--lcard)', borderRadius: 6, boxShadow: 0}}
       >
         <div className="header">
           <Avatar

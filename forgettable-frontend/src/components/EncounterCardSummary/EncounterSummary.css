@@ -13,6 +13,7 @@
 }
 .card:hover{
     background-color: var(--hilit);
+    cursor: pointer
 }
 .header{
     display: flex;
