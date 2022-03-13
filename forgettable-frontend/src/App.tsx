@@ -1,16 +1,29 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import EncounterSummary from './components/EncounterCardSummary/EncounterSummary';
 
 function App() {
   return (
-    <EncounterSummary
-      Name="Alby"
-      Date="12/02/2022"
-      Description="Brief Description"
-      Summary="Hello how are you all today? Im good thanks"
-    />
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit
+          {' '}
+          <code>src/App.tsx</code>
+          {' '}
+          and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://github.com/se701team3/Forgettable.git"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Forgettable
+        </a>
+      </header>
+    </div>
   );
 }
 
