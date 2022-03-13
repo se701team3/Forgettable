@@ -1,6 +1,7 @@
 @import "../../colours.css";
 
 .SearchContainer {
+    width: 100%;
 }
 
 .SearchInputs{
@@ -15,8 +16,7 @@
     border-radius: 8px 0px 0px 8px;
     font-size: 20px;
     padding: 15px;
-    height: 30px;
-    width: 420px;
+    width: 100%;
 }
 
 .SearchNameInput:focus{
@@ -42,8 +42,7 @@
 
 .DataResult {
     margin-top: 0px;
-    width: 510px;
-    height: fit-content;
+    width: 500px;
     border-radius: 8px;
     max-height: 200px;
     background-color: var(--lbkgd);
@@ -51,6 +50,8 @@
     overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    position: fixed;
+    border: 1px solid var(--bord);
 }
 
 .DataResult::-webkit-scrollbar{

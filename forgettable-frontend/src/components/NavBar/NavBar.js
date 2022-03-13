@@ -17,7 +17,7 @@ const ICON_SIZE = '26px';
 const LOGO_SIZE = '50px';
 
 export default function NavBar() {
-  const [selectedIndex, setSelectedIndex] = React.useState(0); // @TODO: State stuff so that we can select the page
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
   const isLightTheme = true; // @TODO: When a state for dark theme is made, use this state so we can set the logo appropriately.
   const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--bkgd');
 
