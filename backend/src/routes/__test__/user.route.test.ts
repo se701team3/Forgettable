@@ -1,15 +1,30 @@
 import httpStatus from 'http-status';
 import databaseOperations from '../../utils/test/db-handler';
 
-import { UserModel } from '../../models/user.model';
 import { PersonModel } from '../../models/person.model';
 import app from '../../server';
-import FirebaseAdmin from '../../firebase-configs/firebase-config';
-import { auth } from 'firebase-admin';
+import axios from 'axios';
+import 'dotenv/config';
 
 const supertest = require('supertest');
 
-beforeAll(async () => databaseOperations.connectDatabase());
+let token: String;
+
+beforeAll(async () => {
+    const email = process.env.FIREBASE_TEST_AUTH_EMAIL;
+    const password = process.env.FIREBASE_TEST_AUTH_PASS;
+    const key = process.env.FIREBASE_TEST_AUTH_KEY;
+
+    let body = {
+        "email": email,
+        "password": password,
+        "returnSecureToken": true
+    }
+    const response = await axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${key}`, body);
+    token = response.data.idToken;
+
+    databaseOperations.connectDatabase()
+});
 afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
@@ -21,53 +36,99 @@ const user1Data = {
 }
 
 const user2Data = {
+    last_name: 'Mong',
     encounters: [] as any,
     persons: [] as any
 }
 
 const user3Data = {
     first_name: 'Tingy',
+    encounters: [] as any,
+    persons: [] as any
+}
+
+const user4Data = {
+    first_name: 'Tingy',
     last_name: 'Tangy',
     encounters: [] as any,
+}
+
+const user5Data = {
+    first_name: 'Tingy',
+    last_name: 'Tangy',
     persons: [] as any,
 }
 
 const person1Data: PersonModel = {
-    first_name: 'Ray',
-    last_name: 'Ping',
+    full_name: 'Ray Ping',
     interests: ['video games', 'hockey'],
     organisation: 'helloc',
-    time_added: new Date('2022-01-01'),
+    time_updated: new Date('2022-01-01'),
     how_we_met: 'Hockey club',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
+    first_met: new Date('2022-01-01'),
+    gender: "male",
+    image: null as any,
+    location: null as any,
+    social_media: null as any
 };
 
 const person2Data: PersonModel = {
-    first_name: 'Adam',
-    last_name: 'Bong',
+    full_name: 'Adam Bong',
     interests: ['badminton', 'golf'],
     organisation: 'helloc',
-    time_added: new Date('2022-02-23'),
+    time_updated: new Date('2022-02-23'),
     how_we_met: 'Skype',
     birthday: new Date('2001-07-16'),
     encounters: [] as any,
+    first_met: new Date('2022-02-23'),
+    gender: "other",
+    image: null as any,
+    location: null as any,
+    social_media: null as any
 }
 
-jest.mock('../../firebase-configs/firebase-config');
-
 describe('POST /users', () => {
-    const token = "testToken";
+    it('Successfully creates a new user with all user info given', async () => {
+        await supertest(app).post('/api/users')
+            .set('Accept', 'application/json')
+            .send(user1Data)
+            .set('Authorization', token)
+            .expect(httpStatus.CREATED)
+    })
 
-    FirebaseAdmin.auth = jest.fn().mockReturnThis();
+    it('User without persons field can be created and defaults to empty array', async () => {
+        const { body: user } = await supertest(app).post('/api/users')
+            .set('Accept', 'application/json')
+            .send(user4Data)
+            .set('Authorization', token)
+            .expect(httpStatus.CREATED)
 
-    FirebaseAdmin.verifyIdToken = jest.fn().mockImplementation((authToken) => {
+        expect(user.persons).toEqual([]);
+    })
 
-        if (authToken === undefined) {
-            throw new Error("First argument to verifyIdToken() must be a Firebase ID token string.");
-        }
-        const decodedToken = {uid: "RgPScJyjeabsvAOwg0GIKjSkX462"};
-        return decodedToken;
+    it('User without encounters field can be created and defaults to empty array', async () => {
+        const { body: user } = await supertest(app).post('/api/users')
+            .set('Accept', 'application/json')
+            .send(user5Data)
+            .set('Authorization', token)
+            .expect(httpStatus.CREATED)
+
+        expect(user.encounters).toEqual([]);
+    })
+
+    it('Successful user creation returns correct user info without auth_id', async () => {
+        const { body: user } = await supertest(app).post('/api/users')
+            .set('Accept', 'application/json')
+            .send(user1Data)
+            .set('Authorization', token);
+
+        expect(user.auth_id).toBeUndefined();
+        expect(user.first_name).toEqual(user1Data.first_name);
+        expect(user.last_name).toEqual(user1Data.last_name);
+        expect(user.encounters).toEqual(user1Data.encounters);
+        expect(user.persons).toEqual(user1Data.persons);
     })
 
     it('Failed to create new user without auth token', async () => {
@@ -77,66 +138,67 @@ describe('POST /users', () => {
             .expect(httpStatus.UNAUTHORIZED);
     })
 
-    it('Failed to create new user without first and last name', async () => {
+    it('Failed to create new user without first name', async () => {
         await supertest(app).post('/api/users')
             .set('Accept', 'application/json')
             .send(user2Data)
-            .set('Authorization', `Bearer ${token}`)
+            .set('Authorization', token)
             .expect(httpStatus.BAD_REQUEST)
     })
 
-    it('Successfully created a new user', async () => {
+    it('Failed to create new user without last name', async () => {
         await supertest(app).post('/api/users')
             .set('Accept', 'application/json')
-            .send(user1Data)
-            .set('Authorization', `Bearer ${token}`)
-            .expect(httpStatus.CREATED)
-    })
-
-    it('User stored in database when request is successful', async () => {
-        const { body: user } = await supertest(app).post('/api/users')
-            .set('Accept', 'application/json')
-            .send(user1Data)
-            .set('Authorization', `Bearer ${token}`);
-
-        const { body } = await supertest(app).get(`/api/users/${user._id}`);
-        expect(body._id).toEqual(user._id); //Assume two objects in mongodb with same _id is equal
+            .send(user3Data)
+            .set('Authorization', token)
+            .expect(httpStatus.BAD_REQUEST)
     })
 
     it('User not stored in database when request is unsuccessful', async () => {
-        const { body: user } = await supertest(app).post('/api/users')
+        await supertest(app).post('/api/users')
             .set('Accept', 'application/json')
             .send(user1Data);
 
-        const { body } = await supertest(app).get(`/api/users/${user._id}`);
-        expect(body._id).toEqual(user._id); //Assume two objects in mongodb with same _id is equal
+        const { body: user } = await supertest(app).get('/api/users')
+            .set('Authorization', token)
+            .expect(httpStatus.OK);        
+        
+        expect(user).toBeFalsy();
     })
 
-    it ('User with same UID and info cannot be created twice', async () => {
+    it('User with same UID and info cannot be created twice', async () => {
         await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .send(user1Data)
-        .set('Authorization', `Bearer ${token}`)
-        .expect(httpStatus.CREATED)
+            .set('Accept', 'application/json')
+            .send(user1Data)
+            .set('Authorization', token)
+            .expect(httpStatus.CREATED)
 
         await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .send(user1Data)
-        .set('Authorization', `Bearer ${token}`)
-        .expect(httpStatus.CONFLICT);
+            .set('Accept', 'application/json')
+            .send(user1Data)
+            .set('Authorization', token)
+            .expect(httpStatus.CONFLICT);
+
+        await supertest(app).get('/api/users')
+            .set('Authorization', token)
+            .expect(httpStatus.OK);
     })
 
-    it ('User with same UID but different info cannot be created twice', async () => {
+    it('User with same UID but different info cannot be created twice', async () => {
         await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .send(user1Data)
-        .set('Authorization', `Bearer ${token}`)
-        .expect(httpStatus.CREATED)
+            .set('Accept', 'application/json')
+            .send(user1Data)
+            .set('Authorization', token)
+            .expect(httpStatus.CREATED)
 
         await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .send(user2Data)
-        .set('Authorization', `Bearer ${token}`)
-        .expect(httpStatus.CONFLICT);
+            .set('Accept', 'application/json')
+            .send(user2Data)
+            .set('Authorization', token)
+            .expect(httpStatus.CONFLICT);
+
+        await supertest(app).get('/api/users')
+            .set('Authorization', token)
+            .expect(httpStatus.OK);
     })
 })
