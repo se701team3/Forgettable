@@ -35,7 +35,7 @@ export default function InputComponent({inputLabel, inputType, placeholder}) {
       <StyledEngineProvider injectFirst>
 
         {inputType === PRIMARY &&
-         <TextField
+         <TextField data-testid='primaryInput'
            className={styles.textFieldPrimary}
            label={inputLabel}
            InputLabelProps={{shrink: true}}
@@ -50,7 +50,7 @@ export default function InputComponent({inputLabel, inputType, placeholder}) {
         }
 
         {inputType === SECONDARY &&
-         <TextField
+         <TextField data-testid='secondaryInput'
            className={styles.textFieldSecondary}
            label={inputLabel}
            InputLabelProps={{shrink: true}}
@@ -65,7 +65,7 @@ export default function InputComponent({inputLabel, inputType, placeholder}) {
         }
 
         {inputType === MULTILINE &&
-         <TextField
+         <TextField data-testid='multiLineInput'
            className={styles.textFieldMultiLine}
            label={inputLabel}
            InputLabelProps={{shrink: true}}
@@ -74,6 +74,7 @@ export default function InputComponent({inputLabel, inputType, placeholder}) {
            onChange={(event) => setInput(event.target.value)}
            multiline={true}
            minRows={5}
+           maxRows={5}
            sx={{
              input: {color: TEXT_COLOUR, fontSize: '16px'},
              label: {color: TEXT_COLOUR, fontSize: '16px'},
