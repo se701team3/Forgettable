@@ -59,9 +59,20 @@ export const getAllPeople = async (
 ): Promise<void> => {
   logger.info('GET /persons request from frontend');
 
+  const auth_id = req.headers.authorization?.["user_id"];
+  const user = await userService.getUserByAuthId(auth_id);
+
   try {
-    const people = await personService.getPeople();
-    res.status(httpStatus.OK).json(people);
+    if (!user) {
+      res.status(httpStatus.NOT_FOUND).end();
+    } else {
+      if (!user.persons.length) {
+        res.status(httpStatus.NO_CONTENT).end();
+      } else {
+        const foundUserPersons = await personService.getPeople(req.query, user.persons);
+        res.status(httpStatus.OK).json(foundUserPersons).end();
+      }
+    }
   } catch (e) {
     next(e);
   }
