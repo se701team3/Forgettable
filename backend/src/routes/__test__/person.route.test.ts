@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import databaseOperations from '../../utils/test/db-handler';
 import { PersonModel } from '../../models/person.model';
-import app from '../../index';
+import app from '../../server';
 
 const supertest = require('supertest');
 
@@ -10,19 +10,19 @@ afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
 const requestPersonData:PersonModel = {
-  first_name: 'new person',
-  last_name: 'hellob',
+  first_name: 'testname',
+  last_name: 'testlname',
   interests: ['a', 'b'],
-  organisation: 'helloc',
+  organisation: 'testorg',
   time_added: new Date('2022-01-01'),
-  how_we_met: 'helloe',
+  how_we_met: 'testmet',
   birthday: new Date('2002-12-12'),
-  encounters: [] as any,
+  encounters: [] as any
 };
 
 describe('person ', () => {
   it('can be created correctly', async () => {
-    await supertest(app).post('/api/persons/create')
+    await supertest(app).post('/api/persons')
       .set('Accept', 'application/json')
       .send(requestPersonData)
       .expect(httpStatus.CREATED);
