@@ -1,0 +1,6 @@
+.MuiAvatarGroup-avatar {
+    display: flex;
+    align-items: center;
+    max-height: 50px;
+    max-width: 170px;
+}

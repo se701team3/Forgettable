@@ -1,0 +1,27 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.Button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border:2px solid black;
+    border-radius: var(--radius-btn);
+    padding: 0 15px 0 15px;
+    width: fit-content;
+    height: 36px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.Button:hover{
+    background-color: var(--bkgd);
+}
+
+.Text{
+    color: black;
+    font-size: 18px;
+    line-height: 0px;
+    font-family: 'Poppins', sans-serif;
+}
+

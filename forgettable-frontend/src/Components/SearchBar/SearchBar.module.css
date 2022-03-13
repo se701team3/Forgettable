@@ -1,0 +1,78 @@
+@import "../../colours.css";
+
+.SearchContainer {
+    width: 100%;
+}
+
+.SearchInputs{
+    display: flex;
+    border: 1px solid var(--bord);
+    border-radius: 8px 8px 8px 8px;
+}
+
+.SearchNameInput{
+    background-color: var(--lbkgd);
+    border: 0;
+    border-radius: 8px 0px 0px 8px;
+    font-size: 20px;
+    padding: 15px;
+    width: 100%;
+}
+
+.SearchNameInput:focus{
+    outline: none;
+}
+
+.SearchIcon {
+    height: 60px;
+    width: 60px;
+    border-radius: 0px 8px 8px 0px;
+    background-color: var(--lbkgd);
+    display: grid;
+    place-items: center;
+}
+
+.SearchIcon svg {
+    font-size: 35px;
+}
+
+.ClearBtn{
+    cursor: pointer;
+}
+
+.DataResult {
+    margin-top: 0px;
+    width: 500px;
+    border-radius: 8px;
+    max-height: 200px;
+    background-color: var(--lbkgd);
+    overflow: hidden;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    position: fixed;
+    border: 1px solid var(--bord);
+}
+
+.DataResult::-webkit-scrollbar{
+      display: none;
+}
+
+.DataItem {
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    color: var(--ltxt1);
+    text-decoration: none;
+}
+
+.DataItem:hover{
+    background-color: var(--lcard);
+}
+
+.DataItemP {
+    margin-left: 10px;
+}
+

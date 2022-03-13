@@ -1,0 +1,120 @@
+@import '../../colours.css';
+
+.Card, .Card_special{
+    width: fit-content;
+    height: fit-content;
+    background-color: var(--card);
+    box-shadow: none;
+    border-radius: 13px;
+    z-index: 1;
+    user-select: none;
+    color: var(--txt1);
+}
+
+.Card_special{
+    border: 4px solid var(--prmry);
+}
+
+.Card:hover, .Card_special:hover{
+    background-color: var(--hilit);
+    cursor: pointer;
+}
+
+.Card_content{
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    width: 715px;
+    justify-content: center;
+    padding: 15px 45px 15px 45px;
+}
+
+.Initial_label_container{
+    width: inherit;
+    display: flex;
+    align-items: flex-start;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.Initial_label{
+    background-color: var(--prmry);
+    padding: 2px 8px 2px 8px;
+    border-radius: 3px;
+    font-size: var(--text-xsmall);
+}
+
+.Header{
+    width: inherit;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Title{
+    font-size: var(--text-card-title);
+    font-weight: var(--font-semibold);
+    max-height: 50px;
+    max-width: 480px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.Profile_container{
+    font-size: var(--text-normal);
+    font-weight: var(--font-regular);
+}
+
+.Body{
+    margin-top: 15px;
+    height: 80px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: var(--text-small);
+    font-weight: var(--font-regular);
+    color: var(--txt2);
+}
+
+.Footer{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    align-items: baseline;
+    justify-content: space-between;
+    width: inherit;
+    margin-top: 15px;
+}
+
+.Date, .Location{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: var(--text-small);
+    font-weight: var(--font-regular);
+    color: var(--txt2);
+}
+
+.Avatar{
+    font-family: 'Poppins', sans-serif;
+    font-weight: var(--font-regular);
+    font-size: var(--text-normal);
+}
+
+.Avatar_inline{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: auto;
+}
+
+.Avatar_multiple{
+    width: fit-content;
+}
+
+.Avatar_name{
+    margin-left: 10px;
+}
