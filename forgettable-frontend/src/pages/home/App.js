@@ -14,13 +14,6 @@ const MAX_LATEST_CARDS = 12;
 function App() {
   const [selectedInfo, setSelectedInfo] = React.useState(undefined);
   // @TODO: Input real data. Get 12 people and 12 encounters. Get all info needed for seach bar. Get user.
-  // @TODO: Resize Search bar
-
-  // BLOCKED ON:
-  // @TODO: Need dialog/popup to do the new entry.
-  // @TODO: Need encounter summary cards to do summary grid.
-  // @TODO: Need encounter drawer (might make myself) to do side panel.
-  // @TODO: On click on person, go to their page - need to know how person page routing is working.
 
   // TEMPORARY FAKE DATA
   const user = {first_name: 'PersonName'};
@@ -37,6 +30,8 @@ function App() {
   for (let i = 1; i < MAX_LATEST_CARDS; i++) {
     personList[i] = {...personList[0], name: 'P' + i};
   }
+
+  const searchBarData = [{title: 'fgdgf'}, {title: 'joe'}, {title: 'xi'}, {title: 'abcdef'}];
   // END TEMP FAKE DATA
 
   const handlePersonHover = (event, index) => {
@@ -46,39 +41,53 @@ function App() {
     });
   };
 
+  const handleNewEntryClick = (event) => {
+    // @TODO: Need dialog/popup to do the new entry.
+  };
+
   return (
     <>
       {selectedInfo && <SummaryDrawer summaryInfo={selectedInfo}/>}
+
       <div className={classes.home_container}>
         <div className={classes.home_title}>
           Hi {user.first_name}, Welcome back!
         </div>
+
         <div className={classes.home_searchArea}>
-          <SearchBar />
-          <IconButton btnText="New Entry" onClick={()=>{}} includeIcon={true} />
+          <SearchBar placeholder={'Search'} data={searchBarData}/>
+          <div className={classes.home_newEntryBtn}>
+            <IconButton btnText="New Entry" onClick={handleNewEntryClick} includeIcon={true} />
+          </div>
         </div>
+
         <div className={classes.home_subtitleContainer}>
           <div className={classes.home_subtitle}>Recently Updated</div>
-          <Link to="/people" style={{textDecoration: 'none'}}><CustomButton btnText='View All' onClick={() => {}} /></Link>
+          <Link to="/people" style={{textDecoration: 'none'}}><CustomButton btnText='View All'/></Link>
         </div>
+
         <div className={classes.home_cardGridContainer + ' ' + classes.home_personGridContainer}>
           {personList.map((person, index) => {
             return (
               <div key={index} className={classes.home_cardWrapper} onMouseEnter={(event) => handlePersonHover(event, index)}>
-                <PersonCardSummary
-                  id={person.id}
-                  name={person.name}
-                  img={person.img}
-                  firstMet={person.firstMet}
-                  onClick={() => {}}
-                />
+                <Link to={`/people/${person.id}`} style={{textDecoration: 'none'}}>
+                  <PersonCardSummary
+                    id={person.id}
+                    name={person.name}
+                    img={person.img}
+                    firstMet={person.firstMet}
+                    onClick={() => {}}
+                  />
+                </Link>
               </div>);
           })}
         </div>
+
         <div className={classes.home_subtitleContainer}>
           <div className={classes.home_subtitle}>Recently Encounters</div>
-          <Link to="/encounters" style={{textDecoration: 'none'}}><CustomButton btnText='View All' onClick={() => {}} /></Link>
+          <Link to="/encounters" style={{textDecoration: 'none'}}><CustomButton btnText='View All'/></Link>
         </div>
+
         <div>This is where the encounters grid will go</div>
       </div>
     </>
@@ -102,7 +111,7 @@ function SummaryDrawer(summaryInfo) {
       socialMedias={summaryInfo.info.socialMedias}
     />;
   } else if (summaryInfo.type === 'encounter') {
-    return ('TO BE IMPLEMENTED'); // @TODO replace with encounter drawer once that is available.
+    return (''); // @TODO replace with encounter drawer once that is available.
   }
 }
 

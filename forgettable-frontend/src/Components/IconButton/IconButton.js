@@ -25,6 +25,7 @@ function IconButton({btnText, onClick, includeIcon}) {
         paddingRight: '42px',
         fontFamily: '\'Poppins\', sans-serif',
         boxShadow: 'none',
+        height: '100%',
       }}
       onClick={onClick}
     >

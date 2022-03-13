@@ -17,17 +17,12 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 26px;
 }
 
 .home_newEntryBtn {
-    background-color: var(--prmry);
-    color: var(--txt3);
-    font-weight: var(--font-medium);
-    font-size: var(--text-large);
-    text-transform: none;
-    border-radius: var(--radius-btn);
-    padding-left: 42px;
-    padding-right: 42px; 
+    flex-shrink: 0;
+    height: auto;
 }
 
 .home_subtitleContainer {
@@ -53,8 +48,4 @@
 
 .home_personGridContainer {
     max-height: 265px; /* 2 rows TODO: THIS WILL BE DIFFERENT FOR ENCOUNTERS */
-}
-
-.home_cardWrapper {
-
 }
