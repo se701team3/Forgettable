@@ -3,9 +3,9 @@ import Card from '@mui/material/Card';
 import {Avatar} from '@mui/material';
 import classes from './EncounterSummary.module.css';
 
-export default function EncounterSummary(props: { Name: any; Date: any; Description: any; Summary: any; }) {
+export default function EncounterSummary(props: { Name: any; Date: any; Description: any; Summary: any; Src: string}) {
   const {
-    Name, Date, Description, Summary,
+    Name, Date, Description, Summary, Src,
   } = props;
 
   return (
@@ -17,7 +17,7 @@ export default function EncounterSummary(props: { Name: any; Date: any; Descript
         <div className={classes.Header}>
           <Avatar
             alt={Name}
-            src="Avatar.png"
+            src={Src}
             sx={{width: 70, height: 70}}
           />
           <div className={classes.NameDesc}>
@@ -26,7 +26,7 @@ export default function EncounterSummary(props: { Name: any; Date: any; Descript
           </div>
         </div>
         <div className={classes.Date}>
-          <div>Date you met:</div>
+          <div>Date you met:&nbsp;</div>
           {Date}
         </div>
         <div className={classes.DescriptionText}>
