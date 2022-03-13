@@ -2,7 +2,9 @@
  * Controller contains high-level operations using services, consumed by routes
  */
 import { Request, Response, NextFunction } from 'express';
+import mongoose from 'mongoose';
 import httpStatus from 'http-status';
+import userService from '../services/user.service';
 import personService from '../services/person.service';
 import logger from '../utils/logger';
 
@@ -22,6 +24,33 @@ export const createPerson: POST = async (
     next(e);
   }
 };
+
+export const getPersonWithId = async(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  logger.info('GET /persons/:id request from frontend');
+
+  const auth_id = req.headers.authorization?.["user_id"];
+  const user = await userService.getUserByAuthId(auth_id);
+
+  if (!user) {
+    res.status(httpStatus.NOT_FOUND).end();
+  } else {
+    // If the person belongs to this user, find it
+    let person;
+    if (user.persons.includes(new mongoose.Types.ObjectId(req.params.id))) {
+      person = await personService.getPersonWithId(req.params.id);
+    }
+
+    if (!person) {
+      res.status(httpStatus.NOT_FOUND).end();
+    } else {
+      res.status(httpStatus.OK).json(person).end();
+    }
+  }
+}
 
 export const getAllPeople = async (
   req: Request,
