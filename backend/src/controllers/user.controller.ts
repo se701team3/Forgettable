@@ -4,15 +4,14 @@
 import { NextFunction, Request, Response } from 'express';
 
 import userService from '../services/user.service';
-import FirebaseAdmin from '../firebase-configs/firebase-config';
 import httpStatus from 'http-status';
-import logger from '../utils/logger';
 
 export const createUser = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
+  
   let decodedToken: any;
   if (req.headers.authorization) {
     decodedToken = req.headers.authorization as any;
