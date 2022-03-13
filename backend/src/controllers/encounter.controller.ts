@@ -2,12 +2,11 @@
  * Controller contains high-level operations using services, consumed by routes
  */
  import { NextFunction, Request, Response } from 'express';
-
- import EncounterModel from '../models/encounter.model';
  import encounterService from '../services/encounter.service';
  import logger from '../utils/logger';
-import * as http from "http";
 import httpStatus from "http-status";
+import {EncounterModel} from "../models/encounter.model";
+import {getUserByAuthId} from "../services/user.service";
  
  export const createEncounter = async (
    req: Request,
@@ -32,21 +31,26 @@ export const updateEncounter = async (
     req: Request,
     res: Response,
     next: NextFunction,
-): Promise<void> => {
+): Promise<any> => {
     logger.info("PUT /encounter/:id request from frontend");
 
     try {
-        // Grab the data from the req
-        const encounterReq = getEncounterFromReqBody(req.body);
+        // check authorization is not a null object (this is necessary check for lint)
+        if (req.headers.authorization == null)
+            return res.status(httpStatus.NOT_FOUND).end()
 
-        // Pass data to service and attempt to save
-        const updatedEncounter = await encounterService.updateEncounter(req.params.id, encounterReq);
-        if(!updatedEncounter){
-            return res.sendStatus(httpStatus.NOT_FOUND).end();
-        }
+        const encounterIdToUpdate = req.params.id
+        const firebaseAuthId = req.headers.authorization['user_id']
 
-        // Notify frontend that the operation was successful
-        return res.sendStatus(httpStatus.NO_CONTENT).end();
+        // check that user exists with that firebase auth_id, and the user specified encounter actually exists
+        const userByAuthId = await getUserByAuthId(firebaseAuthId);
+        if(!userByAuthId || !isEncounterExistsInUser(userByAuthId, encounterIdToUpdate))
+            return res.status(httpStatus.NOT_FOUND).end()
+
+        // update encounter
+        const newEncounterData = getEncounterFromReqBody(req.body);
+        const updatedEncounter = await encounterService.updateEncounter(encounterIdToUpdate, newEncounterData);
+        return res.sendStatus(updatedEncounter?httpStatus.NO_CONTENT:httpStatus.NOT_FOUND).end();
     } catch (e) {
         next(e);
     }
@@ -55,7 +59,7 @@ export const updateEncounter = async (
  
  // Util function that won't be needed regularly
 const getEncounterFromReqBody = (body: any) => {
-    const encounter = {
+    const encounter: EncounterModel = {
         date: body.date,
         location: body.location,
         description: body.description,
@@ -64,3 +68,13 @@ const getEncounterFromReqBody = (body: any) => {
 
    return encounter;
  }
+
+/**
+ * searches for encounter in user by encounter id
+ * @param user user which encounter should be found from
+ * @param encounterId id of the encounter to be searched from the user
+ */
+const isEncounterExistsInUser = (user, encounterId: string): boolean => {
+    const findEncounter = user.encounters.filter(e=>e.toString() === encounterId)
+    return findEncounter.length!==0
+}
