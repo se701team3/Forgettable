@@ -28,10 +28,8 @@ const EncounterDrawer = (props) => {
         />
         <p data-testid="name-element">{person.name.split(' ')[0]}</p>
       </div>
-
     );
   };
-
 
   return (
     <Drawer
@@ -50,24 +48,30 @@ const EncounterDrawer = (props) => {
     >
       <div className={classes.EncounterDrawer}>
         <div className={classes.ContentContainer}>
-          <h1 className={classes.EncounterTitle} data-testid={'title-element'}>{props.encounterTitle}</h1>
+          <h1 className={classes.EncounterTitle} data-testid={'title-element'}>
+            {props.encounterTitle}
+          </h1>
           <div className={classes.SubtitleContainer}>
             <h3 className={classes.EncounterSubtitle}>You encountered: </h3>
-            {
-              props.persons.map((person, i) => {
-                return (
-                  createPersonMiniProfile(person, i)
-                );
-              })
-            }
+            {props.persons.map((person, i) => {
+              return (
+                createPersonMiniProfile(person, i)
+              );
+            })}
           </div>
-          <div className={classes.EncounterProperty} data-testid="date-met-element">
+          <div
+            className={classes.EncounterProperty}
+            data-testid="date-met-element"
+          >
             {'Date we met: '}
             {props.dateMet ?
             getDateLastMetString(props.dateMet) :
             unknownDetail}
           </div>
-          <div className={classes.EncounterProperty} data-testid="location-element">
+          <div
+            className={classes.EncounterProperty}
+            data-testid="location-element"
+          >
             {'Location: '}
             {props.location ? props.location : unknownDetail}
           </div>
