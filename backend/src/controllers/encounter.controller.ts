@@ -42,7 +42,7 @@ export const createEncounter = async (
 
     if (!updateUser || !updatePerson) {
       encounterService.deleteEncounter(createdEncounter._id + '');
-      res.status(httpStatus.CONFLICT).end();
+      res.status(httpStatus.CONFLICT).send('Failed to add encounter').end();
     }
 
     res.status(httpStatus.CREATED).json(createdEncounter).end();

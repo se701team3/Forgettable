@@ -51,19 +51,19 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
 };
 
 const addEncounterToPersons = async (personIds, encounterId) => {
-  let success = true;
-  personIds.map(async (id) => {
-    const updatedPerson = await Person.findOneAndUpdate(
-      { _id: id },
-      { $push: { encounters: encounterId }},
-      { returnOriginal: false });
-    
-      if (!updatedPerson?.encounters.includes(new mongoose.Types.ObjectId(encounterId))) {
-        success = false;
-      }
-  })
+  for (let i = 0; i < personIds.length; i++) {
+    const result = await Person.updateOne({ _id: personIds[i] }, { $push: { encounters: encounterId }});
 
-  return success;
+    //Revert all updates if any update fails
+    if (result.modifiedCount != 1) {
+      for (let j = i - 1; j >= 0; j--)  {
+        await Person.updateOne({ _id: personIds[i] }, { $pop: { encounters: 1 }});
+      }
+      return false;
+    }
+  }
+
+  return true;
 }
 
 const personService = {

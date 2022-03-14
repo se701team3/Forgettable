@@ -16,16 +16,9 @@ export const createUser = async (userDetails: UserModel) => {
 };
 
 export const addEncounterToUser = async (authId, encounterId) => {
-  const updatedUser = await User.findOneAndUpdate(
-    { auth_id: authId },
-    { $push: { encounters: encounterId }},
-    { returnOriginal: false });
+  const result = await User.updateOne({ auth_id: authId }, { $push: { encounters: encounterId } });
   
-    if (!updatedUser?.encounters.includes(new mongoose.Types.ObjectId(encounterId))) {
-      return false;
-    } else {
-      return true;
-    }
+  return result.modifiedCount == 1;
 }
 
 export const getUserByAuthId = async (uid) => {
