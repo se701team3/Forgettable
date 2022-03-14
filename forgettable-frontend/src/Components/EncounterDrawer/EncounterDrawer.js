@@ -36,15 +36,20 @@ const EncounterDrawer = (props) => {
           <div className={classes.SubtitleContainer}>
             <h3 className={classes.EncounterSubtitle}>You encountered: </h3>
             <div className={classes.MiniPersonProfile}>
-              <Avatar />
+              <Avatar
+                sx={{
+                  'width': '30px',
+                  'height': '30px',
+                }}
+              />
               <p>{props.name}</p>
             </div>
           </div>
-          <div className={classes.DateWeMet}>
+          <div className={classes.EncounterProperty}>
             {'Date we met: '}
             {props.dateMet ? getDateLastMetString(props.dateMet) : unknownDetail}
           </div>
-          <div className={classes.Location}>
+          <div className={classes.EncounterProperty}>
             {'Location: '}
             {props.location ? props.location : unknownDetail}
           </div>
