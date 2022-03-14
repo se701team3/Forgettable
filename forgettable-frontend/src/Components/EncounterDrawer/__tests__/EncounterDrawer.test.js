@@ -9,17 +9,35 @@ import {
 } from '@testing-library/dom';
 import EncounterDrawer from '../EncounterDrawer';
 
-const PERSON_NAME = 'Mercury Lin';
+const PERSONS = [
+  {
+
+    id: '1',
+    name: 'John Doe',
+    img: 'https://www.w3schools.com/w3css/img_lights.jpg',
+  },
+  {
+
+    id: '2',
+    name: 'Mercury Lin',
+    img: 'https://user-images.githubusercontent.com/62003343/158133392-b606b9d2-b05a-49dc-a4e8-9d6aed696d6b.gif',
+  },
+  {
+
+    id: '3',
+    name: 'Raina Song',
+    img: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
+  },
+];
 
 it('renders EncounterDrawer UI with correct hierarchy', () => {
   const renderer = new ShallowRenderer();
   renderer.render(<EncounterDrawer
     open={true}
-    name="Mercury Lin"
-    img="https://user-images.githubusercontent.com/62003343/157863205-d299d1aa-deeb-4009-bcc8-2238227f5703.gif"
     dateMet={new Date('2020-01-01')}
     location="London"
     encounterDetail="We met on a train, it was a long journey"
+    persons={PERSONS}
   />);
   const result = renderer.getRenderOutput();
 
@@ -28,16 +46,20 @@ it('renders EncounterDrawer UI with correct hierarchy', () => {
 
 afterEach(cleanup);
 
-it('Name prop passed in is displayed correctly', () => {
+it('Title prop passed in is displayed correctly', () => {
+  const title='Fun times';
+
   const {getByTestId} = render(
       <EncounterDrawer
         open={true}
-        name={PERSON_NAME}
+        persons={PERSONS}
+        encounterTitle={title}
+
       />);
 
-  const {getByText} = within(getByTestId('name-element'));
+  const {getByText} = within(getByTestId('title-element'));
 
-  expect(getByText(PERSON_NAME.split(' ')[0])).toBeInTheDocument();
+  expect(getByText(title)).toBeInTheDocument();
 });
 
 it('displays the correct date met an existing date', () => {
@@ -46,14 +68,14 @@ it('displays the correct date met an existing date', () => {
   const {getByTestId} = render(
       <EncounterDrawer
         open={true}
-        name={PERSON_NAME}
+        persons={PERSONS}
         dateMet={dateMet}
       />);
 
   const {getByText} = within(getByTestId('date-met-element'));
 
   expect(
-      getByText('01 Jan 2000'),
+      getByText('01/01/2000'),
   ).toBeInTheDocument();
 });
 
@@ -63,7 +85,7 @@ it('displays the correct location', () => {
   const {getByTestId} = render(
       <EncounterDrawer
         open={true}
-        name={PERSON_NAME}
+        persons={PERSONS}
         location={location}
       />);
 
@@ -81,7 +103,7 @@ it('displays the details when the props is passed', () => {
   const {getByTestId} = render(
       <EncounterDrawer
         open={true}
-        name={PERSON_NAME}
+        persons={PERSONS}
         encounterDetail={details}
       />);
 

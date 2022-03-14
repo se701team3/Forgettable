@@ -50,7 +50,7 @@ const EncounterDrawer = (props) => {
     >
       <div className={classes.EncounterDrawer}>
         <div className={classes.ContentContainer}>
-          <h1 className={classes.EncounterTitle}>{props.encounterTitle}</h1>
+          <h1 className={classes.EncounterTitle} data-testid={'title-element'}>{props.encounterTitle}</h1>
           <div className={classes.SubtitleContainer}>
             <h3 className={classes.EncounterSubtitle}>You encountered: </h3>
             {
