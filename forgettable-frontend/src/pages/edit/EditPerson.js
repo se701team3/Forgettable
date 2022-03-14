@@ -1,5 +1,5 @@
 import {Avatar, imageListClasses, Input, SvgIcon} from '@mui/material';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useState, useRef} from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import classes from './EditPerson.module.css';
@@ -28,11 +28,16 @@ export default function EditPerson() {
     how_we_met: 'idk',
     interests: 'a',
     organisation: 'job co.',
-    social_media: '???',
+    social_media: [],
     image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
     encounters: [],
     time_updated: '0002-02-02',
   };
+
+  const mapTest = new Map([
+    ['twitter', 'https://twitter.com/Twitter'],
+    ['github', 'github.com'],
+  ]);
 
   let initialProfilePic = '';
   let initialProfilePicPreview = '';
@@ -46,18 +51,29 @@ export default function EditPerson() {
   const [profilePicPreview, setProfilePicPreview] = useState(initialProfilePicPreview);
   const [profilePic, setProfilePic] = useState(initialProfilePic); // leave blank or use ''?
 
-  const [socialMedias, setSocialMedias] = useState([]); // should be map https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+  const [socialMedias, setSocialMedias] = useState(new Map([
+    ['twitter', 'https://twitter.com/Twitter'],
+    ['github', 'github.com'],
+  ])); // should be map https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
 
   const navigate = useNavigate();
 
-  const inputProfilePic = useRef(null);
-
   function handleAddSocialMedia(newSocialMedia) {
-    // open modal - returns map?
-    // newSocialMedia.preventDefault();
-    // socialMedias = [...socialMedias, newSocialMedia];
-    setSocialMedias([...socialMedias, newSocialMedia]);
-    console.log(socialMedias);
+    const newStateSocailMedias = [...socialMedias, ['facebook', 'fdsa']]; // temp
+    setSocialMedias(newStateSocailMedias);
+  }
+
+  function handleDisplaySocialMedia() {
+    const socialMediaElements = [];
+    for (const [key, value] of socialMedias) {
+      socialMediaElements.push(<Avatar
+        src={convertSocialMediaToIcon(key)}
+        alt={socialMedias[key]}
+        key={key}
+        onClick={() => alert('clicked')} // replace with custom modal and perhaps function
+        className={classes.socialMediaIcon}/>);
+    }
+    return socialMediaElements;
   }
 
 
@@ -137,24 +153,12 @@ export default function EditPerson() {
           </div>
         </div>
         <div className={classes.socialMediaDiv}>
-          {/* <label>Social Media</label> */}
-          {socialMedias.map((socialMedia, index) => (
-            <Avatar
-              src={convertSocialMediaToIcon(socialMedia)}
-              alt={socialMedia}
-              key={index}
-              className={classes.socialMediaIcon}/>
-          ))}
-          {/* <Avatar
-                src={convertSocialMediaToIcon(socialMedia)}
-                alt={socialMedia}
-              /> */}
+          {handleDisplaySocialMedia()}
           <button
             className={classes.addSocialMediaIcon}
             onClick={handleAddSocialMedia}>
               +
           </button>
-          {/* <SvgIcon {...StarIcon}></SvgIcon> */}
         </div>
 
         <div className={classes.formButtonsDiv}>

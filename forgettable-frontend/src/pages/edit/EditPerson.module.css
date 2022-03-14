@@ -43,10 +43,12 @@
     font-size: xx-large;
     background-color: white;
     border-style: solid;
+    cursor: pointer;
 }
 
 .socialMediaIcon {
     margin-right: 4px;
+    cursor: pointer;
 }
 
 .hiddenSubmit {
