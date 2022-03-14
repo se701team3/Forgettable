@@ -12,8 +12,8 @@ export const getDateLastMetString = (timeInMs) => {
                   'never :(';
 };
 
-export const getDateString = (timeInMs) => {
+export const getBirthdayString = (timeInMs) => {
   return timeInMs ?
-  moment(timeInMs).format('DD/MM/YYYY') :
-  'once upon a time';
+                  moment(timeInMs).format('DD MMM YYYY') :
+                  '';
 };
