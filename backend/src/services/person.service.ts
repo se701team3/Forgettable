@@ -50,10 +50,27 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
   return filteredPersons;
 };
 
+const addEncounterToPersons = async (personIds, encounterId) => {
+  let success = true;
+  personIds.map(async (id) => {
+    const updatedPerson = await Person.findOneAndUpdate(
+      { _id: id },
+      { $push: { encounters: encounterId }},
+      { returnOriginal: false });
+    
+      if (!updatedPerson?.encounters.includes(new mongoose.Types.ObjectId(encounterId))) {
+        success = false;
+      }
+  })
+
+  return success;
+}
+
 const personService = {
   createPerson,
   getPersonWithId,
-  getPeople
+  getPeople,
+  addEncounterToPersons
 };
 
 export default personService;
