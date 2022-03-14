@@ -44,21 +44,21 @@ const EncounterDrawer = (props) => {
                   'height': '30px',
                 }}
               />
-              <p>{props.name.split(' ')[0]}</p>
+              <p data-testid="name-element">{props.name.split(' ')[0]}</p>
             </div>
           </div>
-          <div className={classes.EncounterProperty}>
+          <div className={classes.EncounterProperty} data-testid="date-met-element">
             {'Date we met: '}
             {props.dateMet ?
             getDateLastMetString(props.dateMet) :
             unknownDetail}
           </div>
-          <div className={classes.EncounterProperty}>
+          <div className={classes.EncounterProperty} data-testid="location-element">
             {'Location: '}
             {props.location ? props.location : unknownDetail}
           </div>
           <h2>Details:</h2>
-          <p className={classes.EncounterDetails}>
+          <p className={classes.EncounterDetails} data-testid="details-element">
             {props.encounterDetails}
           </p>
         </div>
