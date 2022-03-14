@@ -15,7 +15,7 @@ export const createPerson: POST = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  logger.info('POST /persons/create request from frontend');
+  logger.info('POST /persons request from frontend');
   const auth_id = req.headers.authorization?.["user_id"];
 
   try {
