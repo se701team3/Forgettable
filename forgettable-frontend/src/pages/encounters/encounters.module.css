@@ -49,5 +49,9 @@
 .List{
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    width: fit-content;
+}
+
+.EncounterCard{
+    margin-bottom: 30px;
 }

@@ -5,6 +5,7 @@ import CustomButton from '../CustomButton/CustomButton';
 import {AvatarGroup, Avatar} from '@mui/material';
 import classes from './EncounterCard.module.css';
 import {stringAvatar} from '../../functions/helper';
+import classnames from 'classnames';
 import './EncounterCard.css';
 import PropTypes from 'prop-types';
 import {getDateString} from '../../functions/dateFormatter';
@@ -21,12 +22,11 @@ const WHERE_WE_MET = 'Where we met: ';
  * Author: Raina Song (rainasong)
  */
 const EncounterCard = (props) => {
-  const {isInitialEncounter, title, persons, description, date, location, onClick, onDelete} = props;
-  const isMultiplePerson = persons.length > 1;
+  const {isInitialEncounter, title, persons, description, date, location, onClick, onDelete, className} = props;
 
   return (
     <div className={isInitialEncounter ? classes.Card_special : classes.Card}>
-      <div className={classes.Card_content}>
+      <div className={classnames(classes.Card_content, className)}>
         <div onClick={onClick}>
           {isInitialEncounter && <section className={classes.Initial_label_container}>
             <div className={classes.Initial_label}>First Encounter!</div>
@@ -37,22 +37,6 @@ const EncounterCard = (props) => {
             </div>
             <div className={classes.Profile_container}>
               <CustomAvatar persons={persons}/>
-              {/* <AvatarGroup max={4}
-                className={isMultiplePerson ? classes.Avatar_multiple : classes.Avatar_inline}
-                data-testid="persons-avatar-group"
-              >
-                {persons.map((person, index) => {
-                  return (
-                    <div key={`${index}-container`}>
-                      <Avatar key={index} alt={`${person.first_name} ${person.last_name}`} className={classes.Avatar} {...!person.img && stringAvatar(`${person.first_name} ${person.last_name}`)} src={person.img} />
-                      {!isMultiplePerson && <div className={classes.Avatar_name}>
-                        {person.first_name}
-                      </div>}
-                    </div>
-                  );
-                },
-                )}
-              </AvatarGroup> */}
             </div>
           </section>
           <section className={classes.Body}>
@@ -87,6 +71,7 @@ EncounterCard.propTypes = {
   onClick: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   isInitialEncounter: PropTypes.bool.isRequired,
+  className: PropTypes.string,
 };
 
 export default EncounterCard;

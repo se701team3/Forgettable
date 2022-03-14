@@ -6,10 +6,13 @@ import IconButton from '../../components/IconButton/IconButton';
 import {getDateString} from '../../functions/dateFormatter';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function Encounters() {
   const [isHover, setIsHover] = useState(false);
   const [selectedInfo, setSelectedInfo] = useState(undefined);
+
+  const [hasMore, setHasMore] = useState(true);
 
   const persons = [
     {
@@ -37,6 +40,18 @@ export default function Encounters() {
     },
   ];
 
+  const [encounterList, setEncounterList] = useState(
+      [{
+        id: '0',
+        date: getDateString(new Date()),
+        location: 'Auckland',
+        title: 'Fermentum pellentesque',
+        description: 'Diam dictum vestibulum mi nulla vestibulum, id nibh. Nunc consequat amet commodo turpis tellus. Scelerisque a pellentesque vel accumsan sed mauris, ac turpis pharetra. Sem tristique nulla cursus praesent tincidunt integer',
+        persons: persons,
+      },
+      ],
+  );
+
   const onClick = () => {
     console.log('card click');
   };
@@ -45,21 +60,35 @@ export default function Encounters() {
     console.log('delete');
   };
 
-  const encounterList = [{
-    id: '0',
-    date: getDateString(new Date()),
-    location: 'Auckland',
-    title: 'Fermentum pellentesque',
-    description: 'Diam dictum vestibulum mi nulla vestibulum, id nibh. Nunc consequat amet commodo turpis tellus. Scelerisque a pellentesque vel accumsan sed mauris, ac turpis pharetra. Sem tristique nulla cursus praesent tincidunt integer',
-    persons: persons,
-  },
-  ];
   for (let i = 1; i < 20; i++) {
     encounterList[i] = {
       ...encounterList[0],
       id: i.toString(),
     };
   }
+
+  const fetchMoreData = () => {
+    // console.log('fetch more');
+    if (encounterList.length > 100) {
+      setHasMore(false);
+      return;
+    }
+
+    setTimeout(() => {
+      const newList = [];
+      newList[0] = encounterList[0];
+      for (let i = 0; i < 20; i++) {
+        newList[i] = {
+          ...newList[0],
+          id: i.toString(),
+        };
+      }
+      setEncounterList([...encounterList, ...newList]);
+    }, 1000);
+  };
+
+  // console.log(encounterList);
+
 
   const handleOnMouseOver = (index) => {
     setIsHover(true);
@@ -92,23 +121,36 @@ export default function Encounters() {
           </div>
         </div>
         <div className={classes.List}>
-          {encounterList.map((encounter, index) => {
-            return (
-              <div key={`${index}-container`} onMouseOver={() => handleOnMouseOver(index)} onMouseOut={handleOnMouseOut}>
-                <EncounterCard
-                  key={encounter.id}
-                  title={encounter.title}
-                  description={encounter.description}
-                  location={encounter.location}
-                  persons={encounter.persons}
-                  date={encounter.date}
-                  onClick={onClick}
-                  onDelete={onDelete}
-                  isInitialEncounter={false}
-                />
-              </div>
-            );
-          })}
+          <InfiniteScroll
+            dataLength={encounterList.length}
+            next={fetchMoreData}
+            hasMore={hasMore}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p style={{textAlign: 'center'}}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+          >
+            {encounterList.map((encounter, index) => {
+              return (
+                <div key={`${index}-container`} onMouseOver={() => handleOnMouseOver(index)} onMouseOut={handleOnMouseOut}>
+                  <EncounterCard
+                    key={encounter.id}
+                    title={encounter.title}
+                    description={encounter.description}
+                    location={encounter.location}
+                    persons={encounter.persons}
+                    date={encounter.date}
+                    className={classes.EncounterCard}
+                    onClick={onClick}
+                    onDelete={onDelete}
+                    isInitialEncounter={false}
+                  />
+                </div>
+              );
+            })}
+          </InfiniteScroll>
         </div>
       </div>
     </>
