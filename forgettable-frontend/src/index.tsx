@@ -6,7 +6,7 @@ import {
   Route,
 } from 'react-router-dom';
 import './index.css';
-import App from './App';
+import App from './pages/home/App';
 import reportWebVitals from './reportWebVitals';
 import NavBar from './components/NavBar/NavBar';
 import Settings from './pages/settings/settings';
