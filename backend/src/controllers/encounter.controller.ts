@@ -54,9 +54,22 @@ export const updateEncounter = async (
     } catch (e) {
         next(e);
     }
+
+export const getAllEncounters = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+  logger.info("GET /encounters request from frontend");
+
+  try {
+    logger.info(req.headers.authorization);
+    res.status(httpStatus.OK).end();
+  } catch (e) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).end();
+  }
 };
 
- 
  // Util function that won't be needed regularly
 const getEncounterFromReqBody = (body: any) => {
     const encounter: EncounterModel = {
