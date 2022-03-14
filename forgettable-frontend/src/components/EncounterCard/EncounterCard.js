@@ -8,6 +8,7 @@ import {stringAvatar} from '../../functions/helper';
 import './EncounterCard.css';
 import PropTypes from 'prop-types';
 import {getDateString} from '../../functions/dateFormatter';
+import CustomAvatar from '../CustomAvatar/CustomAvatar';
 
 const DELETE = 'Delete';
 const DATE_WE_MET = 'Date we met: ';
@@ -35,7 +36,8 @@ const EncounterCard = (props) => {
               {title}
             </div>
             <div className={classes.Profile_container}>
-              <AvatarGroup max={4}
+              <CustomAvatar persons={persons}/>
+              {/* <AvatarGroup max={4}
                 className={isMultiplePerson ? classes.Avatar_multiple : classes.Avatar_inline}
                 data-testid="persons-avatar-group"
               >
@@ -50,7 +52,7 @@ const EncounterCard = (props) => {
                   );
                 },
                 )}
-              </AvatarGroup>
+              </AvatarGroup> */}
             </div>
           </section>
           <section className={classes.Body}>
