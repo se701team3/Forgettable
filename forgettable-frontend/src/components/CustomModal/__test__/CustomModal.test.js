@@ -21,6 +21,25 @@ it('renders CustomModal UI to test correct hierarchy', () => {
       >
         <h1>This is an example title</h1>
       </CustomModal>);
+
   const result = renderer.getRenderOutput();
+
   expect(result).toMatchSnapshot();
+});
+
+it('check if children components are passed in correctly', () => {
+  render(
+      <CustomModal
+        open={true}
+        onClose={handleModalClose}
+        hasCancel={true}
+        hasConfirm={true}
+        onConfirm={handleModalClose}
+      >
+        <h1>Title</h1>
+      </CustomModal>);
+
+  const titleElement = screen.getByText(/title/i);
+
+  expect(titleElement).toBeInTheDocument();
 });
