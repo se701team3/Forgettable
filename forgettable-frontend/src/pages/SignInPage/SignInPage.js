@@ -4,20 +4,11 @@ import googleLogin from '../../assets/icons/google-login.svg';
 import logoBlack from '../../assets/logos/logo-black.svg';
 import {getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
 import {initializeApp} from 'firebase/app';
+import {firebaseConfig} from '../../firebase-config';
 
 
 export default function SignInPage() {
   const signInHandler = ()=>{
-    // Configs to allow for firebase authentication
-    const firebaseConfig = {
-      apiKey: 'AIzaSyC1BtS4u1oIsbLSKA1TCzNK8f-PzfiXFOE',
-      authDomain: 'forgettable-78b96.firebaseapp.com',
-      projectId: 'forgettable-78b96',
-      storageBucket: 'forgettable-78b96.appspot.com',
-      messagingSenderId: '762262832965',
-      appId: '1:762262832965:web:25beb236f7ff93b05f602c',
-    };
-
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
 
@@ -60,7 +51,7 @@ export default function SignInPage() {
         {/* Create google account */}
         <p className={classes.CreateAccountText}>
           Please sign in using your Google account, if you do not have an
-          account, create on <a href="https://accounts.google.com/SignUp?hl=en">here</a>
+          account, create one <a href="https://accounts.google.com/SignUp?hl=en">here</a>
         </p>
 
         <img

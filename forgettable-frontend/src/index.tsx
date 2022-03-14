@@ -12,10 +12,21 @@ import NavBar from './components/NavBar/NavBar';
 import Settings from './pages/settings/settings';
 import People from './pages/people/people';
 import Encounters from './pages/encounters/encounters';
+import SignInPage from './pages/SignInPage/SignInPage';
+
+function LoggedIn(props: any) {
+  const isLoggedIn = props.loggedIn;
+  if (isLoggedIn) {
+    return <NavBar />;
+  }
+  return <SignInPage />;
+}
 
 ReactDOM.render(
     <React.StrictMode>
       <BrowserRouter>
+        {/* <NavBar /> */}
+        <LoggedIn loggedIn={false}/>
         <Routes>
           <Route path="/" element={<App/>} />
           <Route path="settings" element={<Settings/>} />
