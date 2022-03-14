@@ -2,6 +2,7 @@
  * Controller contains high-level operations using services, consumed by routes
  */
 import { NextFunction, Request, Response } from "express";
+import userService from "../services/user.service";
 import encounterService from "../services/encounter.service";
 import logger from "../utils/logger";
 import httpStatus from "http-status";
@@ -76,9 +77,18 @@ export const getAllEncounters = async (
 ): Promise<void> => {
   logger.info("GET /encounters request from frontend");
 
+  const auth_id = req.headers.authorization?.["user_id"];
+  const user = await userService.getUserByAuthId(auth_id);
+
   try {
-    logger.info(req.headers.authorization);
-    res.status(httpStatus.OK).end();
+    if (!user) {
+      res.status(httpStatus.NOT_FOUND).end();
+    } else if (!user.encounters.length) {
+      res.status(httpStatus.NO_CONTENT).end();
+    } else {
+      const foundUserEncounters = await encounterService.getAllEncounters(user.encounters);
+      res.status(httpStatus.OK).json(foundUserEncounters).end();
+    }
   } catch (e) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).end();
   }
