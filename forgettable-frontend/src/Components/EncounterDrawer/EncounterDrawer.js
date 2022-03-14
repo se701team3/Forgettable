@@ -15,6 +15,24 @@ import {getBirthdayString} from '../../functions/dateFormatter';
 const EncounterDrawer = (props) => {
   const unknownDetail = <span className={classes.UnknownText}>Unknown</span>;
 
+  const createPersonMiniProfile = (person, i) => {
+    return (
+      <div className={classes.MiniPersonProfile} key={person.id || i} >
+        <Avatar
+          alt={person.name}
+          src={person.img}
+          sx={{
+            'width': '30px',
+            'height': '30px',
+          }}
+        />
+        <p data-testid="name-element">{person.name.split(' ')[0]}</p>
+      </div>
+
+    );
+  };
+
+
   return (
     <Drawer
       sx={{
@@ -35,17 +53,13 @@ const EncounterDrawer = (props) => {
           <h1 className={classes.EncounterTitle}>{props.encounterTitle}</h1>
           <div className={classes.SubtitleContainer}>
             <h3 className={classes.EncounterSubtitle}>You encountered: </h3>
-            <div className={classes.MiniPersonProfile}>
-              <Avatar
-                alt={props.name}
-                src={props.img}
-                sx={{
-                  'width': '30px',
-                  'height': '30px',
-                }}
-              />
-              <p data-testid="name-element">{props.name.split(' ')[0]}</p>
-            </div>
+            {
+              props.persons.map((person, i) => {
+                return (
+                  createPersonMiniProfile(person, i)
+                );
+              })
+            }
           </div>
           <div className={classes.EncounterProperty} data-testid="date-met-element">
             {'Date we met: '}
@@ -70,8 +84,12 @@ const EncounterDrawer = (props) => {
 EncounterDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
   id: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  img: PropTypes.string,
+  encounterTitle: PropTypes.string.isRequired,
+  persons: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    img: PropTypes.string,
+  })).isRequired,
   dateMet: PropTypes.instanceOf(Date),
   location: PropTypes.string,
   encounterDetail: PropTypes.string,
