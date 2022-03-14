@@ -20,6 +20,6 @@ export const getBirthdayString = (timeInMs) => {
 
 export const getDateString = (timeInMs) => {
   return timeInMs ?
-                  moment(timeInMs).format('DD MMM YYYY') :
+                  moment(timeInMs).format('DD/MMM/YYYY') :
                   'once upon a time';
 };

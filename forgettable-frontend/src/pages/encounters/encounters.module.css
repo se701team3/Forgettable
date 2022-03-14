@@ -2,11 +2,14 @@
 
 .Container{
     display: flex;
-    flex-direction: row;
-    height: 100vh;
-    margin: 0;
-    overflow-y: scroll;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 32px;
+    margin-left: 35px;
+    margin-top: 70px;
+    margin-bottom: 70px;
+    margin-right: 490px;
+    min-width: 805px;
+    max-width: 1060px;
 }
 
 .Left{
@@ -28,16 +31,23 @@
 .Header{
     font-size: var(--text-xxlarge);
     font-weight: var(--font-semibold);
-    padding-bottom: 20px;
 }
 
 .Utilities{
+    width: 100%;
     display: flex;
     flex-direction: row;
-    gap: 20px;
-    padding-bottom: 30px;
+    gap: 26px;
+    justify-content: space-between;
+}
+
+.Button{
+    flex-shrink: 0;
+    height: auto;
 }
 
 .List{
-
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
