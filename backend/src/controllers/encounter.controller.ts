@@ -6,7 +6,8 @@
  import logger from '../utils/logger';
 import httpStatus from "http-status";
 import {EncounterModel} from "../models/encounter.model";
-import {getUserByAuthId} from "../services/user.service";
+import userService, {getUserByAuthId} from "../services/user.service";
+import personService from '../services/person.service';
  
 export const createEncounter = async (
   req: Request,
@@ -15,14 +16,36 @@ export const createEncounter = async (
 ): Promise<void> => {
   logger.info("POST /encounter request from frontend");
 
-  //TODO: has to verify user token here first and retreive the list of persons belonging to the user
-
+  const auth_id = req.headers.authorization?.["user_id"];
 
   try {
-    // Pass data to service and attempt to save
+    const user = await getUserByAuthId(auth_id);
+
+    if (!user) {
+      res.status(httpStatus.FORBIDDEN).send('No such User exists').end();
+      return;
+    }
+
     const createdEncounter = await encounterService.createEncounter(req.body);
-    // Notify frontend that the operation was successful
-    res.status(httpStatus.CREATED).json(createdEncounter);
+    logger.info(createdEncounter._id + '');
+
+    createdEncounter.persons.map((personEncountered) => {
+      if (!user.persons.includes(personEncountered)) {
+        encounterService.deleteEncounter(createdEncounter._id + '');
+        res.status(httpStatus.FORBIDDEN).send('Person does not exist for this User').end();
+        return;
+      }
+    })
+
+    const updateUser = await userService.addEncounterToUser(user.auth_id, createdEncounter._id);
+    const updatePerson = await personService.addEncounterToPersons(createdEncounter.persons, createdEncounter.id);
+
+    if (!updateUser || !updatePerson) {
+      encounterService.deleteEncounter(createdEncounter._id + '');
+      res.status(httpStatus.CONFLICT).end();
+    }
+
+    res.status(httpStatus.CREATED).json(createdEncounter).end();
   } catch (e) {
     next(e);
   }
@@ -60,6 +83,7 @@ export const updateEncounter = async (
  // Util function that won't be needed regularly
 const getEncounterFromReqBody = (body: any) => {
     const encounter: EncounterModel = {
+        title: body.title,
         date: body.date,
         location: body.location,
         description: body.description,
