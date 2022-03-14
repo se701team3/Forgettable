@@ -31,14 +31,6 @@ beforeAll(async () => {
 afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
-const encounter1Data = {
-    title: "Encounter1",
-    date: new Date('2022-02-23'),
-    description: 'Met at a cafe',
-    location: 'Auckland',
-    persons: [] as any
-}
-
 const user1Data = {
     first_name: 'Bing',
     last_name: 'Bong',
@@ -58,6 +50,14 @@ const person1Data = {
     gender: "male",
     location: "Auckland"
 };
+
+const encounter1Data = {
+    title: "Encounter1",
+    date: new Date('2022-02-23'),
+    description: 'Met at a cafe',
+    location: 'Auckland',
+    persons: [] as any
+}
 
 const encounter2Data = {
     title: "Encounter2",
@@ -82,14 +82,14 @@ const encounter4Data= {
 }
 
 const encounter5Data = {
-    title: "Encounter6",
+    title: "Encounter5",
     date: new Date('2022-05-25'),
     description: 'Played badminton together',
     persons: [] as any
 }
 
 const encounter6Data = {
-    title: "Encounter7",
+    title: "Encounter6",
     date: new Date('2022-02-23'),
     description: 'Met at a cafe',
     location: 'Auckland'
@@ -112,7 +112,7 @@ const encounterData: EncounterModel = {
 
 describe('POST /encounter', () => {
     it('Successfully creates an encounter with all info given', async () => {
-        const person = await supertest(app).post('/api/persons')
+        const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(person1Data)
@@ -139,7 +139,7 @@ describe('POST /encounter', () => {
 
 
     it('Successfully creating an encounter without date field', async () => {
-        const person = await supertest(app).post('/api/persons')
+        const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(person1Data)
@@ -166,7 +166,7 @@ describe('POST /encounter', () => {
     })
 
     it('Successfuly creating an encounter without a location field', async () => {
-        const person = await supertest(app).post('/api/persons')
+        const { body:person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(person1Data)
