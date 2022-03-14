@@ -1,7 +1,7 @@
-import httpStatus from 'http-status';
 import databaseOperations from '../../utils/test/db-handler';
-import { EncounterModel } from 'src/models/encounter.model';
 import app from '../../server';
+import {EncounterModel} from "../../models/encounter.model";
+import httpStatus from "http-status";
 
 const supertest = require('supertest');
 
@@ -9,24 +9,61 @@ beforeAll(async () => databaseOperations.connectDatabase());
 afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
-const requestEncounterData:EncounterModel = {
-  date: new Date('2000-01-01'),
-  location: 'testloc',
-  description: 'testdesc',
-  persons: [] as any
-};
+const encounterData: EncounterModel = {
+  date: new Date("2022-12-02"),
+  location: "here",
+  description: "we did this and that",
+  persons: [] as any,
+}
 
 describe('encounter ', () => {
-  it('can be created correctly', async () => {
-    await supertest(app).post('/api/encounters')
-      .set('Accept', 'application/json')
-      .send(requestEncounterData)
-      .expect(httpStatus.CREATED);
+  it('is created correctly', async ()=>{
+    const {_body} = await supertest(app).post('/api/encounters')
+        .set('Accept', 'application/json')
+        .send(encounterData)
+        .expect(httpStatus.CREATED)
 
-    const { body } = await supertest(app).get('/api/encounters');
-    expect(body).toHaveLength(1);
-    const result:EncounterModel = body[0];
-    expect(result.location).toEqual(requestEncounterData.location);
-    expect(result.description).toEqual(requestEncounterData.description);
+    expect(_body.location).toBe(encounterData.location)
+    expect(_body.description).toBe(encounterData.description)
+  })
+
+  it('is updated correctly', async () => {
+    // create an encounter
+    const newEncounter = await supertest(app).post('/api/encounters').set('Accept', 'application/json').send(encounterData)
+    const newEncounterId = newEncounter._body._id
+    expect(newEncounter._body.location).toBe(encounterData.location)
+
+    // change data
+    const changedLocation = "actually it's not there"
+    encounterData.location = changedLocation
+
+    // update an encounter
+    await supertest(app)
+        .put(`/api/encounters/${newEncounterId}`)
+        .set('Accept', 'application/json')
+        .send(encounterData)
+        .expect(httpStatus.NO_CONTENT)
+
+    // retrieve encounter from database, and check that the updated encounter contains the changed location
+    // TODO: require findEncounter service to be implemented (blocked by GET /encounters/:id)
+
+  });
+
+  it('is updated with invalid encounter object ID (non-castable)', async () => {
+    // update an encounter of id that does not exist
+    await supertest(app)
+        .put(`/api/encounters/${123}`)
+        .set('Accept', 'application/json')
+        .send(encounterData)
+        .expect(httpStatus.BAD_REQUEST)
+  });
+
+  it('is updated with encounter object ID that does not exist', async () => {
+    // update an encounter of id that does not exist
+    await supertest(app)
+        .put(`/api/encounters/622b36166bb3a4e3a1ef62f1`)
+        .set('Accept', 'application/json')
+        .send(encounterData)
+        .expect(httpStatus.NOT_FOUND)
   });
 });
