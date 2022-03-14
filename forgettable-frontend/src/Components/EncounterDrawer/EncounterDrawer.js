@@ -32,104 +32,26 @@ const EncounterDrawer = (props) => {
     >
       <div className={classes.EncounterDrawer}>
         <div className={classes.ContentContainer}>
-          <Avatar
-            alt={props.name}
-            // this style is written inline because MUI does not support className
-            style={{
-              height: '200px',
-              width: '200px',
-              backgroundColor:
-                getComputedStyle(document.body).getPropertyValue('--prmry'),
-              fontSize:
-                getComputedStyle(document.body).getPropertyValue('--text-xxlarge')
-              ,
-            }}
-            src={props.img}
-          />
-          <div className={classes.InfoHeader}>
-            <h1 data-testid="name-element">
-              {props.name}
-            </h1>
-            <h2 data-testid="first-met-element">
-              First met {getFirstMetTimeString(props.firstMet)}
-            </h2>
+          <h1 className={classes.EncounterTitle}>{props.encounterTitle}</h1>
+          <div className={classes.SubtitleContainer}>
+            <h3 className={classes.EncounterSubtitle}>You encountered: </h3>
+            <div className={classes.MiniPersonProfile}>
+              <Avatar />
+              <p>{props.name}</p>
+            </div>
           </div>
-          <div className={classes.InfoContent}>
-            <p data-testid="age-element">
-              {'Age: '}
-              {props.birthday?
-              <span className={classes.KnownText}>34</span> :
-              unknownDetail}
-            </p>
-            <p data-testid="gender-element">
-              {'Gender: '}
-              {props.gender ?
-              <span className={classes.KnownText}>
-                {capitalise(props.gender)}
-              </span> :
-              unknownDetail}
-            </p>
-            <p data-testid="birthday-element">
-              {'Birthday: '}
-              {props.birthday ?
-              <span className={classes.KnownText}>
-                {getBirthdayString(props.birthday)}
-              </span> :
-              unknownDetail}
-            </p>
-            <p data-testid="organisation-element">
-              {'Organisation: '}
-              {props.organisation ?
-              <span className={classes.KnownText}>
-                {capitalise(props.organisation)}
-              </span> :
-              unknownDetail}
-            </p>
-            <p data-testid="location-element">
-              {' Location: '}
-              {props.location ?
-              <span className={classes.KnownText}>
-                {capitalise(props.location)}
-              </span> :
-              unknownDetail}
-            </p>
-            <p data-testid="date-first-met-element">
-              {'First met: '}
-              {props.firstMet ?
-                <span className={classes.KnownText}>
-                  {getDateLastMetString(props.firstMet)}
-                </span> :
-                 unknownDetail}
-            </p>
-            <p data-testid="interests-element">
-              {'Interests: '}
-              {props.interests ?
-               <span className={classes.KnownText}>
-                 {props.interests.join(', ')}
-               </span> :
-               unknownDetail}
-            </p>
-            <p data-testid="social-medias-element">
-              {'Social media: '}
-              {props.socialMedias?.length ?
-               <span className={classes.SocialMediaContainer}>
-                 {props.socialMedias.map((socialMedia) => {
-                   const icon = convertSocialMediaToIcon(socialMedia.name);
-
-                   return (icon ?
-                    <IconButton
-                      key={socialMedia.name}
-                      data-testid={`social-media-element-${socialMedia.name}`}
-                      onClick={() => window.open(socialMedia.link, '_blank')}
-                    >
-                      <img src={icon} alt={socialMedia.name} />
-                    </IconButton> :
-                    null
-                   );
-                 })}
-               </span> :unknownDetail}
-            </p>
+          <div className={classes.DateWeMet}>
+            {'Date we met: '}
+            {props.dateMet ? getDateLastMetString(props.dateMet) : unknownDetail}
           </div>
+          <div className={classes.Location}>
+            {'Location: '}
+            {props.location ? props.location : unknownDetail}
+          </div>
+          <h2>Details:</h2>
+          <p className={classes.EncounterDetails}>
+            {props.encounterDetails}
+          </p>
         </div>
       </div>
     </Drawer>
@@ -141,11 +63,9 @@ EncounterDrawer.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string.isRequired,
   img: PropTypes.string,
-  socialMedias: PropTypes.arrayOf(Object), // See below for an example
-  // [{name: 'facebook', link: 'https://www.google.com/'}, {name: 'instagram', link: 'https://www.google.com/'}]
-  firstMet: PropTypes.instanceOf(Date),
+  dateMet: PropTypes.instanceOf(Date),
   location: PropTypes.string,
-  interests: PropTypes.arrayOf(PropTypes.string),
+  encounterDetail: PropTypes.string,
 };
 
 export default EncounterDrawer;
