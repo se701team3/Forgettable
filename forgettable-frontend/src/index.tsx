@@ -25,7 +25,6 @@ function LoggedIn(props: any) {
 ReactDOM.render(
     <React.StrictMode>
       <BrowserRouter>
-        {/* <NavBar /> */}
         <LoggedIn loggedIn={false}/>
         <Routes>
           <Route path="/" element={<App/>} />
