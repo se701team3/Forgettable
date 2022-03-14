@@ -92,7 +92,7 @@ EncounterDrawer.propTypes = {
   })).isRequired,
   dateMet: PropTypes.instanceOf(Date),
   location: PropTypes.string,
-  encounterDetail: PropTypes.string,
+  encounterDetail: PropTypes.string.isRequired,
 };
 
 export default EncounterDrawer;
