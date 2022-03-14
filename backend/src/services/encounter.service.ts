@@ -3,13 +3,15 @@ import Encounter, {EncounterModel} from '../models/encounter.model';
 const createEncounter = async (encounterDetails: EncounterModel) => {
     const encounter = new Encounter(encounterDetails);
 
+    await encounter.save();
+
     if (encounter.persons.length === 0) {
+        await Encounter.deleteOne({ _id: encounter._id }).exec();
         const e = new Error('Persons can\'t be empty');
         e.name = "ValidationError";
         throw e;
     }
 
-    await encounter.save();
     return encounter;
 };
 
@@ -20,7 +22,7 @@ const updateEncounter = async (objectID: string, encounterDetails: EncounterMode
 }
 
 const deleteEncounter = async (encounterID: String) => {
-    await Encounter.findByIdAndDelete(encounterID);
+    await Encounter.deleteOne({ _id: encounterID }).exec();
 }
 
 const encounterService = {
