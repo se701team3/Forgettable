@@ -46,6 +46,7 @@
 .MiniPersonProfile > p {
     font-size: var(--text-medium);
     font-weight: 400;
+    margin-left: 10px;
 }
 
 .EncounterProperty {
