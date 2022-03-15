@@ -28,6 +28,7 @@
     font-size: var(--text-drawer-title);
     font-weight: 600;
     margin: 5px 0;
+    text-align: center;
 }
 
 .InfoHeader > h2 {
@@ -35,6 +36,7 @@
     font-weight: 400;
     color: var(--txt2);
     margin: 0;
+    text-align: center;
 }
 
 .InfoContent {
