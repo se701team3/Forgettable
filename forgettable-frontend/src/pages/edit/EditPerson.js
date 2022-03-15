@@ -1,11 +1,12 @@
-import {Avatar, imageListClasses, Input, SvgIcon} from '@mui/material';
-import React, {useEffect} from 'react';
+import {Avatar, FormLabel, imageListClasses, Input, SvgIcon} from '@mui/material';
+import React, {createRef, useEffect} from 'react';
 import {useState, useRef} from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import classes from './EditPerson.module.css';
 import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import {useNavigate, useLocation, useParams} from 'react-router-dom';
 import imageToBase64 from 'image-to-base64/browser';
+import CustomModal from '../../components/CustomModal/CustomModal';
 
 const MAX_IMAGE_SIZE = 16000000;
 
@@ -17,16 +18,22 @@ export default function EditPerson() {
   // do a better check than this?
   const create = location.pathname.includes('/people/create') ? true : false;
 
-  // const {id} = useParams();
-
+  // if (!create) {
+  //   const {id} = useParams();
+  //   fetch(`/persons/${id}`)
+  //       .then((response) => response.json())
+  //       .then((json) => personData = json)
+  //       .catch((error) => {
+  //         console.error('Error', error);
+  //       });
+  // }
   // GET persons/:id if create == false
-  // fetch(`/persons/${id}`)
-  //     .then((response) => response.json())
-  //     .then((json) => personData = json);
+
 
   // const personData = {};
   const personData = {
-    full_name: 'Name Last',
+    first_name: 'Name',
+    last_name: 'Last',
     birthday: '2012-03-04',
     gender: 'male',
     location: 'here',
@@ -55,18 +62,35 @@ export default function EditPerson() {
   );
 
   const [profilePicPreview, setProfilePicPreview] = useState(initialProfilePicPreview);
-  const [profilePic, setProfilePic] = useState(initialProfilePic); // leave blank or use ''?
+  const [profilePic, setProfilePic] = useState(initialProfilePic);
 
+  // use data from object from API
   const [socialMedias, setSocialMedias] = useState(new Map([
     ['twitter', 'https://twitter.com/Twitter'],
     ['github', 'github.com'],
-  ])); // should be map https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+  ]));
 
   const navigate = useNavigate();
 
-  function handleAddSocialMedia(newSocialMedia) {
-    const newStateSocailMedias = [...socialMedias, ['facebook', 'fdsa']]; // temp
-    setSocialMedias(newStateSocailMedias);
+  const [socialMediaModalOpen, setSocialMediaModalOpen] = useState(false);
+  const [currentSocialMedia, setCurrentSocialMedia] = useState();
+
+  function handleSocialMediaModalOpen(key) {
+    key ? setCurrentSocialMedia(key) : setCurrentSocialMedia();
+    setSocialMediaModalOpen(true);
+  };
+
+  const handleSocialMediaModalClose = () => {
+    setSocialMediaModalOpen(false);
+  };
+
+  const invisSocialMediaSubmitRef = useRef(null);
+
+  function handleAddSocialMedia(data) {
+    handleSocialMediaModalClose();
+    const tempSocialMedias = socialMedias;
+    tempSocialMedias.set(data.target.elements.platform.value, data.target.elements.url_link.value);
+    setSocialMedias(tempSocialMedias);
   }
 
   function handleDisplaySocialMedia() {
@@ -74,14 +98,13 @@ export default function EditPerson() {
     for (const [key, value] of socialMedias) {
       socialMediaElements.push(<Avatar
         src={convertSocialMediaToIcon(key)}
-        alt={socialMedias[key]}
+        alt={key}
         key={key}
-        onClick={() => alert('clicked')} // replace with custom modal and perhaps function
+        onClick={() => (handleSocialMediaModalOpen(key))} // replace with custom modal and perhaps function
         className={classes.socialMediaIcon}/>);
     }
     return socialMediaElements;
   }
-
 
   // https://medium.com/geekculture/how-to-upload-and-preview-images-in-react-js-4e22a903f3db
   function uploadImagePreview(image) {
@@ -90,7 +113,6 @@ export default function EditPerson() {
 
       imageToBase64(imageURL).then(
           (response) => {
-            // console.log(response);
             setProfilePic(response);
           },
       );
@@ -148,8 +170,8 @@ export default function EditPerson() {
 
         <div className={classes.row}>
           <div className={classes.column}>
-            <p>Full Name</p>
-            <Input name='full_name' autoFocus required defaultValue={personData.full_name}></Input>
+            <p>First Name</p>
+            <Input name='first_name' autoFocus required defaultValue={personData.first_name}></Input>
             <p>Gender</p>
             <Input name='gender' defaultValue={personData.gender}></Input>
             <p>Date First Met</p>
@@ -157,8 +179,41 @@ export default function EditPerson() {
             <p>Interests</p>
             <Input name='interests' defaultValue={personData.interests}></Input>
             <p>Social Media</p>
+            <div className={classes.socialMediaDiv}>
+              {handleDisplaySocialMedia()}
+              <button
+                className={classes.addSocialMediaIcon}
+                onClick={() => handleSocialMediaModalOpen('')}>
+              +
+              </button>
+              <CustomModal
+                open={socialMediaModalOpen}
+                onClose={handleSocialMediaModalClose}
+                hasCancel
+                hasConfirm
+                onConfirm={() => invisSocialMediaSubmitRef.current.click()} >
+                <div className={classes.socialMediaModalDiv}>
+                  <h2>Social media link</h2>
+                  <form onSubmit={(data) => handleAddSocialMedia(data)}>
+                    <div className={classes.socialMediaModalFieldsDiv}>
+                      <div>
+                        <label>Platform: </label>
+                        <Input name='platform' defaultValue={currentSocialMedia}></Input>
+                      </div>
+                      <div>
+                        <label>URL Link: </label>
+                        <Input name='url_link' defaultValue={socialMedias.get(currentSocialMedia)}></Input>
+                      </div>
+                      <input ref={invisSocialMediaSubmitRef} id='socialMediaSubmit' type='submit' className={classes.hiddenSubmit}></input>
+                    </div>
+                  </form>
+                </div>
+              </CustomModal>
+            </div>
           </div>
           <div className={classes.column}>
+            <p>Last Name</p>
+            <Input name='last_name' autoFocus required defaultValue={personData.last_name}></Input>
             <p>Birthday</p>
             <Input name='birthday' type='date' defaultValue={personData.birthday}></Input>
             <p>Their Current Location</p>
@@ -168,14 +223,6 @@ export default function EditPerson() {
             <p>Organisation</p>
             <Input name='organisation' defaultValue={personData.organisation}></Input>
           </div>
-        </div>
-        <div className={classes.socialMediaDiv}>
-          {handleDisplaySocialMedia()}
-          <button
-            className={classes.addSocialMediaIcon}
-            onClick={handleAddSocialMedia}>
-              +
-          </button>
         </div>
 
         <div className={classes.formButtonsDiv}>
@@ -187,10 +234,10 @@ export default function EditPerson() {
           />
           <label htmlFor='submit'>
             <CustomButton btnText="Save"
-              // onClick={() => navigate('/encounter/create', {'replace': true})}
+              // onClick={() => navigate('/encounter/create', {'replace': true})} when create encounter is implemented
             />
           </label>
-          <input id='submit' type="submit" className={classes.hiddenSubmit}/>
+          <input ref={invisSocialMediaSubmitRef} id='submit' type="submit" className={classes.hiddenSubmit}/>
         </div>
       </form>
 

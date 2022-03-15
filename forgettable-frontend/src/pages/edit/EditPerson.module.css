@@ -33,6 +33,10 @@
 
 .socialMediaDiv {
     display: flex;
+    flex-wrap: wrap;
+    width: 240px;
+    /* change this width */
+    margin-bottom: 20px;
 }
 
 /* temp plus icon */
@@ -49,6 +53,15 @@
 .socialMediaIcon {
     margin-right: 4px;
     cursor: pointer;
+}
+
+.socialMediaModalDiv {
+    text-align: center;
+}
+
+.socialMediaModalFieldsDiv {
+    /* display: flex;
+    align-items: center; */
 }
 
 .hiddenSubmit {
