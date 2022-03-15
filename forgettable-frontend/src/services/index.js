@@ -55,22 +55,48 @@ export const deletePerson = async (id) => {
   return await deleteData('persons/' + id);
 };
 
+/**
+ * Fetches the data of a single Encounter, given the Encounter's id
+ * @param {string} id id of the Encounter to fetch
+ * @return {Promise} data of the Encounter with the id
+ */
 export const getEncounter = async (id) => {
   return await getData('encounters/' + id);
 };
 
+/**
+ * Fetches all Encounters that the user has been part of
+ * @return {Promise} data of all Encounters of the user
+ */
 export const getAllEncounters = async () => {
   return await getData('encounters');
 };
 
+/**
+ * Creates a new Encounter in the database given the Encounter's data
+ * @param {Object} encounter data of the Encounter to create.
+ * @return {Promise} data entry of the new Encounter created
+ */
 export const createEnncounter = async (encounter) => {
   return await postData('encounters', encounter);
 };
 
+/**
+ * Updates an Encounter in the database given the Encounter's new data.
+ * New data will overwrite all old data.
+ * @param {string} id id of the Encounter to update
+ * @param {Object} encounter data to update the Encounter with.
+ * @return {Promise} data entry of the updated Encounter
+ */
 export const updateEncounter = async (id, encounter) => {
   return await putData('encounters/' + id, encounter);
 };
 
+/**
+ * Deletes an Encounter from the database given the Encounter's id
+ * @param {string} id id of the Encounter to delete
+ * @return {Promise}
+ */
 export const deleteEncounter = async (id) => {
   return await deleteData('encounters/' + id);
 };
