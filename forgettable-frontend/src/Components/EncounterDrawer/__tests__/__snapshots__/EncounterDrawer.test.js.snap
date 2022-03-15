@@ -39,7 +39,6 @@ exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
           className="MiniPersonProfile"
         >
           <ForwardRef(Avatar)
-            alt="John Doe"
             src="https://www.w3schools.com/w3css/img_lights.jpg"
             sx={
               Object {
@@ -50,15 +49,12 @@ exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
           />
           <p
             data-testid="name-element"
-          >
-            John
-          </p>
+          />
         </div>
         <div
           className="MiniPersonProfile"
         >
           <ForwardRef(Avatar)
-            alt="Mercury Lin"
             src="https://user-images.githubusercontent.com/62003343/158133392-b606b9d2-b05a-49dc-a4e8-9d6aed696d6b.gif"
             sx={
               Object {
@@ -69,15 +65,12 @@ exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
           />
           <p
             data-testid="name-element"
-          >
-            Mercury
-          </p>
+          />
         </div>
         <div
           className="MiniPersonProfile"
         >
           <ForwardRef(Avatar)
-            alt="Raina Song"
             src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
             sx={
               Object {
@@ -88,9 +81,7 @@ exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
           />
           <p
             data-testid="name-element"
-          >
-            Raina
-          </p>
+          />
         </div>
       </div>
       <div
