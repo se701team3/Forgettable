@@ -1,13 +1,13 @@
 
 import axios from 'axios';
 
-const SERVER_URL = 'http://localhost:3001';
+const SERVER_URL = 'http://localhost:3001/api/';
 
 export const getHeaders = () => {
   const token = localStorage.getItem('token');
 
   if (!token) return null;
-  const headers = {Authorization: token};
+  const headers = {Authorization: `${token}`};
 
   return headers;
 };
@@ -26,17 +26,17 @@ export const getData = async (url, data) => {
         headers: getHeaders(),
         ...(data && {params: data}),
       },
-  )
-      .catch((error) => {
-        if (!error?.response) {
-          throw new Error(
-              'The server seems to be down :(  Try again later.',
-          );
-        }
-        tokenExpired(error.response.data.message);
-        throw new Error(`${error.response.data.message}`);
-      });
-  return response;
+  ).catch((error) => {
+    if (!error?.response) {
+      throw new Error(
+          'The server seems to be down :(  Try again later.',
+      );
+    }
+    tokenExpired(error.response.data.message);
+    throw new Error(`${error.response.data.message}`);
+  });
+
+  return response.data;
 };
 
 
@@ -57,7 +57,7 @@ export const postData = async (url, data) => {
         tokenExpired(error.response.data.message);
         throw new Error(`${error.response.data.message}`);
       });
-  return response;
+  return response.data;
 };
 
 export const putData = async (url, data) => {
@@ -77,5 +77,5 @@ export const putData = async (url, data) => {
         tokenExpired(error.response.data.message);
         throw new Error(`${error.response.data.message}`);
       });
-  return response;
+  return response.data;
 };
