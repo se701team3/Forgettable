@@ -54,26 +54,31 @@ export const createPerson: POST = async (
 export const getPersonWithId = async (
   req: Request,
   res: Response,
+  next: NextFunction
 ): Promise<void> => {
   logger.info('GET /persons/:id request from frontend');
-
   const authId = req.headers.authorization?.['user_id'];
-  const user = await userService.getUserByAuthId(authId);
 
-  if (!user) {
-    res.status(httpStatus.UNAUTHORIZED).end();
-  } else {
-    // If the person belongs to this user, find it
-    let person: any;
-    if (user.persons.includes(new mongoose.Types.ObjectId(req.params.id))) {
-      person = await personService.getPersonWithId(req.params.id);
-    }
+  try {
+    const user = await userService.getUserByAuthId(authId);
 
-    if (!person) {
-      res.status(httpStatus.NOT_FOUND).end();
+    if (!user) {
+      res.status(httpStatus.UNAUTHORIZED).end();
     } else {
-      res.status(httpStatus.OK).json(person).end();
+      // If the person belongs to this user, find it
+      let person: any;
+      if (user.persons.includes(new mongoose.Types.ObjectId(req.params.id))) {
+        person = await personService.getPersonWithId(req.params.id);
+      }
+
+      if (!person) {
+        res.status(httpStatus.NOT_FOUND).end();
+      } else {
+        res.status(httpStatus.OK).json(person).end();
+      }
     }
+  } catch (e) {
+    next(e);
   }
 };
 
