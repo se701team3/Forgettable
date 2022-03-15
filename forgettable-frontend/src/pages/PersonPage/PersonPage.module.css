@@ -9,7 +9,6 @@
 .ContentContainer {
     width: 100%;
     height: 100%;
-    background-color: lightblue;
     overflow-y: scroll;
     overflow-x: none;
     box-sizing: border-box;
@@ -22,15 +21,30 @@
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: flex-end;
-    background-color: lightgreen;
     margin-top: 80px;
+    margin-bottom: 50px;
 }
 
 .TitleContainer > h1 {
     font-size: 50px;
     font-weight: 600;
     line-height: 75px;
-background-color: lightyellow;
     margin: 0;
 }
 
+.ButtonContainer {
+    margin-top: 20px;
+}
+
+.EncountersContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    background-color: blanchedalmond;
+}
+
+.CardWrapper {
+    margin: 0 40px 40px 0;
+}

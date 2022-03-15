@@ -1,4 +1,5 @@
 import React from 'react';
+import EncounterCard from '../../components/EncounterCard/EncounterCard';
 import IconButton from '../../components/IconButton/IconButton';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import classes from './PersonPage.module.css';
@@ -23,14 +24,83 @@ const PersonPage = (props) => {
           <h1 className={classes.Title}>
             You encountered
             <br/>
-            Mercury 20 times
+            Mercury 4721894 times
           </h1>
-          <IconButton
-            btnText="New Encounter"
-            onClick={() => {}}
-            includeIcon={true}
-            height="66px"
-          />
+          <div className={classes.ButtonContainer}>
+            <IconButton
+              btnText="New Encounter"
+              onClick={() => {}}
+              includeIcon={true}
+              height="66px"
+            />
+          </div>
+        </div>
+        <div className={classes.EncountersContainer}>
+          <div className={classes.CardWrapper}>
+            <EncounterCard
+              title="Good times!"
+              description="We had a lot of fun"
+              persons={[
+                {
+                  first_name: 'Mercury',
+                  last_name: 'Lin',
+                },
+              ]}
+              location='Auckland'
+              onClick={() => {}}
+              onDelete={() => {}}
+              isInitialEncounter={true}
+            />
+          </div>
+          <div className={classes.CardWrapper}>
+            <EncounterCard
+              title="Good times!"
+              description="We had a lot of fun"
+              persons={[
+                {
+                  first_name: 'Mercury',
+                  last_name: 'Lin',
+                },
+              ]}
+              location='Auckland'
+              onClick={() => {}}
+              onDelete={() => {}}
+              isInitialEncounter={false}
+            />
+          </div>
+          <div className={classes.CardWrapper}>
+            <EncounterCard
+              title="Good times!"
+              description="We had a lot of fun"
+              persons={[
+                {
+                  first_name: 'Mercury',
+                  last_name: 'Lin',
+                },
+              ]}
+              location='Auckland'
+              onClick={() => {}}
+              onDelete={() => {}}
+              isInitialEncounter={false}
+            />
+          </div>
+
+          <div className={classes.CardWrapper}>
+            <EncounterCard
+              title="Good times!"
+              description="We had a lot of fun"
+              persons={[
+                {
+                  first_name: 'Mercury',
+                  last_name: 'Lin',
+                },
+              ]}
+              location='Auckland'
+              onClick={() => {}}
+              onDelete={() => {}}
+              isInitialEncounter={false}
+            />
+          </div>
         </div>
       </div>
     </div>
