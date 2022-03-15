@@ -39,7 +39,8 @@ const user1Data = {
 }
 
 const person1Data: PersonModel = {
-    full_name: 'Ping',
+    first_name: 'Ping',
+    last_name: 'Pong',
     interests: ['video games', 'hockey'],
     organisation: 'helloc',
     time_updated: new Date('2022-01-01'),
@@ -54,7 +55,8 @@ const person1Data: PersonModel = {
 };
 
 const person2Data: PersonModel = {
-    full_name: 'Adam Bong',
+    first_name: 'Adam',
+    last_name: 'Bong',
     interests: ['badminton', 'golf'],
     organisation: 'helloc',
     time_updated: new Date('2022-02-23'),
