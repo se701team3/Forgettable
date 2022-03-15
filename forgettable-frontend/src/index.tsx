@@ -26,14 +26,16 @@ function LoggedIn(props: any) {
 ReactDOM.render(
     <React.StrictMode>
       <BrowserRouter>
-        <LoggedIn loggedIn={false}/>
-        <Routes>
-          <Route path="/" element={<App/>} />
-          <Route path="settings" element={<Settings/>} />
-          <Route path="people" element={<People/>} />
-          <Route path="encounters" element={<Encounters/>} />
-          <Route path="person/:id" element={<PersonPage/>} />
-        </Routes>
+        <LoggedIn loggedIn={true}/>
+        <div className="page-wrapper">
+          <Routes>
+            <Route path="/" element={<App/>} />
+            <Route path="settings" element={<Settings/>} />
+            <Route path="people" element={<People/>} />
+            <Route path="encounters" element={<Encounters/>} />
+            <Route path="person/:id" element={<PersonPage/>} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root'),
