@@ -1,6 +1,7 @@
 import mongoose, { Schema, model } from 'mongoose';
 
 export interface EncounterModel {
+  title: string,
   date: Date,
   location: string,
   description: string,
@@ -8,6 +9,7 @@ export interface EncounterModel {
 }
 
 const schema = new Schema<EncounterModel>({
+  title: { type: String, required: true},
   date: { type: Date, default: Date.now },
   location: { type: String, required: false },
   description: { type: String, required: true },

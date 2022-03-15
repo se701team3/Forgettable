@@ -31,7 +31,7 @@ export const createUser = async (
     });
 
   } catch (e) {
-    if (e.name === 'Conflict') {
+    if (e.name === "Conflict") {
       res.status(httpStatus.CONFLICT).end();
     }
     next(e);
