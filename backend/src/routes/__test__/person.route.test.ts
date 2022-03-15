@@ -2,10 +2,17 @@ import httpStatus from 'http-status';
 import databaseOperations from '../../utils/test/db-handler';
 import { PersonModel } from '../../models/person.model';
 import app from '../../server';
+import testUtils from '../../utils/test/test-utils';
 
 const supertest = require('supertest');
 
-beforeAll(async () => databaseOperations.connectDatabase());
+let token;
+
+beforeAll(async () => {
+  token = await testUtils.generateTestAuthToken();
+
+  databaseOperations.connectDatabase();
+});
 afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
