@@ -37,3 +37,30 @@ export const createUser = async (
     next(e);
   }
 };
+
+export const getUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const auth_id = req.headers.authorization?.["user_id"];
+    const user = await userService.getUserByAuthId(auth_id);
+
+    if (!user) {
+      res.status(httpStatus.NOT_FOUND).end();
+    } else {
+      // Don't return auth_id in the response
+      res.status(httpStatus.OK).json({
+        _id: user._id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        persons: user.persons,
+        encounters: user.encounters
+      });
+    }
+  
+  } catch (e) {
+    next(e);
+  }
+};
