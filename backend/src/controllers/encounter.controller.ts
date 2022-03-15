@@ -1,25 +1,53 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable dot-notation */
 /**
  * Controller contains high-level operations using services, consumed by routes
  */
 import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
 import encounterService from '../services/encounter.service';
 import logger from '../utils/logger';
-import httpStatus from "http-status";
-import {EncounterModel} from "../models/encounter.model";
-import userService, {getUserByAuthId} from "../services/user.service";
+import { EncounterModel } from '../models/encounter.model';
+import userService, { getUserByAuthId } from '../services/user.service';
 import personService from '../services/person.service';
+
+// Util function that won't be needed regularly
+const getEncounterFromReqBody = (body: any) => {
+  const encounter: EncounterModel = {
+    title: body.title,
+    date: body.date,
+    time_updated: body.time_updated,
+    location: body.location,
+    description: body.description,
+    persons: body.persons,
+  };
+
+  return encounter;
+};
+
+/**
+ * searches for encounter in user by encounter id
+ * @param user user which encounter should be found from
+ * @param encounterId id of the encounter to be searched from the user
+ */
+const isEncounterExistsInUser = (user, encounterId: string): boolean => {
+  const findEncounter = user.encounters.filter(
+    (e) => e.toString() === encounterId,
+  );
+  return findEncounter.length !== 0;
+};
 
 export const createEncounter = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  logger.info("POST /encounter request from frontend");
+  logger.info('POST /encounter request from frontend');
 
-  const auth_id = req.headers.authorization?.["user_id"];
+  const authId = req.headers.authorization?.['user_id'];
 
   try {
-    const user = await getUserByAuthId(auth_id);
+    const user = await getUserByAuthId(authId);
 
     if (!user) {
       res.status(httpStatus.FORBIDDEN).send('No such User exists').end();
@@ -27,21 +55,21 @@ export const createEncounter = async (
     }
 
     const createdEncounter = await encounterService.createEncounter(req.body);
-    logger.info(createdEncounter._id + '');
+    logger.info(`${createdEncounter._id}`);
 
-    createdEncounter.persons.map((personEncountered) => {
+    createdEncounter.persons.forEach((personEncountered) => {
       if (!user.persons.includes(personEncountered)) {
-        encounterService.deleteEncounter(createdEncounter._id + '');
+        encounterService.deleteEncounter(`${createdEncounter._id}`);
         res.status(httpStatus.FORBIDDEN).send('Person does not exist for this User').end();
-        return;
       }
-    })
+    });
 
     const updateUser = await userService.addEncounterToUser(user.auth_id, createdEncounter._id);
-    const updatePerson = await personService.addEncounterToPersons(createdEncounter.persons, createdEncounter.id);
+    const updatePerson = await personService
+      .addEncounterToPersons(createdEncounter.persons, createdEncounter._id);
 
     if (!updateUser || !updatePerson) {
-      encounterService.deleteEncounter(createdEncounter._id + '');
+      encounterService.deleteEncounter(`${createdEncounter._id}`);
       res.status(httpStatus.CONFLICT).send('Failed to add encounter').end();
     }
 
@@ -56,33 +84,30 @@ export const updateEncounter = async (
   res: Response,
   next: NextFunction,
 ): Promise<any> => {
-  logger.info("PUT /encounter/:id request from frontend");
+  logger.info('PUT /encounter/:id request from frontend');
 
   try {
     // check authorization is not a null object (this is necessary check for lint)
-    if (req.headers.authorization == null)
-      return res.status(httpStatus.NOT_FOUND).end();
+    if (req.headers.authorization == null) { return res.status(httpStatus.NOT_FOUND).end(); }
 
     const encounterIdToUpdate = req.params.id;
-    const firebaseAuthId = req.headers.authorization["user_id"];
+    const firebaseAuthId = req.headers.authorization['user_id'];
 
-    // check that user exists with that firebase auth_id, and the user specified encounter actually exists
+    // check user exists with the firebase auth_id, and the user specified encounter actually exists
     const userByAuthId = await getUserByAuthId(firebaseAuthId);
-    if (
-      !userByAuthId ||
-      !isEncounterExistsInUser(userByAuthId, encounterIdToUpdate)
-    )
+    if (!userByAuthId || !isEncounterExistsInUser(userByAuthId, encounterIdToUpdate)) {
       return res.status(httpStatus.NOT_FOUND).end();
+    }
 
     // update encounter
     const newEncounterData = getEncounterFromReqBody(req.body);
     const updatedEncounter = await encounterService.updateEncounter(
       encounterIdToUpdate,
-      newEncounterData
+      newEncounterData,
     );
     return res
       .sendStatus(
-        updatedEncounter ? httpStatus.NO_CONTENT : httpStatus.NOT_FOUND
+        updatedEncounter ? httpStatus.NO_CONTENT : httpStatus.NOT_FOUND,
       )
       .end();
   } catch (e) {
@@ -97,24 +122,21 @@ export const getEncounter = async (
 ): Promise<void> => {
   logger.info('GET /encounters/:id request from frontend');
   try {
-    const auth_id = req.headers.authorization?.["user_id"];
+    const authId = req.headers.authorization?.['user_id'];
 
-    const user_current = await userService.getUserByAuthId(auth_id);
+    const userCurrent = await userService.getUserByAuthId(authId);
     const encounterId = req.params.id.toString();
-    const user_encounters = user_current?.encounters;
-    let string_encounters = user_encounters?.map(x => x.toString());
+    const userEncounters = userCurrent?.encounters;
+    const stringEncounters = userEncounters?.map((x) => x.toString());
 
-    if (string_encounters?.includes(encounterId)) {
-      
+    if (stringEncounters?.includes(encounterId)) {
       // Find encounter from database
       const encounter = await encounterService.getEncounter(encounterId);
       // Notify frontend that the operation was successful
       res.status(httpStatus.OK).json(encounter).end();
-
     } else {
       res.sendStatus(httpStatus.NOT_FOUND).end();
     }
-
   } catch (e) {
     next(e);
   }
@@ -123,12 +145,12 @@ export const getEncounter = async (
 export const getAllEncounters = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
-  logger.info("GET /encounters request from frontend");
+  logger.info('GET /encounters request from frontend');
 
-  const auth_id = req.headers.authorization?.["user_id"];
-  const user = await userService.getUserByAuthId(auth_id);
+  const authId = req.headers.authorization?.['user_id'];
+  const user = await userService.getUserByAuthId(authId);
 
   try {
     if (!user) {
@@ -140,18 +162,7 @@ export const getAllEncounters = async (
       res.status(httpStatus.OK).json(foundUserEncounters).end();
     }
   } catch (e) {
+    next(e);
     res.status(httpStatus.INTERNAL_SERVER_ERROR).end();
   }
-};
-
-/**
- * searches for encounter in user by encounter id
- * @param user user which encounter should be found from
- * @param encounterId id of the encounter to be searched from the user
- */
-const isEncounterExistsInUser = (user, encounterId: string): boolean => {
-  const findEncounter = user.encounters.filter(
-    (e) => e.toString() === encounterId
-  );
-  return findEncounter.length !== 0;
 };

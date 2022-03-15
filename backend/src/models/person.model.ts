@@ -4,7 +4,8 @@
 import mongoose, { Schema, model } from 'mongoose';
 
 export interface PersonModel {
-  full_name: string,
+  first_name: string,
+  last_name: string,
   birthday: Date,
   gender: string,
   location: string,
@@ -19,7 +20,8 @@ export interface PersonModel {
 }
 
 const schema = new Schema<PersonModel>({
-  full_name: { type: String, required: true },
+  first_name: { type: String, required: true },
+  last_name: { type: String, required: false },
   birthday: { type: Date, required: false },
   gender: { type: String, required: false },
   location: { type: String, required: false },
@@ -30,7 +32,7 @@ const schema = new Schema<PersonModel>({
   social_media: { type: Map, of: String, required: false },
   image: { type: Buffer, required: false },
   encounters: { type: [mongoose.Types.ObjectId], required: false },
-  time_updated: { type: Date, default: Date.now, required: true },
+  time_updated: { type: Date, default: new Date(Date.now()), required: true },
 });
 
 export default model<PersonModel>('Person', schema);
