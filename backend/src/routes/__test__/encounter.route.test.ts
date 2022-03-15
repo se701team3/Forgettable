@@ -39,7 +39,8 @@ const user1Data = {
 }
 
 const person1Data: PersonModel = {
-    full_name: 'Ping',
+    first_name: 'Ping',
+    last_name: 'Pong',
     interests: ['video games', 'hockey'],
     organisation: 'helloc',
     time_updated: new Date('2022-01-01'),
@@ -54,7 +55,8 @@ const person1Data: PersonModel = {
 };
 
 const person2Data: PersonModel = {
-    full_name: 'Adam Bong',
+    first_name: 'Adam',
+    last_name: 'Bong',
     interests: ['badminton', 'golf'],
     organisation: 'helloc',
     time_updated: new Date('2022-02-23'),
@@ -71,6 +73,7 @@ const person2Data: PersonModel = {
 const encounter1Data: EncounterModel = {
     title: "Encounter1",
     date: new Date('2022-02-23'),
+    time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland',
     persons: [] as any
@@ -79,6 +82,7 @@ const encounter1Data: EncounterModel = {
 const encounter2Data: EncounterModel = {
     title: "Encounter2",
     date: new Date('2022-02-24'),
+    time_updated: new Date(Date.now()),
     description: 'Had lunch together',
     location: 'Auckland',
     persons: [] as any
@@ -87,6 +91,7 @@ const encounter2Data: EncounterModel = {
 const encounter3Data = {
     title: "Encounter3",
     date: new Date('2022-05-25'),
+    time_updated: new Date(Date.now()),
     location: 'Auckland',
     persons: [] as any
 }
@@ -94,6 +99,7 @@ const encounter3Data = {
 const encounter4Data= {
     title: "Encounter4",
     description: 'Play badminton together',
+    time_updated: new Date(Date.now()),
     location: 'Auckland',
     persons: [] as any
 }
@@ -102,12 +108,14 @@ const encounter5Data = {
     title: "Encounter5",
     date: new Date('2022-05-25'),
     description: 'Played badminton together',
+    time_updated: new Date(Date.now()),
     persons: [] as any
 }
 
 const encounter6Data = {
     title: "Encounter6",
     date: new Date('2022-02-23'),
+    time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland'
 }
@@ -115,6 +123,7 @@ const encounter6Data = {
 const encounter7Data = {
     date: new Date('2019-08-17'),
     description: 'Shopping',
+    time_updated: new Date(Date.now()),
     location: 'Auckland',
     persons: [] as any
 }
@@ -122,6 +131,7 @@ const encounter7Data = {
 const encounterData: EncounterModel = {
     title: "EncounterData",
     date: new Date("2022-12-02"),
+    time_updated: new Date(Date.now()),
     location: "here",
     description: "we did this and that",
     persons: [] as any,
@@ -415,6 +425,7 @@ describe('encounter ', () => {
         await supertest(app)
             .put(`/api/encounters/${newEncounterId}`)
             .set('Accept', 'application/json')
+            .set('Authorization', token)
             .send(encounterData)
             .expect(httpStatus.NO_CONTENT)
 
@@ -428,6 +439,7 @@ describe('encounter ', () => {
         await supertest(app)
             .put(`/api/encounters/${123}`)
             .set('Accept', 'application/json')
+            .set('Authorization', token)
             .send(encounterData)
             .expect(httpStatus.BAD_REQUEST)
     });
@@ -437,6 +449,7 @@ describe('encounter ', () => {
         await supertest(app)
             .put(`/api/encounters/622b36166bb3a4e3a1ef62f1`)
             .set('Accept', 'application/json')
+            .set('Authorization', token)
             .send(encounterData)
             .expect(httpStatus.NOT_FOUND)
     });

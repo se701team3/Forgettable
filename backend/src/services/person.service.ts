@@ -13,9 +13,15 @@ const createPerson = async (personDetails: PersonModel) => {
   return person;
 };
 
-const getPersonWithId = async (reqPersonID: string) => {
-  return await Person.findOne({_id: reqPersonID});
-}
+const updatePersonWithId = async (reqPersonId: string, personNewDetails: PersonModel) => {
+  const query = { _id: reqPersonId };
+  return Person.findOneAndUpdate(query, personNewDetails, { upsert: true });
+};
+
+const getPersonWithId = async (reqPersonId: string) => {
+  const query = { _id: reqPersonId };
+  return Person.findOne(query);
+};
 
 /**
  * Note that .clone is necessary to avoid error 'Query was already executed'
@@ -29,15 +35,15 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
   }
 
   // Get all persons from the db that belong to the user
-  let foundUserPersons = await Person.find({ _id: { $in: userPersons } });
+  const foundUserPersons = await Person.find({ _id: { $in: userPersons } });
 
   // Filter them by query params (only works with single string fields)
-  let filteredPersons = foundUserPersons.filter(function (person) {
-    for (let queryKey in queryParams) {
+  return foundUserPersons.filter((person) => {
+    for (const queryKey in queryParams) {
       if (stringFields.includes(queryKey)) {
         // Get queryValue and personValue as lowercase strings
-        let queryValue: string = queryParams[queryKey].toLowerCase();
-        let personValue: string = person[queryKey].toLowerCase()
+        const queryValue: string = queryParams[queryKey].toLowerCase();
+        const personValue: string = person[queryKey].toLowerCase();
 
         if (!personValue.includes(queryValue)) {
           return false;
@@ -46,8 +52,6 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
     }
     return true;
   });
-
-  return filteredPersons;
 };
 
 
@@ -56,27 +60,29 @@ const deletePersonEncounters = async (encounterID: string) => {
 }
 
 const addEncounterToPersons = async (personIds, encounterId) => {
-  for (let i = 0; i < personIds.length; i++) {
-    const result = await Person.updateOne({ _id: personIds[i] }, { $push: { encounters: encounterId }});
+  for (let i = 0; i < personIds.length; i + 1) {
+    const result = await Person
+      .updateOne({ _id: personIds[i] }, { $push: { encounters: encounterId } });
 
-    //Revert all updates if any update fails
-    if (result.modifiedCount != 1) {
-      for (let j = i - 1; j >= 0; j--)  {
-        await Person.updateOne({ _id: personIds[i] }, { $pop: { encounters: 1 }});
+    // Revert all updates if any update fails
+    if (result.modifiedCount !== 1) {
+      for (let j = i - 1; j >= 0; j - 1) {
+        await Person.updateOne({ _id: personIds[i] }, { $pop: { encounters: 1 } });
       }
       return false;
     }
   }
 
   return true;
-}
+};
 
 const personService = {
   createPerson,
   getPersonWithId,
   getPeople,
   deletePersonEncounters,
-  addEncounterToPersons
+  addEncounterToPersons,
+  updatePersonWithId,
 };
 
 export default personService;
