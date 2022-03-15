@@ -79,3 +79,23 @@ export const putData = async (url, data) => {
       });
   return response.data;
 };
+
+export const deleteData = async (url, data) => {
+  const response = await axios.delete(
+      `${SERVER_URL}${url}`,
+      {
+        headers: getHeaders(),
+        ...(data && {params: data}),
+      },
+  ).catch((error) => {
+    if (!error?.response) {
+      throw new Error(
+          'The server seems to be down :(  Try again later.',
+      );
+    }
+    tokenExpired(error.response.data.message);
+    throw new Error(`${error.response.data.message}`);
+  });
+
+  return response.data;
+};
