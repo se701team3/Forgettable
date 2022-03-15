@@ -8,7 +8,7 @@
  
  routes.post('/', createEncounter);
  routes.put('/:id', updateEncounter);
- routes.delete(':/id', deleteEncounters)
+ routes.delete('/:id', deleteEncounters)
  
  export default routes;
  
