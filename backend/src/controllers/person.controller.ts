@@ -69,8 +69,17 @@ export const getAllPeople = async (
     } else if (!user.persons.length) {
       res.status(httpStatus.NO_CONTENT).end();
     } else {
-      const foundUserPersons = await personService.getPeople(req.query, user.persons);
-      res.status(httpStatus.OK).json(foundUserPersons).end();
+      if (!user.persons.length) {
+        res.status(httpStatus.NO_CONTENT).end();
+      } else {
+        const foundUserPersons = await personService.getPeople(req.query, user.persons);
+        
+        if (!foundUserPersons.length) { 
+          res.status(httpStatus.NO_CONTENT).end();
+        } else {
+          res.status(httpStatus.OK).json(foundUserPersons).end();
+        }
+      }
     }
   } catch (e) {
     next(e);
