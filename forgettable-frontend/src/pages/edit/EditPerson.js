@@ -4,7 +4,7 @@ import {useState, useRef} from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import classes from './EditPerson.module.css';
 import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
-import {useNavigate, useLocation} from 'react-router-dom';
+import {useNavigate, useLocation, useParams} from 'react-router-dom';
 import imageToBase64 from 'image-to-base64/browser';
 
 const MAX_IMAGE_SIZE = 16000000;
@@ -17,7 +17,13 @@ export default function EditPerson() {
   // do a better check than this?
   const create = location.pathname.includes('/people/create') ? true : false;
 
+  // const {id} = useParams();
+
   // GET persons/:id if create == false
+  // fetch(`/persons/${id}`)
+  //     .then((response) => response.json())
+  //     .then((json) => personData = json);
+
   // const personData = {};
   const personData = {
     full_name: 'Name Last',
@@ -103,8 +109,19 @@ export default function EditPerson() {
     formData.append('encounters', create ? [] : personData.encounters);
     // check which format for date
     formData.append('time_updated', (Date.now()));
+    formData.append('social_media', socialMedias);
 
     console.log(Object.fromEntries(formData));
+
+    // possible POST call
+    // fetch('/persons', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(Object.fromEntries(formData))})
+    //     .then((response) => response.json())
+    //     .then((json) => json);
   }
 
 
@@ -169,7 +186,9 @@ export default function EditPerson() {
             className={classes.cancelButton}
           />
           <label htmlFor='submit'>
-            <CustomButton btnText="Save"/>
+            <CustomButton btnText="Save"
+              // onClick={() => navigate('/encounter/create', {'replace': true})}
+            />
           </label>
           <input id='submit' type="submit" className={classes.hiddenSubmit}/>
         </div>
