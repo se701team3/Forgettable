@@ -8,8 +8,9 @@
     border:2px solid black;
     border-radius: var(--radius-btn);
     padding: 0 15px 0 15px;
+    box-sizing: border-box;
     width: fit-content;
-    height: 36px;
+    height: 40px;
     cursor: pointer;
     user-select: none;
 }
