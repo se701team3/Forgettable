@@ -1,10 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* font weights */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* font sizes - general */
+  --text-xsmall: 14px;
+  --text-small: 16px;
+  --text-normal: 18px;
+  --text-medium: 20px;
+  --text-large: 23px;
+  --text-xlarge: 25px;
+  --text-xxlarge: 30px;
+  /* font sizes - components  */
+  --text-btn-normal: 18px; /* delete, edit, view all, etc. */
+  --text-btn-medium: 20px; /* google sign-in */
+  --text-btn-large: 23px; /* new entry */
+  --text-card-title: 25px;
+  --text-card-body-normal: 14px;
+  --text-card-body-large: 16px;
+  --text-drawer-title: 35px;
+  
+  /* corner radius */
+  --radius-btn: 8px;
+  --radius-card: 13px;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bkgd);
+}
+
+.page-wrapper {
+  margin-left: 128px; /* ACCOUNT FOR SIDEBAR */
 }
 
 code {
