@@ -41,9 +41,11 @@ const PersonDrawer = (props) => {
               height: '200px',
               width: '200px',
               backgroundColor:
-                getComputedStyle(document.body).getPropertyValue('--prmry'),
+                getComputedStyle(document.body)
+                    .getPropertyValue('--prmry'),
               fontSize:
-                getComputedStyle(document.body).getPropertyValue('--text-xxlarge')
+                getComputedStyle(document.body)
+                    .getPropertyValue('--text-xxlarge')
               ,
             }}
             src={props.img}
@@ -56,7 +58,11 @@ const PersonDrawer = (props) => {
               First met {getFirstMetTimeString(props.firstMet)}
             </h2>
           </div>
-          <div className={props.staticDrawer ? classes.InfoContent : classNames(classes.InfoContent, classes.InfoContentPadding)}>
+          <div
+            className={props.staticDrawer ?
+          classes.InfoContent :
+          classNames(classes.InfoContent, classes.InfoContentPadding)}
+          >
             <p data-testid="age-element">
               {'Age: '}
               {props.birthday?
@@ -131,7 +137,13 @@ const PersonDrawer = (props) => {
                  })}
                </span> :unknownDetail}
             </p>
-            <CustomButton btnText="Edit" className={classes.EditButton} textStyle={classes.ButtonText}/>
+            {props.staticDrawer &&
+            <CustomButton
+              btnText="Edit"
+              className={classes.EditButton}
+              textStyle={classes.ButtonText}
+              onClick={props.onEdit}
+            />}
           </div>
         </div>
       </div>
@@ -150,6 +162,7 @@ PersonDrawer.propTypes = {
   location: PropTypes.string,
   interests: PropTypes.arrayOf(PropTypes.string),
   staticDrawer: PropTypes.bool,
+  onEdit: PropTypes.bool,
 };
 
 export default PersonDrawer;
