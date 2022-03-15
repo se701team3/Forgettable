@@ -3,7 +3,7 @@ import { PersonModel } from '../../models/person.model';
 import { EncounterModel } from 'src/models/encounter.model';
 import app from '../../server';
 import httpStatus from "http-status";
-import axios from 'axios';
+import testUtils from '../../utils/test/test-utils';
 import 'dotenv/config';
 import { UserModel } from 'src/models/user.model';
 
@@ -13,20 +13,9 @@ let token;
 
 beforeAll(async () => {
 
-    //Retrieve token for authentication
-    const email = process.env.FIREBASE_TEST_AUTH_EMAIL;
-    const password = process.env.FIREBASE_TEST_AUTH_PASS;
-    const key = process.env.FIREBASE_TEST_AUTH_KEY;
+    token = await testUtils.generateTestAuthToken();
 
-    let body = {
-        "email": email,
-        "password": password,
-        "returnSecureToken": true
-    }
-    const response = await axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${key}`, body);
-    token = response.data.idToken;
-
-    databaseOperations.connectDatabase()
+    databaseOperations.connectDatabase();
 });
 afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
