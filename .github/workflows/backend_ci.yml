@@ -26,6 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: npm --prefix ./backend i
     - run: npm --prefix ./backend run lint
     - run: npm --prefix ./backend run test
     - run: npm --prefix ./backend run build --if-present
