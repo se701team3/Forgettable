@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import classes from './SearchBar.module.css';
 
-function SearchBar({placeholder, data, exportFilteredData, hasAutocomplete}) {
+function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState('');
 
@@ -14,13 +14,15 @@ function SearchBar({placeholder, data, exportFilteredData, hasAutocomplete}) {
   const handleFilter = (event) => {
     const searchWord = event.target.value;
     setWordEntered(searchWord);
-    const newFilter = data.filter((value) => {
-      return value.title.toLowerCase().includes(searchWord.toLowerCase());
-    });
-    if (searchWord === '') {
-      setFilteredData([]);
-    } else {
-      setFilteredData(newFilter);
+    if (hasAutocomplete === true) {
+      const newFilter = data.filter((value) => {
+        return value.title.toLowerCase().includes(searchWord.toLowerCase());
+      });
+      if (searchWord === '') {
+        setFilteredData([]);
+      } else {
+        setFilteredData(newFilter);
+      }
     }
   };
 
@@ -78,11 +80,7 @@ function SearchBar({placeholder, data, exportFilteredData, hasAutocomplete}) {
           {/* The search icon is variable so that it shows the search icon when the text is empty
            while it shows the clear button when there is text, allowing for easy search bar clearing */}
           <div className={classes.SearchIcon}>
-            {wordEntered === '' ? (
-              <SearchIcon />
-            ) : (
-              <CloseIcon id="clearBtn" className={classes.ClearBtn} onClick={clearInput} />
-            )}
+            <SearchIcon className={classes.ClearBtn} onClick={() => exportSearchString(wordEntered)}/>
           </div>
         </div>
       </div>
