@@ -3,6 +3,7 @@ import classes from './PersonDrawer.module.css';
 import {Avatar, Drawer} from '@mui/material';
 import PropTypes from 'prop-types';
 import {
+  calculateAge,
   getDateLastMetString,
   getFirstMetTimeString,
 } from '../../functions/dateFormatter';
@@ -11,6 +12,8 @@ import convertSocialMediaNamesToIcons,
 {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import {IconButton} from '@mui/material';
 import {getBirthdayString} from '../../functions/dateFormatter';
+import CustomButton from '../CustomButton/CustomButton';
+import classNames from 'classnames';
 
 const PersonDrawer = (props) => {
   const unknownDetail = <span className={classes.UnknownText}>Unknown</span>;
@@ -18,15 +21,16 @@ const PersonDrawer = (props) => {
   return (
     <Drawer
       sx={{
-        'width': '460px',
+        'width': props.staticDrawer ? '375px' : '460px',
         'flexShrink': 0,
         '& .MuiDrawer-paper': {
-          width: '460px',
+          width: props.staticDrawer ? '375px' : '460px',
           boxSizing: 'border-box',
+          marginLeft: '128px',
         },
       }}
       variant="persistent"
-      anchor="right"
+      anchor={props.staticDrawer ? 'left' : 'right'}
       open={props.open}
       data-testid="drawer-element"
     >
@@ -39,9 +43,11 @@ const PersonDrawer = (props) => {
               height: '200px',
               width: '200px',
               backgroundColor:
-                getComputedStyle(document.body).getPropertyValue('--prmry'),
+                getComputedStyle(document.body)
+                    .getPropertyValue('--prmry'),
               fontSize:
-                getComputedStyle(document.body).getPropertyValue('--text-xxlarge')
+                getComputedStyle(document.body)
+                    .getPropertyValue('--text-xxlarge')
               ,
             }}
             src={props.img}
@@ -54,11 +60,17 @@ const PersonDrawer = (props) => {
               First met {getFirstMetTimeString(props.firstMet)}
             </h2>
           </div>
-          <div className={classes.InfoContent}>
+          <div
+            className={props.staticDrawer ?
+          classes.InfoContent :
+          classNames(classes.InfoContent, classes.InfoContentPadding)}
+          >
             <p data-testid="age-element">
               {'Age: '}
               {props.birthday?
-              <span className={classes.KnownText}>34</span> :
+              <span className={classes.KnownText}>
+                {calculateAge(props.birthday)}
+              </span> :
               unknownDetail}
             </p>
             <p data-testid="gender-element">
@@ -129,6 +141,13 @@ const PersonDrawer = (props) => {
                  })}
                </span> :unknownDetail}
             </p>
+            {props.staticDrawer &&
+            <CustomButton
+              btnText="Edit"
+              className={classes.EditButton}
+              textStyle={classes.ButtonText}
+              onClick={props.onEdit}
+            />}
           </div>
         </div>
       </div>
@@ -146,6 +165,8 @@ PersonDrawer.propTypes = {
   firstMet: PropTypes.instanceOf(Date),
   location: PropTypes.string,
   interests: PropTypes.arrayOf(PropTypes.string),
+  staticDrawer: PropTypes.bool,
+  onEdit: PropTypes.bool,
 };
 
 export default PersonDrawer;

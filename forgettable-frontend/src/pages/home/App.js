@@ -5,7 +5,7 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './App.module.css';
 import PersonCardSummary from '../../components/PersonCardSummary/PersonCardSummary';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import IconButton from '../../components/IconButton/IconButton';
 
 // The maximum summary cards shown on the large screens, small screens show less
@@ -16,22 +16,22 @@ function App() {
   // @TODO: Input real data. Get 12 people and 12 encounters. Get all info needed for seach bar. Get user.
 
   // TEMPORARY FAKE DATA
-  const user = { first_name: 'PersonName' };
+  const user = {first_name: 'PersonName'};
   const personList = [{
     id: '0',
     name: 'Name',
     img: 'https://avatars.githubusercontent.com/u/28725774?v=4',
     firstMet: new Date(),
-    socialMedias: [{ name: 'facebook', link: 'https://www.google.com/' }, { name: 'instagram', link: 'https://www.google.com/' }],
+    socialMedias: [{name: 'facebook', link: 'https://www.google.com/'}, {name: 'instagram', link: 'https://www.google.com/'}],
     location: 'Auckland',
     interests: ['art', 'sewing', 'coding'],
   },
   ];
   for (let i = 1; i < MAX_LATEST_CARDS; i++) {
-    personList[i] = { ...personList[0], name: 'P' + i };
+    personList[i] = {...personList[0], name: 'P' + i};
   }
 
-  const searchBarData = [{ title: 'fgdgf' }, { title: 'joe' }, { title: 'xi' }, { title: 'abcdef' }];
+  const searchBarData = [{title: 'fgdgf'}, {title: 'joe'}, {title: 'xi'}, {title: 'abcdef'}];
   // END TEMP FAKE DATA
 
   const handlePersonHover = (event, index) => {
@@ -63,14 +63,14 @@ function App() {
 
         <div className={classes.home_subtitleContainer}>
           <div className={classes.home_subtitle}>Recently Updated</div>
-          <Link to="/people" style={{ textDecoration: 'none' }}><CustomButton btnText='View All' /></Link>
+          <Link to="/people" style={{textDecoration: 'none'}}><CustomButton btnText='View All' /></Link>
         </div>
 
         <div className={classes.home_cardGridContainer + ' ' + classes.home_personGridContainer}>
           {personList.map((person, index) => {
             return (
               <div key={index} className={classes.home_cardWrapper} onMouseEnter={(event) => handlePersonHover(event, index)}>
-                <Link to={`/people/${person.id}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/people/${person.id}`} style={{textDecoration: 'none'}}>
                   <PersonCardSummary
                     id={person.id}
                     name={person.name}
@@ -85,7 +85,7 @@ function App() {
 
         <div className={classes.home_subtitleContainer}>
           <div className={classes.home_subtitle}>Recently Encounters</div>
-          <Link to="/encounters" style={{ textDecoration: 'none' }}><CustomButton btnText='View All' /></Link>
+          <Link to="/encounters" style={{textDecoration: 'none'}}><CustomButton btnText='View All' /></Link>
         </div>
 
         <div>This is where the encounters grid will go</div>
