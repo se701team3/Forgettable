@@ -38,28 +38,34 @@ const user1Data = {
     persons: [] as any,
 }
 
-const person1Data = {
+const person1Data: PersonModel = {
     full_name: 'Ping',
     interests: ['video games', 'hockey'],
     organisation: 'helloc',
-    time_added: new Date('2022-01-01'),
+    time_updated: new Date('2022-01-01'),
     how_we_met: 'Hockey club',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
     first_met: new Date('2022-01-01'),
     gender: "male",
-    location: "Auckland"
+    location: "Auckland",
+    image: null as any,
+    social_media: null as any
 };
 
 const person2Data: PersonModel = {
-    first_name: 'Adam',
-    last_name: 'Bong',
+    full_name: 'Adam Bong',
     interests: ['badminton', 'golf'],
     organisation: 'helloc',
-    time_added: new Date('2022-02-23'),
+    time_updated: new Date('2022-02-23'),
     how_we_met: 'Skype',
     birthday: new Date('2001-07-16'),
     encounters: [] as any,
+    first_met: null as any,
+    gender: "male",
+    image: null as any,
+    location: null as any,
+    social_media: null as any
 }
 
 const encounter1Data: EncounterModel = {
