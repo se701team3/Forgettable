@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders CustomModal UI to test correct hierarchy 1`] = `
+<ForwardRef(Modal)
+  onClose={[Function]}
+  open={true}
+>
+  <div
+    className="Container"
+  >
+    <div>
+      <h1>
+        This is an example title
+      </h1>
+    </div>
+    <div
+      className="Footer"
+    >
+      <CustomButton
+        btnText="Cancel"
+        onClick={[Function]}
+      />
+      <CustomButton
+        btnText="Confirm"
+        onClick={[Function]}
+      />
+    </div>
+  </div>
+</ForwardRef(Modal)>
+`;
