@@ -1,40 +1,59 @@
 /**
  * Controller contains high-level operations using services, consumed by routes
  */
-import { NextFunction, Request, Response } from "express";
-import userService from "../services/user.service";
-import encounterService from "../services/encounter.service";
-import logger from "../utils/logger";
+import { NextFunction, Request, Response } from 'express';
+import encounterService from '../services/encounter.service';
+import logger from '../utils/logger';
 import httpStatus from "http-status";
-import { EncounterModel } from "../models/encounter.model";
-import { getUserByAuthId } from "../services/user.service";
-
+import {EncounterModel} from "../models/encounter.model";
+import userService, {getUserByAuthId} from "../services/user.service";
+import personService from '../services/person.service';
+ 
 export const createEncounter = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   logger.info("POST /encounter request from frontend");
 
-  try {
-    // Grab the data from the req
-    const encounterReq = getEncounterFromReqBody(req.body);
+  const auth_id = req.headers.authorization?.["user_id"];
 
-    // Pass data to service and attempt to save
-    const createdEncounter = await encounterService.createEncounter(
-      encounterReq
-    );
-    // Notify frontend that the operation was successful
+  try {
+    const user = await getUserByAuthId(auth_id);
+
+    if (!user) {
+      res.status(httpStatus.FORBIDDEN).send('No such User exists').end();
+      return;
+    }
+
+    const createdEncounter = await encounterService.createEncounter(req.body);
+    logger.info(createdEncounter._id + '');
+
+    createdEncounter.persons.map((personEncountered) => {
+      if (!user.persons.includes(personEncountered)) {
+        encounterService.deleteEncounter(createdEncounter._id + '');
+        res.status(httpStatus.FORBIDDEN).send('Person does not exist for this User').end();
+        return;
+      }
+    })
+
+    const updateUser = await userService.addEncounterToUser(user.auth_id, createdEncounter._id);
+    const updatePerson = await personService.addEncounterToPersons(createdEncounter.persons, createdEncounter.id);
+
+    if (!updateUser || !updatePerson) {
+      encounterService.deleteEncounter(createdEncounter._id + '');
+      res.status(httpStatus.CONFLICT).send('Failed to add encounter').end();
+    }
+
     res.status(httpStatus.CREATED).json(createdEncounter).end();
   } catch (e) {
     next(e);
   }
 };
-
 export const updateEncounter = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<any> => {
   logger.info("PUT /encounter/:id request from frontend");
 
