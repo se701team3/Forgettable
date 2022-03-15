@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
+<ForwardRef(Drawer)
+  anchor="right"
+  data-testid="drawer-element"
+  open={true}
+  sx={
+    Object {
+      "& .MuiDrawer-paper": Object {
+        "boxSizing": "border-box",
+        "width": "460px",
+      },
+      "flexShrink": 0,
+      "width": "460px",
+    }
+  }
+  variant="persistent"
+>
+  <div
+    className="EncounterDrawer"
+  >
+    <div
+      className="ContentContainer"
+    >
+      <h1
+        className="EncounterTitle"
+        data-testid="title-element"
+      />
+      <div
+        className="SubtitleContainer"
+      >
+        <h3
+          className="EncounterSubtitle"
+        >
+          You encountered: 
+        </h3>
+        <div
+          className="MiniPersonProfile"
+        >
+          <ForwardRef(Avatar)
+            src="https://www.w3schools.com/w3css/img_lights.jpg"
+            sx={
+              Object {
+                "height": "30px",
+                "width": "30px",
+              }
+            }
+          />
+          <p
+            data-testid="name-element"
+          />
+        </div>
+        <div
+          className="MiniPersonProfile"
+        >
+          <ForwardRef(Avatar)
+            src="https://user-images.githubusercontent.com/62003343/158133392-b606b9d2-b05a-49dc-a4e8-9d6aed696d6b.gif"
+            sx={
+              Object {
+                "height": "30px",
+                "width": "30px",
+              }
+            }
+          />
+          <p
+            data-testid="name-element"
+          />
+        </div>
+        <div
+          className="MiniPersonProfile"
+        >
+          <ForwardRef(Avatar)
+            src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+            sx={
+              Object {
+                "height": "30px",
+                "width": "30px",
+              }
+            }
+          />
+          <p
+            data-testid="name-element"
+          />
+        </div>
+      </div>
+      <div
+        className="EncounterProperty"
+        data-testid="date-met-element"
+      >
+        Date we met: 
+        01/01/2020
+      </div>
+      <div
+        className="EncounterProperty"
+        data-testid="location-element"
+      >
+        Location: 
+        London
+      </div>
+      <h2>
+        Details:
+      </h2>
+      <p
+        className="EncounterDetails"
+        data-testid="details-element"
+      />
+    </div>
+  </div>
+</ForwardRef(Drawer)>
+`;

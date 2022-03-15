@@ -50,9 +50,25 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
   return filteredPersons;
 };
 
+
 const deletePersonEncounters = async (encounterID: string) => {
   await Person.updateMany({ }, { $pullAll: {encounters: [{ _id: encounterID}]} });
-  
+}
+
+const addEncounterToPersons = async (personIds, encounterId) => {
+  for (let i = 0; i < personIds.length; i++) {
+    const result = await Person.updateOne({ _id: personIds[i] }, { $push: { encounters: encounterId }});
+
+    //Revert all updates if any update fails
+    if (result.modifiedCount != 1) {
+      for (let j = i - 1; j >= 0; j--)  {
+        await Person.updateOne({ _id: personIds[i] }, { $pop: { encounters: 1 }});
+      }
+      return false;
+    }
+  }
+
+  return true;
 }
 
 const personService = {
@@ -60,6 +76,7 @@ const personService = {
   getPersonWithId,
   getPeople,
   deletePersonEncounters,
+  addEncounterToPersons
 };
 
 export default personService;

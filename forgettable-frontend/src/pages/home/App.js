@@ -47,7 +47,7 @@ function App() {
 
   return (
     <>
-      {selectedInfo && <SummaryDrawer summaryInfo={selectedInfo}/>}
+      {selectedInfo && <SummaryDrawer summaryInfo={selectedInfo} />}
 
       <div className={classes.home_container}>
         <div className={classes.home_title}>
@@ -55,7 +55,7 @@ function App() {
         </div>
 
         <div className={classes.home_searchArea}>
-          <SearchBar placeholder={'Search'} data={searchBarData}/>
+          <SearchBar placeholder={'Search'} data={searchBarData} hasAutocomplete={true} />
           <div className={classes.home_newEntryBtn}>
             <IconButton btnText="New Entry" onClick={handleNewEntryClick} includeIcon={true} />
           </div>
@@ -63,7 +63,7 @@ function App() {
 
         <div className={classes.home_subtitleContainer}>
           <div className={classes.home_subtitle}>Recently Updated</div>
-          <Link to="/people" style={{textDecoration: 'none'}}><CustomButton btnText='View All'/></Link>
+          <Link to="/people" style={{textDecoration: 'none'}}><CustomButton btnText='View All' /></Link>
         </div>
 
         <div className={classes.home_cardGridContainer + ' ' + classes.home_personGridContainer}>
@@ -76,7 +76,7 @@ function App() {
                     name={person.name}
                     img={person.img}
                     firstMet={person.firstMet}
-                    onClick={() => {}}
+                    onClick={() => { }}
                   />
                 </Link>
               </div>);
@@ -85,7 +85,7 @@ function App() {
 
         <div className={classes.home_subtitleContainer}>
           <div className={classes.home_subtitle}>Recently Encounters</div>
-          <Link to="/encounters" style={{textDecoration: 'none'}}><CustomButton btnText='View All'/></Link>
+          <Link to="/encounters" style={{textDecoration: 'none'}}><CustomButton btnText='View All' /></Link>
         </div>
 
         <div>This is where the encounters grid will go</div>
