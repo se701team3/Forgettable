@@ -7,12 +7,16 @@ import {getDateString} from '../../functions/dateFormatter';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import EncounterDetailsModal from '../../components/EncounterDetailsModal/EncounterDetailsModal';
 
 export default function Encounters() {
   const [isHover, setIsHover] = useState(false);
   const [selectedInfo, setSelectedInfo] = useState(undefined);
 
   const [hasMore, setHasMore] = useState(true);
+
+  const [selectedEncounter, setSelectedEncounter] = useState(undefined);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const persons = [
     {
@@ -52,8 +56,15 @@ export default function Encounters() {
       ],
   );
 
-  const onClick = () => {
+  const onClick = (encounter) => {
     console.log('card click');
+    console.log(encounter);
+    setSelectedEncounter(encounter);
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
   const onDelete = () => {
@@ -110,6 +121,12 @@ export default function Encounters() {
         persons={selectedInfo.persons}
         dateMet={selectedInfo.date}
       />}
+      {selectedEncounter && <EncounterDetailsModal
+        open={modalOpen}
+        onClose={handleModalClose}
+        encounter={selectedEncounter}
+        onDelete={onDelete}
+      />}
       <div className={classes.Container}>
         <div className={classes.Header}>
           Encounters
@@ -143,7 +160,7 @@ export default function Encounters() {
                     persons={encounter.persons}
                     date={encounter.date}
                     className={classes.EncounterCard}
-                    onClick={onClick}
+                    onClick={() => onClick(encounter)}
                     onDelete={onDelete}
                     isInitialEncounter={false}
                   />
