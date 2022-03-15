@@ -1,0 +1,33 @@
+.Container{
+  width: fit-content;
+  height: fit-content;
+  min-width: 525px;
+  min-height: 300px;
+  max-height: 85%;
+  max-width: 65%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  padding-bottom: 90px;
+  overflow-y: scroll;
+}
+
+.Container::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+.Footer{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  position: absolute;
+  bottom: 30px;
+}
