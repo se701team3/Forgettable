@@ -47,5 +47,10 @@
 }
 
 .home_personGridContainer {
-    max-height: 265px; /* 2 rows TODO: THIS WILL BE DIFFERENT FOR ENCOUNTERS */
+    max-height: 265px; /* 2 rows */
+}
+
+
+.home_encounterGridContainer {
+    max-height: 470px; /* 2 rows */
 }

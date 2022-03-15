@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-spacing */
 /* eslint-disable max-len */
 import React from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
@@ -7,6 +8,8 @@ import PersonCardSummary from '../../components/PersonCardSummary/PersonCardSumm
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import { Link } from 'react-router-dom';
 import IconButton from '../../components/IconButton/IconButton';
+import EncounterSummary from '../../components/EncounterCardSummary/EncounterSummary';
+import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 
 // The maximum summary cards shown on the large screens, small screens show less
 const MAX_LATEST_CARDS = 12;
@@ -30,6 +33,18 @@ function App() {
   for (let i = 1; i < MAX_LATEST_CARDS; i++) {
     personList[i] = { ...personList[0], name: 'P' + i };
   }
+  const encounterList = [{
+    id: '0',
+    title: 'encountername',
+    date: new Date(),
+    description: 'this is a description ',
+    summary: 'summary here',
+    persons: [personList[0], personList[0]],
+  },
+  ];
+  for (let i = 1; i < MAX_LATEST_CARDS; i++) {
+    encounterList[i] = { ...encounterList[0], name: 'encounter' + i };
+  }
 
   const searchBarData = [{ title: 'fgdgf' }, { title: 'joe' }, { title: 'xi' }, { title: 'abcdef' }];
   // END TEMP FAKE DATA
@@ -38,6 +53,13 @@ function App() {
     setSelectedInfo({
       type: 'person',
       info: personList[index],
+    });
+  };
+
+  const handleEncounterHover = (event, index) => {
+    setSelectedInfo({
+      type: 'encounter',
+      info: encounterList[index],
     });
   };
 
@@ -88,7 +110,23 @@ function App() {
           <Link to="/encounters" style={{ textDecoration: 'none' }}><CustomButton btnText='View All' /></Link>
         </div>
 
-        <div>This is where the encounters grid will go</div>
+        <div className={classes.home_cardGridContainer + ' ' + classes.home_encounterGridContainer}>
+          {encounterList.map((encounter, index) => {
+            return (
+              <div key={index} className={classes.home_cardWrapper} onMouseEnter={(event) => handleEncounterHover(event, index)}>
+                <Link to={`/encounters/${encounter.id}`} style={{ textDecoration: 'none' }}>
+                  <EncounterSummary
+                    name={encounter.persons[0]?.name}
+                    date={encounter.date}
+                    description={encounter.description}
+                    summary={encounter.title}
+                    src={encounter.persons[0]?.img}
+                  />
+                </Link>
+              </div>);
+          })}
+        </div>
+
       </div>
     </>
   );
@@ -111,7 +149,17 @@ function SummaryDrawer(summaryInfo) {
       socialMedias={summaryInfo.info.socialMedias}
     />;
   } else if (summaryInfo.type === 'encounter') {
-    return (''); // @TODO replace with encounter drawer once that is available.
+    return <EncounterDrawer
+      open={true}
+      id={summaryInfo.info.id}
+      encounterTitle={summaryInfo.info.title}
+      img={summaryInfo.info.persons[0]?.img}
+      persons={summaryInfo.info.persons}
+      dateMet={summaryInfo.info.date}
+      location={summaryInfo.info.location}
+      encounterDetail={summaryInfo.info.description} // TODO: remove this when typo is fixed.
+      encounterDetails={summaryInfo.info.description}
+    />;
   }
 }
 
