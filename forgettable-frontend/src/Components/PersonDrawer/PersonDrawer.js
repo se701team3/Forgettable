@@ -3,6 +3,7 @@ import classes from './PersonDrawer.module.css';
 import {Avatar, Drawer} from '@mui/material';
 import PropTypes from 'prop-types';
 import {
+  calculateAge,
   getDateLastMetString,
   getFirstMetTimeString,
 } from '../../functions/dateFormatter';
@@ -25,10 +26,11 @@ const PersonDrawer = (props) => {
         '& .MuiDrawer-paper': {
           width: props.staticDrawer ? '375px' : '460px',
           boxSizing: 'border-box',
+          marginLeft: '128px',
         },
       }}
       variant="persistent"
-      anchor="right"
+      anchor={props.staticDrawer ? 'left' : 'right'}
       open={props.open}
       data-testid="drawer-element"
     >
@@ -66,7 +68,9 @@ const PersonDrawer = (props) => {
             <p data-testid="age-element">
               {'Age: '}
               {props.birthday?
-              <span className={classes.KnownText}>34</span> :
+              <span className={classes.KnownText}>
+                {calculateAge(props.birthday)}
+              </span> :
               unknownDetail}
             </p>
             <p data-testid="gender-element">
