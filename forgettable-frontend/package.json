@@ -15,11 +15,8 @@
     "@types/react-dom": "^17.0.13",
     "buffer": "^6.0.3",
     "classnames": "^2.3.1",
-<<<<<<< HEAD
     "firebase": "^9.6.8",
-=======
     "image-to-base64": "^2.2.0",
->>>>>>> 6e0013c (feat current values inserted into fields)
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-firebase-hooks": "^5.0.3",

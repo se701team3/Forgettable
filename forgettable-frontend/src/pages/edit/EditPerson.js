@@ -1,5 +1,5 @@
-import {Avatar, FormLabel, imageListClasses, Input, SvgIcon} from '@mui/material';
-import React, {createRef, useEffect} from 'react';
+import {Avatar, Input} from '@mui/material';
+import React from 'react';
 import {useState, useRef} from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import classes from './EditPerson.module.css';
@@ -14,6 +14,8 @@ const MAX_IMAGE_SIZE = 16000000;
 export default function EditPerson() {
   // to check if it is create person or edit person
   const location = useLocation();
+
+  const navigate = useNavigate();
 
   // do a better check than this?
   const create = location.pathname.includes('/people/create') ? true : false;
@@ -70,10 +72,10 @@ export default function EditPerson() {
     ['github', 'github.com'],
   ]));
 
-  const navigate = useNavigate();
-
   const [socialMediaModalOpen, setSocialMediaModalOpen] = useState(false);
   const [currentSocialMedia, setCurrentSocialMedia] = useState();
+
+  const invisSocialMediaSubmitRef = useRef(null);
 
   function handleSocialMediaModalOpen(key) {
     key ? setCurrentSocialMedia(key) : setCurrentSocialMedia();
@@ -84,12 +86,13 @@ export default function EditPerson() {
     setSocialMediaModalOpen(false);
   };
 
-  const invisSocialMediaSubmitRef = useRef(null);
-
-  function handleAddSocialMedia(data) {
+  function handleAddSocialMedia(event) {
+    event.preventDefault();
     handleSocialMediaModalClose();
+    const platform = event.target.elements.platform.value;
+    const url = event.target.elements.url_link.value;
     const tempSocialMedias = socialMedias;
-    tempSocialMedias.set(data.target.elements.platform.value, data.target.elements.url_link.value);
+    platform && tempSocialMedias.set(platform, url);
     setSocialMedias(tempSocialMedias);
   }
 
@@ -124,13 +127,11 @@ export default function EditPerson() {
   }
 
   function handleSubmit(event) {
-    event.preventDefault();
+    event.preventDefault(); // perhaps remove this later
     const formData = new FormData(event.target);
 
+    // check dates from form are in correct format (Date type)
     formData.append('image', profilePic);
-    formData.append('encounters', create ? [] : personData.encounters);
-    // check which format for date
-    formData.append('time_updated', (Date.now()));
     formData.append('social_media', socialMedias);
 
     console.log(Object.fromEntries(formData));
@@ -181,34 +182,11 @@ export default function EditPerson() {
             <p>Social Media</p>
             <div className={classes.socialMediaDiv}>
               {handleDisplaySocialMedia()}
-              <button
+              <button type='button'
                 className={classes.addSocialMediaIcon}
                 onClick={() => handleSocialMediaModalOpen('')}>
               +
               </button>
-              <CustomModal
-                open={socialMediaModalOpen}
-                onClose={handleSocialMediaModalClose}
-                hasCancel
-                hasConfirm
-                onConfirm={() => invisSocialMediaSubmitRef.current.click()} >
-                <div className={classes.socialMediaModalDiv}>
-                  <h2>Social media link</h2>
-                  <form onSubmit={(data) => handleAddSocialMedia(data)}>
-                    <div className={classes.socialMediaModalFieldsDiv}>
-                      <div>
-                        <label>Platform: </label>
-                        <Input name='platform' defaultValue={currentSocialMedia}></Input>
-                      </div>
-                      <div>
-                        <label>URL Link: </label>
-                        <Input name='url_link' defaultValue={socialMedias.get(currentSocialMedia)}></Input>
-                      </div>
-                      <input ref={invisSocialMediaSubmitRef} id='socialMediaSubmit' type='submit' className={classes.hiddenSubmit}></input>
-                    </div>
-                  </form>
-                </div>
-              </CustomModal>
             </div>
           </div>
           <div className={classes.column}>
@@ -240,6 +218,30 @@ export default function EditPerson() {
           <input ref={invisSocialMediaSubmitRef} id='submit' type="submit" className={classes.hiddenSubmit}/>
         </div>
       </form>
+
+      <CustomModal
+        open={socialMediaModalOpen}
+        onClose={handleSocialMediaModalClose}
+        hasCancel
+        hasConfirm
+        onConfirm={() => (invisSocialMediaSubmitRef.current.click())} >
+        <div className={classes.socialMediaModalDiv}>
+          <h2>Social media link</h2>
+          <form onSubmit={handleAddSocialMedia}>
+            <div className={classes.socialMediaModalFieldsDiv}>
+              <div>
+                <label>Platform: </label>
+                <Input name='platform' defaultValue={currentSocialMedia}></Input>
+              </div>
+              <div>
+                <label>URL Link: </label>
+                <Input name='url_link' defaultValue={socialMedias.get(currentSocialMedia)}></Input>
+              </div>
+              <input ref={invisSocialMediaSubmitRef} id='socialMediaSubmit' type='submit' className={classes.hiddenSubmit}></input>
+            </div>
+          </form>
+        </div>
+      </CustomModal>
 
     </div>
   );
