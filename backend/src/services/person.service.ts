@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import Person, { PersonModel } from '../models/person.model';
 import logger from '../utils/logger';
 
-const queryKeys = ['full_name', 'gender', 'location', 'how_we_met', 'organisation']; //first_name and last_name
+const queryKeys = ['first_name', 'last_name', 'location', 'how_we_met', 'organisation'];
 
 const createPerson = async (personDetails: PersonModel) => {
   const person = new Person(personDetails);
@@ -23,10 +23,6 @@ const getPersonWithId = async (reqPersonId: string) => {
   return Person.findOne(query);
 };
 
-/**
- * Note that .clone is necessary to avoid error 'Query was already executed'
- * Refer to section 'Duplicate Query Execution under https://mongoosejs.com/docs/migrating_to_6.html
- */
 const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[]) => {
   // Get all persons from the db that belong to the user
   let foundUserPersons = await Person.find({ _id: { $in: userPersons } });
