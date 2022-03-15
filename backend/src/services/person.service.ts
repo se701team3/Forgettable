@@ -54,11 +54,28 @@ const deletePersons = async (personID: string) => {
   await Person.deleteOne({_id: personID});
 }
 
+const addEncounterToPersons = async (personIds, encounterId) => {
+  for (let i = 0; i < personIds.length; i++) {
+    const result = await Person.updateOne({ _id: personIds[i] }, { $push: { encounters: encounterId }});
+
+    //Revert all updates if any update fails
+    if (result.modifiedCount != 1) {
+      for (let j = i - 1; j >= 0; j--)  {
+        await Person.updateOne({ _id: personIds[i] }, { $pop: { encounters: 1 }});
+      }
+      return false;
+    }
+  }
+
+  return true;
+}
+
 const personService = {
   createPerson,
   getPersonWithId,
   getPeople,
-  deletePersons
+  deletePersons,
+  addEncounterToPersons
 };
 
 export default personService;

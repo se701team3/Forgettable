@@ -1,0 +1,81 @@
+@import '../../colours.css';
+
+.ContentContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 40px;
+}
+
+.Content {
+    margin-bottom: 40px;
+}
+
+.EncounterTitle {
+    font-weight: 600;
+    font-size: var(--text-xlarge);
+    margin-top: 60px;
+    margin-bottom: 0px;
+}
+
+.SubtitleContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* margin: -10px 0 0 0; */
+    margin: 20px 0;
+}
+
+.SubtitleContainer > * {
+}
+
+.EncounterSubtitle {
+    font-weight: 600;
+    font-size: var(--text-medium);
+    white-space: nowrap;
+    margin: 5px 0;
+    padding-right: 15px;
+}
+
+.MiniPersonProfile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-right: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 40px
+}
+
+.MiniPersonProfile > p {
+    font-size: var(--text-medium);
+    font-weight: 400;
+    margin-left: 10px;
+}
+
+.EncounterProperty {
+    font-size: var(--text-small);
+    margin: 5px 0;
+    color: var(--txt2);
+}
+
+.ContentContainer > h2 {
+    font-size: var(--text-medium);
+    font-weight: 500;
+    margin-bottom: 0;
+    margin-top: 30px;
+}
+
+.EncounterDetails {
+    font-size: var(--text-normal);
+    color: var(--txt2);
+}
+
+.DeleteButton {
+    margin-top: 10px;
+    position: absolute;
+    right: 60px;
+}
