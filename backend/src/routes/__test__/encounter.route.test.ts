@@ -423,6 +423,7 @@ describe('encounter ', () => {
         await supertest(app)
             .put(`/api/encounters/${newEncounterId}`)
             .set('Accept', 'application/json')
+            .set('Authorization', token)
             .send(encounterData)
             .expect(httpStatus.NO_CONTENT)
 
@@ -436,6 +437,7 @@ describe('encounter ', () => {
         await supertest(app)
             .put(`/api/encounters/${123}`)
             .set('Accept', 'application/json')
+            .set('Authorization', token)
             .send(encounterData)
             .expect(httpStatus.BAD_REQUEST)
     });
@@ -445,6 +447,7 @@ describe('encounter ', () => {
         await supertest(app)
             .put(`/api/encounters/622b36166bb3a4e3a1ef62f1`)
             .set('Accept', 'application/json')
+            .set('Authorization', token)
             .send(encounterData)
             .expect(httpStatus.NOT_FOUND)
     });
