@@ -23,6 +23,7 @@
     align-items: flex-end;
     margin-top: 80px;
     margin-bottom: 50px;
+    width: 805px;
 }
 
 .TitleContainer > h1 {
@@ -42,7 +43,6 @@
     justify-content: flex-start;
     flex-wrap: wrap;
     width: 100%;
-    background-color: blanchedalmond;
 }
 
 .CardWrapper {

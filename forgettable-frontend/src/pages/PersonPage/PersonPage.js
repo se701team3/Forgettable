@@ -24,7 +24,7 @@ const PersonPage = (props) => {
           <h1 className={classes.Title}>
             You encountered
             <br/>
-            Mercury 4721894 times
+            Mercury 4 times
           </h1>
           <div className={classes.ButtonContainer}>
             <IconButton
@@ -36,46 +36,55 @@ const PersonPage = (props) => {
           </div>
         </div>
         <div className={classes.EncountersContainer}>
+
           <div className={classes.CardWrapper}>
             <EncounterCard
-              title="Good times!"
-              description="We had a lot of fun"
+              title="Aenean et quam"
+              description="Nunc aliquet leo vitae sapien varius ullamcorper. Donec eget vestibulum turpis. Suspendisse dolor urna, ultricies in neque quis, dictum sodales arcu. "
               persons={[
                 {
                   first_name: 'Mercury',
                   last_name: 'Lin',
+                  img: 'https://user-images.githubusercontent.com/62003343/158300159-495244dd-f05e-4384-9fac-ddf88a06be39.gif',
                 },
               ]}
               location='Auckland'
               onClick={() => {}}
               onDelete={() => {}}
-              isInitialEncounter={true}
-            />
-          </div>
-          <div className={classes.CardWrapper}>
-            <EncounterCard
-              title="Good times!"
-              description="We had a lot of fun"
-              persons={[
-                {
-                  first_name: 'Mercury',
-                  last_name: 'Lin',
-                },
-              ]}
-              location='Auckland'
-              onClick={() => {}}
-              onDelete={() => {}}
+              date={new Date()}
               isInitialEncounter={false}
             />
           </div>
           <div className={classes.CardWrapper}>
             <EncounterCard
-              title="Good times!"
-              description="We had a lot of fun"
+              title="Sed a est venenatis"
+              description="Sed sed urna dui. Nam gravida, leo ac molestie pulvinar, odio erat egestas lorem, in ullamcorper lacus eros eu purus. Proin nulla neque, tristique ac euismod ut, convallis vitae mi. "
               persons={[
                 {
                   first_name: 'Mercury',
                   last_name: 'Lin',
+                  img: 'https://user-images.githubusercontent.com/62003343/158300159-495244dd-f05e-4384-9fac-ddf88a06be39.gif',
+
+                },
+              ]}
+              location='Auckland'
+              onClick={() => {}}
+              date={new Date()}
+              onDelete={() => {}}
+              isInitialEncounter={false}
+            />
+          </div>
+
+          <div className={classes.CardWrapper}>
+            <EncounterCard
+              title="Good times!"
+              description="Diam dictum vestibulum mi nulla vestibulum, id nibh. Nunc consequat amet commodo turpis tellus. Scelerisque a pellentesque vel accumsan sed mauris, ac turpis pharetra. Sem tristique nulla cursus praesent tincidunt integer faucibus in aliquam. Pretium nam enim ut suspendisse dictum. Arcu tristique turpis nam nunc nisl. Mi, molestie quis tincidunt ipsum hendrerit. Lacinia at ut dui nibh placerat scelerisque congue egestas ut. Et fusce odio amet, etiam consectetur ipsum a. Adipiscing iaculis dictum nisl lobortis. Pharetra nunc semper adipiscing massa aenean eu iaculis risus. At quam feugiat lorem ac dui. A, facilisi lectus mus iaculis convallis proin semper dolor accumsan. Ut nibh quis porttitor faucibus sagittis netus sit quis."
+              persons={[
+                {
+                  first_name: 'Mercury',
+                  last_name: 'Lin',
+                  img: 'https://user-images.githubusercontent.com/62003343/158300159-495244dd-f05e-4384-9fac-ddf88a06be39.gif',
+
                 },
               ]}
               location='Auckland'
@@ -88,17 +97,20 @@ const PersonPage = (props) => {
           <div className={classes.CardWrapper}>
             <EncounterCard
               title="Good times!"
-              description="We had a lot of fun"
+              description="Diam dictum vestibulum mi nulla vestibulum, id nibh. Nunc consequat amet commodo turpis tellus. Scelerisque a pellentesque vel accumsan sed mauris, ac turpis pharetra. Sem tristique nulla cursus praesent tincidunt integer ..."
               persons={[
                 {
                   first_name: 'Mercury',
                   last_name: 'Lin',
+                  img: 'https://user-images.githubusercontent.com/62003343/158300159-495244dd-f05e-4384-9fac-ddf88a06be39.gif',
+
                 },
               ]}
               location='Auckland'
               onClick={() => {}}
               onDelete={() => {}}
-              isInitialEncounter={false}
+              isInitialEncounter={true}
+              date={new Date()}
             />
           </div>
         </div>
