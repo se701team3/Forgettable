@@ -54,9 +54,12 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
   });
 };
 
-
 const deletePersonEncounters = async (encounterID: string) => {
   await Person.updateMany({ }, { $pullAll: {encounters: [{ _id: encounterID}]} });
+}
+
+const deletePersons = async (personID: string) => {
+  await Person.deleteOne({_id: personID});
 }
 
 const addEncounterToPersons = async (personIds, encounterId) => {
@@ -81,6 +84,7 @@ const personService = {
   getPersonWithId,
   getPeople,
   deletePersonEncounters,
+  deletePersons,
   addEncounterToPersons,
   updatePersonWithId,
 };

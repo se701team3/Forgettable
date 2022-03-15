@@ -1,0 +1,20 @@
+.Avatar{
+    font-family: 'Poppins', sans-serif;
+    font-weight: var(--font-regular);
+    font-size: var(--text-normal);
+}
+
+.Avatar_inline{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: auto;
+}
+
+.Avatar_multiple{
+    width: fit-content;
+}
+
+.Avatar_name{
+    margin-left: 10px;
+}
