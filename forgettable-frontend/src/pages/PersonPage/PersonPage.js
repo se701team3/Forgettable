@@ -64,7 +64,16 @@ const PersonPage = (props) => {
                   first_name: 'Mercury',
                   last_name: 'Lin',
                   img: 'https://user-images.githubusercontent.com/62003343/158300159-495244dd-f05e-4384-9fac-ddf88a06be39.gif',
-
+                },
+                {
+                  first_name: 'Raina',
+                  last_name: 'Song',
+                  img: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
+                },
+                {
+                  first_name: 'Hazel',
+                  last_name: 'Williams',
+                  img: 'https://www.publicdomainpictures.net/pictures/320000/nahled/background-image.png',
                 },
               ]}
               location='Auckland'
