@@ -7,7 +7,7 @@
     flex-direction: column;
     justify-content: center;
     box-sizing: border-box;
-    padding: 60px;
+    padding: 55px;
 }
 
 .ContentContainer {
@@ -42,6 +42,11 @@
     flex-direction: column;
     align-items: flex-start;
     box-sizing: border-box;
+    padding: 0;
+    align-self: flex-start;
+}
+
+.InfoContentPadding {
     padding: 0 50px;
 }
 
@@ -49,7 +54,7 @@
     font-size: var(--text-medium);
     font-weight: 400;
     margin: 15px 0;
-    color: var(--txt2)
+    color: var(--txt2);
 }
 
 .KnownText {
@@ -71,4 +76,13 @@
 .Icon {
     height: 36px;
     width: 36px;
+}
+
+.EditButton {
+    width: 80px;
+    margin-top: 25px;
+}
+
+.ButtonText {
+    font-size: var(--text-medium);
 }

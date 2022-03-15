@@ -11,6 +11,8 @@ import convertSocialMediaNamesToIcons,
 {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import {IconButton} from '@mui/material';
 import {getBirthdayString} from '../../functions/dateFormatter';
+import CustomButton from '../CustomButton/CustomButton';
+import classNames from 'classnames';
 
 const PersonDrawer = (props) => {
   const unknownDetail = <span className={classes.UnknownText}>Unknown</span>;
@@ -18,10 +20,10 @@ const PersonDrawer = (props) => {
   return (
     <Drawer
       sx={{
-        'width': '460px',
+        'width': props.staticDrawer ? '375px' : '460px',
         'flexShrink': 0,
         '& .MuiDrawer-paper': {
-          width: '460px',
+          width: props.staticDrawer ? '375px' : '460px',
           boxSizing: 'border-box',
         },
       }}
@@ -54,7 +56,7 @@ const PersonDrawer = (props) => {
               First met {getFirstMetTimeString(props.firstMet)}
             </h2>
           </div>
-          <div className={classes.InfoContent}>
+          <div className={props.staticDrawer ? classes.InfoContent : classNames(classes.InfoContent, classes.InfoContentPadding)}>
             <p data-testid="age-element">
               {'Age: '}
               {props.birthday?
@@ -129,6 +131,7 @@ const PersonDrawer = (props) => {
                  })}
                </span> :unknownDetail}
             </p>
+            <CustomButton btnText="Edit" className={classes.EditButton} textStyle={classes.ButtonText}/>
           </div>
         </div>
       </div>
@@ -146,6 +149,7 @@ PersonDrawer.propTypes = {
   firstMet: PropTypes.instanceOf(Date),
   location: PropTypes.string,
   interests: PropTypes.arrayOf(PropTypes.string),
+  staticDrawer: PropTypes.bool,
 };
 
 export default PersonDrawer;
