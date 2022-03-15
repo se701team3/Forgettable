@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import Person, { PersonModel } from '../models/person.model';
 import logger from '../utils/logger';
 
-const queryKeys = ['first_name', 'last_name', 'location', 'how_we_met', 'organisation'];
+const queryKeys = ['first_name', 'last_name', 'gender', 'location', 'how_we_met', 'organisation'];
 
 const createPerson = async (personDetails: PersonModel) => {
   const person = new Person(personDetails);
