@@ -22,11 +22,6 @@ function SearchBar({placeholder, data, exportFilteredData, hasAutocomplete}) {
     } else {
       setFilteredData(newFilter);
     }
-
-    if (hasAutocomplete === false) {
-      // outputs data so that pages can use the filtered data
-      exportFilteredData(filteredData);
-    }
   };
 
   const clearInput = () => {
@@ -61,7 +56,7 @@ function SearchBar({placeholder, data, exportFilteredData, hasAutocomplete}) {
           but it will be changed with the api */}
             {filteredData.slice(0, 15).map((value, key) => {
               return (
-                <a className={classes.DataItem} href={value.link} target="_blank" rel="noreferrer" key={key}>
+                <a className={classes.DataItem} href={window.location.href + value.type + '/' + value.id} rel="noreferrer" key={key}>
                   <p className={classes.DataItemP}>{value.title}</p>
                 </a>
               );
