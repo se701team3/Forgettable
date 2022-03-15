@@ -3,7 +3,7 @@ import React from 'react';
 import {Button} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
-function IconButton({btnText, onClick, includeIcon}) {
+function IconButton({btnText, onClick, includeIcon, height}) {
   const prmry = getComputedStyle(document.documentElement).getPropertyValue('--prmry');
   const txt3 = getComputedStyle(document.documentElement).getPropertyValue('--txt3');
   const fontMedium = getComputedStyle(document.documentElement).getPropertyValue('--font-medium');
@@ -25,7 +25,7 @@ function IconButton({btnText, onClick, includeIcon}) {
         paddingRight: '42px',
         fontFamily: '\'Poppins\', sans-serif',
         boxShadow: 'none',
-        height: '100%',
+        height: height || '100%',
       }}
       onClick={onClick}
     >
