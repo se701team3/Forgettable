@@ -7,6 +7,7 @@ import {getDateLastMetString} from '../../functions/dateFormatter';
 import {Avatar} from '@mui/material';
 import classes from './EncounterDetailsModal.module.css';
 import CustomButton from '../CustomButton/CustomButton';
+import CustomAvatarCollection from '../CustomAvatarCollection/CustomAvatarCollection';
 
 /*
  * Component for displaying encounter details in a pop-up modal
@@ -15,22 +16,6 @@ import CustomButton from '../CustomButton/CustomButton';
  */
 function EncounterDetailsModal(props) {
   const {open, onClose, onDelete, className, encounter} = props;
-
-  const createPersonMiniProfile = (person, i) => {
-    return (
-      <div className={classes.MiniPersonProfile} key={person.id || i} >
-        <Avatar
-          alt={person.first_name}
-          src={person.img}
-          sx={{
-            'width': '30px',
-            'height': '30px',
-          }}
-        />
-        <p data-testid="name-element">{person.first_name}</p>
-      </div>
-    );
-  };
 
   return (
     <CustomModal
@@ -48,11 +33,7 @@ function EncounterDetailsModal(props) {
           </h1>
           <div className={classes.SubtitleContainer}>
             <h3 className={classes.EncounterSubtitle}>You encountered: </h3>
-            {encounter.persons.map((person, i) => {
-              return (
-                createPersonMiniProfile(person, i)
-              );
-            })}
+            <CustomAvatarCollection persons={encounter.persons}/>
           </div>
           <div
             className={classes.EncounterProperty}
