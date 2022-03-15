@@ -82,7 +82,7 @@ export const updatePersonWithId = async (
   res: Response,
   next: NextFunction,
 ): Promise<any> => {
-  logger.info('POST /persons request from frontend');
+  logger.info('PUT /persons request from frontend');
 
   try {
     const authId = req.headers.authorization?.['user_id'];
