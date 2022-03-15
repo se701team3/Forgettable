@@ -23,9 +23,9 @@ function SearchBar({placeholder, data, exportFilteredData, hasAutocomplete}) {
       setFilteredData(newFilter);
     }
 
-    if (hasAutocomplete === false){
+    if (hasAutocomplete === false) {
       // outputs data so that pages can use the filtered data
-    exportFilteredData(filteredData);
+      exportFilteredData(filteredData);
     }
   };
 
@@ -34,7 +34,7 @@ function SearchBar({placeholder, data, exportFilteredData, hasAutocomplete}) {
     setWordEntered('');
   };
 
-  if (hasAutocomplete === true){
+  if (hasAutocomplete === true) {
     return (
       <div className={classes.SearchContainer}>
         <div className={classes.SearchInputs} >
@@ -70,7 +70,7 @@ function SearchBar({placeholder, data, exportFilteredData, hasAutocomplete}) {
         )}
       </div>
     );
-  }  else {
+  } else {
     return (
       <div className={classes.SearchContainer}>
         <div className={classes.SearchInputs} >
