@@ -16,6 +16,8 @@ const createEncounter = async (encounterDetails: EncounterModel) => {
     return encounter;
 };
 
+const getEncounter = async (encounterId) => Encounter.findOne({_id: encounterId});
+
 const getAllEncounters = async (userEncounters: mongoose.Types.ObjectId[]) => {
 
     // Get all encounters from the db which belongs to the user
@@ -37,6 +39,7 @@ const deleteEncounter = async (encounterID: String) => {
 const encounterService = {
     createEncounter,
     updateEncounter,
+    getEncounter,
     getAllEncounters,
     deleteEncounter
   }

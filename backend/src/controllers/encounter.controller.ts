@@ -8,7 +8,7 @@ import httpStatus from "http-status";
 import {EncounterModel} from "../models/encounter.model";
 import userService, {getUserByAuthId} from "../services/user.service";
 import personService from '../services/person.service';
- 
+
 export const createEncounter = async (
   req: Request,
   res: Response,
@@ -84,6 +84,36 @@ export const updateEncounter = async (
         updatedEncounter ? httpStatus.NO_CONTENT : httpStatus.NOT_FOUND
       )
       .end();
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const getEncounter = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  logger.info('GET /encounters/:id request from frontend');
+  try {
+    const auth_id = req.headers.authorization?.["user_id"];
+
+    const user_current = await userService.getUserByAuthId(auth_id);
+    const encounterId = req.params.id.toString();
+    const user_encounters = user_current?.encounters;
+    let string_encounters = user_encounters?.map(x => x.toString());
+
+    if (string_encounters?.includes(encounterId)) {
+      
+      // Find encounter from database
+      const encounter = await encounterService.getEncounter(encounterId);
+      // Notify frontend that the operation was successful
+      res.status(httpStatus.OK).json(encounter).end();
+
+    } else {
+      res.sendStatus(httpStatus.NOT_FOUND).end();
+    }
+
   } catch (e) {
     next(e);
   }
