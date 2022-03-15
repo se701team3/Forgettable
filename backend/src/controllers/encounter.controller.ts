@@ -148,6 +148,7 @@ const getEncounterFromReqBody = (body: any) => {
   const encounter: EncounterModel = {
     title: body.title,
     date: body.date,
+    time_updated: body.time_updated,
     location: body.location,
     description: body.description,
     persons: body.persons,

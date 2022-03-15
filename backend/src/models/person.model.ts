@@ -30,7 +30,7 @@ const schema = new Schema<PersonModel>({
   social_media: { type: Map, of: String, required: false },
   image: { type: Buffer, required: false },
   encounters: { type: [mongoose.Types.ObjectId], required: false },
-  time_updated: { type: Date, default: Date.now, required: true },
+  time_updated: { type: Date, default: new Date(Date.now()), required: true },
 });
 
 export default model<PersonModel>('Person', schema);
