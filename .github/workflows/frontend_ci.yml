@@ -26,6 +26,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm --prefix ./forgettable-frontend install
-    - run: eslint --ext .js ./forgettable-frontend
+    - run: cd ./forgettable-frontend; eslint --ext .js .
     - run: npm --prefix ./forgettable-frontend test
     - run: npm run build --if-present
