@@ -10,7 +10,8 @@ afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
 const requestPersonData:PersonModel = {
-  full_name: 'testlname',
+  first_name: 'testlname',
+  last_name: 'test1lastName',
   interests: ['a', 'b'],
   organisation: 'testorg',
   time_updated: new Date('2022-01-01'),
@@ -34,6 +35,6 @@ describe('person ', () => {
     const { body } = await supertest(app).get('/api/persons');
     expect(body).toHaveLength(1);
     const result:PersonModel = body[0];
-    expect(result.full_name).toEqual(requestPersonData.full_name);
+    expect(result.first_name).toEqual(requestPersonData.first_name);
   });
 });
