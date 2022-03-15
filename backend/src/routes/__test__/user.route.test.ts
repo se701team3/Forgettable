@@ -170,12 +170,10 @@ describe("POST /users", () => {
       .set("Accept", "application/json")
       .send(user1Data);
 
-    const { body: user } = await supertest(app)
+    await supertest(app)
       .get("/api/users")
       .set("Authorization", token)
-      .expect(httpStatus.OK);
-
-    expect(user).toBeFalsy();
+      .expect(httpStatus.NOT_FOUND);
   });
 
   it("User with same UID and info cannot be created twice", async () => {
@@ -220,3 +218,34 @@ describe("POST /users", () => {
       .expect(httpStatus.OK);
   });
 });
+
+describe("GET /users", () => {
+  it("Fetches user with auth_id present in token", async () => {
+    await supertest(app)
+    .post("/api/users")
+    .set("Accept", "application/json")
+    .send(user1Data)
+    .set("Authorization", token)
+    .expect(httpStatus.CREATED);
+
+    const { body: user } = await supertest(app)
+    .get("/api/users")
+    .set("Accept", "application/json")
+    .set("Authorization", token)
+    .expect(httpStatus.OK);
+
+    expect(user.auth_id).toBeUndefined();
+    expect(user.first_name).toEqual(user1Data.first_name);
+    expect(user.last_name).toEqual(user1Data.last_name);
+    expect(user.encounters).toEqual(user1Data.encounters);
+    expect(user.persons).toEqual(user1Data.persons);
+  })
+
+  it("Returns no user when none with auth_id found", async () => {
+    await supertest(app)
+    .get("/api/users")
+    .set("Accept", "application/json")
+    .set("Authorization", token)
+    .expect(httpStatus.NOT_FOUND)
+  })
+})
