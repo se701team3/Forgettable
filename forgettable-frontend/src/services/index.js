@@ -77,7 +77,7 @@ export const getAllEncounters = async () => {
  * @param {Object} encounter data of the Encounter to create.
  * @return {Promise} data entry of the new Encounter created
  */
-export const createEnncounter = async (encounter) => {
+export const createEncounter = async (encounter) => {
   return await postData('encounters', encounter);
 };
 
