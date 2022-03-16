@@ -124,13 +124,16 @@ export const deletePersons = async (
         const deletePersonsResult = await personService.deletePersons(req.params.id);
 
         // return encounters that may have empty persons fields
-        const empty_encounters = await encounterService.deleteEncounterPerson(req.params.id);
+        const deleteEncountersResult = await encounterService.deleteEncounterPerson(req.params.id);
+        const empty_encounters = deleteEncountersResult["array"];
+        const EncountersBool = deleteEncountersResult["bool"];
 
         //delete person from current User document
-        const deleteUserPersonResult = await userService.deleteUserPerson(req.params.id);
+        const deleteUserResult = await userService.deleteUserPerson(req.params.id);
 
         // Check all service function calls were valid
-        if (empty_encounters != false && deletePersonsResult && deletePersonsResult && deleteUserPersonResult) {
+        if (EncountersBool && deletePersonsResult && deleteUserResult) {
+
           // Make sure that empty encounters are also deleted from User
           for (let i = 0; i < empty_encounters.length; i++) {
             let result = await userService.deleteUserEncounter(empty_encounters[i]?._id.toString());
