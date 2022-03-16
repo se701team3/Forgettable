@@ -113,23 +113,23 @@ export const deletePersons = async (
     const auth_id = req.headers.authorization?.["user_id"];
     
     const current_user = await userService.getUserByAuthId(auth_id);
-    const user_id = req.params.id;
+    const id = req.params.id;
 
     const user_persons = current_user?.persons;
     let string_persons = user_persons?.map(x => x.toString());
 
-    if (string_persons?.includes(user_id.toString())) {
+    if (string_persons?.includes(id.toString())) {
       try {
         // Delete person from database
-        const deletePersonsResult = await personService.deletePersons(req.params.id);
+        const deletePersonsResult = await personService.deletePersons(id);
 
         // return encounters that may have empty persons fields
-        const deleteEncountersResult = await encounterService.deleteEncounterPerson(req.params.id);
+        const deleteEncountersResult = await encounterService.deleteEncounterPerson(id);
         const empty_encounters = deleteEncountersResult["array"];
         const EncountersBool = deleteEncountersResult["bool"];
 
         //delete person from current User document
-        const deleteUserResult = await userService.deleteUserPerson(req.params.id);
+        const deleteUserResult = await userService.deleteUserPerson(id);
 
         // Check all service function calls were valid
         if (EncountersBool && deletePersonsResult && deleteUserResult) {
