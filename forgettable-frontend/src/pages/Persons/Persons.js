@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import PersonCard from '../../Components/PersonCard/PersonCard';
-import SearchBar from '../../Components/SearchBar/SearchBar';
+import PersonCard from '../../components/PersonCard/PersonCard';
+import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './Persons.module.css';
-import IconButton from '../../Components/IconButton/IconButton';
+import IconButton from '../../components/IconButton/IconButton';
 import {getDateString} from '../../functions/dateFormatter';
-import PersonDrawer from '../../Components/PersonDrawer/PersonDrawer';
+import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {withRouter} from 'react-router-dom';
 
