@@ -10,12 +10,16 @@ import {Link} from 'react-router-dom';
 import IconButton from '../../components/IconButton/IconButton';
 import EncounterSummary from '../../components/EncounterCardSummary/EncounterSummary';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
+import CustomModal from '../../components/CustomModal/CustomModal';
+import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
+import PeopleLogo from '../../assets/icons/navbar/persons.svg';
 
 // The maximum summary cards shown on the large screens, small screens show less
 const MAX_LATEST_CARDS = 12;
 
 function App() {
   const [selectedInfo, setSelectedInfo] = React.useState(undefined);
+  const [modalOpen, setModalOpen] = React.useState(false);
   // @TODO: Input real data. Get 12 people and 12 encounters. Get all info needed for seach bar. Get user.
 
   // TEMPORARY FAKE DATA
@@ -64,12 +68,41 @@ function App() {
   };
 
   const handleNewEntryClick = (event) => {
-    // @TODO: Need dialog/popup to do the new entry.
+    setModalOpen(true);
+  };
+
+  const handleModalClose = (event) => {
+    setModalOpen(false);
   };
 
   return (
     <>
       {selectedInfo && <SummaryDrawer summaryInfo={selectedInfo} />}
+
+      <CustomModal open={modalOpen} onClose={handleModalClose} hasCancel={true}>
+        <div className={classes.home_modalTitle}>Add a new entry</div>
+        <div className={classes.home_modalButtonsContainer}>
+          <Link to="/people/new" style={{textDecoration: 'none'}}>
+            <IconButton
+              btnText="Person"
+              onClick={()=>{}}
+              includeIcon={true}
+              height='60px'
+              maxWidth='190px'
+              customIcon={PeopleLogo}/>
+          </Link>
+          <div className={classes.home_verticalBreak} />
+          <Link to="/encounters/new" style={{textDecoration: 'none'}}>
+            <IconButton
+              btnText="Encounter"
+              onClick={()=>{}}
+              includeIcon={true}
+              height='60px'
+              maxWidth='190px'
+              customIcon={EncountersLogo}/>
+          </Link>
+        </div>
+      </CustomModal>
 
       <div className={classes.home_container}>
         <div className={classes.home_title}>
@@ -130,6 +163,10 @@ function App() {
       </div>
     </>
   );
+}
+
+function ModalChildren() {
+  return (<div>Hello</div>);
 }
 
 function SummaryDrawer(summaryInfo) {
