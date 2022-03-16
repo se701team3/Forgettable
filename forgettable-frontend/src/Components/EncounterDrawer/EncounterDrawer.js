@@ -11,25 +11,10 @@ import convertSocialMediaNamesToIcons,
 {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import {IconButton} from '@mui/material';
 import {getBirthdayString} from '../../functions/dateFormatter';
+import CustomAvatarCollection from '../CustomAvatarCollection/CustomAvatarCollection';
 
 const EncounterDrawer = (props) => {
   const unknownDetail = <span className={classes.UnknownText}>Unknown</span>;
-
-  const createPersonMiniProfile = (person, i) => {
-    return (
-      <div className={classes.MiniPersonProfile} key={person.id || i} >
-        <Avatar
-          alt={`${person.first_name} ${person.last_name}`}
-          src={person.img}
-          sx={{
-            'width': '30px',
-            'height': '30px',
-          }}
-        />
-        <p data-testid="name-element">{person.first_name}</p>
-      </div>
-    );
-  };
 
   return (
     <Drawer
@@ -53,11 +38,7 @@ const EncounterDrawer = (props) => {
           </h1>
           <div className={classes.SubtitleContainer}>
             <h3 className={classes.EncounterSubtitle}>You encountered: </h3>
-            {Object.values(props.persons).map((person, i) => {
-              return (
-                createPersonMiniProfile(person, i)
-              );
-            })}
+            <CustomAvatarCollection persons={props.persons}/>
           </div>
           <div
             className={classes.EncounterProperty}

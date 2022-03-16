@@ -18,12 +18,35 @@ export const createPerson: POST = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  logger.info('POST /persons/create request from frontend');
+  logger.info('POST /persons request from frontend');
+  const auth_id = req.headers.authorization?.["user_id"];
 
   try {
-    const person = await personService.createPerson(req.body);
-    res.status(httpStatus.CREATED).send(person);
-  } catch (e) {
+    let user = await userService.getUserByAuthId(auth_id);
+
+    if (!user) {
+      res.status(httpStatus.NOT_FOUND).end();
+    } else {
+      // Create a new person with the provided information
+      const createdPerson = await personService.createPerson(req.body);
+
+      if (!createdPerson) {
+        res.status(httpStatus.BAD_REQUEST).end();
+      } else {
+        // Add a reference to the created person to the user
+        user = await userService.addPersonId(user.auth_id, createdPerson._id)
+        // If user doesn't contain reference to new person 
+        if (!user?.persons.includes(new mongoose.Types.ObjectId(createdPerson._id))) {
+          // return Conflict and delete person from db
+          await personService.deletePersons(createdPerson._id.toString());
+          res.status(httpStatus.CONFLICT).end();
+        } else {
+          res.status(httpStatus.CREATED).json(createdPerson).end();
+        }
+      }
+    }
+  }
+  catch (e) {
     next(e);
   }
 };
@@ -31,26 +54,31 @@ export const createPerson: POST = async (
 export const getPersonWithId = async (
   req: Request,
   res: Response,
+  next: NextFunction
 ): Promise<void> => {
   logger.info('GET /persons/:id request from frontend');
-
   const authId = req.headers.authorization?.['user_id'];
-  const user = await userService.getUserByAuthId(authId);
 
-  if (!user) {
-    res.status(httpStatus.UNAUTHORIZED).end();
-  } else {
-    // If the person belongs to this user, find it
-    let person: any;
-    if (user.persons.includes(new mongoose.Types.ObjectId(req.params.id))) {
-      person = await personService.getPersonWithId(req.params.id);
-    }
+  try {
+    const user = await userService.getUserByAuthId(authId);
 
-    if (!person) {
-      res.status(httpStatus.NOT_FOUND).end();
+    if (!user) {
+      res.status(httpStatus.UNAUTHORIZED).end();
     } else {
-      res.status(httpStatus.OK).json(person).end();
+      // If the person belongs to this user, find it
+      let person: any;
+      if (user.persons.includes(new mongoose.Types.ObjectId(req.params.id))) {
+        person = await personService.getPersonWithId(req.params.id);
+      }
+
+      if (!person) {
+        res.status(httpStatus.NOT_FOUND).end();
+      } else {
+        res.status(httpStatus.OK).json(person).end();
+      }
     }
+  } catch (e) {
+    next(e);
   }
 };
 
