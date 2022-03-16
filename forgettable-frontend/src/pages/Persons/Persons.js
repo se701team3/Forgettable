@@ -6,8 +6,9 @@ import IconButton from '../../Components/IconButton/IconButton';
 import {getDateString} from '../../functions/dateFormatter';
 import PersonDrawer from '../../Components/PersonDrawer/PersonDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import {withRouter} from 'react-router-dom';
 
-export default function Persons() {
+export default function Persons(props) {
   const [isHover, setIsHover] = useState(false);
   const [selectedInfo, setSelectedInfo] = useState(undefined);
   const [hasMore, setHasMore] = useState(true);
@@ -23,7 +24,7 @@ export default function Persons() {
         birthday: new Date(),
         firstMet: new Date(),
         location: 'London',
-        interests: ['muscly men', 'men', 'men muscles'],
+        interests: ['films', 'pictures', 'bad code comments'],
       },
       {
         id: '1',
@@ -47,11 +48,14 @@ export default function Persons() {
   );
 
 
-  const onClick = (Person) => {
-    console.log('card click');
-    console.log(Person);
-    setSelectedPerson(Person);
-    setModalOpen(true);
+  const onClick = (id) => {
+    console.log('hi');
+    props.history.push('/person/1');
+  };
+
+  const handleNavi = () => {
+    console.log('hfhdajkh faljfki');
+    props.history.push('/person/1');
   };
 
   const handleModalClose = () => {
@@ -63,7 +67,7 @@ export default function Persons() {
   };
 
   const onEdit = () => {
-    console.log('delete');
+    console.log('edit');
   };
 
   for (let i = 1; i < 20; i++) {
@@ -93,33 +97,14 @@ export default function Persons() {
     }, 1000);
   };
 
-  // console.log(PersonList);
-
   const handleOnMouseOver = (index) => {
     setIsHover(true);
     setSelectedInfo(personList[index]);
-
-    console.log(personList[index]);
   };
-  console.log('selected info', selectedInfo);
 
   const handleOnMouseOut = () => {
     setIsHover(false);
   };
-
-  // PersonDrawer.propTypes = {
-  //   open: PropTypes.bool.isRequired,
-  //   id: PropTypes.string,
-  //   name: PropTypes.string.isRequired,
-  //   img: PropTypes.string,
-  //   socialMedias: PropTypes.arrayOf(Object), // See below for an example
-  //   // [{name: 'facebook', link: 'https://www.google.com/'}, {name: 'instagram', link: 'https://www.google.com/'}]
-  //   firstMet: PropTypes.instanceOf(Date),
-  //   location: PropTypes.string,
-  //   interests: PropTypes.arrayOf(PropTypes.string),
-  //   staticDrawer: PropTypes.bool,
-  //   onEdit: PropTypes.bool,
-  // };
 
   return (
     <>
@@ -161,7 +146,6 @@ export default function Persons() {
             }
           >
             {personList.map((person, index) => {
-              console.log('mapping', index, person);
               return (
                 <div className={classes.PersonCard} key={`${index}-container`} onMouseOver={() => handleOnMouseOver(index)} onMouseOut={handleOnMouseOut}>
                   <PersonCard
@@ -169,7 +153,7 @@ export default function Persons() {
                     name= {person.name}
                     numEncounters = {person.numEncounters}
                     lastMet= {person.lastMet}
-                    onClick={() => onClick(person)}
+                    onClick={handleNavi}
                     onEdit={onEdit}
                     onDelete={onDelete}
                     firstMet= {person.firstMet}
