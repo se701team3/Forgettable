@@ -58,7 +58,7 @@ const EncounterCard = (props) => {
 };
 
 EncounterCard.propTypes = {
-  id: PropTypes.string,
+  _id: PropTypes.string,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   persons: PropTypes.arrayOf(PropTypes.shape({

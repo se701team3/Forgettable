@@ -30,8 +30,3 @@ export const calculateAge = (timeInMs) => {
                   '';
 };
 
-export const getDateString = (timeInMs) => {
-  return timeInMs ?
-          moment(timeInMs).format('DD/MM/YYYY') :
-          'Unknown :(';
-};
