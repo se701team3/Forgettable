@@ -1,0 +1,55 @@
+.inputLabelPrimary {
+    font-family: 'Poppins', sans-serif;
+    font-size: 23px;
+    font-weight: bold;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputLabelSecondary {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.inputLabelMultiLine {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputFieldPrimary{
+    font-family: 'Poppins', sans-serif;
+    font-size: 23px;
+    width: 375px;
+    height: 45px;
+    border-radius: 8px;
+    margin-top: 5px;
+    padding: 10px;
+}
+
+.inputFieldSecondary{
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    width: 245px;
+    height: 40px;
+    border-radius: 8px;
+    margin-left: 10px;
+    padding: 10px;
+}
+
+.inputFieldMultiLine {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    width: 780px;
+    height: 350px;
+    border-radius: 8px;
+    margin-top: 5px;
+    padding: 20px;
+    resize: none;
+}
