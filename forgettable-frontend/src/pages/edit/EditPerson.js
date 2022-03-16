@@ -7,6 +7,7 @@ import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter
 import {useNavigate, useLocation, useParams} from 'react-router-dom';
 import imageToBase64 from 'image-to-base64/browser';
 import CustomModal from '../../components/CustomModal/CustomModal';
+import * as apiCalls from '../../services/index';
 
 const MAX_IMAGE_SIZE = 16000000;
 
@@ -20,10 +21,7 @@ export default function EditPerson() {
   // do a better check than this?
   const create = location.pathname.includes('/people/create') ? true : false;
 
-  // GET persons/:id if create == false
   let personData = {};
-
-  // const personData = {};
 
   (!create) && (
     personData = {
@@ -42,15 +40,18 @@ export default function EditPerson() {
       time_updated: '0002-02-02',
     });
 
-  // if (!create) {
-  //   const {id} = useParams();
-  //   fetch('/persons/' + id)
-  //       .then((response) => response.json())
-  //       .then((json) => personData = json)
-  //       .catch((error) => {
-  //         console.error('Error', error);
-  //       });
-  // }
+  async function getPersonData() {
+    try {
+      if (!create) {
+        const {id} = useParams();
+        personData = await apiCalls.getPerson(id);
+      }
+    } catch (err) {
+      // console.log(err);
+    }
+  }
+
+  getPersonData();
 
   const mapTest = new Map([
     ['twitter', 'https://twitter.com/Twitter'],
@@ -106,7 +107,7 @@ export default function EditPerson() {
         src={convertSocialMediaToIcon(key)}
         alt={key}
         key={key}
-        onClick={() => (handleSocialMediaModalOpen(key))} // replace with custom modal and perhaps function
+        onClick={() => (handleSocialMediaModalOpen(key))}
         className={classes.socialMediaIcon}/>);
     }
     return socialMediaElements;
@@ -139,15 +140,15 @@ export default function EditPerson() {
 
     console.log(Object.fromEntries(formData));
 
-    // possible POST call
-    // fetch('/persons', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(Object.fromEntries(formData))})
-    //     .then((response) => response.json())
-    //     .then((json) => json);
+    async function postPersonData() {
+      try {
+        personData = await apiCalls.createPerson(Object.fromEntries(formData));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    postPersonData();
   }
 
 
@@ -175,7 +176,7 @@ export default function EditPerson() {
         <div className={classes.row}>
           <div className={classes.column}>
             <p>First Name</p>
-            <Input name='first_name' autoFocus required value={personData.first_name}></Input>
+            <Input name='first_name' autoFocus required value={personData.first_name} data-testid='first-name'></Input>
             <p>Gender</p>
             <Input name='gender' value={personData.gender}></Input>
             <p>Date First Met</p>

@@ -71,6 +71,7 @@ exports[`renders Create person page correctly 1`] = `
         </p>
         <div
           className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
+          data-testid="first-name"
           onClick={[Function]}
           required={true}
         >
