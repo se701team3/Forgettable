@@ -1,12 +1,12 @@
 /* eslint-disable max-len */
 import React from 'react';
-import CustomButton from '../../components/CustomButton/CustomButton';
-import SearchBar from '../../components/SearchBar/SearchBar';
+import CustomButton from '../../Components/CustomButton/CustomButton';
+import SearchBar from '../../Components/SearchBar/SearchBar';
 import classes from './App.module.css';
-import PersonCardSummary from '../../components/PersonCardSummary/PersonCardSummary';
-import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
+import PersonCardSummary from '../../Components/PersonCardSummary/PersonCardSummary';
+import PersonDrawer from '../../Components/PersonDrawer/PersonDrawer';
 import {Link} from 'react-router-dom';
-import IconButton from '../../components/IconButton/IconButton';
+import IconButton from '../../Components/IconButton/IconButton';
 
 // The maximum summary cards shown on the large screens, small screens show less
 const MAX_LATEST_CARDS = 12;
@@ -31,7 +31,7 @@ function App() {
     personList[i] = {...personList[0], name: 'P' + i};
   }
 
-  const searchBarData = [{title: 'fgdgf'}, {title: 'joe'}, {title: 'xi'}, {title: 'abcdef'}];
+  const searchBarData = [{title: 'fgdgf', type: 'encounters', id: '0'}, {title: 'joe', type: 'people', id: '1'}, {title: 'xi', type: 'people', id: '2'}, {title: 'abcdef', type: 'encounters', id: '3'}];
   // END TEMP FAKE DATA
 
   const handlePersonHover = (event, index) => {

@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import Person, { PersonModel } from '../models/person.model';
 import logger from '../utils/logger';
 
-const stringFields = ['full_name', 'gender', 'location', 'how_we_met', 'organisation'];
+const queryKeys = ['first_name', 'last_name', 'gender', 'location', 'how_we_met', 'organisation'];
 
 const createPerson = async (personDetails: PersonModel) => {
   const person = new Person(personDetails);
@@ -23,36 +23,44 @@ const getPersonWithId = async (reqPersonId: string) => {
   return Person.findOne(query);
 };
 
-/**
- * Note that .clone is necessary to avoid error 'Query was already executed'
- * Refer to section 'Duplicate Query Execution under https://mongoosejs.com/docs/migrating_to_6.html
- */
 const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[]) => {
-  // Log query params if received
-  if (Object.keys(queryParams).length > 0) {
+  // Get all persons from the db that belong to the user
+  let foundUserPersons = await Person.find({ _id: { $in: userPersons } });
+
+  // Filter the found persons by query params
+  if (queryParams.term) {
     logger.info('Query params received:');
     logger.info(queryParams);
-  }
+    const termValue = queryParams.term.toLowerCase();
 
-  // Get all persons from the db that belong to the user
-  const foundUserPersons = await Person.find({ _id: { $in: userPersons } });
-
-  // Filter them by query params (only works with single string fields)
-  return foundUserPersons.filter((person) => {
-    for (const queryKey in queryParams) {
-      if (stringFields.includes(queryKey)) {
-        // Get queryValue and personValue as lowercase strings
-        const queryValue: string = queryParams[queryKey].toLowerCase();
-        const personValue: string = person[queryKey].toLowerCase();
-
-        if (!personValue.includes(queryValue)) {
-          return false;
+    // If no relevant fields in a Person match 'termValue', remove them from the array
+    foundUserPersons = foundUserPersons.filter((person) => {
+      for (let i = 0; i < queryKeys.length; i++) {
+        // Make sure person has a value for current queryKey
+        if (person[queryKeys[i]]) {
+          const personValue = (person[queryKeys[i]] as string).toLowerCase();
+          if (personValue.includes(termValue)) {
+            return true;
+          }
         }
       }
-    }
-    return true;
-  });
+      return false;
+    })
+  }
+
+  return foundUserPersons;
 };
+
+const deletePersonEncounters = async (encounterID: string) => {
+  const result = await Person.updateMany({ }, { $pullAll: {encounters: [{ _id: encounterID}]} });
+
+  // Check that Persons with the respective encounters has been updated
+  if (result.modifiedCount > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 const deletePersons = async (personID: string) => {
   await Person.deleteOne({_id: personID});
@@ -79,6 +87,7 @@ const personService = {
   createPerson,
   getPersonWithId,
   getPeople,
+  deletePersonEncounters,
   deletePersons,
   addEncounterToPersons,
   updatePersonWithId,

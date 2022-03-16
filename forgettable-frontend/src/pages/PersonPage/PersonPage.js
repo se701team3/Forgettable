@@ -1,7 +1,7 @@
 import React from 'react';
-import EncounterCard from '../../components/EncounterCard/EncounterCard';
-import IconButton from '../../components/IconButton/IconButton';
-import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
+import EncounterCard from '../../Components/EncounterCard/EncounterCard';
+import IconButton from '../../Components/IconButton/IconButton';
+import PersonDrawer from '../../Components/PersonDrawer/PersonDrawer';
 import classes from './PersonPage.module.css';
 
 const PersonPage = (props) => {
