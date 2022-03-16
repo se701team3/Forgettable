@@ -411,13 +411,18 @@ describe('PUT /encounters/:id ', () => {
             .send(encounterData)
             .expect(httpStatus.NOT_FOUND)
     });
-
     it('Fails when user does not exist for given token', async ()=>{
         await supertest(app)
             .put(`/api/encounters/1234567890`)
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .expect(httpStatus.NOT_FOUND)
+    })
+    it('Fails when user is not authenticated', async ()=>{
+        await supertest(app)
+            .put(`/api/encounters/1234567890`)
+            .set('Accept', 'application/json')
+            .expect(httpStatus.UNAUTHORIZED)
     })
 });
 
