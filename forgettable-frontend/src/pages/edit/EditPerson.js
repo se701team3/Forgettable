@@ -42,16 +42,17 @@ export default function EditPerson() {
 
   async function getPersonData() {
     try {
-      if (!create) {
-        const {id} = useParams();
-        personData = await apiCalls.getPerson(id);
-      }
+      personData = await apiCalls.getPerson(id);
     } catch (err) {
       // console.log(err);
     }
   }
 
-  getPersonData();
+  let id = null;
+  if (!create) {
+    id = useParams();
+    getPersonData();
+  }
 
   const mapTest = new Map([
     ['twitter', 'https://twitter.com/Twitter'],
@@ -128,6 +129,18 @@ export default function EditPerson() {
       // add the custom alert here
       console.log('Image too big, must be less than 16mb');
     }
+  }
+
+  function handleDeletePerson() {
+    console.log('deleting');
+    async function deletePersonCall() {
+      try {
+        personData = await apiCalls.deletePerson(id);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    deletePersonCall();
   }
 
   function handleSubmit(event) {
@@ -208,15 +221,22 @@ export default function EditPerson() {
         </div>
 
         <div className={classes.formButtonsDiv}>
+          {!create && (
+            <CustomButton btnText="Delete"
+              onClick={() => handleDeletePerson()}
+              className={classes.formsButton}
+            />
+          )}
+
           {/* navigate(-1) returns to previous page (like a back button) */}
           <CustomButton
             btnText="Cancel"
             onClick={() => navigate(-1, {'replace': true})}
-            className={classes.cancelButton}
+            className={classes.formsButton}
           />
           <label htmlFor='submit'>
             <CustomButton btnText="Save"
-              // onClick={() => navigate('/encounter/create', {'replace': true})} when create encounter is implemented
+              // onClick={() => navigate('/encounter/create', {'replace': true})} // when create encounter is implemented
             />
           </label>
           <input ref={invisSocialMediaSubmitRef} id='submit' type="submit" className={classes.hiddenSubmit}/>
