@@ -28,32 +28,24 @@ exports[`renders EncounterDetailsModal UI to test correct hierarchy 1`] = `
         >
           You encountered: 
         </h3>
-        <div
-          className="MiniPersonProfile"
-        >
-          <ForwardRef(Avatar)
-            alt="Kent"
-            src="https://images.unsplash.com/photo-1646936218155-caedb4ed9bf7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-            sx={
+        <CustomAvatarCollection
+          persons={
+            Array [
               Object {
-                "height": "30px",
-                "width": "30px",
-              }
-            }
-          />
-          <p
-            data-testid="name-element"
-          >
-            Kent
-          </p>
-        </div>
+                "first_name": "Kent",
+                "img": "https://images.unsplash.com/photo-1646936218155-caedb4ed9bf7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80",
+                "last_name": "Dodds",
+              },
+            ]
+          }
+        />
       </div>
       <div
         className="EncounterProperty"
         data-testid="date-met-element"
       >
         Date we met: 
-        15/03/2022
+        16/03/2022
       </div>
       <div
         className="EncounterProperty"
