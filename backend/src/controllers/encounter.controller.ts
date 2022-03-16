@@ -158,15 +158,15 @@ export const deleteEncounters = async (
     if (string_encounters?.includes(id.toString())) {
       try {
         // Delete encounter from Encounter and Person collection
-        const deleteEncounterResult = await encounterService.deleteEncounter(req.params.id);
-        const deletePersonEncountersResult = await personService.deletePersonEncounters(req.params.id);
-        const deleteUserEncounterResult = await userService.deleteUserEncounter(req.params.id);
+        const deleteEncounterResult = await encounterService.deleteEncounter(id);
+        const deletePersonEncountersResult = await personService.deletePersonEncounters(id);
+        const deleteUserEncounterResult = await userService.deleteUserEncounter(id);
 
         // Notify frontend that the operation was successful
         if (deleteEncounterResult && deletePersonEncountersResult && deleteUserEncounterResult) {
           res.sendStatus(httpStatus.OK).end();
         } else {
-          res.sendStatus(httpStatus.BAD_REQUEST);
+          res.sendStatus(httpStatus.BAD_REQUEST).end();
         }
         
       } catch(e) {

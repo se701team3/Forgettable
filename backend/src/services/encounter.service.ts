@@ -48,8 +48,7 @@ const deleteEncounterPerson = async (personID: string) => {
 
 const deleteEncounter = async (encounterID: String) => {
   const result = await Encounter.deleteOne({ _id: encounterID }).exec();
-  console.log("RESULT: ", result);
-
+  
   // Check that Encounter has been deleted
   if (result.deletedCount == 1) {
     return true;
