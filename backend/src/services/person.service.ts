@@ -55,7 +55,14 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
 };
 
 const deletePersonEncounters = async (encounterID: string) => {
-  await Person.updateMany({ }, { $pullAll: {encounters: [{ _id: encounterID}]} });
+  const result = await Person.updateMany({ }, { $pullAll: {encounters: [{ _id: encounterID}]} });
+
+  // Check that Persons with the respective encounters has been updated
+  if (result.modifiedCount > 0) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 const deletePersons = async (personID: string) => {
