@@ -10,7 +10,7 @@ import App from './pages/home/App';
 import reportWebVitals from './reportWebVitals';
 import NavBar from './components/NavBar/NavBar';
 import Settings from './pages/settings/settings';
-import People from './pages/people/people';
+import People from './pages/Persons/Persons';
 import Encounters from './pages/encounters/encounters';
 import PersonPage from './pages/PersonPage/PersonPage';
 import SignInPage from './pages/SignInPage/SignInPage';

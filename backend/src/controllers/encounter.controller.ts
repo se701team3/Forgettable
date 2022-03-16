@@ -142,6 +142,44 @@ export const getEncounter = async (
   }
 };
 
+export const deleteEncounters = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+  ): Promise<void> => {
+    logger.info("DELETE /encounters/:encounterID request from frontend");
+    const auth_id = req.headers.authorization?.["user_id"];
+    
+    const current_user = await userService.getUserByAuthId(auth_id);
+    const id = req.params.id;
+    const user_encounters = current_user?.encounters;
+    let string_encounters = user_encounters?.map(x => x.toString());
+
+    if (string_encounters?.includes(id.toString())) {
+      try {
+        // Delete encounter from Encounter and Person collection
+        const deleteEncounterResult = await encounterService.deleteEncounter(id);
+        const deletePersonEncountersResult = await personService.deletePersonEncounters(id);
+        const deleteUserEncounterResult = await userService.deleteUserEncounter(id);
+
+        // Notify frontend that the operation was successful
+        if (deleteEncounterResult && deletePersonEncountersResult && deleteUserEncounterResult) {
+          res.sendStatus(httpStatus.OK).end();
+        } else {
+          res.sendStatus(httpStatus.BAD_REQUEST).end();
+        }
+        
+      } catch(e) {
+  
+        next(e);
+      }
+    } else {
+      res.sendStatus(httpStatus.NOT_FOUND).end();
+    }
+    
+    res.status(httpStatus.OK).end();
+  };
+
 export const getAllEncounters = async (
   req: Request,
   res: Response,
@@ -155,8 +193,6 @@ export const getAllEncounters = async (
   try {
     if (!user) {
       res.status(httpStatus.NOT_FOUND).end();
-    } else if (!user.encounters.length) {
-      res.status(httpStatus.NO_CONTENT).end();
     } else {
       const foundUserEncounters = await encounterService.getAllEncounters(user.encounters);
       res.status(httpStatus.OK).json(foundUserEncounters).end();

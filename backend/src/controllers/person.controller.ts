@@ -95,8 +95,6 @@ export const getAllPeople = async (
   try {
     if (!user) {
       res.status(httpStatus.NOT_FOUND).end();
-    } else if (!user.persons.length) {
-      res.status(httpStatus.NO_CONTENT).end();
     } else {
       const foundUserPersons = await personService.getPeople(req.query, user.persons);
       res.status(httpStatus.OK).json(foundUserPersons).end();
