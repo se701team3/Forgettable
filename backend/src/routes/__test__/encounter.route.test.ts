@@ -5,6 +5,8 @@ import app from '../../server';
 import httpStatus from "http-status";
 import testUtils from '../../utils/test/test-utils';
 import 'dotenv/config';
+import { UserModel } from 'src/models/user.model';
+import encounterService from 'src/services/encounter.service';
 
 const supertest = require('supertest');
 
@@ -464,3 +466,73 @@ const createUserPersonEncounter = async (token): Promise<any>=>{
 
     return newEncounter._body._id
 }
+describe('Getting encounters', () => {
+    it ('Can be retrieved by id', async () => {
+      // Create a new user
+      await supertest(app).post('/api/users')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .send(user1Data);
+  
+      // Create a new encounter and store it in the user
+      const { body: createdEncounter } = await supertest(app).post('/api/encounters')
+        .set('Accept', 'application/json')
+        .send(encounter1Data)
+        .set("Authorization", token)
+        .expect(httpStatus.CREATED);
+  
+      // Attempt to retrieve it
+      const { body: retrievedEnounter } = await supertest(app).get(`/api/encounters/${createdEncounter._id}`)
+        .set('Accept','application/json')
+        .set("Authorization", token)
+        .expect(httpStatus.OK);
+  
+      expect(retrievedEnounter._id).toEqual(createdEncounter._id);
+    });
+  
+    it ('Is not retrieved if the user does not contain it', async () => {
+      // Create a new user
+      const { body: user } = await supertest(app).post('/api/users')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .send(user1Data);
+  
+      // Create three encounters and store only the first two in the user
+      const { body : encounter1 } = await supertest(app).post('/api/encounters')
+        .set('Accept', 'application/json')
+        .send(encounter1Data)
+        .set("Authorization", token)
+        .expect(httpStatus.CREATED);
+  
+      const { body : encounter2 } = await supertest(app).post('/api/encounters')
+        .set('Accept', 'application/json')
+        .send(encounter2Data)
+        .set("Authorization", token)
+        .expect(httpStatus.CREATED);  
+  
+      const encounter3 = await encounterService.createEncounter(encounter3Data);
+  
+      // Ensure only encounter1 and encounter2 can be retrieved
+      await supertest(app).get(`/api/encounters/${encounter1._id}`)
+        .set('Accept','application/json')
+        .set("Authorization", token)
+        .expect(httpStatus.OK);
+  
+      await supertest(app).get(`/api/encounters/${encounter2._id}`)
+        .set('Accept','application/json')
+        .set("Authorization", token)
+        .expect(httpStatus.OK);
+  
+      await supertest(app).get(`/api/encounters/${encounter3._id}`)
+        .set('Accept','application/json')
+        .set("Authorization", token)
+        .expect(httpStatus.NOT_FOUND);
+    });
+  
+    it ('Returns "Unauthorized" if the user does not have a valid auth_id', async () => {
+        await supertest(app).get(`/api/encounters/FAKE_PERSON_ID`)
+          .set('Accept','application/json')
+          .set("Authorization", "FAKE_AUTH_TOKEN")
+          .expect(httpStatus.UNAUTHORIZED);
+    });
+});
