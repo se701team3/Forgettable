@@ -32,9 +32,6 @@ jobs:
         touch .env
         echo "FIREBASE_TEST_AUTH_EMAIL=${{ secrets.FIREBASE_TEST_AUTH_EMAIL }}" >> .env
         echo "FIREBASE_TEST_AUTH_KEY=${{ secrets.FIREBASE_TEST_AUTH_KEY }}" >> .env
-        echo "FIREBASE_TEST_AUTH_PASS=${{ secrets.FIREBASE_TEST_AUTH_PASS }}" >> .env
-        echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
-        echo "PORT=${{ secrets.PORT }}" >> .env
       
     - run: npm --prefix ./backend i
     - run: npm --prefix ./backend run lint
