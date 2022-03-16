@@ -155,8 +155,6 @@ export const getAllEncounters = async (
   try {
     if (!user) {
       res.status(httpStatus.NOT_FOUND).end();
-    } else if (!user.encounters.length) {
-      res.status(httpStatus.NO_CONTENT).end();
     } else {
       const foundUserEncounters = await encounterService.getAllEncounters(user.encounters);
       res.status(httpStatus.OK).json(foundUserEncounters).end();

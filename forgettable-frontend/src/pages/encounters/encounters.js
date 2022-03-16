@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import EncounterCard from '../../components/EncounterCard/EncounterCard';
-import SearchBar from '../../components/SearchBar/SearchBar';
+import EncounterCard from '../../Components/EncounterCard/EncounterCard';
+import SearchBar from '../../Components/SearchBar/SearchBar';
 import classes from './encounters.module.css';
-import IconButton from '../../components/IconButton/IconButton';
+import IconButton from '../../Components/IconButton/IconButton';
 import {getDateString} from '../../functions/dateFormatter';
-import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
-import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
+import PersonDrawer from '../../Components/PersonDrawer/PersonDrawer';
+import EncounterDrawer from '../../Components/EncounterDrawer/EncounterDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import EncounterDetailsModal from '../../components/EncounterDetailsModal/EncounterDetailsModal';
+import EncounterDetailsModal from '../../Components/EncounterDetailsModal/EncounterDetailsModal';
 
 export default function Encounters() {
   const [isHover, setIsHover] = useState(false);

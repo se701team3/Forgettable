@@ -44,9 +44,18 @@ export const deleteUserEncounter = async (encounterID: String) => {
   }
 }
 
+export const addPersonId = async(uid, pid) => {
+  const updatedUser = await User.findOneAndUpdate(
+    { auth_id: uid }, 
+    { $push: { persons: pid }},
+    { returnOriginal: false })
+  return updatedUser;
+}
+
 const userService = {
   createUser,
   getUserByAuthId,
+  addPersonId,
   deleteUserPerson,
   deleteUserEncounter,
   addEncounterToUser,

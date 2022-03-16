@@ -3,28 +3,16 @@ import databaseOperations from "../../utils/test/db-handler";
 
 import { PersonModel } from "../../models/person.model";
 import app from "../../server";
-import axios from "axios";
+import testUtils from "../../utils/test/test-utils";
 import "dotenv/config";
 
 const supertest = require("supertest");
 
-let token: String;
+let token;
 
 beforeAll(async () => {
-  const email = process.env.FIREBASE_TEST_AUTH_EMAIL;
-  const password = process.env.FIREBASE_TEST_AUTH_PASS;
-  const key = process.env.FIREBASE_TEST_AUTH_KEY;
-
-  let body = {
-    email: email,
-    password: password,
-    returnSecureToken: true,
-  };
-  const response = await axios.post(
-    `https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${key}`,
-    body
-  );
-  token = response.data.idToken;
+  
+  token = await testUtils.generateTestAuthToken();
 
   databaseOperations.connectDatabase();
 });
