@@ -1,8 +1,10 @@
 import httpStatus from 'http-status';
 import databaseOperations from '../../utils/test/db-handler';
+
 import { PersonModel } from '../../models/person.model';
 import app from '../../server';
 import testUtils from '../../utils/test/test-utils';
+import "dotenv/config";
 
 const supertest = require('supertest');
 
@@ -10,13 +12,19 @@ let token;
 
 beforeAll(async () => {
   token = await testUtils.generateTestAuthToken();
-
   databaseOperations.connectDatabase();
 });
 afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
-const requestPersonData:PersonModel = {
+const reqUserData = {
+  first_name: 'Bing',
+  last_name: 'Bong',
+  encounters: [] as any,
+  persons: [] as any,
+}
+
+const person1Data:PersonModel = {
   first_name: 'testFirstName',
   last_name: 'testLastName',
   interests: ['a', 'b'],
@@ -32,38 +40,61 @@ const requestPersonData:PersonModel = {
   social_media: null as any
 };
 
-describe('person ', () => {
-  it('can be created correctly', async () => {
-    await supertest(app).post('/api/persons')
+describe('Creating a person', () => {
+  it('Can be created and stored in the user', async () => {
+    // Create a new user
+    await supertest(app).post('/api/users')
       .set('Accept', 'application/json')
-      .send(requestPersonData)
+      .set('Authorization', token)
+      .send(reqUserData);
+
+    // Create a new person and store it in the user
+    const { body: createdPerson } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person1Data)
+      .set("Authorization", token)
       .expect(httpStatus.CREATED);
 
-    const { body } = await supertest(app).get('/api/persons');
-    expect(body).toHaveLength(1);
-    const result:PersonModel = body[0];
-    expect(result.first_name).toEqual(requestPersonData.first_name);
+    // Ensure user contains reference to the new person
+    const { body: user } = await supertest(app).get("/api/users")
+      .set("Accept", "application/json")
+      .set("Authorization", token)
+      .expect(httpStatus.OK);
+
+    expect(user.persons).toEqual([createdPerson._id]);
   });
 
-  it('is updated correctly', async () => {
-    // create a person
-    const newPerson = await supertest(app).post('/api/persons').set('Accept', 'application/json').send(requestPersonData);
-    const newPersonId = newPerson._body._id;
-    expect(newPerson._body.location).toBe(requestPersonData.location);
+  it ('Can be updated correctly', async () => {
+    // Create a new user
+    await supertest(app).post('/api/users')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .send(reqUserData);
 
-    // change the data
+    // Create a new person and store it in the user
+    const { body : newPerson } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person1Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);
+
+    // Change the person's data
     const changedLocation = 'Someplace else';
-    requestPersonData.location = changedLocation;
+    person1Data.location = changedLocation;
 
-    // update a person
-    await supertest(app)
-        .put(`/api/persons/${newPersonId}`)
-        .set('Accept', 'application/json')
-        .send(requestPersonData)
-        .expect(httpStatus.NO_CONTENT);
+    // Update the person and check it was successful
+    await supertest(app).put(`/api/persons/${newPerson._id}`)
+      .set('Accept', 'application/json')
+      .send(person1Data)
+      .set("Authorization", token)
+      .expect(httpStatus.NO_CONTENT);
+    
+    // Retrieve person from database, and check that the updated person contains the changed location
+    const { body: updatedPerson } = await supertest(app).get(`/api/persons/${newPerson._id}`)
+      .set('Accept','application/json')
+      .set("Authorization", token)
+      .expect(httpStatus.OK);
 
-    // retrieve encounter from database, and check that the updated encounter contains the changed location
-    const resPerson = await supertest(app).get(`/api/persons/${newPersonId}`);
-    expect(resPerson._body.location).toBe(requestPersonData.location);
+    expect(updatedPerson.location).toEqual(changedLocation);
   });
 });
