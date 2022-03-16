@@ -52,7 +52,13 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
 };
 
 const deletePersons = async (personID: string) => {
-  await Person.deleteOne({_id: personID});
+  const result = await Person.deleteOne({_id: personID});
+
+  if (result.deletedCount == 1) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 const addEncounterToPersons = async (personIds, encounterId) => {
