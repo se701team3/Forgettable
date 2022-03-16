@@ -20,8 +20,9 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - name: create env file
+    - name: create env file in backend
       run: |
+       cd ./backend
        touch .env
        echo FIREBASE_TEST_AUTH_EMAIL=${{ secrets.FIREBASE_TEST_AUTH_EMAIL }} >> .env
        echo FIREBASE_TEST_AUTH_KEY=${{ secrets.FIREBASE_TEST_AUTH_KEY }} >> .env
