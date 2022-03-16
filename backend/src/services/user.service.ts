@@ -33,11 +33,23 @@ export const addPersonId = async(uid, pid) => {
 }
 
 export const deleteUserPerson = async (personID: String) => {
-  await User.updateMany({ }, { $pullAll: {persons: [{ _id: personID}]}});
+  const result = await User.updateOne({ }, { $pullAll: {persons: [{ _id: personID}]}});
+
+  if (result.modifiedCount == 1) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 export const deleteUserEncounter = async (encounterID: String) => {
-  await User.updateMany({ }, { $pullAll: {encounters: [{ _id: encounterID}]}})
+  const result = await User.updateOne({ }, { $pullAll: {encounters: [{ _id: encounterID}]}});
+
+  if (result.modifiedCount > 0) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 const userService = {

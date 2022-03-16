@@ -122,20 +122,33 @@ export const deletePersons = async (
 
     if (string_persons?.includes(user_id.toString())) {
       try {
-        // Delete user from database
-        await personService.deletePersons(req.params.id);
+        // Delete person from database
+        const deletePersonsResult = await personService.deletePersons(req.params.id);
 
         // return encounters that may have empty persons fields
         const empty_encounters = await encounterService.deleteEncounterPerson(req.params.id);
-        await userService.deleteUserPerson(req.params.id);
 
-        // Make sure that empty encounters are also deleted from User
-        for (let i = 0; i < empty_encounters.length; i++) {
-          await userService.deleteUserEncounter(empty_encounters[i]?._id.toString());
+        //delete person from current User document
+        const deleteUserPersonResult = await userService.deleteUserPerson(req.params.id);
+
+        // Check all service function calls were valid
+        if (empty_encounters != false && deletePersonsResult && deletePersonsResult && deleteUserPersonResult) {
+          // Make sure that empty encounters are also deleted from User
+          for (let i = 0; i < empty_encounters.length; i++) {
+            let result = await userService.deleteUserEncounter(empty_encounters[i]?._id.toString());
+
+            // Check that a valid deleteUserEncounter was executed
+            if (!result) {
+              res.sendStatus(httpStatus.BAD_REQUEST).end();
+            }
+          }
+          // Notify frontend that the operation was successful
+          res.sendStatus(httpStatus.OK).end();
+        } else {
+          // Notify frontend that the operation was successful
+          res.sendStatus(httpStatus.BAD_REQUEST).end();
         }
         
-        // Notify frontend that the operation was successful
-        res.sendStatus(httpStatus.OK).end();
       } catch(e) {
   
         next(e);
