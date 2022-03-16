@@ -1,6 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose';
 import Encounter, { EncounterModel } from '../models/encounter.model';
+import logger from '../utils/logger';
+
+const queryKeys = ['title', 'location', 'description'];
 
 const createEncounter = async (encounterDetails: EncounterModel) => {
   const encounter = new Encounter(encounterDetails);
@@ -19,9 +22,31 @@ const createEncounter = async (encounterDetails: EncounterModel) => {
 
 const getEncounter = async (encounterId) => Encounter.findOne({_id: encounterId});
 
-const getAllEncounters = async (userEncounters: mongoose.Types.ObjectId[]) => {
+const getAllEncounters = async (queryParams: any, userEncounters: mongoose.Types.ObjectId[]) => {
+  
   // Get all encounters from the db which belongs to the user
-  const foundUserEncounters = await Encounter.find({ _id: { $in: userEncounters } });
+  let foundUserEncounters = await Encounter.find({ _id: { $in: userEncounters } });
+
+  // Filter the found encounters by query params
+  if (queryParams.term) {
+    logger.info('Query params received:');
+    logger.info(queryParams);
+    const termValue = queryParams.term.toLowerCase();
+
+    // If no relevant fields in an Encounter match 'termValue', remove them from the array
+    foundUserEncounters = foundUserEncounters.filter((encounter) => {
+      for (let i = 0; i < queryKeys.length; i++) {
+        // Make sure person has a value for current queryKey
+        if (encounter[queryKeys[i]]) {
+          const encounterValue = (encounter[queryKeys[i]] as string).toLowerCase();
+          if (encounterValue.includes(termValue)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    })
+  }
 
   return foundUserEncounters;
 };
