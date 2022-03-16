@@ -26,7 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: cd ./backend; touch .env;
+    - run: cd ./backend; touch .env; echo "FIREBASE_TEST_AUTH_EMAIL=${{ secrets.FIREBASE_TEST_AUTH_EMAIL }}" >> .env;
     - run: npm --prefix ./backend i
     - run: npm --prefix ./backend run lint
     - run: npm --prefix ./backend run test
