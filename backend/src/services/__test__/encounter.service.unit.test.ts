@@ -116,3 +116,17 @@ describe('Encounter creation service', () => {
         await expect(encounterService.createEncounter(encounter7Data)).rejects.toThrow('Persons can\'t be empty');
     })
 })
+
+describe('Getting encounter', () => {
+    it ('Can retrieve an id that exists', async () => {
+      const createdEncounter = await encounterService.createEncounter(encounter1Data);
+      const retrievedEncounter = await encounterService.getEncounter(createdEncounter._id.toString());
+
+      expect(retrievedEncounter?._id).toEqual(createdEncounter._id);
+    });
+
+    it ('Returns null if an id does not exist', async () => {
+      const retrievedPerson = await encounterService.getEncounter('some_fake_id');
+      expect(retrievedPerson).toBeNull();
+    });
+  })
