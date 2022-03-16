@@ -14,13 +14,34 @@ export default function Persons() {
   const [selectedPerson, setSelectedPerson] = useState(undefined);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const [PersonList, setPersonList] = useState(
+  const [personList, setPersonList] = useState(
       [{
         id: '0',
+        name: 'cameron smith',
+        img: 'https://avatars.githubusercontent.com/u/28725774?v=4',
+        socialMedias: [{name: 'facebook', link: 'link'}],
+        birthday: new Date(),
+        firstMet: new Date(),
+        location: 'London',
+        interests: ['muscly men', 'men', 'men muscles'],
+      },
+      {
+        id: '1',
         name: 'john smith',
-        numEncounters: 2,
-        lastMet: getDateString(new Date()),
-        firstMet: getDateString(new Date()),
+        img: 'https://avatars.githubusercontent.com/u/28725774?v=4',
+        socialMedias: [{name: 'facebook', link: 'link'}],
+        firstMet: new Date(),
+        location: 'Australia',
+        interests: ['cameron', 'ducks', 'soup'],
+      },
+      {
+        id: '2',
+        name: 'archibald smith',
+        img: 'https://avatars.githubusercontent.com/u/28725774?v=4',
+        socialMedias: [{name: 'facebook', link: 'link'}],
+        firstMet: new Date(),
+        location: 'Germany',
+        interests: ['fans', 'beakers', 'clocks'],
       },
       ],
   );
@@ -46,29 +67,29 @@ export default function Persons() {
   };
 
   for (let i = 1; i < 20; i++) {
-    PersonList[i] = {
-      ...PersonList[0],
+    personList[i] = {
+      ...personList[0],
       id: i.toString(),
     };
   }
 
   const fetchMoreData = () => {
     // console.log('fetch more');
-    if (PersonList.length > 100) {
+    if (personList.length > 100) {
       setHasMore(false);
       return;
     }
 
     setTimeout(() => {
       const newList = [];
-      newList[0] = PersonList[0];
+      newList[0] = personList[0];
       for (let i = 0; i < 20; i++) {
         newList[i] = {
           ...newList[0],
           id: i.toString(),
         };
       }
-      setPersonList([...PersonList, ...newList]);
+      setPersonList([...personList, ...newList]);
     }, 1000);
   };
 
@@ -76,15 +97,47 @@ export default function Persons() {
 
   const handleOnMouseOver = (index) => {
     setIsHover(true);
-    setSelectedInfo(PersonList[index]);
+    setSelectedInfo(personList[index]);
+
+    console.log(personList[index]);
   };
+  console.log('selected info', selectedInfo);
 
   const handleOnMouseOut = () => {
     setIsHover(false);
   };
 
+  // PersonDrawer.propTypes = {
+  //   open: PropTypes.bool.isRequired,
+  //   id: PropTypes.string,
+  //   name: PropTypes.string.isRequired,
+  //   img: PropTypes.string,
+  //   socialMedias: PropTypes.arrayOf(Object), // See below for an example
+  //   // [{name: 'facebook', link: 'https://www.google.com/'}, {name: 'instagram', link: 'https://www.google.com/'}]
+  //   firstMet: PropTypes.instanceOf(Date),
+  //   location: PropTypes.string,
+  //   interests: PropTypes.arrayOf(PropTypes.string),
+  //   staticDrawer: PropTypes.bool,
+  //   onEdit: PropTypes.bool,
+  // };
+
   return (
     <>
+      {isHover &&
+        <PersonDrawer
+          open={true}
+          name={selectedInfo.name}
+          id={selectedInfo.id}
+          birthday={selectedInfo.birthday}
+          img={selectedInfo.img}
+          gender={selectedInfo.gender}
+          organisation={selectedInfo.organisation}
+          socialMedia={selectedInfo.socialMedia}
+          firstMet={selectedInfo.firstMet}
+          location={selectedInfo.location}
+          interests={selectedInfo.interests}
+        />
+      }
       <div className={classes.Container}>
         <div className={classes.Header}>
           People
@@ -97,7 +150,7 @@ export default function Persons() {
         </div>
         <div className={classes.List}>
           <InfiniteScroll
-            dataLength={PersonList.length}
+            dataLength={personList.length}
             next={fetchMoreData}
             hasMore={hasMore}
             loader={<h4>Loading...</h4>}
@@ -107,7 +160,8 @@ export default function Persons() {
               </p>
             }
           >
-            {PersonList.map((person, index) => {
+            {personList.map((person, index) => {
+              console.log('mapping', index, person);
               return (
                 <div className={classes.PersonCard} key={`${index}-container`} onMouseOver={() => handleOnMouseOver(index)} onMouseOut={handleOnMouseOut}>
                   <PersonCard
