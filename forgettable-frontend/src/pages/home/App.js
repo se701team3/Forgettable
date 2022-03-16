@@ -6,7 +6,7 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './App.module.css';
 import PersonCardSummary from '../../components/PersonCardSummary/PersonCardSummary';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import IconButton from '../../components/IconButton/IconButton';
 import EncounterSummary from '../../components/EncounterCardSummary/EncounterSummary';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
@@ -19,7 +19,7 @@ function App() {
   // @TODO: Input real data. Get 12 people and 12 encounters. Get all info needed for seach bar. Get user.
 
   // TEMPORARY FAKE DATA
-  const user = { first_name: 'PersonName' };
+  const user = {first_name: 'PersonName'};
   const personList = [{
     id: '0',
     name: 'Name',
@@ -46,7 +46,7 @@ function App() {
     encounterList[i] = { ...encounterList[0], name: 'encounter' + i };
   }
 
-  const searchBarData = [{ title: 'fgdgf' }, { title: 'joe' }, { title: 'xi' }, { title: 'abcdef' }];
+  const searchBarData = [{title: 'fgdgf'}, {title: 'joe'}, {title: 'xi'}, {title: 'abcdef'}];
   // END TEMP FAKE DATA
 
   const handlePersonHover = (event, index) => {
@@ -85,14 +85,14 @@ function App() {
 
         <div className={classes.home_subtitleContainer}>
           <div className={classes.home_subtitle}>Recently Updated</div>
-          <Link to="/people" style={{ textDecoration: 'none' }}><CustomButton btnText='View All' /></Link>
+          <Link to="/people" style={{textDecoration: 'none'}}><CustomButton btnText='View All' /></Link>
         </div>
 
         <div className={classes.home_cardGridContainer + ' ' + classes.home_personGridContainer}>
           {personList.map((person, index) => {
             return (
               <div key={index} className={classes.home_cardWrapper} onMouseEnter={(event) => handlePersonHover(event, index)}>
-                <Link to={`/people/${person.id}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/people/${person.id}`} style={{textDecoration: 'none'}}>
                   <PersonCardSummary
                     id={person.id}
                     name={person.name}
@@ -107,14 +107,14 @@ function App() {
 
         <div className={classes.home_subtitleContainer}>
           <div className={classes.home_subtitle}>Recently Encounters</div>
-          <Link to="/encounters" style={{ textDecoration: 'none' }}><CustomButton btnText='View All' /></Link>
+          <Link to="/encounters" style={{textDecoration: 'none'}}><CustomButton btnText='View All' /></Link>
         </div>
 
         <div className={classes.home_cardGridContainer + ' ' + classes.home_encounterGridContainer}>
           {encounterList.map((encounter, index) => {
             return (
               <div key={index} className={classes.home_cardWrapper} onMouseEnter={(event) => handleEncounterHover(event, index)}>
-                <Link to={`/encounters/${encounter.id}`} style={{ textDecoration: 'none' }}>
+                <Link to={`/encounters/${encounter.id}`} style={{textDecoration: 'none'}}>
                   <EncounterSummary
                     name={encounter.persons[0]?.name}
                     date={encounter.date}
