@@ -25,13 +25,13 @@ function App() {
     name: 'Name',
     img: 'https://avatars.githubusercontent.com/u/28725774?v=4',
     firstMet: new Date(),
-    socialMedias: [{ name: 'facebook', link: 'https://www.google.com/' }, { name: 'instagram', link: 'https://www.google.com/' }],
+    socialMedias: [{name: 'facebook', link: 'https://www.google.com/'}, {name: 'instagram', link: 'https://www.google.com/'}],
     location: 'Auckland',
     interests: ['art', 'sewing', 'coding'],
   },
   ];
   for (let i = 1; i < MAX_LATEST_CARDS; i++) {
-    personList[i] = { ...personList[0], name: 'P' + i };
+    personList[i] = {...personList[0], name: 'P' + i};
   }
   const encounterList = [{
     id: '0',
@@ -46,7 +46,7 @@ function App() {
     encounterList[i] = { ...encounterList[0], name: 'encounter' + i };
   }
 
-  const searchBarData = [{title: 'fgdgf'}, {title: 'joe'}, {title: 'xi'}, {title: 'abcdef'}];
+  const searchBarData = [{title: 'fgdgf', type: 'encounters', id: '0'}, {title: 'joe', type: 'people', id: '1'}, {title: 'xi', type: 'people', id: '2'}, {title: 'abcdef', type: 'encounters', id: '3'}];
   // END TEMP FAKE DATA
 
   const handlePersonHover = (event, index) => {
@@ -77,7 +77,7 @@ function App() {
         </div>
 
         <div className={classes.home_searchArea}>
-          <SearchBar placeholder={'Search'} data={searchBarData} />
+          <SearchBar placeholder={'Search'} data={searchBarData} hasAutocomplete={true} />
           <div className={classes.home_newEntryBtn}>
             <IconButton btnText="New Entry" onClick={handleNewEntryClick} includeIcon={true} />
           </div>

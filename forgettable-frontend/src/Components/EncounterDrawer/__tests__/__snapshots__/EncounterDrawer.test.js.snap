@@ -35,63 +35,27 @@ exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
         >
           You encountered: 
         </h3>
-        <div
-          className="MiniPersonProfile"
-        >
-          <ForwardRef(Avatar)
-            alt="John Doe"
-            src="https://www.w3schools.com/w3css/img_lights.jpg"
-            sx={
+        <CustomAvatarCollection
+          persons={
+            Array [
               Object {
-                "height": "30px",
-                "width": "30px",
-              }
-            }
-          />
-          <p
-            data-testid="name-element"
-          >
-            John
-          </p>
-        </div>
-        <div
-          className="MiniPersonProfile"
-        >
-          <ForwardRef(Avatar)
-            alt="Mercury Lin"
-            src="https://user-images.githubusercontent.com/62003343/158133392-b606b9d2-b05a-49dc-a4e8-9d6aed696d6b.gif"
-            sx={
+                "id": "1",
+                "img": "https://www.w3schools.com/w3css/img_lights.jpg",
+                "name": "John Doe",
+              },
               Object {
-                "height": "30px",
-                "width": "30px",
-              }
-            }
-          />
-          <p
-            data-testid="name-element"
-          >
-            Mercury
-          </p>
-        </div>
-        <div
-          className="MiniPersonProfile"
-        >
-          <ForwardRef(Avatar)
-            alt="Raina Song"
-            src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-            sx={
+                "id": "2",
+                "img": "https://user-images.githubusercontent.com/62003343/158133392-b606b9d2-b05a-49dc-a4e8-9d6aed696d6b.gif",
+                "name": "Mercury Lin",
+              },
               Object {
-                "height": "30px",
-                "width": "30px",
-              }
-            }
-          />
-          <p
-            data-testid="name-element"
-          >
-            Raina
-          </p>
-        </div>
+                "id": "3",
+                "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+                "name": "Raina Song",
+              },
+            ]
+          }
+        />
       </div>
       <div
         className="EncounterProperty"
@@ -113,7 +77,9 @@ exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
       <p
         className="EncounterDetails"
         data-testid="details-element"
-      />
+      >
+        We met on a train, it was a long journey
+      </p>
     </div>
   </div>
 </ForwardRef(Drawer)>

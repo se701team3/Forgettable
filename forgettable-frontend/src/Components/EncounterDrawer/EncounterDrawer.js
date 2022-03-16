@@ -11,25 +11,10 @@ import convertSocialMediaNamesToIcons,
 {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import {IconButton} from '@mui/material';
 import {getBirthdayString} from '../../functions/dateFormatter';
+import CustomAvatarCollection from '../CustomAvatarCollection/CustomAvatarCollection';
 
 const EncounterDrawer = (props) => {
   const unknownDetail = <span className={classes.UnknownText}>Unknown</span>;
-
-  const createPersonMiniProfile = (person, i) => {
-    return (
-      <div className={classes.MiniPersonProfile} key={person.id || i} >
-        <Avatar
-          alt={person.name}
-          src={person.img}
-          sx={{
-            'width': '30px',
-            'height': '30px',
-          }}
-        />
-        <p data-testid="name-element">{person.name.split(' ')[0]}</p>
-      </div>
-    );
-  };
 
   return (
     <Drawer
@@ -53,11 +38,7 @@ const EncounterDrawer = (props) => {
           </h1>
           <div className={classes.SubtitleContainer}>
             <h3 className={classes.EncounterSubtitle}>You encountered: </h3>
-            {props.persons.map((person, i) => {
-              return (
-                createPersonMiniProfile(person, i)
-              );
-            })}
+            <CustomAvatarCollection persons={props.persons}/>
           </div>
           <div
             className={classes.EncounterProperty}
@@ -77,7 +58,7 @@ const EncounterDrawer = (props) => {
           </div>
           <h2>Details:</h2>
           <p className={classes.EncounterDetails} data-testid="details-element">
-            {props.encounterDetails}
+            {props.encounterDetail}
           </p>
         </div>
       </div>
@@ -91,7 +72,8 @@ EncounterDrawer.propTypes = {
   encounterTitle: PropTypes.string.isRequired,
   persons: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
-    name: PropTypes.string.isRequired,
+    first_name: PropTypes.string.isRequired,
+    last_name: PropTypes.string.isRequired,
     img: PropTypes.string,
   })).isRequired,
   dateMet: PropTypes.instanceOf(Date),
