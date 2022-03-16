@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import logger from "./logger";
 import FirebaseAdmin from "../firebase-configs/firebase-config";
+import { PaginateableResponse } from "./paginateable.response";
 
 const errorHandler = (
   error: any,
@@ -42,7 +43,35 @@ const authHandler = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+/**
+ * Middleware for paginating results into pages. This middleware attaches a function
+ * to 'res' that can be used for pagination.
+ */
+const paginationHandler = (req: Request, res: Response, next: NextFunction) => {
+  const paginateableResponse = res as PaginateableResponse;
+
+  function paginate(result) {
+    const page = parseInt(req.query.page as string);
+    const limit = parseInt(req.query.limit as string);
+  
+    if (Array.isArray(result) && page && limit) {
+      const startIndex = (page - 1) * limit;
+      const endIndex = page * limit;
+  
+      res.json(result.slice(startIndex, endIndex)).end();
+    } else {
+      res.json(result).end();
+    }
+
+    return res;
+  }
+
+  paginateableResponse.paginate = paginate;
+  next();
+}
+
 export default {
   errorHandler,
   authHandler,
+  paginationHandler 
 };
