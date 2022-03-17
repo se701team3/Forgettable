@@ -1,12 +1,14 @@
+@import '../../colours.css';
+
 :root {
     --font-color: #333;
-    --background-color: #FFFFFF;
+    --background-color: var(--bkgd);
     --link-color: cornflowerblue;
 }
 
 [data-theme="dark"] {
     --font-color: #eee;
-    --background-color: #232323;
+    --background-color: var(--bkgd);
     --link-color: lightblue;
 }
   
