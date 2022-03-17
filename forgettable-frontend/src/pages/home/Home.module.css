@@ -37,6 +37,8 @@
     font-weight: var(--font-semibold);
 }
 
+/* ----- CARD GRIDS ----- */
+
 .home_cardGridContainer {
     max-width: calc(max-content - 100px); /* max-content is currently limited by the overall view size sooo. need to fix this */
     display: flex;
@@ -47,5 +49,34 @@
 }
 
 .home_personGridContainer {
-    max-height: 265px; /* 2 rows TODO: THIS WILL BE DIFFERENT FOR ENCOUNTERS */
+    max-height: 265px; /* 2 rows */
+}
+
+
+.home_encounterGridContainer {
+    max-height: 470px; /* 2 rows */
+}
+
+/* ----- MODAL ----- */
+
+.home_modalTitle {
+    font-weight: var(--font-semibold);
+    font-size: var(--text-xxlarge);
+    text-align: center;
+
+}
+
+.home_modalButtonsContainer {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 35px;
+    align-items: center;
+}
+
+.home_verticalBreak {
+    border-left: 1px solid var(--txt2);
+    height: 120px;
+
+
 }

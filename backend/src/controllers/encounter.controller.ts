@@ -10,6 +10,7 @@ import logger from '../utils/logger';
 import { EncounterModel } from '../models/encounter.model';
 import userService, { getUserByAuthId } from '../services/user.service';
 import personService from '../services/person.service';
+import getPersonDetails from './utils/controller-utils';
 
 // Util function that won't be needed regularly
 const getEncounterFromReqBody = (body: any) => {
@@ -133,7 +134,9 @@ export const getEncounter = async (
       // Find encounter from database
       const encounter = await encounterService.getEncounter(encounterId);
       // Notify frontend that the operation was successful
-      res.status(httpStatus.OK).json(encounter).end();
+      let encounterDto = JSON.parse(JSON.stringify(encounter));
+      encounterDto.persons = await Promise.all(encounterDto.persons.map(async (personId: any) => { return (await getPersonDetails(personId)) }));
+      res.status(httpStatus.OK).json(encounterDto).end();
     } else {
       res.sendStatus(httpStatus.NOT_FOUND).end();
     }
@@ -194,7 +197,7 @@ export const getAllEncounters = async (
     if (!user) {
       res.status(httpStatus.NOT_FOUND).end();
     } else {
-      const foundUserEncounters = await encounterService.getAllEncounters(user.encounters);
+      const foundUserEncounters = await encounterService.getAllEncounters(req.query, user.encounters);
       res.status(httpStatus.OK).json(foundUserEncounters).end();
     }
   } catch (e) {
