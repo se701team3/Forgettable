@@ -1,10 +1,36 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import EncounterCard from '../../components/EncounterCard/EncounterCard';
 import IconButton from '../../components/IconButton/IconButton';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
+import {createPerson, getPerson} from '../../services';
 import classes from './PersonPage.module.css';
 
 const PersonPage = (props) => {
+  const personId = '6232a8af5ae047a37b7e575d';
+
+  const [person, setPerson] = useState();
+
+  useEffect(async () => {
+    const result = await getPerson(personId);
+    setPerson({
+      firstName: result.first_name,
+      lastName: result.last_name,
+      birthday,
+      gender,
+      location,
+      howWeMet: result.how_we_met,
+      interests,
+      organisation,
+      socialMedia: result.social_media,
+      img: result.image,
+      encounters,
+      timeUpdated: result.timeUpdated,
+    });
+
+    console.log(create);
+  }, [personId]);
+
+
   return (
     <div className={classes.PersonPage}>
       <PersonDrawer
