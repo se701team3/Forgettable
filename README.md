@@ -1,5 +1,7 @@
 # Forgettable
 
+Welcome to the Forgettable project, created by SOFTENG 701 Team 3 students from The University of Auckland.
+
 ## Abstract
 
 Forgettable helps you to forget how to forget.
