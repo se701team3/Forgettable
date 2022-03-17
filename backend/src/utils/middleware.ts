@@ -67,7 +67,6 @@ const paginationHandler = (req: Request, res: Response, next: NextFunction) => {
 
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-    console.log(startIndex, endIndex);
 
     res.json(result.slice(startIndex, endIndex)).end();
     return res;
