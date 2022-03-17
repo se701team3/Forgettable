@@ -37,13 +37,33 @@ const PersonPage = (props) => {
       howWeMet: result.how_we_met,
       interests: result.interests,
       organisation: result.organisation,
-      // socialMedia: result.social_media,
+      socialMedia: convertSocialMedia(result.socialMedia),
       img: result.image,
       // encounters: result.encounters,
       encounters: ENCOUNTERS,
       timeUpdated: result.timeUpdated,
     });
   }, [personId]);
+
+  const convertSocialMedia = (socialMedias) => {
+    socialMedias = {
+      'facebook': 'https://www.facebook.com/',
+      'instagram': 'https://www.instagram.com/',
+    };
+
+    if (!socialMedias) return null;
+
+    const socialMediaArray = [];
+
+    for (const [key, value] of Object.entries(socialMedias)) {
+      socialMediaArray.push({
+        name: key,
+        link: value,
+      });
+    }
+
+    return socialMediaArray;
+  };
 
   const createEncounterComponent = (encounter, i) => {
     return (
