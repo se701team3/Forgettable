@@ -9,7 +9,9 @@ const connectDatabase = async () => {
 };
 
 const closeDatabase = async () => {
-  await mongoMock.stop();
+  if (mongoMock) {
+    await mongoMock.stop();
+  }
 };
 
 const clearDatabase = async () => {
