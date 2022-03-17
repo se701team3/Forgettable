@@ -75,6 +75,36 @@ const person3Data: PersonModel = {
   social_media: null as any
 }
 
+const person4Data = {
+  last_name: 'John',
+  interests: ['surfing', 'cooking'],
+  organisation: 'an organisation',
+  time_updated: new Date('2022-02-23'),
+  how_we_met: 'At the park',
+  birthday: new Date('2001-07-16'),
+  encounters: [] as any,
+  first_met: null as any,
+  gender: "male",
+  image: null as any,
+  location: null as any,
+  social_media: null as any
+}
+
+const person5Data = {
+  first_name: 'Billy',
+  last_name: 'John',
+  interests: ['surfing', 'cooking'],
+  organisation: 'an organisation',
+  how_we_met: 'At the park',
+  birthday: new Date('2001-07-16'),
+  encounters: [] as any,
+  first_met: null as any,
+  gender: "male",
+  image: null as any,
+  location: null as any,
+  social_media: null as any
+}
+
 const encounter1Data: EncounterModel = {
   title: "Encounter1",
   date: new Date('2022-02-23'),
@@ -85,7 +115,7 @@ const encounter1Data: EncounterModel = {
 }
 
 describe('POST persons/', () => {
-  it('Can be created and stored in the user', async () => {
+  it ('Can be created and stored in the user when all information is provided', async () => {
     // Create a new user
     await supertest(app).post('/api/users')
       .set('Accept', 'application/json')
@@ -108,6 +138,53 @@ describe('POST persons/', () => {
     expect(user.persons).toEqual([createdPerson._id]);
   });
 
+  it ('Can be created if "time_updated" is not provided', async() => {
+    // Create a new user
+    await supertest(app).post('/api/users')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .send(user1Data);
+
+    // Create a new person and store it in the user
+    const { body: createdPerson } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person5Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);
+
+    // Ensure user contains reference to the new person
+    const { body: user } = await supertest(app).get("/api/users")
+      .set("Accept", "application/json")
+      .set("Authorization", token)
+      .expect(httpStatus.OK);
+
+    expect(user.persons).toEqual([createdPerson._id]);
+  });
+
+  it ('Cannot be created if a first name is not provided', async ()=> {
+    // Create a new user
+    await supertest(app).post('/api/users')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .send(user1Data);
+
+    // Create a new person without a first name and try to store it in the user
+    await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person4Data)
+      .set("Authorization", token)
+      .expect(httpStatus.BAD_REQUEST);
+  });
+
+  it ('Returns "Unauthorized" if the user does not have a valid auth_id', async () => {
+    await supertest(app).get(`/api/persons/FAKE_PERSON_ID`)
+      .set('Accept','application/json')
+      .set("Authorization", "FAKE_AUTH_TOKEN")
+      .expect(httpStatus.UNAUTHORIZED);
+  });
+});
+
+describe('PUT persons/', () => {
   it ('Can be updated correctly', async () => {
     // Create a new user
     await supertest(app).post('/api/users')
