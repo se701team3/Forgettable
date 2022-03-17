@@ -12,6 +12,7 @@ import encounterService from '../services/encounter.service';
 
 import logger from '../utils/logger';
 import { POST } from './controller.types';
+import { PaginateableResponse } from 'src/utils/paginateable.response';
 
 export const createPerson: POST = async (
   req: Request,
@@ -84,9 +85,11 @@ export const getPersonWithId = async (
 
 export const getAllPeople = async (
   req: Request,
-  res: Response,
+  expressRes: Response,
   next: NextFunction,
 ): Promise<void> => {
+  const res = expressRes as PaginateableResponse;
+
   logger.info('GET /persons request from frontend');
 
   const authId = req.headers.authorization?.['user_id'];
@@ -97,7 +100,8 @@ export const getAllPeople = async (
       res.status(httpStatus.NOT_FOUND).end();
     } else {
       const foundUserPersons = await personService.getPeople(req.query, user.persons);
-      res.status(httpStatus.OK).json(foundUserPersons).end();
+
+      res.status(httpStatus.OK).paginate(foundUserPersons);
     }
   } catch (e) {
     next(e);

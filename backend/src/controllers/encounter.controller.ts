@@ -10,6 +10,7 @@ import logger from '../utils/logger';
 import { EncounterModel } from '../models/encounter.model';
 import userService, { getUserByAuthId } from '../services/user.service';
 import personService from '../services/person.service';
+import { PaginateableResponse } from 'src/utils/paginateable.response';
 
 // Util function that won't be needed regularly
 const getEncounterFromReqBody = (body: any) => {
@@ -182,9 +183,10 @@ export const deleteEncounters = async (
 
 export const getAllEncounters = async (
   req: Request,
-  res: Response,
+  expressRes: Response,
   next: NextFunction,
 ): Promise<void> => {
+  const res = expressRes as PaginateableResponse;
   logger.info('GET /encounters request from frontend');
 
   const authId = req.headers.authorization?.['user_id'];
@@ -195,7 +197,7 @@ export const getAllEncounters = async (
       res.status(httpStatus.NOT_FOUND).end();
     } else {
       const foundUserEncounters = await encounterService.getAllEncounters(user.encounters);
-      res.status(httpStatus.OK).json(foundUserEncounters).end();
+      res.status(httpStatus.OK).paginate(foundUserEncounters);
     }
   } catch (e) {
     next(e);
