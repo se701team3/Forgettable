@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-spacing */
 /* eslint-disable max-len */
-import React from 'react';
+import React, { useEffect } from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './Home.module.css';
@@ -13,7 +13,9 @@ import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
-import { getAllEncounters, getAllPersons } from '../../services';
+import { createEncounter, createPerson, getAllEncounters, getAllPersons } from '../../services';
+import { Button } from '@mui/material';
+import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
 
 // The maximum summary cards shown on the large screens, small screens show less
 const MAX_LATEST_CARDS = 12;
@@ -23,61 +25,53 @@ function Home() {
   const [modalOpen, setModalOpen] = React.useState(false);
 
   const [peopleList, setPeopleList] = React.useState([]);
-  const [encouuntersList, setEncountersList] = React.useState([]);
-  // @TODO: Input real data. Get 12 people and 12 encounters. Get all info needed for seach bar. Get user.
+  const [encountersList, setEncountersList] = React.useState([]);
+  const [searchBarData, setSearchBarData] = React.useState([]);
 
-  // TEMPORARY FAKE DATA
-  const user = {first_name: 'PersonName'};
-  const personList = [{
-    id: '0',
-    name: 'Name',
-    img: 'https://avatars.githubusercontent.com/u/28725774?v=4',
-    firstMet: new Date(),
-    socialMedias: [{name: 'facebook', link: 'https://www.google.com/'}, {name: 'instagram', link: 'https://www.google.com/'}],
-    location: 'Auckland',
-    interests: ['art', 'sewing', 'coding'],
-  },
-  ];
-  for (let i = 1; i < MAX_LATEST_CARDS; i++) {
-    personList[i] = {...personList[0], name: 'P' + i};
-  }
-  const encounterList = [{
-    id: '0',
-    title: 'encountername',
-    date: new Date(),
-    description: 'this is a description ',
-    summary: 'summary here',
-    persons: [personList[0], personList[0]],
-  },
-  ];
-  for (let i = 1; i < MAX_LATEST_CARDS; i++) {
-    encounterList[i] = { ...encounterList[0], name: 'encounter' + i };
-  }
+  const user = localStorage.getItem('userName');
 
-  const searchBarData = [{title: 'fgdgf', type: 'encounters', id: '0'}, {title: 'joe', type: 'people', id: '1'}, {title: 'xi', type: 'people', id: '2'}, {title: 'abcdef', type: 'encounters', id: '3'}];
-  // END TEMP FAKE DATA
-
-  async function GetData() {
+  async function getData() {
+    console.log('GETTING DATA HOME PAGE');
     let peopleResult = [];
     peopleResult = await getAllPersons();
-    setPeopleList(peopleResult); // TODO: trim to top 12
+    setPeopleList(peopleResult);
+    console.log(peopleResult);
     let encountersResult = [];
     encountersResult = await getAllEncounters();
-    setEncountersList(encountersResult); // TODO: trim to top 12
+
+    encountersResult.forEach((encounter) => {
+      const people = encounter.persons.map((personID) => peopleResult.find((element) => element._id === personID));
+      encounter.persons = people;
+    });
+
+    console.log(encountersResult);
+    setEncountersList(encountersResult);
+
+    const searchDataResult = searchBarDataFormatter(peopleResult, encountersResult);
+
+    setSearchBarData(searchDataResult);
+    console.log(searchDataResult);
   }
 
+  useEffect(() => {
+    try {
+      getData();
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   const handlePersonHover = (event, index) => {
     setSelectedInfo({
       type: 'person',
-      info: personList[index],
+      info: peopleList[index],
     });
   };
 
   const handleEncounterHover = (event, index) => {
     setSelectedInfo({
       type: 'encounter',
-      info: encounterList[index],
+      info: encountersList[index],
     });
   };
 
@@ -120,7 +114,7 @@ function Home() {
 
       <div className={classes.home_container}>
         <div className={classes.home_title}>
-          Hi {user.first_name}, Welcome back!
+          Hi {user ? user : 'there'}, Welcome back!
         </div>
 
         <div className={classes.home_searchArea}>
@@ -136,14 +130,14 @@ function Home() {
         </div>
 
         <div className={classes.home_cardGridContainer + ' ' + classes.home_personGridContainer}>
-          {personList.map((person, index) => {
+          {peopleList.map((person, index) => {
             return (
               <div key={index} className={classes.home_cardWrapper} onMouseEnter={(event) => handlePersonHover(event, index)}>
-                <Link to={`/person/${person.id}`} style={{textDecoration: 'none'}}>
+                <Link to={`/person/${person._id}`} style={{textDecoration: 'none'}}>
                   <PersonCardSummary
-                    id={person.id}
-                    name={person.name}
-                    img={person.img}
+                    id={person._id}
+                    name={person.first_name}
+                    img={person.image}
                     firstMet={person.firstMet}
                     onClick={() => { }}
                   />
@@ -158,16 +152,16 @@ function Home() {
         </div>
 
         <div className={classes.home_cardGridContainer + ' ' + classes.home_encounterGridContainer}>
-          {encounterList.map((encounter, index) => {
+          {encountersList.map((encounter, index) => {
             return (
-              <div key={index} className={classes.home_cardWrapper} onMouseEnter={(event) => handleEncounterHover(event, index)}>
-                <Link to={`/encounters/${encounter.id}`} style={{textDecoration: 'none'}}>
+              <div key={index + 'e'} className={classes.home_cardWrapper} onMouseEnter={(event) => handleEncounterHover(event, index)}>
+                <Link to={`/encounters/${encounter._id}`} style={{textDecoration: 'none'}}>
                   <EncounterSummary
-                    name={encounter.persons[0]?.name}
+                    name={encounter.persons[0]?.first_name}
                     date={encounter.date}
                     description={encounter.description}
                     summary={encounter.title}
-                    src={encounter.persons[0]?.img}
+                    src={encounter.persons[0]?.image}
                   />
                 </Link>
               </div>);
@@ -185,7 +179,7 @@ function SummaryDrawer(summaryInfo) {
     return <PersonDrawer
       open={true}
       id={summaryInfo.info.id}
-      name={summaryInfo.info.name}
+      name={summaryInfo.info.first_name}
       img={summaryInfo.info.img}
       firstMet={summaryInfo.info.firstMet}
       onClick={summaryInfo.info.onClick}
