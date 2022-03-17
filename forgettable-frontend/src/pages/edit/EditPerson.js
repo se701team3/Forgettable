@@ -8,6 +8,7 @@ import {useNavigate, useLocation, useParams} from 'react-router-dom';
 import imageToBase64 from 'image-to-base64/browser';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import * as apiCalls from '../../services/index';
+import axios from 'axios';
 
 const MAX_IMAGE_SIZE = 16000000;
 
@@ -23,28 +24,30 @@ export default function EditPerson() {
 
   let personData = {};
 
-  (!create) && (
-    personData = {
-      first_name: 'Name',
-      last_name: 'Last',
-      birthday: '2012-03-04',
-      gender: 'male',
-      location: 'here',
-      first_met: '2001-01-01',
-      how_we_met: 'idk',
-      interests: 'a',
-      organisation: 'job co.',
-      social_media: [],
-      image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
-      encounters: [],
-      time_updated: '0002-02-02',
-    });
+  // (!create) && (
+  //   personData = {
+  //     first_name: 'Name',
+  //     last_name: 'Last',
+  //     birthday: '2012-03-04',
+  //     gender: 'male',
+  //     location: 'here',
+  //     first_met: '2001-01-01',
+  //     how_we_met: 'idk',
+  //     interests: 'a',
+  //     organisation: 'job co.',
+  //     social_media: [],
+  //     image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
+  //     encounters: [],
+  //     time_updated: '0002-02-02',
+  //   });
 
   async function getPersonData() {
     try {
-      personData = await apiCalls.getPerson(id);
+      // personData = await apiCalls.getPerson(id);
+      await axios.get(`/persons/${id}`)
+          .then((json) => personData = json);
     } catch (err) {
-      // console.log(err);
+      console.log(err);
     }
   }
 
@@ -53,11 +56,6 @@ export default function EditPerson() {
     id = useParams();
     getPersonData();
   }
-
-  const mapTest = new Map([
-    ['twitter', 'https://twitter.com/Twitter'],
-    ['github', 'github.com'],
-  ]);
 
   let initialProfilePic = '';
   let initialProfilePicPreview = '';
@@ -76,6 +74,7 @@ export default function EditPerson() {
     ['twitter', 'https://twitter.com/Twitter'],
     ['github', 'github.com'],
   ]));
+  // const [socialMedias, setSocialMedias] = useState(personData.social_media);
 
   const [socialMediaModalOpen, setSocialMediaModalOpen] = useState(false);
   const [currentSocialMedia, setCurrentSocialMedia] = useState();
@@ -131,17 +130,17 @@ export default function EditPerson() {
     }
   }
 
-  function handleDeletePerson() {
-    console.log('deleting');
-    async function deletePersonCall() {
-      try {
-        personData = await apiCalls.deletePerson(id);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    deletePersonCall();
-  }
+  // function handleDeletePerson() {
+  //   console.log('deleting');
+  //   async function deletePersonCall() {
+  //     try {
+  //       personData = await apiCalls.deletePerson(id);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   deletePersonCall();
+  // }
 
   function handleSubmit(event) {
     event.preventDefault(); // perhaps remove this later
@@ -153,15 +152,15 @@ export default function EditPerson() {
 
     console.log(Object.fromEntries(formData));
 
-    async function postPersonData() {
-      try {
-        personData = await apiCalls.createPerson(Object.fromEntries(formData));
-      } catch (err) {
-        console.log(err);
-      }
-    }
+    // async function postPersonData() {
+    //   try {
+    //     personData = await apiCalls.createPerson(Object.fromEntries(formData));
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
 
-    postPersonData();
+    // postPersonData();
   }
 
 

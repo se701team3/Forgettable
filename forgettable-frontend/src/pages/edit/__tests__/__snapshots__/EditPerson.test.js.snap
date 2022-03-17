@@ -268,7 +268,7 @@ exports[`renders Create person page correctly 1`] = `
       className="formButtonsDiv"
     >
       <div
-        className="Button cancelButton"
+        className="Button formsButton"
         onClick={[Function]}
       >
         <p
