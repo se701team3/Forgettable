@@ -7,6 +7,7 @@ import testUtils from '../../utils/test/test-utils';
 import "dotenv/config";
 import personService from '../../services/person.service';
 import userService from '../../services/user.service';
+import { EncounterModel } from '../../models/encounter.model';
 
 const supertest = require('supertest');
 
@@ -72,6 +73,15 @@ const person3Data: PersonModel = {
   image: null as any,
   location: null as any,
   social_media: null as any
+}
+
+const encounter1Data: EncounterModel = {
+  title: "Encounter1",
+  date: new Date('2022-02-23'),
+  time_updated: new Date(Date.now()),
+  description: 'Met at a cafe',
+  location: 'Auckland',
+  persons: [] as any
 }
 
 describe('POST persons/', () => {
@@ -202,4 +212,39 @@ describe('GET persons/:id', () => {
         .set("Authorization", "FAKE_AUTH_TOKEN")
         .expect(httpStatus.UNAUTHORIZED);
   });
+
+  it ('Contains embedded encounters', async () => {
+    await supertest(app).post('/api/users')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .send(reqUserData);
+
+  // Create a new person and store it in the user
+    const { body: createdPerson } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person1Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);
+
+      const { body: createdPerson2 } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person2Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);  
+
+    encounter1Data.persons = [createdPerson._id, createdPerson2._id];
+
+    await supertest(app).post('/api/encounters')
+      .set('Accept', 'application/json')
+      .send(encounter1Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);
+
+    const { body: retrievedPerson } =  await supertest(app).get(`/api/persons/${createdPerson._id}`)
+      .set('Accept','application/json')
+      .set("Authorization", token)
+      .expect(httpStatus.OK);
+
+    expect(retrievedPerson.encounters[0].title).toEqual(encounter1Data.title)
+  })
 });
