@@ -5,8 +5,7 @@ import app from '../../server';
 import httpStatus from "http-status";
 import testUtils from '../../utils/test/test-utils';
 import 'dotenv/config';
-import { UserModel } from 'src/models/user.model';
-import encounterService from 'src/services/encounter.service';
+import encounterService from '../../services/encounter.service';
 
 const supertest = require('supertest');
 
@@ -114,6 +113,15 @@ const encounter7Data = {
     date: new Date('2019-08-17'),
     description: 'Shopping',
     time_updated: new Date(Date.now()),
+    location: 'Auckland',
+    persons: [] as any
+}
+
+const encounter8Data: EncounterModel = {
+    title: "Encounter3",
+    date: new Date('2022-05-25'),
+    time_updated: new Date(Date.now()),
+    description: '',
     location: 'Auckland',
     persons: [] as any
 }
@@ -428,7 +436,6 @@ describe('PUT /encounters/:id ', () => {
     })
 });
 
-
 /*****************************************************************
  * Utility functions
  ****************************************************************/
@@ -466,7 +473,8 @@ const createUserPersonEncounter = async (token): Promise<any>=>{
 
     return newEncounter._body._id
 }
-describe('Getting encounters', () => {
+
+describe('GET /enounters/:id', () => {
     it ('Can be retrieved by id', async () => {
       // Create a new user
       await supertest(app).post('/api/users')
@@ -510,7 +518,7 @@ describe('Getting encounters', () => {
         .set("Authorization", token)
         .expect(httpStatus.CREATED);  
   
-      const encounter3 = await encounterService.createEncounter(encounter3Data);
+      const encounter3 = await encounterService.createEncounter(encounter8Data);
   
       // Ensure only encounter1 and encounter2 can be retrieved
       await supertest(app).get(`/api/encounters/${encounter1._id}`)
