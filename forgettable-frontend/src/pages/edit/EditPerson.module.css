@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.EditPerson {
+    padding: 40px;
+    width: fit-content;
+}
+
+.column {
+    padding-right: 40px;
+}
+
+.row {
+    display: flex;
+}
+
+.avatarDiv {
+    display: flex;
+    align-items: center;
+}
+
+.avatarButton {
+    margin-left: 40px;
+}
+
+.avatar {
+    width: 120px !important;
+    height: 120px !important;
+}
+
+.profilePicUpload {
+    display: none !important;
+}
+
+.socialMediaDiv {
+    display: flex;
+}
+
+/* temp plus icon */
+.addSocialMediaIcon {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: xx-large;
+    background-color: white;
+    border-style: solid;
+}
+
+.socialMediaIcon {
+    margin-right: 4px;
+}
+
+.hiddenSubmit {
+    display: none;
+}
+
+.formButtonsDiv {
+    display: flex;
+    float: right;
+    margin-top: 8px;
+}
+
+.cancelButton {
+    margin-right: 20px;
+}
