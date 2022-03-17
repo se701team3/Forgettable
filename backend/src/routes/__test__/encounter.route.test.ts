@@ -3,7 +3,7 @@ import { PersonModel } from '../../models/person.model';
 import { EncounterModel } from 'src/models/encounter.model';
 import app from '../../server';
 import httpStatus from "http-status";
-import axios from 'axios';
+import testUtils from '../../utils/test/test-utils';
 import 'dotenv/config';
 import { UserModel } from 'src/models/user.model';
 
@@ -13,20 +13,9 @@ let token;
 
 beforeAll(async () => {
 
-    //Retrieve token for authentication
-    const email = process.env.FIREBASE_TEST_AUTH_EMAIL;
-    const password = process.env.FIREBASE_TEST_AUTH_PASS;
-    const key = process.env.FIREBASE_TEST_AUTH_KEY;
+    token = await testUtils.generateTestAuthToken();
 
-    let body = {
-        "email": email,
-        "password": password,
-        "returnSecureToken": true
-    }
-    const response = await axios.post(`https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=${key}`, body);
-    token = response.data.idToken;
-
-    databaseOperations.connectDatabase()
+    databaseOperations.connectDatabase();
 });
 afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
@@ -39,7 +28,8 @@ const user1Data = {
 }
 
 const person1Data: PersonModel = {
-    full_name: 'Ping',
+    first_name: 'Ping',
+    last_name: 'Pong',
     interests: ['video games', 'hockey'],
     organisation: 'helloc',
     time_updated: new Date('2022-01-01'),
@@ -54,7 +44,8 @@ const person1Data: PersonModel = {
 };
 
 const person2Data: PersonModel = {
-    full_name: 'Adam Bong',
+    first_name: 'Adam',
+    last_name: 'Bong',
     interests: ['badminton', 'golf'],
     organisation: 'helloc',
     time_updated: new Date('2022-02-23'),
@@ -71,6 +62,7 @@ const person2Data: PersonModel = {
 const encounter1Data: EncounterModel = {
     title: "Encounter1",
     date: new Date('2022-02-23'),
+    time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland',
     persons: [] as any
@@ -79,6 +71,7 @@ const encounter1Data: EncounterModel = {
 const encounter2Data: EncounterModel = {
     title: "Encounter2",
     date: new Date('2022-02-24'),
+    time_updated: new Date(Date.now()),
     description: 'Had lunch together',
     location: 'Auckland',
     persons: [] as any
@@ -87,6 +80,7 @@ const encounter2Data: EncounterModel = {
 const encounter3Data = {
     title: "Encounter3",
     date: new Date('2022-05-25'),
+    time_updated: new Date(Date.now()),
     location: 'Auckland',
     persons: [] as any
 }
@@ -94,6 +88,7 @@ const encounter3Data = {
 const encounter4Data= {
     title: "Encounter4",
     description: 'Play badminton together',
+    time_updated: new Date(Date.now()),
     location: 'Auckland',
     persons: [] as any
 }
@@ -102,12 +97,14 @@ const encounter5Data = {
     title: "Encounter5",
     date: new Date('2022-05-25'),
     description: 'Played badminton together',
+    time_updated: new Date(Date.now()),
     persons: [] as any
 }
 
 const encounter6Data = {
     title: "Encounter6",
     date: new Date('2022-02-23'),
+    time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland'
 }
@@ -115,6 +112,7 @@ const encounter6Data = {
 const encounter7Data = {
     date: new Date('2019-08-17'),
     description: 'Shopping',
+    time_updated: new Date(Date.now()),
     location: 'Auckland',
     persons: [] as any
 }
@@ -122,6 +120,7 @@ const encounter7Data = {
 const encounterData: EncounterModel = {
     title: "EncounterData",
     date: new Date("2022-12-02"),
+    time_updated: new Date(Date.now()),
     location: "here",
     description: "we did this and that",
     persons: [] as any,
@@ -129,17 +128,15 @@ const encounterData: EncounterModel = {
 
 describe('POST /encounter', () => {
     it('Successfully creates an encounter with all info given', async () => {
+        await supertest(app).post('/api/users')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .send(user1Data);
+
         const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(person1Data)
-
-        user1Data.persons.push(person._id);
-
-        await supertest(app).post('/api/users')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(user1Data);
 
         encounter1Data.persons.push(person._id);
 
@@ -150,23 +147,20 @@ describe('POST /encounter', () => {
             .expect(httpStatus.CREATED);
 
         //Re-initializes variables so that other tests are not affected
-        user1Data.persons = [];
         encounter1Data.persons = [];
     })
 
 
     it('Successfully creating an encounter without date field', async () => {
+        await supertest(app).post('/api/users')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .send(user1Data);
+
         const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(person1Data)
-
-        user1Data.persons.push(person._id);
-
-        await supertest(app).post('/api/users')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(user1Data);
 
         encounter4Data.persons.push(person._id);
 
@@ -178,22 +172,19 @@ describe('POST /encounter', () => {
 
         expect(newEncounter.date).not.toEqual('');
 
-        user1Data.persons = [];
         encounter4Data.persons = [];
     })
 
     it('Successfuly creating an encounter without a location field', async () => {
+        await supertest(app).post('/api/users')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .send(user1Data);
+
         const { body:person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(person1Data)
-
-        user1Data.persons.push(person._id);
-
-        await supertest(app).post('/api/users')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(user1Data);
 
         encounter5Data.persons.push(person._id);
 
@@ -205,23 +196,20 @@ describe('POST /encounter', () => {
 
         expect(newEncounter.location).toEqual(undefined);
 
-        user1Data.persons = [];
         encounter5Data.persons = [];
     })
 
     it('Successful encounter creation return correct encounter data', async () => {
+        await supertest(app).post('/api/users')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .send(user1Data);
+
         const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(person1Data)
             .expect(httpStatus.CREATED);
-
-        user1Data.persons.push(person._id);
-
-        await supertest(app).post('/api/users')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(user1Data);
 
         encounter1Data.persons.push(person._id);
 
@@ -238,22 +226,19 @@ describe('POST /encounter', () => {
             expect(storedEncounter.persons).toContain(person);
         })
 
-        user1Data.persons = [];
         encounter1Data.persons = [];
     })
 
     it('Failed to create an encounter without a persons field', async () => {
-        const { body: person } = await supertest(app).post('/api/persons')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(person1Data)
-
-        user1Data.persons.push(person._id);
-
         await supertest(app).post('/api/users')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .send(user1Data);
+
+        await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
             .set('Authorization', token)
-            .send(user1Data);
+            .send(person1Data);
 
         await supertest(app).post('/api/encounters')
             .set('Accept', 'application/json')
@@ -261,43 +246,36 @@ describe('POST /encounter', () => {
             .send(encounter6Data)
             .expect(httpStatus.BAD_REQUEST);
 
-        user1Data.persons = [];
     })
 
     it('Failed to create an encounter with empty persons field', async () => {
-        const { body: person } = await supertest(app).post('/api/persons')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(person1Data)
-
-        user1Data.persons.push(person._id);
-
         await supertest(app).post('/api/users')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(user1Data);
+
+        const { body: person } = await supertest(app).post('/api/persons')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(person1Data)
 
         await supertest(app).post('/api/encounters')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(encounter1Data)
             .expect(httpStatus.BAD_REQUEST);
-
-        user1Data.persons = [];
     })
 
     it('Failed to create an encounter without a description', async () => {
+        await supertest(app).post('/api/users')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .send(user1Data);
+
         const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(person1Data)
-
-        user1Data.persons.push(person._id);
-
-        await supertest(app).post('/api/users')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(user1Data);
 
         encounter3Data.persons.push(person._id);
 
@@ -307,22 +285,19 @@ describe('POST /encounter', () => {
             .send(encounter3Data)
             .expect(httpStatus.BAD_REQUEST);
 
-        user1Data.persons = [];
         encounter3Data.persons = [];
     })
 
     it('Failed to create an encounter without a title', async () => {
+        await supertest(app).post('/api/users')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .send(user1Data);
+
         const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
             .set('Authorization', token)
-            .send(person1Data)
-
-        user1Data.persons.push(person._id);
-
-        await supertest(app).post('/api/users')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(user1Data);
+            .send(person1Data);
 
         encounter7Data.persons.push(person._id);
 
@@ -332,22 +307,19 @@ describe('POST /encounter', () => {
             .send(encounter7Data)
             .expect(httpStatus.BAD_REQUEST);
 
-        user1Data.persons = [];
         encounter7Data.persons = [];
     })
 
     it('Failed to create without an auth token', async () => {
-        const { body: person } = await supertest(app).post('/api/persons')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(person1Data)
-
-        user1Data.persons.push(person._id);
-
         await supertest(app).post('/api/users')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(user1Data);
+
+        const { body: person } = await supertest(app).post('/api/persons')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(person1Data);
 
         encounter1Data.persons.push(person._id);
 
@@ -356,23 +328,19 @@ describe('POST /encounter', () => {
             .send(encounter1Data)
             .expect(httpStatus.UNAUTHORIZED);
 
-        user1Data.persons = [];
         encounter1Data.persons = [];
     })
 
     it('Encounter not stored in database when request is unsuccessful', async () => {
+        await supertest(app).post('/api/users')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(user1Data);
 
         const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(person1Data)
-
-        user1Data.persons.push(person._id);
-
-        await supertest(app).post('/api/users')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(user1Data);
 
         encounter3Data.persons.push(person._id);
 
@@ -395,7 +363,6 @@ describe('POST /encounter', () => {
             .expect(httpStatus.OK);
         expect(storedUser).not.toContain(encounter._id);
 
-        user1Data.persons = [];
         encounter3Data.persons = [];
     })
 })
@@ -415,6 +382,7 @@ describe('encounter ', () => {
         await supertest(app)
             .put(`/api/encounters/${newEncounterId}`)
             .set('Accept', 'application/json')
+            .set('Authorization', token)
             .send(encounterData)
             .expect(httpStatus.NO_CONTENT)
 
@@ -428,6 +396,7 @@ describe('encounter ', () => {
         await supertest(app)
             .put(`/api/encounters/${123}`)
             .set('Accept', 'application/json')
+            .set('Authorization', token)
             .send(encounterData)
             .expect(httpStatus.BAD_REQUEST)
     });
@@ -437,6 +406,7 @@ describe('encounter ', () => {
         await supertest(app)
             .put(`/api/encounters/622b36166bb3a4e3a1ef62f1`)
             .set('Accept', 'application/json')
+            .set('Authorization', token)
             .send(encounterData)
             .expect(httpStatus.NOT_FOUND)
     });

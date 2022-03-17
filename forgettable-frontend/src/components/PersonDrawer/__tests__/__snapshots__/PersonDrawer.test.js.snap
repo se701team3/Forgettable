@@ -9,6 +9,7 @@ exports[`renders PersonDrawer UI with correct hierarchy 1`] = `
     Object {
       "& .MuiDrawer-paper": Object {
         "boxSizing": "border-box",
+        "marginLeft": "128px",
         "width": "460px",
       },
       "flexShrink": 0,
@@ -51,7 +52,7 @@ exports[`renders PersonDrawer UI with correct hierarchy 1`] = `
         </h2>
       </div>
       <div
-        className="InfoContent"
+        className="InfoContent InfoContentPadding"
       >
         <p
           data-testid="age-element"

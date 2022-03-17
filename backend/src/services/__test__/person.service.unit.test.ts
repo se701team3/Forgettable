@@ -8,7 +8,8 @@ afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
 const person1Data:PersonModel = {
-    full_name: 'testlname',
+    first_name: 'testlname',
+    last_name: 'testllastName',
     interests: ['a', 'b'],
     organisation: 'testorg',
     time_updated: new Date('2022-01-01'),
@@ -23,7 +24,8 @@ const person1Data:PersonModel = {
   };
 
   const person2Data:PersonModel = {
-    full_name: 'test2name',
+    first_name: 'test2name',
+    last_name: 'test2lastName',
     interests: ['c', 'd'],
     organisation: 'anotherOrg',
     time_updated: new Date('2022-01-01'),
