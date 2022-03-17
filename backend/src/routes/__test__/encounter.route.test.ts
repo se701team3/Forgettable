@@ -1,10 +1,13 @@
 import databaseOperations from '../../utils/test/db-handler';
-import { PersonModel } from '../../models/person.model';
-import { EncounterModel } from 'src/models/encounter.model';
+import Person, { PersonModel } from '../../models/person.model';
+import Encounter, { EncounterModel } from '../../models/encounter.model';
+import User, { UserModel } from '../../models/user.model';
 import app from '../../server';
 import httpStatus from "http-status";
 import testUtils from '../../utils/test/test-utils';
 import 'dotenv/config';
+import personService from 'src/services/person.service';
+import { UserRecord } from 'firebase-admin/lib/auth/user-record';
 
 const supertest = require('supertest');
 
@@ -426,6 +429,443 @@ describe('PUT /encounters/:id ', () => {
     })
 });
 
+// Delete Encounters Endpoint tests
+
+// Delete Encounter 200
+describe('Delete /encounter 200', () => {
+    it('Successfully deletes SINGLE ENCOUNTER with SINGLE PERSON: ', async () => {
+        // Get Authentication ID for User
+        const auth_id = await testUtils.getAuthIdFromToken(token);
+
+        // Create Person
+        const personOne = new Person(person1Data);
+        const personOneId = (await personOne.save())._id;
+
+        // Create Encounter
+        const encounterOne = new Encounter(encounter1Data);
+        const encounterOneId = (await encounterOne.save())._id;
+
+        // Create User
+        const user = new User(user1Data);
+
+        // Add Encounter and Person ID to User encounters
+        user.persons.push(personOneId);
+        user.encounters.push(encounterOneId);
+        user.auth_id = auth_id;
+        await user.save();
+
+        // Add Encounter ID and Person ID to each other
+        personOne.encounters.push(encounterOneId);
+        encounterOne.persons.push(personOneId);
+        await personOne.save();
+        await encounterOne.save();
+
+        await supertest(app).delete(`/api/encounters/${encounterOneId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.OK);
+        
+        // Check that encounter has been removed
+        const newUser = await User.findOne({auth_id: user.auth_id});
+        expect(newUser?.persons).not.toContain(personOneId);
+        expect(newUser?.encounters).not.toContain(encounterOneId);
+
+        const newPerson = await Person.findOne({_id: personOne._id});
+        expect(newPerson?.encounters).not.toContain(encounterOneId);
+
+        expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
+    })
+
+    it('Successfully deletes SINGLE ENCOUNTER with MULTIPLE PERSONS: ', async () => {
+        // Get Authentication ID for User
+        const auth_id = await testUtils.getAuthIdFromToken(token);
+
+        // Create Person One
+        const personOne = new Person(person1Data);
+        const personOneId = (await personOne.save())._id;
+
+        // Create Person Two
+        const personTwo = new Person(person2Data);
+        const personTwoId = (await personTwo.save())._id;
+
+        // Create Encounter
+        const encounterOne = new Encounter(encounter1Data);
+        const encounterOneId = (await encounterOne.save())._id;
+
+        // Create User
+        const user = new User(user1Data);
+
+        // Add Encounter and Person ID to User encounters
+        user.persons.push(personOneId);
+        user.persons.push(personTwoId);
+        user.encounters.push(encounterOneId);
+        user.auth_id = auth_id;
+        await user.save();
+
+        // Add Encounter ID and Person ID to each other
+        personOne.encounters.push(encounterOneId);
+        personTwo.encounters.push(encounterOneId);
+        encounterOne.persons.push(personOneId);
+        await personOne.save();
+        await personTwo.save();
+        await encounterOne.save();
+
+        // Call delete endpoints
+        await supertest(app).delete(`/api/encounters/${encounterOneId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.OK);
+        
+        // Check that encounter has been removed
+        const newUser = await User.findOne({auth_id: user.auth_id});
+        expect(newUser?.persons).not.toContain(personOneId);
+        expect(newUser?.encounters).not.toContain(encounterOneId);
+
+        const newPersonOne = await Person.findOne({_id: personOne._id});
+        expect(newPersonOne?.encounters).not.toContain(encounterOneId);
+
+        const newPersonTwo = await Person.findOne({_id: personTwo._id});
+        expect(newPersonTwo?.encounters).not.toContain(encounterOneId);
+
+        expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
+    })
+
+    it('Successfully deletes MULTIPLE ENCOUNTERS with SINGLE PERSONS: ', async () => {
+        // Get Authentication ID for User
+        const auth_id = await testUtils.getAuthIdFromToken(token);
+
+        // Create Person One
+        const personOne = new Person(person1Data);
+        const personOneId = (await personOne.save())._id;
+
+        // Create Encounters
+        const encounterOne = new Encounter(encounter1Data);
+        const encounterOneId = (await encounterOne.save())._id;
+
+        const encounterTwo = new Encounter(encounter2Data);
+        const encounterTwoId = (await encounterTwo.save())._id;
+
+        // Create User
+        const user = new User(user1Data);
+
+        // Add Encounter and Person ID to User encounters
+        user.persons.push(personOneId);
+        user.encounters.push(encounterOneId);
+        user.encounters.push(encounterTwoId);
+        user.auth_id = auth_id;
+        await user.save();
+
+        // Add Encounter ID and Person ID to each other
+        personOne.encounters.push(encounterOneId);
+        personOne.encounters.push(encounterTwoId);
+        encounterOne.persons.push(personOneId);
+        encounterTwo.persons.push(personOneId);
+        await personOne.save();
+        await encounterOne.save();
+        await encounterTwo.save();
+
+        // Call delete endpoints
+        await supertest(app).delete(`/api/encounters/${encounterOneId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.OK);
+
+        await supertest(app).delete(`/api/encounters/${encounterTwoId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.OK);
+        
+        // Check that encounter has been removed
+        const newUser = await User.findOne({auth_id: user.auth_id});
+        expect(newUser?.persons).not.toContain(personOneId);
+        expect(newUser?.encounters).not.toContain(encounterOneId);
+
+        const newPersonOne = await Person.findOne({_id: personOne._id});
+        expect(newPersonOne?.encounters).not.toContain(encounterOneId);
+        expect(newPersonOne?.encounters).not.toContain(encounterTwoId);
+
+        expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
+        expect(await Encounter.findById({_id: encounterTwoId})).toEqual(null);
+    }) 
+});
+
+// Delete Encounter 404
+
+describe('Delete /encounter 404', () => {
+    it('Successfully sends back a NOT_FOUND with invalid encounter ID: ', async () => {
+        // Get Authentication ID for User
+        const auth_id = await testUtils.getAuthIdFromToken(token);
+
+        // Create Encounters
+        const encounterOne = new Encounter(encounter1Data);
+        const invalidEncounterId = (await encounterOne.save())._id;
+
+        // Create User
+        const user = new User(user1Data);
+        user.auth_id = auth_id;
+        await user.save();
+
+        await supertest(app).delete(`/api/encounters/${invalidEncounterId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.NOT_FOUND);
+
+        // Check that no encounters are deleted from User
+        const newUser = await User.findOne({auth_id: user.auth_id});
+        expect(newUser?.encounters).toHaveLength(user.encounters.length);
+        
+    })
+});
+
+// Delete Encounter 400
+
+describe('Delete /encounter 400', () => {
+    it('Successfully sends back a BAD_REQUEST with Encounter with empty persons field: ', async () => {
+        // Get Authentication Token
+        const auth_id = await testUtils.getAuthIdFromToken(token);
+
+        // Create Encounter
+        const encounterOne = new Encounter(encounter1Data);
+        const encounterOneId = (await encounterOne.save())._id;
+
+        // Create User
+        const user = new User(user1Data);
+
+        // Add Encounter ID to User encounters
+        user.encounters.push(encounterOneId);
+        user.auth_id = auth_id;
+        await user.save();
+
+        await supertest(app).delete(`/api/encounters/${encounterOneId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(encounterOne)
+            .expect(httpStatus.BAD_REQUEST);
+
+        // Encounter should still be deleted from the Encounter collection
+        expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
+    })
+
+    it('Successfully sends back a BAD_REQUEST with Encounter with duplicate encounter IDs in User: ', async () => {
+        // Get Authentication ID for User
+        const auth_id = await testUtils.getAuthIdFromToken(token);
+
+        // Create Encounter
+        const encounterOne = new Encounter(encounter1Data);
+        const encounterOneId = (await encounterOne.save())._id;
+
+        // Create User
+        const user = new User(user1Data);
+
+        // Add Encounter ID to Users x 2
+        user.encounters.push(encounterOneId);
+        user.encounters.push(encounterOneId);
+        user.auth_id = auth_id;
+        await user.save();
+
+        await supertest(app).delete(`/api/encounters/${encounterOneId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(encounterOne)
+            .expect(httpStatus.BAD_REQUEST);
+
+        // Encounter should still be deleted from User and Collection
+        const newUser = await User.findOne({auth_id: user.auth_id});
+        expect(newUser?.encounters).not.toContain(encounterOneId);
+
+        expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
+    })
+});
+
+// Delete Person 200
+
+describe('Delete /person 200', () => {
+
+    it('Successfully deletes SINGLE PERSON with NO ENCOUNTER: ', async () => {
+        // Get Authentication ID for User
+        const auth_id = await testUtils.getAuthIdFromToken(token);
+
+        // Create Person
+        const personOne = new Person(person1Data);
+        const personOneId = (await personOne.save())._id;
+
+        // Create User
+        const user = new User(user1Data);
+        // Add Encounter and Person ID to User encounters
+        user.persons.push(personOneId);
+        user.auth_id = auth_id;
+        await user.save();
+
+        await supertest(app).delete(`/api/persons/${personOneId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.OK);
+
+        const newUser = await User.findOne({auth_id: user.auth_id});
+        expect(newUser?.persons).not.toContain(personOneId);
+    })
+
+    it('Successfully deletes SINGLE PERSON with SINGLE ENCOUNTER: ', async () => {
+        // Get Authentication ID for User
+        const auth_id = await testUtils.getAuthIdFromToken(token);
+
+        // Create Encounter
+        const encounterOne = new Encounter(encounter1Data);
+        const encounterOneId = (await encounterOne.save())._id;
+
+        // Create Person
+        const personOne = new Person(person1Data);
+        const personOneId = (await personOne.save())._id;
+
+        // Create User
+        const user = new User(user1Data);
+        // Add Encounter and Person ID to User encounters
+        user.encounters.push(encounterOneId);
+        user.persons.push(personOneId);
+        user.auth_id = auth_id;
+        await user.save();
+
+        // Add Encounter and Person IDs to respective objects
+        personOne.encounters.push(encounterOneId);
+        encounterOne.persons.push(personOneId);
+        await personOne.save();
+        await encounterOne.save();
+
+        await supertest(app).delete(`/api/persons/${personOneId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.OK);
+
+        const newUser = await User.findOne({auth_id: user.auth_id});
+        expect(newUser?.persons).not.toContain(personOneId);
+    })
+
+    it('Successfully deletes MULTIPLE PERSONS with MULTIPLE ENCOUNTERS', async () => {
+        // Get Authentication ID for User
+        const auth_id = await testUtils.getAuthIdFromToken(token);
+
+        // Create Encounter One
+        const encounterOne = new Encounter(encounter1Data);
+        const encounterOneId = (await encounterOne.save())._id;
+
+        // Create Encounter Two
+        const encounterTwo = new Encounter(encounter2Data);
+        const encounterTwoId = (await encounterTwo.save())._id;
+
+        // Create Person One
+        const personOne = new Person(person1Data);
+        const personOneId = (await personOne.save())._id;
+
+        // Create Person Two
+        const personTwo = new Person(person2Data);
+        const personTwoId = (await personTwo.save())._id;
+
+        // Create User
+        const user = new User(user1Data);
+        // Add Encounter and Person ID to User encounters
+        user.encounters.push(encounterOneId);
+        user.encounters.push(encounterTwoId);
+        user.persons.push(personOneId);
+        user.persons.push(personTwoId);
+        user.auth_id = auth_id;
+        await user.save();
+
+        // Add Encounter and Person IDs to respective objects
+        personOne.encounters.push(encounterOneId);
+        personOne.encounters.push(encounterTwoId);
+        encounterOne.persons.push(personOneId);
+        encounterOne.persons.push(personTwoId);
+
+        personTwo.encounters.push(encounterOneId);
+        personTwo.encounters.push(encounterTwoId);
+        encounterTwo.persons.push(personOneId);
+        encounterTwo.persons.push(personTwoId);
+
+        await personOne.save();
+        await personTwo.save();
+        await encounterOne.save();
+        await encounterTwo.save();
+
+        await supertest(app).delete(`/api/persons/${personOneId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.OK);
+
+        await supertest(app).delete(`/api/persons/${personTwoId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.OK);
+
+        // Check Encounters and Persons are removed
+        const newUser = await User.findOne({auth_id: user.auth_id});
+        expect(newUser?.persons).not.toContain(personOneId);
+        expect(newUser?.persons).not.toContain(personTwoId);
+
+        expect(newUser?.encounters).not.toContain(encounterOneId);
+        expect(newUser?.encounters).not.toContain(encounterTwoId);
+
+        expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
+        expect(await Encounter.findById({_id: encounterTwoId})).toEqual(null);
+
+        expect(await Person.findById({_id: personOneId})).toEqual(null);
+        expect(await Person.findById({_id: personTwoId})).toEqual(null);
+    })
+});
+
+// Delete Person 404
+describe('Delete /person 404', () => {
+    it('Successfully sends NOT_FOUND for invalid ID: ', async () => {
+        // Get Authentication ID for User
+        const auth_id = await testUtils.getAuthIdFromToken(token);
+
+        // Create Person
+        const personOne = new Person(person1Data);
+        const invalidPersonId = (await personOne.save())._id;
+
+        // Create User
+        const user = new User(user1Data);
+        // Add Encounter and Person ID to User encounters
+        user.auth_id = auth_id;
+        await user.save();
+
+        await supertest(app).delete(`/api/persons/${invalidPersonId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.NOT_FOUND);
+
+        // Check that no encounters are deleted from User
+        const newUser = await User.findOne({auth_id: user.auth_id});
+        expect(newUser?.persons).toHaveLength(user.persons.length);
+    })
+})
+
+// Delete Person 400
+describe('Delete /person 400', () => {
+    it('Successfully sends BAD_REQUEST if Person ID is not in Collection: ', async () => {
+        // Get Authentication ID for User
+        const auth_id = await testUtils.getAuthIdFromToken(token);
+
+        // Create Person
+        const encounterOne = new Encounter(encounter1Data);
+        const invalidPersonId = (await encounterOne.save())._id;
+
+        // Create User
+        const user = new User(user1Data);
+        // Add invalid Person ID to User
+        user.auth_id = auth_id;
+        user.persons.push(invalidPersonId)
+        await user.save();
+
+        await supertest(app).delete(`/api/persons/${invalidPersonId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.BAD_REQUEST);
+
+        // Check that invalid ID is deleted from User
+        const newUser = await User.findOne({auth_id: user.auth_id});
+        expect(newUser?.persons).not.toContain(invalidPersonId);
+    })
+})
 
 /*****************************************************************
  * Utility functions
