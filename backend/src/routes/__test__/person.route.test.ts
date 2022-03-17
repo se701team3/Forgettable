@@ -2,13 +2,11 @@ import httpStatus from 'http-status';
 import databaseOperations from '../../utils/test/db-handler';
 
 import Person, { PersonModel } from '../../models/person.model';
+import { EncounterModel } from '../../models/encounter.model';
 import User, { UserModel } from '../../models/user.model';
 import app from '../../server';
 import testUtils from '../../utils/test/test-utils';
 import "dotenv/config";
-import personService from '../../services/person.service';
-import userService from '../../services/user.service';
-import { EncounterModel } from '../../models/encounter.model';
 
 const supertest = require('supertest');
 
@@ -355,7 +353,7 @@ describe('GET persons/:id', () => {
       .set('Authorization', token)
       .send(user1Data);
 
-  // Create a new person and store it in the user
+    // Create a new person and store it in the user
     const { body: createdPerson } = await supertest(app).post('/api/persons')
       .set('Accept', 'application/json')
       .send(person1Data)
