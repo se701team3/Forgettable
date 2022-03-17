@@ -196,7 +196,7 @@ export const getAllEncounters = async (
     if (!user) {
       res.status(httpStatus.NOT_FOUND).end();
     } else {
-      const foundUserEncounters = await encounterService.getAllEncounters(user.encounters);
+      const foundUserEncounters = await encounterService.getAllEncounters(req.query, user.encounters);
       res.status(httpStatus.OK).paginate(foundUserEncounters);
     }
   } catch (e) {

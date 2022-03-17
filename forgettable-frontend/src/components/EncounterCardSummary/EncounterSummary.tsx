@@ -2,10 +2,11 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import {Avatar} from '@mui/material';
 import classes from './EncounterSummary.module.css';
+import {getDateLastMetString} from '../../functions/dateFormatter';
 
-export default function EncounterSummary(props: { Name: any; Date: any; Description: any; Summary: any; Src: string}) {
+export default function EncounterSummary(props: { name: any; date: any; description: any; summary: any; src: string}) {
   const {
-    Name, Date, Description, Summary, Src,
+    name, date, description, summary, src,
   } = props;
 
   return (
@@ -16,21 +17,21 @@ export default function EncounterSummary(props: { Name: any; Date: any; Descript
       >
         <div className={classes.Header}>
           <Avatar
-            alt={Name}
-            src={Src}
+            alt={name}
+            src={src}
             sx={{width: 70, height: 70}}
           />
           <div className={classes.NameDesc}>
-            <div>{Name}</div>
-            <div className={classes.Description}>{Description}</div>
+            <div>{name}</div>
+            <div className={classes.Description}>{summary}</div>
           </div>
         </div>
         <div className={classes.Date}>
           <div>Date you met:&nbsp;</div>
-          {Date}
+          {getDateLastMetString(date)}
         </div>
         <div className={classes.DescriptionText}>
-          {Summary}
+          {description}
         </div>
       </Card>
     </div>
