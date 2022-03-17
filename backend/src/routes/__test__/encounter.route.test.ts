@@ -376,6 +376,54 @@ describe('POST /encounter', () => {
     })
 })
 
+describe('GET /encounters/:id', () => {
+    it ('Successfully retrieves an encounter with a given json', async () => {
+        const newEncounterId = await createUserPersonEncounter(token);
+
+        // retrieve the specified encounter
+        const encounter = await supertest(app)
+            .get(`/api/encounters/${newEncounterId}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.OK)
+
+        expect(encounter._body.description).toBe(encounterData.description)
+        expect(encounter._body.location).toEqual(encounterData.location)
+
+    });
+  
+    it('Fails when called with invalid encounter object ID', async () => {
+        await createUserPersonEncounter(token)
+        // update an encounter of id that does not exist
+        await supertest(app)
+            .get(`/api/encounters/${123}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.NOT_FOUND)
+    });
+
+    it('Fails when encounter object ID that does not exist', async () => {
+        // update an encounter of id that does not exist
+        await supertest(app)
+            .get(`/api/encounters/622b36166bb3a4e3a1ef62f1`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.NOT_FOUND)
+    });
+    it('Fails when user does not exist for given token', async ()=>{
+        await supertest(app)
+            .get(`/api/encounters/1234567890`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.NOT_FOUND)
+    })
+    it('Fails when user is not authenticated', async ()=>{
+        await supertest(app)
+            .get(`/api/encounters/1234567890`)
+            .set('Accept', 'application/json')
+            .expect(httpStatus.UNAUTHORIZED)
+    })
+});
 
 describe('PUT /encounters/:id ', () => {
     it('Successfully updates an encounter with a given json', async () => {
@@ -474,73 +522,4 @@ const createUserPersonEncounter = async (token): Promise<any>=>{
     return newEncounter._body._id
 }
 
-describe('GET /enounters/:id', () => {
-    it ('Can be retrieved by id', async () => {
-      // Create a new user
-      await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .set('Authorization', token)
-        .send(user1Data);
-  
-      // Create a new encounter and store it in the user
-      const { body: createdEncounter } = await supertest(app).post('/api/encounters')
-        .set('Accept', 'application/json')
-        .send(encounter1Data)
-        .set("Authorization", token)
-        .expect(httpStatus.CREATED);
-  
-      // Attempt to retrieve it
-      const { body: retrievedEnounter } = await supertest(app).get(`/api/encounters/${createdEncounter._id}`)
-        .set('Accept','application/json')
-        .set("Authorization", token)
-        .expect(httpStatus.OK);
-  
-      expect(retrievedEnounter._id).toEqual(createdEncounter._id);
-    });
-  
-    it ('Is not retrieved if the user does not contain it', async () => {
-      // Create a new user
-      const { body: user } = await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .set('Authorization', token)
-        .send(user1Data);
-  
-      // Create three encounters and store only the first two in the user
-      const { body : encounter1 } = await supertest(app).post('/api/encounters')
-        .set('Accept', 'application/json')
-        .send(encounter1Data)
-        .set("Authorization", token)
-        .expect(httpStatus.CREATED);
-  
-      const { body : encounter2 } = await supertest(app).post('/api/encounters')
-        .set('Accept', 'application/json')
-        .send(encounter2Data)
-        .set("Authorization", token)
-        .expect(httpStatus.CREATED);  
-  
-      const encounter3 = await encounterService.createEncounter(encounter8Data);
-  
-      // Ensure only encounter1 and encounter2 can be retrieved
-      await supertest(app).get(`/api/encounters/${encounter1._id}`)
-        .set('Accept','application/json')
-        .set("Authorization", token)
-        .expect(httpStatus.OK);
-  
-      await supertest(app).get(`/api/encounters/${encounter2._id}`)
-        .set('Accept','application/json')
-        .set("Authorization", token)
-        .expect(httpStatus.OK);
-  
-      await supertest(app).get(`/api/encounters/${encounter3._id}`)
-        .set('Accept','application/json')
-        .set("Authorization", token)
-        .expect(httpStatus.NOT_FOUND);
-    });
-  
-    it ('Returns "Unauthorized" if the user does not have a valid auth_id', async () => {
-        await supertest(app).get(`/api/encounters/FAKE_PERSON_ID`)
-          .set('Accept','application/json')
-          .set("Authorization", "FAKE_AUTH_TOKEN")
-          .expect(httpStatus.UNAUTHORIZED);
-    });
-});
+
