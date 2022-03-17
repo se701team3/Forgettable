@@ -1,4 +1,5 @@
 import axios from 'axios';
+import FirebaseAdmin from '../../firebase-configs/firebase-config';
 
 const generateTestAuthToken = async () => {
     
@@ -17,8 +18,19 @@ const generateTestAuthToken = async () => {
     return response.data.idToken;
 };
 
+const getAuthIdFromToken = async (idToken: string) => {
+    let auth_id = '';
+    await FirebaseAdmin.auth()
+        .verifyIdToken(idToken)
+        .then((decodedToken) => {
+        auth_id = decodedToken?.['user_id'];
+    })
+    return auth_id;
+}
+
 const testUtils = {
     generateTestAuthToken,
+    getAuthIdFromToken
 };
 
 export default testUtils;

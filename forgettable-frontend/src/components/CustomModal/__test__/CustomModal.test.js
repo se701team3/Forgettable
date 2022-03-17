@@ -27,7 +27,7 @@ it('renders CustomModal UI to test correct hierarchy', () => {
   expect(result).toMatchSnapshot();
 });
 
-it('check if children components are passed in correctly', () => {
+it('check if children Components are passed in correctly', () => {
   render(
       <CustomModal
         open={true}

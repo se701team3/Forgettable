@@ -18,12 +18,6 @@ export const getBirthdayString = (timeInMs) => {
                   '';
 };
 
-export const getDateString = (timeInMs) => {
-  return timeInMs ?
-                  moment(timeInMs).format('DD/MMM/YYYY') :
-                  'once upon a time';
-};
-
 export const calculateAge = (timeInMs) => {
   return timeInMs ?
                   moment().diff(moment(timeInMs), 'years') :
