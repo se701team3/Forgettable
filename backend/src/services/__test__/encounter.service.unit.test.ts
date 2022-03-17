@@ -10,6 +10,7 @@ afterAll(async () => databaseOperations.closeDatabase());
 const encounter1Data: EncounterModel = {
     title: "Encounter1",
     date: new Date('2022-02-23'),
+    time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland',
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any
@@ -20,12 +21,14 @@ const encounter2Data: EncounterModel= {
     description: 'Play badminton together',
     location: 'Auckland',
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
+    time_updated: new Date(Date.now()),
     date: null as any
 }
 
 const encounter3Data: EncounterModel = {
     title: "Encounter5",
     date: new Date('2022-05-25'),
+    time_updated: new Date(Date.now()),
     description: 'Played badminton together',
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
     location: null as any
@@ -34,6 +37,7 @@ const encounter3Data: EncounterModel = {
 const encounter4Data: EncounterModel = {
     title: null as any,
     date: new Date('2019-08-17'),
+    time_updated: new Date(Date.now()),
     description: 'Shopping',
     location: 'Auckland',
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
@@ -42,6 +46,7 @@ const encounter4Data: EncounterModel = {
 const encounter5Data: EncounterModel = {
     title: "Encounter7",
     date: new Date('2022-05-25'),
+    time_updated: new Date(Date.now()),
     location: 'Auckland',
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
     description: null as any
@@ -50,6 +55,7 @@ const encounter5Data: EncounterModel = {
 const encounter6Data: EncounterModel = {
     title: "Encounter8",
     date: new Date('2022-05-25'),
+    time_updated: new Date(Date.now()),
     location: 'Auckland',
     persons: null as any,
     description: "This is encounter 8" as any
@@ -58,6 +64,7 @@ const encounter6Data: EncounterModel = {
 const encounter7Data: EncounterModel = {
     title: "Encounter9",
     date: new Date('2022-05-25'),
+    time_updated: new Date(Date.now()),
     location: 'Auckland',
     persons: [] as any,
     description: "This is encounter 9" as any
