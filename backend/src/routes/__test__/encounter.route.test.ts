@@ -587,11 +587,9 @@ describe('DELETE /encounter/:id', () => {
         expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
         expect(await Encounter.findById({_id: encounterTwoId})).toEqual(null);
     }) 
-});
 
 // Delete Encounter 404
 
-describe('Delete /encounter/:id', () => {
     it('Sends back a NOT_FOUND when invalid encounter ID is requested: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
@@ -615,11 +613,9 @@ describe('Delete /encounter/:id', () => {
         expect(newUser?.encounters).toHaveLength(user.encounters.length);
         
     })
-});
 
 // Delete Encounter 400
 
-describe('Delete /encounter 400', () => {
     it('Sends back a BAD_REQUEST when deleting Encounter with empty persons field: ', async () => {
         // Get Authentication Token
         const auth_id = await testUtils.getAuthIdFromToken(token);
@@ -679,7 +675,7 @@ describe('Delete /encounter 400', () => {
 
 // Delete Person 200
 
-describe('Delete /person 200', () => {
+describe('DELETE /person/:id', () => {
 
     it('Successfully deletes single person with no encounter: ', async () => {
         // Get Authentication ID for User
@@ -810,10 +806,9 @@ describe('Delete /person 200', () => {
         expect(await Person.findById({_id: personOneId})).toEqual(null);
         expect(await Person.findById({_id: personTwoId})).toEqual(null);
     })
-});
 
 // Delete Person 404
-describe('Delete /person 404', () => {
+
     it('Sends NOT_FOUND for invalid ID: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
@@ -837,10 +832,8 @@ describe('Delete /person 404', () => {
         const newUser = await User.findOne({auth_id: user.auth_id});
         expect(newUser?.persons).toHaveLength(user.persons.length);
     })
-})
 
 // Delete Person 400
-describe('Delete /person 400', () => {
     it('Sends BAD_REQUEST if Person ID is not in Collection: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
