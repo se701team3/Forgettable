@@ -5,10 +5,11 @@ import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import {createPerson, getPerson} from '../../services';
 import classes from './PersonPage.module.css';
 import {ENCOUNTERS} from './PlaceholderData';
+import {useParams} from 'react-router-dom';
 
 const PersonPage = (props) => {
   // TODO: this needs to be passed in as a routing parameter
-  const personId = '6232b2d25ae047a37b7e57b3';
+  const {id} = useParams();
 
   const [person, setPerson] = useState({
     firstName: '',
@@ -27,7 +28,7 @@ const PersonPage = (props) => {
   });
 
   useEffect(async () => {
-    const result = await getPerson(personId);
+    const result = await getPerson(id);
 
     setPerson({
       firstName: result.first_name,
@@ -44,7 +45,7 @@ const PersonPage = (props) => {
       encounters: ENCOUNTERS,
       timeUpdated: result.timeUpdated,
     });
-  }, [personId]);
+  }, [id]);
 
   const convertSocialMedia = (socialMedias) => {
     if (!socialMedias) return null;
