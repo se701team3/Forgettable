@@ -7,6 +7,7 @@ import classes from './PersonPage.module.css';
 import {ENCOUNTERS} from './PlaceholderData';
 
 const PersonPage = (props) => {
+  // TODO: this needs to be passed in as a routing parameter
   const personId = '6232b2d25ae047a37b7e57b3';
 
   const [person, setPerson] = useState({
@@ -39,18 +40,13 @@ const PersonPage = (props) => {
       organisation: result.organisation,
       socialMedia: convertSocialMedia(result.socialMedia),
       img: result.image,
-      // encounters: result.encounters,
+      encounters: result.encounters,
       encounters: ENCOUNTERS,
       timeUpdated: result.timeUpdated,
     });
   }, [personId]);
 
   const convertSocialMedia = (socialMedias) => {
-    socialMedias = {
-      'facebook': 'https://www.facebook.com/',
-      'instagram': 'https://www.instagram.com/',
-    };
-
     if (!socialMedias) return null;
 
     const socialMediaArray = [];
