@@ -2,34 +2,30 @@ import React from 'react';
 import classes from './SignInPage.module.css';
 import googleLogin from '../../assets/icons/google-login.svg';
 import logoBlack from '../../assets/logos/logo-black.svg';
-import {getAuth, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
-import {initializeApp} from 'firebase/app';
-import {firebaseConfig} from '../../firebase-config';
+import {authentication} from '../../firebase.js';
+import {signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
 
 
-export default function SignInPage() {
-  const signInHandler = ()=>{
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-
-
-    // https://firebase.google.com/docs/auth/web/google-signin
-    const authProvider = new GoogleAuthProvider();
-    const auth = getAuth();
-    signInWithPopup(auth, authProvider).then((result)=>{
+export default function SignInPage({setIsLoggedIn}) {
+  const signInHandler = () => {
+    const googleProvider = new GoogleAuthProvider();
+    signInWithPopup(authentication, googleProvider).then((result)=>{
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
-      console.log(user);
+      localStorage.setItem('token', user.stsTokenManager.accessToken);
+      localStorage.setItem('user', user);
+      setIsLoggedIn(true);
     }).catch((error) => {
       // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
+      // const errorCode = error.code;
+      // const errorMessage = error.message;
       // The email of the user's account used.
-      const email = error.email;
+      // const email = error.email;
       // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
+      // const credential = GoogleAuthProvider.credentialFromError(error);
+      setIsLoggedIn(false);
     });
   };
 

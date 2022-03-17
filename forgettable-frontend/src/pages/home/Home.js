@@ -3,7 +3,7 @@
 import React from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import classes from './App.module.css';
+import classes from './Home.module.css';
 import PersonCardSummary from '../../components/PersonCardSummary/PersonCardSummary';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import {Link} from 'react-router-dom';
@@ -13,13 +13,17 @@ import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
+import { getAllEncounters, getAllPersons } from '../../services';
 
 // The maximum summary cards shown on the large screens, small screens show less
 const MAX_LATEST_CARDS = 12;
 
-function App() {
+function Home() {
   const [selectedInfo, setSelectedInfo] = React.useState(undefined);
   const [modalOpen, setModalOpen] = React.useState(false);
+
+  const [peopleList, setPeopleList] = React.useState([]);
+  const [encouuntersList, setEncountersList] = React.useState([]);
   // @TODO: Input real data. Get 12 people and 12 encounters. Get all info needed for seach bar. Get user.
 
   // TEMPORARY FAKE DATA
@@ -53,6 +57,16 @@ function App() {
   const searchBarData = [{title: 'fgdgf', type: 'encounters', id: '0'}, {title: 'joe', type: 'people', id: '1'}, {title: 'xi', type: 'people', id: '2'}, {title: 'abcdef', type: 'encounters', id: '3'}];
   // END TEMP FAKE DATA
 
+  async function GetData() {
+    let peopleResult = [];
+    peopleResult = await getAllPersons();
+    setPeopleList(peopleResult); // TODO: trim to top 12
+    let encountersResult = [];
+    encountersResult = await getAllEncounters();
+    setEncountersList(encountersResult); // TODO: trim to top 12
+  }
+
+
   const handlePersonHover = (event, index) => {
     setSelectedInfo({
       type: 'person',
@@ -67,11 +81,11 @@ function App() {
     });
   };
 
-  const handleNewEntryClick = (event) => {
+  const handleNewEntryClick = () => {
     setModalOpen(true);
   };
 
-  const handleModalClose = (event) => {
+  const handleModalClose = () => {
     setModalOpen(false);
   };
 
@@ -125,7 +139,7 @@ function App() {
           {personList.map((person, index) => {
             return (
               <div key={index} className={classes.home_cardWrapper} onMouseEnter={(event) => handlePersonHover(event, index)}>
-                <Link to={`/people/${person.id}`} style={{textDecoration: 'none'}}>
+                <Link to={`/person/${person.id}`} style={{textDecoration: 'none'}}>
                   <PersonCardSummary
                     id={person.id}
                     name={person.name}
@@ -165,10 +179,6 @@ function App() {
   );
 }
 
-function ModalChildren() {
-  return (<div>Hello</div>);
-}
-
 function SummaryDrawer(summaryInfo) {
   summaryInfo = summaryInfo.summaryInfo;
   if (summaryInfo.type === 'person') {
@@ -200,4 +210,4 @@ function SummaryDrawer(summaryInfo) {
   }
 }
 
-export default App;
+export default Home;
