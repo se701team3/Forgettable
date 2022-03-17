@@ -1,0 +1,15 @@
+.MiniPersonProfile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-right: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 40px
+}
+
+.MiniPersonProfile > p {
+    font-size: var(--text-medium);
+    font-weight: 400;
+    margin-left: 10px;
+}

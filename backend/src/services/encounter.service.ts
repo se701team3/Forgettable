@@ -1,6 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import mongoose from 'mongoose';
 import Encounter, { EncounterModel } from '../models/encounter.model';
+import logger from '../utils/logger';
+
+const queryKeys = ['title', 'location', 'description'];
 
 const createEncounter = async (encounterDetails: EncounterModel) => {
   const encounter = new Encounter(encounterDetails);
@@ -19,9 +22,31 @@ const createEncounter = async (encounterDetails: EncounterModel) => {
 
 const getEncounter = async (encounterId) => Encounter.findOne({_id: encounterId});
 
-const getAllEncounters = async (userEncounters: mongoose.Types.ObjectId[]) => {
+const getAllEncounters = async (queryParams: any, userEncounters: mongoose.Types.ObjectId[]) => {
+  
   // Get all encounters from the db which belongs to the user
-  const foundUserEncounters = await Encounter.find({ _id: { $in: userEncounters } });
+  let foundUserEncounters = await Encounter.find({ _id: { $in: userEncounters } });
+
+  // Filter the found encounters by query params
+  if (queryParams.term) {
+    logger.info('Query params received:');
+    logger.info(queryParams);
+    const termValue = queryParams.term.toLowerCase();
+
+    // If no relevant fields in an Encounter match 'termValue', remove them from the array
+    foundUserEncounters = foundUserEncounters.filter((encounter) => {
+      for (let i = 0; i < queryKeys.length; i++) {
+        // Make sure person has a value for current queryKey
+        if (encounter[queryKeys[i]]) {
+          const encounterValue = (encounter[queryKeys[i]] as string).toLowerCase();
+          if (encounterValue.includes(termValue)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    })
+  }
 
   return foundUserEncounters;
 };
@@ -40,14 +65,26 @@ const deleteEncounterPerson = async (personID: string) => {
   // Store references to the encounters that no longer contain persons so they can be removed from Users later
   const empty_encounters = await Encounter.find({persons : {$exists:true, $size:0}});
   // Delete all the empty encounters
-  await Encounter.deleteMany({persons: {$exists: true, $size: 0}});
-  
-  // return encounters that may have empty persons fields
-  return empty_encounters;
+  const deleted_encounters = await Encounter.deleteMany({persons: {$exists: true, $size: 0}});
+
+  // Check that all deleted encounters are returned and Encounters have been updated 
+  if (empty_encounters.length == deleted_encounters.deletedCount) {
+    return {"array": empty_encounters, "bool": true};
+  } else {
+    return {"array": empty_encounters, "bool": false};
+  }
 }
 
 const deleteEncounter = async (encounterID: String) => {
-  await Encounter.deleteOne({ _id: encounterID }).exec();
+  const result = await Encounter.deleteOne({ _id: encounterID }).exec();
+  
+  // Check that Encounter has been deleted
+  if (result.deletedCount == 1) {
+    return true;
+  } else {
+    return false;
+  }
+
 };
 
 const encounterService = {
