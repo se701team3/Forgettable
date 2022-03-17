@@ -52,16 +52,12 @@
 
 .socialMediaIcon {
     margin-right: 4px;
+    margin-bottom: 4px;
     cursor: pointer;
 }
 
 .socialMediaModalDiv {
     text-align: center;
-}
-
-.socialMediaModalFieldsDiv {
-    /* display: flex;
-    align-items: center; */
 }
 
 .hiddenSubmit {

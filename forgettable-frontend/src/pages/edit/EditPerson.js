@@ -20,34 +20,37 @@ export default function EditPerson() {
   // do a better check than this?
   const create = location.pathname.includes('/people/create') ? true : false;
 
+  // GET persons/:id if create == false
+  let personData = {};
+
+  // const personData = {};
+
+  (!create) && (
+    personData = {
+      first_name: 'Name',
+      last_name: 'Last',
+      birthday: '2012-03-04',
+      gender: 'male',
+      location: 'here',
+      first_met: '2001-01-01',
+      how_we_met: 'idk',
+      interests: 'a',
+      organisation: 'job co.',
+      social_media: [],
+      image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
+      encounters: [],
+      time_updated: '0002-02-02',
+    });
+
   // if (!create) {
   //   const {id} = useParams();
-  //   fetch(`/persons/${id}`)
+  //   fetch('/persons/' + id)
   //       .then((response) => response.json())
   //       .then((json) => personData = json)
   //       .catch((error) => {
   //         console.error('Error', error);
   //       });
   // }
-  // GET persons/:id if create == false
-
-
-  // const personData = {};
-  const personData = {
-    first_name: 'Name',
-    last_name: 'Last',
-    birthday: '2012-03-04',
-    gender: 'male',
-    location: 'here',
-    first_met: '2001-01-01',
-    how_we_met: 'idk',
-    interests: 'a',
-    organisation: 'job co.',
-    social_media: [],
-    image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
-    encounters: [],
-    time_updated: '0002-02-02',
-  };
 
   const mapTest = new Map([
     ['twitter', 'https://twitter.com/Twitter'],
@@ -172,15 +175,15 @@ export default function EditPerson() {
         <div className={classes.row}>
           <div className={classes.column}>
             <p>First Name</p>
-            <Input name='first_name' autoFocus required defaultValue={personData.first_name}></Input>
+            <Input name='first_name' autoFocus required value={personData.first_name}></Input>
             <p>Gender</p>
-            <Input name='gender' defaultValue={personData.gender}></Input>
+            <Input name='gender' value={personData.gender}></Input>
             <p>Date First Met</p>
-            <Input name='first_met' type='date' defaultValue={personData.first_met}></Input>
+            <Input name='first_met' type='date' value={personData.first_met}></Input>
             <p>Interests</p>
-            <Input name='interests' defaultValue={personData.interests}></Input>
+            <Input name='interests' value={personData.interests}></Input>
             <p>Social Media</p>
-            <div className={classes.socialMediaDiv}>
+            <div className={classes.socialMediaDiv} data-testid='social-media-div'>
               {handleDisplaySocialMedia()}
               <button type='button'
                 className={classes.addSocialMediaIcon}
@@ -191,15 +194,15 @@ export default function EditPerson() {
           </div>
           <div className={classes.column}>
             <p>Last Name</p>
-            <Input name='last_name' autoFocus required defaultValue={personData.last_name}></Input>
+            <Input name='last_name' value={personData.last_name}></Input>
             <p>Birthday</p>
-            <Input name='birthday' type='date' defaultValue={personData.birthday}></Input>
+            <Input name='birthday' type='date' value={personData.birthday}></Input>
             <p>Their Current Location</p>
-            <Input name='location' defaultValue={personData.location}></Input>
+            <Input name='location' value={personData.location}></Input>
             <p>How We Met</p>
-            <Input name='how_we_met' defaultValue={personData.how_we_met}></Input>
+            <Input name='how_we_met' value={personData.how_we_met}></Input>
             <p>Organisation</p>
-            <Input name='organisation' defaultValue={personData.organisation}></Input>
+            <Input name='organisation' value={personData.organisation}></Input>
           </div>
         </div>
 
@@ -231,13 +234,13 @@ export default function EditPerson() {
             <div className={classes.socialMediaModalFieldsDiv}>
               <div>
                 <label>Platform: </label>
-                <Input name='platform' defaultValue={currentSocialMedia}></Input>
+                <Input name='platform' value={currentSocialMedia}></Input>
               </div>
               <div>
                 <label>URL Link: </label>
-                <Input name='url_link' defaultValue={socialMedias.get(currentSocialMedia)}></Input>
+                <Input name='url_link' value={socialMedias.get(currentSocialMedia)}></Input>
               </div>
-              <input ref={invisSocialMediaSubmitRef} id='socialMediaSubmit' type='submit' className={classes.hiddenSubmit}></input>
+              <input ref={invisSocialMediaSubmitRef} type='submit' className={classes.hiddenSubmit}></input>
             </div>
           </form>
         </div>

@@ -1,0 +1,300 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders Create person page correctly 1`] = `
+<div
+  className="EditPerson"
+>
+  <h1
+    className="heading"
+  >
+    Create
+     Person 
+  </h1>
+  <form
+    onSubmit={[Function]}
+  >
+    <div
+      className="avatarDiv"
+    >
+      <div
+        className="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault avatar css-2s90m6-MuiAvatar-root"
+      >
+        <svg
+          aria-hidden={true}
+          className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiAvatar-fallback css-10mi8st-MuiSvgIcon-root-MuiAvatar-fallback"
+          data-testid="PersonIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+          />
+        </svg>
+      </div>
+      <label
+        htmlFor="inputProfilePic"
+      >
+        <div
+          className="Button avatarButton"
+        >
+          <p
+            className="Text"
+          >
+            Change
+          </p>
+        </div>
+      </label>
+      <div
+        accept="image/*"
+        className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary profilePicUpload css-a88p61-MuiInputBase-root-MuiInput-root"
+        onClick={[Function]}
+      >
+        <input
+          className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+          id="inputProfilePic"
+          onAnimationStart={[Function]}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          type="file"
+        />
+      </div>
+    </div>
+    <div
+      className="row"
+    >
+      <div
+        className="column"
+      >
+        <p>
+          First Name
+        </p>
+        <div
+          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
+          required={true}
+        >
+          <input
+            autoFocus={true}
+            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            name="first_name"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={true}
+            type="text"
+          />
+        </div>
+        <p>
+          Gender
+        </p>
+        <div
+          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
+        >
+          <input
+            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            name="gender"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="text"
+          />
+        </div>
+        <p>
+          Date First Met
+        </p>
+        <div
+          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
+        >
+          <input
+            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            name="first_met"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="date"
+          />
+        </div>
+        <p>
+          Interests
+        </p>
+        <div
+          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
+        >
+          <input
+            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            name="interests"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="text"
+          />
+        </div>
+        <p>
+          Social Media
+        </p>
+        <div
+          className="socialMediaDiv"
+          data-testid="social-media-div"
+        >
+          <div
+            className="MuiAvatar-root MuiAvatar-circular socialMediaIcon css-1wlk0hk-MuiAvatar-root"
+            onClick={[Function]}
+          >
+            <img
+              alt="twitter"
+              className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+              src="twitter.svg"
+            />
+          </div>
+          <div
+            className="MuiAvatar-root MuiAvatar-circular socialMediaIcon css-1wlk0hk-MuiAvatar-root"
+            onClick={[Function]}
+          >
+            <img
+              alt="github"
+              className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
+              src="github.svg"
+            />
+          </div>
+          <button
+            className="addSocialMediaIcon"
+            onClick={[Function]}
+            type="button"
+          >
+            +
+          </button>
+        </div>
+      </div>
+      <div
+        className="column"
+      >
+        <p>
+          Last Name
+        </p>
+        <div
+          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
+        >
+          <input
+            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            name="last_name"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="text"
+          />
+        </div>
+        <p>
+          Birthday
+        </p>
+        <div
+          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
+        >
+          <input
+            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            name="birthday"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="date"
+          />
+        </div>
+        <p>
+          Their Current Location
+        </p>
+        <div
+          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
+        >
+          <input
+            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            name="location"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="text"
+          />
+        </div>
+        <p>
+          How We Met
+        </p>
+        <div
+          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
+        >
+          <input
+            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            name="how_we_met"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="text"
+          />
+        </div>
+        <p>
+          Organisation
+        </p>
+        <div
+          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
+        >
+          <input
+            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            name="organisation"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="text"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="formButtonsDiv"
+    >
+      <div
+        className="Button cancelButton"
+        onClick={[Function]}
+      >
+        <p
+          className="Text"
+        >
+          Cancel
+        </p>
+      </div>
+      <label
+        htmlFor="submit"
+      >
+        <div
+          className="Button"
+        >
+          <p
+            className="Text"
+          >
+            Save
+          </p>
+        </div>
+      </label>
+      <input
+        className="hiddenSubmit"
+        id="submit"
+        type="submit"
+      />
+    </div>
+  </form>
+</div>
+`;
