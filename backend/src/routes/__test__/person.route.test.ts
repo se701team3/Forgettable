@@ -144,7 +144,8 @@ describe('person ', () => {
 });
 
 describe('GET /persons', () => {
-  it('Response paginated and returns correct number of entries', async () => {
+  
+  async function populateDbWithUsersPersons() {
     const person1 = new Person(person1Data);
     const person2 = new Person(person2Data);
     const person3 = new Person(person4Data);
@@ -155,7 +156,7 @@ describe('GET /persons', () => {
     const person8 = new Person(person2Data);
     const person9 = new Person(person2Data);
     const person10 = new Person(person1Data);
-
+  
     await person1.save();
     await person2.save();
     await person3.save();
@@ -166,11 +167,19 @@ describe('GET /persons', () => {
     await person8.save();
     await person9.save();
     await person10.save();
-
+  
     userData.auth_id = await testUtils.getAuthIdFromToken(token);
     const user = new User(userData);
     user.persons.push(person1._id, person2._id, person3._id, person4._id, person5._id, person6._id, person7._id, person8._id, person9._id, person10._id);
     await user.save();
+  
+    const storedPersonIds = [person1._id, person2._id, person3._id, person4._id, person5._id, person6._id, person7._id, person8._id, person9._id, person10._id];
+  
+    return storedPersonIds;
+  }
+
+  it('Response paginated and returns correct number of entries', async () => {
+    await populateDbWithUsersPersons();
 
     const { body: persons } = await supertest(app).get('/api/persons')
       .set('Accept', 'application/json')
@@ -184,32 +193,7 @@ describe('GET /persons', () => {
   });
 
   it('Response paginated and returns the correct page of entries', async () => {
-    const person1 = new Person(person1Data);
-    const person2 = new Person(person2Data);
-    const person3 = new Person(person4Data);
-    const person4 = new Person(person3Data);
-    const person5 = new Person(person1Data);
-    const person6 = new Person(person4Data);
-    const person7 = new Person(person3Data);
-    const person8 = new Person(person2Data);
-    const person9 = new Person(person2Data);
-    const person10 = new Person(person1Data);
-
-    await person1.save();
-    await person2.save();
-    await person3.save();
-    await person4.save();
-    await person5.save();
-    await person6.save();
-    await person7.save();
-    await person8.save();
-    await person9.save();
-    await person10.save();
-
-    userData.auth_id = await testUtils.getAuthIdFromToken(token);
-    const user = new User(userData);
-    user.persons.push(person1._id, person2._id, person3._id, person4._id, person5._id, person6._id, person7._id, person8._id, person9._id, person10._id);
-    await user.save();
+    const storedPersonIds = await populateDbWithUsersPersons();
 
     const { body: persons } = await supertest(app).get('/api/persons')
       .set('Accept', 'application/json')
@@ -219,37 +203,12 @@ describe('GET /persons', () => {
         page: 4
       });
 
-    expect(persons[0]).toHaveProperty('_id', person7._id.toString());
-    expect(persons[1]).toHaveProperty('_id', person8._id.toString());
+    expect(persons[0]).toHaveProperty('_id', storedPersonIds[6]._id.toString());
+    expect(persons[1]).toHaveProperty('_id', storedPersonIds[7]._id.toString());
   });
 
   it('Response not paginated when limit is not given', async () => {
-    const person1 = new Person(person1Data);
-    const person2 = new Person(person2Data);
-    const person3 = new Person(person4Data);
-    const person4 = new Person(person3Data);
-    const person5 = new Person(person1Data);
-    const person6 = new Person(person4Data);
-    const person7 = new Person(person3Data);
-    const person8 = new Person(person2Data);
-    const person9 = new Person(person2Data);
-    const person10 = new Person(person1Data);
-
-    await person1.save();
-    await person2.save();
-    await person3.save();
-    await person4.save();
-    await person5.save();
-    await person6.save();
-    await person7.save();
-    await person8.save();
-    await person9.save();
-    await person10.save();
-
-    userData.auth_id = await testUtils.getAuthIdFromToken(token);
-    const user = new User(userData);
-    user.persons.push(person1._id, person2._id, person3._id, person4._id, person5._id, person6._id, person7._id, person8._id, person9._id, person10._id);
-    await user.save();
+    await populateDbWithUsersPersons();
 
     const { body: persons } = await supertest(app).get('/api/persons')
       .set('Accept', 'application/json')
@@ -262,32 +221,7 @@ describe('GET /persons', () => {
   });
 
   it('Response not paginated when page is not given', async () => {
-    const person1 = new Person(person1Data);
-    const person2 = new Person(person2Data);
-    const person3 = new Person(person4Data);
-    const person4 = new Person(person3Data);
-    const person5 = new Person(person1Data);
-    const person6 = new Person(person4Data);
-    const person7 = new Person(person3Data);
-    const person8 = new Person(person2Data);
-    const person9 = new Person(person2Data);
-    const person10 = new Person(person1Data);
-
-    await person1.save();
-    await person2.save();
-    await person3.save();
-    await person4.save();
-    await person5.save();
-    await person6.save();
-    await person7.save();
-    await person8.save();
-    await person9.save();
-    await person10.save();
-
-    userData.auth_id = await testUtils.getAuthIdFromToken(token);
-    const user = new User(userData);
-    user.persons.push(person1._id, person2._id, person3._id, person4._id, person5._id, person6._id, person7._id, person8._id, person9._id, person10._id);
-    await user.save();
+    await populateDbWithUsersPersons();
 
     const { body: persons } = await supertest(app).get('/api/persons')
       .set('Accept', 'application/json')
@@ -300,32 +234,7 @@ describe('GET /persons', () => {
   });
 
   it('Response not paginated when limit is not a number', async () => {
-    const person1 = new Person(person1Data);
-    const person2 = new Person(person2Data);
-    const person3 = new Person(person4Data);
-    const person4 = new Person(person3Data);
-    const person5 = new Person(person1Data);
-    const person6 = new Person(person4Data);
-    const person7 = new Person(person3Data);
-    const person8 = new Person(person2Data);
-    const person9 = new Person(person2Data);
-    const person10 = new Person(person1Data);
-
-    await person1.save();
-    await person2.save();
-    await person3.save();
-    await person4.save();
-    await person5.save();
-    await person6.save();
-    await person7.save();
-    await person8.save();
-    await person9.save();
-    await person10.save();
-
-    userData.auth_id = await testUtils.getAuthIdFromToken(token);
-    const user = new User(userData);
-    user.persons.push(person1._id, person2._id, person3._id, person4._id, person5._id, person6._id, person7._id, person8._id, person9._id, person10._id);
-    await user.save();
+    await populateDbWithUsersPersons();
 
     const { body: persons } = await supertest(app).get('/api/persons')
       .set('Accept', 'application/json')
@@ -339,32 +248,7 @@ describe('GET /persons', () => {
   });
 
   it('Response not paginated when page is not a number', async () => {
-    const person1 = new Person(person1Data);
-    const person2 = new Person(person2Data);
-    const person3 = new Person(person4Data);
-    const person4 = new Person(person3Data);
-    const person5 = new Person(person1Data);
-    const person6 = new Person(person4Data);
-    const person7 = new Person(person3Data);
-    const person8 = new Person(person2Data);
-    const person9 = new Person(person2Data);
-    const person10 = new Person(person1Data);
-
-    await person1.save();
-    await person2.save();
-    await person3.save();
-    await person4.save();
-    await person5.save();
-    await person6.save();
-    await person7.save();
-    await person8.save();
-    await person9.save();
-    await person10.save();
-
-    userData.auth_id = await testUtils.getAuthIdFromToken(token);
-    const user = new User(userData);
-    user.persons.push(person1._id, person2._id, person3._id, person4._id, person5._id, person6._id, person7._id, person8._id, person9._id, person10._id);
-    await user.save();
+    await populateDbWithUsersPersons();
 
     const { body: persons } = await supertest(app).get('/api/persons')
       .set('Accept', 'application/json')
@@ -378,32 +262,7 @@ describe('GET /persons', () => {
   });
 
   it('Empty array is returned when page=0', async () => {
-    const person1 = new Person(person1Data);
-    const person2 = new Person(person2Data);
-    const person3 = new Person(person4Data);
-    const person4 = new Person(person3Data);
-    const person5 = new Person(person1Data);
-    const person6 = new Person(person4Data);
-    const person7 = new Person(person3Data);
-    const person8 = new Person(person2Data);
-    const person9 = new Person(person2Data);
-    const person10 = new Person(person1Data);
-
-    await person1.save();
-    await person2.save();
-    await person3.save();
-    await person4.save();
-    await person5.save();
-    await person6.save();
-    await person7.save();
-    await person8.save();
-    await person9.save();
-    await person10.save();
-
-    userData.auth_id = await testUtils.getAuthIdFromToken(token);
-    const user = new User(userData);
-    user.persons.push(person1._id, person2._id, person3._id, person4._id, person5._id, person6._id, person7._id, person8._id, person9._id, person10._id);
-    await user.save();
+    await populateDbWithUsersPersons();
 
     const { body: persons } = await supertest(app).get('/api/persons')
       .set('Accept', 'application/json')
@@ -417,32 +276,7 @@ describe('GET /persons', () => {
   });
 
   it('Empty array is returned when page<0', async () => {
-    const person1 = new Person(person1Data);
-    const person2 = new Person(person2Data);
-    const person3 = new Person(person4Data);
-    const person4 = new Person(person3Data);
-    const person5 = new Person(person1Data);
-    const person6 = new Person(person4Data);
-    const person7 = new Person(person3Data);
-    const person8 = new Person(person2Data);
-    const person9 = new Person(person2Data);
-    const person10 = new Person(person1Data);
-
-    await person1.save();
-    await person2.save();
-    await person3.save();
-    await person4.save();
-    await person5.save();
-    await person6.save();
-    await person7.save();
-    await person8.save();
-    await person9.save();
-    await person10.save();
-
-    userData.auth_id = await testUtils.getAuthIdFromToken(token);
-    const user = new User(userData);
-    user.persons.push(person1._id, person2._id, person3._id, person4._id, person5._id, person6._id, person7._id, person8._id, person9._id, person10._id);
-    await user.save();
+    await populateDbWithUsersPersons();
 
     const { body: persons } = await supertest(app).get('/api/persons')
       .set('Accept', 'application/json')
@@ -456,32 +290,7 @@ describe('GET /persons', () => {
   });
 
   it('Empty array is returned when page requested is out of bound', async () => {
-    const person1 = new Person(person1Data);
-    const person2 = new Person(person2Data);
-    const person3 = new Person(person4Data);
-    const person4 = new Person(person3Data);
-    const person5 = new Person(person1Data);
-    const person6 = new Person(person4Data);
-    const person7 = new Person(person3Data);
-    const person8 = new Person(person2Data);
-    const person9 = new Person(person2Data);
-    const person10 = new Person(person1Data);
-
-    await person1.save();
-    await person2.save();
-    await person3.save();
-    await person4.save();
-    await person5.save();
-    await person6.save();
-    await person7.save();
-    await person8.save();
-    await person9.save();
-    await person10.save();
-
-    userData.auth_id = await testUtils.getAuthIdFromToken(token);
-    const user = new User(userData);
-    user.persons.push(person1._id, person2._id, person3._id, person4._id, person5._id, person6._id, person7._id, person8._id, person9._id, person10._id);
-    await user.save();
+    await populateDbWithUsersPersons();
 
     const { body: persons } = await supertest(app).get('/api/persons')
       .set('Accept', 'application/json')
@@ -492,5 +301,6 @@ describe('GET /persons', () => {
       });
 
     expect(persons.length).toEqual(3);
-  })
-})
+  })  
+});
+
