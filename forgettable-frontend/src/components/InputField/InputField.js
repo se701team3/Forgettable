@@ -17,10 +17,12 @@ import styles from './InputField.module.css';
  * "dataType" refers to the data format allowed as input.
  * "inputID" refers to the ID for the data associated with the input.
  * "inputStateValue" refers to the pre-filled value when the input is rendered.
+ * "autoFocusState" refers to the autoFocus attribute, parameter is a Boolean.
+ * "requiredState" refers to the required attribute, parameter is a Boolean.
  */
 
 export default function InputField({inputLabel, inputType, placeholder,
-  dataType, inputID, inputStateValue}) {
+  dataType, inputID, inputStateValue, autoFocusState, requiredState}) {
   /**
      * Retrieve state of input component to be rendered in a responsive manner.
      */
@@ -44,6 +46,8 @@ export default function InputField({inputLabel, inputType, placeholder,
             placeholder={placeholder}
             value={inputState}
             onChange={(event) => setInput(event.target.value)}
+            autoFocus={autoFocusState}
+            required={requiredState}
           />
         </label>
       }
@@ -56,6 +60,8 @@ export default function InputField({inputLabel, inputType, placeholder,
             placeholder={placeholder}
             value={inputState}
             onChange={(event) => setInput(event.target.value)}
+            autoFocus={autoFocusState}
+            required={requiredState}
           />
         </label>
       }
@@ -68,6 +74,8 @@ export default function InputField({inputLabel, inputType, placeholder,
           placeholder={placeholder}
           value={inputState}
           onChange={(event) => setInput(event.target.value)}
+          autoFocus={autoFocusState}
+          required={requiredState}
         />
       </label>
       }
