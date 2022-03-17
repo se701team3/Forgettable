@@ -19,11 +19,11 @@ import styles from './InputField.module.css';
  */
 
 export default function InputField({inputLabel, inputType, placeholder,
-  dataType, inputID}) {
+  dataType, inputID, inputStateValue}) {
   /**
      * Retrieve state of input component to be rendered in a responsive manner.
      */
-  const [inputState, setInput] = useState('');
+  const [inputState, setInput] = useState(inputStateValue);
 
   /**
      * Types allowed for innput component styling.
