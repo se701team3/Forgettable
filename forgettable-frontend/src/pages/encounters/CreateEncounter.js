@@ -26,8 +26,26 @@ export default function Encounters() {
               />
             </div>
           </div>
-          <div className={classes.Text}>Date we met: 12/02/2022</div>
-          <div className={classes.Text}>Where we met: University Libarary</div>
+          <div className={classes.TextField}>
+            <div className={classes.Text}>Date we met:</div>
+            <div><TextField
+              size='small'
+              id="fullWidth"
+              color='info'
+              sx={{width: 250, marginLeft: 3}}
+            >
+            </TextField></div>
+          </div>
+          <div className={classes.TextField}>
+            <div className={classes.Text}>Where we met:</div>
+            <div><TextField
+              size='small'
+              id="fullWidth"
+              color='info'
+              sx={{width: 250, marginLeft: 1.5}}
+            >
+            </TextField></div>
+          </div>
           <div className={classes.Details}>Details:</div>
           <div>
             <TextField
