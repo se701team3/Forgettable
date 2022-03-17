@@ -1,5 +1,4 @@
 .inputLabelPrimary {
-    font-family: 'Poppins', sans-serif;
     font-size: 23px;
     font-weight: bold;
     text-align: left;
@@ -8,14 +7,12 @@
 }
 
 .inputLabelSecondary {
-    font-family: 'Poppins', sans-serif;
     font-size: 20px;
     text-align: center;
     vertical-align: middle;
 }
 
 .inputLabelMultiLine {
-    font-family: 'Poppins', sans-serif;
     font-size: 20px;
     font-weight: bold;
     text-align: left;
@@ -24,7 +21,6 @@
 }
 
 .inputFieldPrimary{
-    font-family: 'Poppins', sans-serif;
     font-size: 23px;
     width: 375px;
     height: 45px;
@@ -34,7 +30,6 @@
 }
 
 .inputFieldSecondary{
-    font-family: 'Poppins', sans-serif;
     font-size: 20px;
     width: 245px;
     height: 40px;
