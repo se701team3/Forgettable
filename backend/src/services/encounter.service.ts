@@ -3,6 +3,14 @@ import mongoose from 'mongoose';
 import Encounter, { EncounterModel } from '../models/encounter.model';
 import logger from '../utils/logger';
 
+const algoliaSearch = require('algoliasearch');
+
+const client = algoliaSearch(
+  process.env.ALGOLIA_APP_ID,
+  process.env.ALGOLIA_SECRET_KEY,
+);
+const index = client.initIndex('encounters');
+
 const queryKeys = ['title', 'location', 'description'];
 
 const createEncounter = async (encounterDetails: EncounterModel) => {
@@ -55,6 +63,11 @@ const updateEncounter = async (objectID: string, encounterDetails: EncounterMode
   console.log(objectID);
   const updatedEncounter = await Encounter
     .findByIdAndUpdate(objectID, encounterDetails, { new: true });
+
+  const updatedEncounterAlgolia : any = await Encounter.findById(objectID);
+  updatedEncounterAlgolia.objectID = objectID;
+  await index.partialUpdateObject(updatedEncounterAlgolia);
+
   return updatedEncounter;
 };
 
@@ -80,6 +93,7 @@ const deleteEncounter = async (encounterID: String) => {
   
   // Check that Encounter has been deleted
   if (result.deletedCount == 1) {
+    await index.deleteObject(encounterID);
     return true;
   } else {
     return false;
