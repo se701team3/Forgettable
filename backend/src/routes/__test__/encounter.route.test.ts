@@ -1,7 +1,7 @@
 import databaseOperations from '../../utils/test/db-handler';
+import User, { UserModel } from '../../models/user.model';
 import Person, { PersonModel } from '../../models/person.model';
 import Encounter, { EncounterModel } from '../../models/encounter.model';
-import User, { UserModel } from '../../models/user.model';
 import app from '../../server';
 import httpStatus from "http-status";
 import testUtils from '../../utils/test/test-utils';
@@ -23,6 +23,7 @@ afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
 const user1Data = {
+    auth_id: null as any,
     first_name: 'Bing',
     last_name: 'Bong',
     encounters: [] as any,
@@ -428,6 +429,166 @@ describe('PUT /encounters/:id ', () => {
             .expect(httpStatus.UNAUTHORIZED)
     })
 });
+
+describe('GET encounters/', () => {
+    it ('Only return encounters associated with the user', async () => {
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+      await new Encounter(encounter4Data).save();
+  
+      user1Data.encounters = [encounter1ID, encounter2ID];
+      user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+      await new User(user1Data).save();
+  
+      const { body: retrievedEncounters } = await supertest(app)
+        .get('/api/encounters')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .expect(httpStatus.OK)
+  
+      expect(retrievedEncounters).toHaveLength(2);
+      expect(retrievedEncounters[0]._id).toEqual(encounter1ID);
+      expect(retrievedEncounters[1]._id).toEqual(encounter2ID);
+    });
+
+    it ('Return all encounters if the "term" query param is empty', async () => {
+        const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+        const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+        const encounter4ID = (await new Encounter(encounter4Data).save()).id;
+    
+        user1Data.encounters = [encounter1ID, encounter2ID, encounter4ID];
+        user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        await new User(user1Data).save();
+    
+        const { body: retrievedEncounters } = await supertest(app)
+          .get('/api/encounters')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .query({ term: "" })
+          .expect(httpStatus.OK)
+    
+        expect(retrievedEncounters).toHaveLength(3);
+    });
+
+    it ('Return "200 OK" with an empty array if the user has no encounters', async () => {
+        await new Encounter(encounter1Data).save();
+        await new Encounter(encounter2Data).save();
+        await new Encounter(encounter4Data).save();
+    
+        user1Data.encounters = [];
+        user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        await new User(user1Data).save();
+    
+        const { body: retrievedEncounters } = await supertest(app)
+          .get('/api/encounters')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .expect(httpStatus.OK)
+    
+        expect(retrievedEncounters).toHaveLength(0);
+      });
+
+    it ('Return "200 OK" with an empty array if no encounters match the query param "term"', async () => {
+        const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+        const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+        const encounter4ID = (await new Encounter(encounter4Data).save()).id;
+    
+        user1Data.encounters = [encounter1ID, encounter2ID, encounter4ID];
+        user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        await new User(user1Data).save();
+    
+        const { body: retrievedEncounters } = await supertest(app)
+          .get('/api/encounters')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .query({ term: "a query that no encounters will match" })
+          .expect(httpStatus.OK)
+    
+        expect(retrievedEncounters).toHaveLength(0);
+      });
+  
+    it ('Correctly filters encounters by the "term" query param', async () => {
+      encounter1Data.title = "Movie - Spider-Man: No Way Home"
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      encounter2Data.title = "MOVIE - Free Guy"
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+      encounter4Data.title = "Sports - Badminton"
+      const encounter4ID = (await new Encounter(encounter4Data).save()).id;
+  
+      user1Data.encounters = [encounter1ID, encounter2ID, encounter4ID];
+      user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+      await new User(user1Data).save();
+  
+      const { body: retrievedEncounters } = await supertest(app)
+        .get('/api/encounters')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .query({ term: 'Movie' })
+        .expect(httpStatus.OK)
+  
+      expect(retrievedEncounters).toHaveLength(2);
+      expect(retrievedEncounters[0].title).toBe("Movie - Spider-Man: No Way Home");
+      expect(retrievedEncounters[1].title).toBe("MOVIE - Free Guy");
+    });
+  
+    it ('Does not return duplicates if multiple fields in an encounter match the "term" query', async () => {
+      encounter1Data.title = "Test";
+      encounter1Data.location = "Test";
+      encounter1Data.description = "Test";
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      encounter2Data.title = "Test";
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+  
+      user1Data.encounters = [encounter1ID, encounter2ID];
+      user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+      await new User(user1Data).save();
+  
+      const { body: retrievedEncounters } = await supertest(app)
+        .get('/api/encounters')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .query({ term: "Test" })
+        .expect(httpStatus.OK)
+  
+      expect(retrievedEncounters).toHaveLength(2);
+      expect(retrievedEncounters[0].title).toBe("Test");
+      expect(retrievedEncounters[0].location).toBe("Test");
+      expect(retrievedEncounters[0].description).toBe("Test");
+      expect(retrievedEncounters[1].title).toBe("Test");
+    });
+
+    it ('Correct data is embedded in the "persons" field for each encounter returned', async () => {
+      const person1ID = (await new Person(person1Data).save()).id;
+      const person2ID = (await new Person(person2Data).save()).id;
+      encounter1Data.persons = [person1ID, person2ID];
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      encounter2Data.persons = [person1ID];
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+
+      user1Data.encounters = [encounter1ID, encounter2ID];
+      user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+      await new User(user1Data).save();
+
+      const { body: retrievedEncounters } = await supertest(app)
+        .get('/api/encounters')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .expect(httpStatus.OK)
+
+      expect(retrievedEncounters).toHaveLength(2);
+      expect(retrievedEncounters[0].persons[0].first_name).toBe("Ping");
+      expect(retrievedEncounters[0].persons[1].first_name).toBe("Adam");
+      expect(retrievedEncounters[1].persons[0].first_name).toBe("Ping");
+    });
+  
+    it ('Return "401 Unauthorized" if the user does not have a valid auth_id', async () => {
+      await supertest(app)
+        .get('/api/encounters')
+        .set('Accept', 'application/json')
+        .set("Authorization", "FAKE_AUTH_TOKEN")
+        .expect(httpStatus.UNAUTHORIZED);
+    });
+  });
 
 // Delete Encounters Endpoint tests
 
