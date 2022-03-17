@@ -432,8 +432,8 @@ describe('PUT /encounters/:id ', () => {
 // Delete Encounters Endpoint tests
 
 // Delete Encounter 200
-describe('Delete /encounter 200', () => {
-    it('Successfully deletes SINGLE ENCOUNTER with SINGLE PERSON: ', async () => {
+describe('DELETE /encounter/:id', () => {
+    it('Successfully deletes single encounter with single person: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -476,7 +476,7 @@ describe('Delete /encounter 200', () => {
         expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
     })
 
-    it('Successfully deletes SINGLE ENCOUNTER with MULTIPLE PERSONS: ', async () => {
+    it('Successfully deletes single encounter with multiple persons: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -530,7 +530,7 @@ describe('Delete /encounter 200', () => {
         expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
     })
 
-    it('Successfully deletes MULTIPLE ENCOUNTERS with SINGLE PERSONS: ', async () => {
+    it('Successfully deletes multiple encounters with single persons: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -591,8 +591,8 @@ describe('Delete /encounter 200', () => {
 
 // Delete Encounter 404
 
-describe('Delete /encounter 404', () => {
-    it('Successfully sends back a NOT_FOUND with invalid encounter ID: ', async () => {
+describe('Delete /encounter/:id', () => {
+    it('Sends back a NOT_FOUND when invalid encounter ID is requested: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -620,7 +620,7 @@ describe('Delete /encounter 404', () => {
 // Delete Encounter 400
 
 describe('Delete /encounter 400', () => {
-    it('Successfully sends back a BAD_REQUEST with Encounter with empty persons field: ', async () => {
+    it('Sends back a BAD_REQUEST when deleting Encounter with empty persons field: ', async () => {
         // Get Authentication Token
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -646,7 +646,7 @@ describe('Delete /encounter 400', () => {
         expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
     })
 
-    it('Successfully sends back a BAD_REQUEST with Encounter with duplicate encounter IDs in User: ', async () => {
+    it('Sends back a BAD_REQUEST when deleting Encounter with duplicate encounter IDs in User: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -681,7 +681,7 @@ describe('Delete /encounter 400', () => {
 
 describe('Delete /person 200', () => {
 
-    it('Successfully deletes SINGLE PERSON with NO ENCOUNTER: ', async () => {
+    it('Successfully deletes single person with no encounter: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -705,7 +705,7 @@ describe('Delete /person 200', () => {
         expect(newUser?.persons).not.toContain(personOneId);
     })
 
-    it('Successfully deletes SINGLE PERSON with SINGLE ENCOUNTER: ', async () => {
+    it('Successfully deletes single person with single encounter: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -740,7 +740,7 @@ describe('Delete /person 200', () => {
         expect(newUser?.persons).not.toContain(personOneId);
     })
 
-    it('Successfully deletes MULTIPLE PERSONS with MULTIPLE ENCOUNTERS', async () => {
+    it('Successfully deletes multiple persons with multiple encounters', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -814,7 +814,7 @@ describe('Delete /person 200', () => {
 
 // Delete Person 404
 describe('Delete /person 404', () => {
-    it('Successfully sends NOT_FOUND for invalid ID: ', async () => {
+    it('Sends NOT_FOUND for invalid ID: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -841,7 +841,7 @@ describe('Delete /person 404', () => {
 
 // Delete Person 400
 describe('Delete /person 400', () => {
-    it('Successfully sends BAD_REQUEST if Person ID is not in Collection: ', async () => {
+    it('Sends BAD_REQUEST if Person ID is not in Collection: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
