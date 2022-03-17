@@ -141,15 +141,25 @@ export default function EditPerson() {
 
     console.log(Object.fromEntries(formData));
 
-    async function postPersonData() {
-      try {
-        personData = await apiCalls.createPerson(Object.fromEntries(formData));
-      } catch (err) {
-        console.log(err);
+    if (create) {
+      async function postPersonData() {
+        try {
+          personData = await apiCalls.createPerson(Object.fromEntries(formData));
+        } catch (err) {
+          console.log(err);
+        }
       }
+      postPersonData();
+    } else {
+      async function putPersonData() {
+        try {
+          personData = await apiCalls.updatePerson(id, Object.fromEntries(formData));
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      putPersonData();
     }
-
-    postPersonData();
   }
 
   return (
