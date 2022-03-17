@@ -8,7 +8,7 @@ import {
 import './index.css';
 import App from './pages/home/App';
 import reportWebVitals from './reportWebVitals';
-import NavBar from './Components/NavBar/NavBar';
+import NavBar from './components/NavBar/NavBar';
 import Settings from './pages/settings/settings';
 import People from './pages/Persons/Persons';
 import Encounters from './pages/encounters/encounters';
