@@ -16,6 +16,7 @@ import styles from './InputField.module.css';
  * "placeholder" refers to the placeholder text in the component.
  * "dataType" refers to the data format allowed as input.
  * "inputID" refers to the ID for the data associated with the input.
+ * "inputStateValue" refers to the pre-filled value when the input is rendered.
  */
 
 export default function InputField({inputLabel, inputType, placeholder,
