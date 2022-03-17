@@ -96,6 +96,7 @@ const PersonPage = (props) => {
         gender={person.gender}
         birthday={person.birthday}
         socialMedias={person.socialMedia}
+        data-testid="drawer-component"
       />
       <div className={classes.ContentContainer}>
         <div className={classes.TitleContainer} >
