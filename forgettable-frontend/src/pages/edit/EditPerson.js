@@ -9,6 +9,7 @@ import imageToBase64 from 'image-to-base64/browser';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import * as apiCalls from '../../services/index';
 import axios from 'axios';
+import InputField from '../../components/InputField/InputField';
 
 const MAX_IMAGE_SIZE = 16000000;
 
@@ -24,32 +25,32 @@ export default function EditPerson() {
 
   let personData = {};
 
-  // (!create) && (
-  //   personData = {
-  //     first_name: 'Name',
-  //     last_name: 'Last',
-  //     birthday: '2012-03-04',
-  //     gender: 'male',
-  //     location: 'here',
-  //     first_met: '2001-01-01',
-  //     how_we_met: 'idk',
-  //     interests: 'a',
-  //     organisation: 'job co.',
-  //     social_media: [],
-  //     image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
-  //     encounters: [],
-  //     time_updated: '0002-02-02',
-  //   });
+  (!create) && (
+    personData = {
+      first_name: 'Name',
+      last_name: 'Last',
+      birthday: '2012-03-04',
+      gender: 'male',
+      location: 'here',
+      first_met: '2001-01-01',
+      how_we_met: 'idk',
+      interests: 'a',
+      organisation: 'job co.',
+      social_media: [],
+      image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
+      encounters: [],
+      time_updated: '0002-02-02',
+    });
 
-  async function getPersonData() {
-    try {
-      // personData = await apiCalls.getPerson(id);
-      await axios.get(`/persons/${id}`)
-          .then((json) => personData = json);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // async function getPersonData() {
+  //   try {
+  //     // personData = await apiCalls.getPerson(id);
+  //     await axios.get(`/persons/${id}`)
+  //         .then((json) => personData = json);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
   let id = null;
   if (!create) {
@@ -165,10 +166,9 @@ export default function EditPerson() {
 
 
   return (
-    <div className={classes.EditPerson}>
-      <h1 className={classes.heading}>{create ? 'Create' : 'Edit'} Person </h1>
-
-      <form onSubmit={handleSubmit}>
+    <div className={classes.editPerson}>
+      <div className={classes.title}>{create ? 'Create' : 'Edit'} Person </div>
+      <form onSubmit={handleSubmit} className={classes.form}>
         <div className={classes.avatarDiv}>
           <Avatar src={profilePicPreview} className={classes.avatar}></Avatar>
           <label htmlFor='inputProfilePic'>
@@ -187,15 +187,11 @@ export default function EditPerson() {
 
         <div className={classes.row}>
           <div className={classes.column}>
-            <p>First Name</p>
-            <Input name='first_name' autoFocus required value={personData.first_name} data-testid='first-name'></Input>
-            <p>Gender</p>
-            <Input name='gender' value={personData.gender}></Input>
-            <p>Date First Met</p>
-            <Input name='first_met' type='date' value={personData.first_met}></Input>
-            <p>Interests</p>
-            <Input name='interests' value={personData.interests}></Input>
-            <p>Social Media</p>
+            <InputField inputID='first_name' inputLabel='First Name' inputType='primary' inputStateValue={personData.first_name} autoFocusState={true} requiredState/>
+            <InputField inputID='gender' inputLabel='Gender' inputType='primary' inputStateValue={personData.gender}/>
+            <InputField inputID='first_met'inputLabel='Date First Met' inputType='primary' dataType='date' inputStateValue={personData.first_met}/>
+            <InputField inputID='interests' inputLabel='Interests' inputType='primary' inputStateValue={personData.interests}/>
+            <label className={classes.socialMediaDivLabel}>Social Media</label>
             <div className={classes.socialMediaDiv} data-testid='social-media-div'>
               {handleDisplaySocialMedia()}
               <button type='button'
@@ -206,16 +202,11 @@ export default function EditPerson() {
             </div>
           </div>
           <div className={classes.column}>
-            <p>Last Name</p>
-            <Input name='last_name' value={personData.last_name}></Input>
-            <p>Birthday</p>
-            <Input name='birthday' type='date' value={personData.birthday}></Input>
-            <p>Their Current Location</p>
-            <Input name='location' value={personData.location}></Input>
-            <p>How We Met</p>
-            <Input name='how_we_met' value={personData.how_we_met}></Input>
-            <p>Organisation</p>
-            <Input name='organisation' value={personData.organisation}></Input>
+            <InputField inputID='last_name' inputLabel='Last Name' inputType='primary' inputStateValue={personData.last_name}/>
+            <InputField inputID='birthday' inputLabel='Birthday' inputType='primary' dataType='date' inputStateValue={personData.birthday}/>
+            <InputField inputID='location' inputLabel='Their Current Location' inputType='primary' inputStateValue={personData.location}/>
+            <InputField inputID='how_we_met' inputLabel='How We Met' inputType='primary' inputStateValue={personData.how_we_met}/>
+            <InputField inputID='organisation' inputLabel='Organisation' inputType='primary' inputStateValue={personData.organisation}/>
           </div>
         </div>
 
@@ -249,17 +240,11 @@ export default function EditPerson() {
         hasConfirm
         onConfirm={() => (invisSocialMediaSubmitRef.current.click())} >
         <div className={classes.socialMediaModalDiv}>
-          <h2>Social media link</h2>
+          <div className={classes.socialMediaModalTitle}>Social media link</div>
           <form onSubmit={handleAddSocialMedia}>
             <div className={classes.socialMediaModalFieldsDiv}>
-              <div>
-                <label>Platform: </label>
-                <Input name='platform' value={currentSocialMedia}></Input>
-              </div>
-              <div>
-                <label>URL Link: </label>
-                <Input name='url_link' value={socialMedias.get(currentSocialMedia)}></Input>
-              </div>
+              <InputField inputID='platform' inputLabel='Platform: ' inputType='secondary' inputStateValue={currentSocialMedia}/>
+              <InputField inputID='url_link' inputLabel='URL Link: ' inputType='secondary' inputStateValue={socialMedias.get(currentSocialMedia)}/>
               <input ref={invisSocialMediaSubmitRef} type='submit' className={classes.hiddenSubmit}></input>
             </div>
           </form>
