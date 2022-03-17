@@ -4,6 +4,7 @@ import databaseOperations from '../../utils/test/db-handler';
 import Person, { PersonModel } from '../../models/person.model';
 import { EncounterModel } from '../../models/encounter.model';
 import User, { UserModel } from '../../models/user.model';
+import personService from '../../services/person.service';
 import app from '../../server';
 import testUtils from '../../utils/test/test-utils';
 import "dotenv/config";

@@ -8,7 +8,7 @@ beforeAll(async () => {databaseOperations.connectDatabase()});
 afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
-const person1Data:PersonModel = {
+  const person1Data:PersonModel = {
     first_name: 'testlname',
     last_name: 'testllastName',
     interests: ['a', 'b'],
@@ -41,20 +41,53 @@ const person1Data:PersonModel = {
   };
 
   const person3Data:PersonModel = {
-    first_name: 'test3name',
-    last_name: 'test3lastName',
-    interests: ['c', 'd'],
-    organisation: 'anotherOrg',
+    first_name: null as any,
+    last_name: 'testllastName',
+    interests: ['a', 'b'],
+    organisation: 'testorg',
     time_updated: new Date('2022-01-01'),
-    how_we_met: 'Over there',
+    how_we_met: 'testmet',
     birthday: new Date('2002-12-12'),
-    encounters: ["62330cf64ec3986f4d1ab01a"] as any,
+    encounters: [] as any,
     first_met: new Date('2022-01-01'),
-    gender: "male",
+    gender: "other",
     image: null as any,
     location: null as any,
     social_media: null as any
   };
+
+  const person4Data:PersonModel = {
+    first_name: 'testfirstname',
+    last_name: 'testllastName',
+    interests: ['a', 'b'],
+    organisation: 'testorg',
+    time_updated: null as any,
+    how_we_met: 'testmet',
+    birthday: new Date('2002-12-12'),
+    encounters: [] as any,
+    first_met: new Date('2022-01-01'),
+    gender: "other",
+    image: null as any,
+    location: null as any,
+    social_media: null as any
+  };
+
+  describe('Creating persons', () => {
+    it('Can create a person if all information is provided', async () => {
+      const createdPerson = await personService.createPerson(person1Data);
+      const storedPerson = await Person.findOne({ _id: createdPerson._id });
+
+      expect(createdPerson.toJSON()).toEqual(storedPerson?.toJSON())
+    });
+
+    it ('Cannot create a person if first name is missing', async () => {
+      await expect(personService.createPerson(person3Data)).rejects.toThrow('Person validation failed: first_name: Path `first_name` is required.');
+    });
+
+    it ('Cannot create a person if time_updated is missing', async () => {
+      await expect(personService.createPerson(person4Data)).rejects.toThrow('Person validation failed: time_updated: Path `time_updated` is required.');
+    });
+  });
 
   describe('Getting persons', () => {
     it ('Can retrieve an id that exists', async () => {
