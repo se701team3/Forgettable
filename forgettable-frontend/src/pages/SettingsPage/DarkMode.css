@@ -38,7 +38,7 @@ a {
     position: relative;
     display: inline-block;
     height: 34px;
-    width: 60px;
+    width: 68px;
 }
 
 .toggle-theme input {
@@ -78,9 +78,11 @@ input:checked + .slider {
 
 .slider.round {
     border-radius: 34px;
+    border-style: solid;
+    border-color: #4F4F4F;
+    border-width: 0.5px;
 }
 
 .slider.round:before {
     border-radius: 50%;
 }
-  
