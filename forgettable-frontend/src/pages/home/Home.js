@@ -15,6 +15,7 @@ import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
 import { getAllEncounters, getAllPersons } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
+global.Buffer = global.Buffer || require('buffer').Buffer;
 
 function Home() {
   const [selectedInfo, setSelectedInfo] = React.useState(undefined);
@@ -29,6 +30,15 @@ function Home() {
   async function getData() {
     let peopleResult = [];
     peopleResult = await getAllPersons();
+
+    // convert people image buffers to image srcs.
+    peopleResult.forEach((person) => {
+      if (person.image) {
+        const base64String = Buffer.from(person.image, 'base64');
+        person.image = base64String;
+      }
+    });
+
     setPeopleList(peopleResult);
     let encountersResult = [];
     encountersResult = await getAllEncounters();
