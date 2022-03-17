@@ -38,7 +38,7 @@ export const deleteUserPerson = async (personID: String) => {
 export const deleteUserEncounter = async (encounterID: String) => {
   const result = await User.updateMany({ }, { $pullAll: {encounters: [{ _id: encounterID}]}});
 
-  if (result.modifiedCount > 0) {
+  if (result.modifiedCount == 1) {
     return true;
   } else {
     return false;
@@ -52,16 +52,6 @@ export const addPersonId = async(uid, pid) => {
     { $push: { persons: pid }},
     { returnOriginal: false })
   return updatedUser;
-}
-
-export const deleteUserPerson = async (personID: String) => {
-  const result = await User.updateMany({ }, { $pullAll: {persons: [{ _id: personID}]}});
-
-  if (result.modifiedCount == 1) {
-    return true;
-  } else {
-    return false;
-  }
 }
 
 const userService = {
