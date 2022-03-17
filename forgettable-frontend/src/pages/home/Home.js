@@ -1,18 +1,29 @@
+/* eslint-disable object-curly-spacing */
 /* eslint-disable max-len */
 import React from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import classes from './App.module.css';
+import classes from './Home.module.css';
 import PersonCardSummary from '../../components/PersonCardSummary/PersonCardSummary';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import {Link} from 'react-router-dom';
 import IconButton from '../../components/IconButton/IconButton';
+import EncounterSummary from '../../components/EncounterCardSummary/EncounterSummary';
+import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
+import CustomModal from '../../components/CustomModal/CustomModal';
+import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
+import PeopleLogo from '../../assets/icons/navbar/persons.svg';
+import { getAllEncounters, getAllPersons } from '../../services';
 
 // The maximum summary cards shown on the large screens, small screens show less
 const MAX_LATEST_CARDS = 12;
 
-function App() {
+function Home() {
   const [selectedInfo, setSelectedInfo] = React.useState(undefined);
+  const [modalOpen, setModalOpen] = React.useState(false);
+
+  const [peopleList, setPeopleList] = React.useState([]);
+  const [encouuntersList, setEncountersList] = React.useState([]);
   // @TODO: Input real data. Get 12 people and 12 encounters. Get all info needed for seach bar. Get user.
 
   // TEMPORARY FAKE DATA
@@ -30,9 +41,31 @@ function App() {
   for (let i = 1; i < MAX_LATEST_CARDS; i++) {
     personList[i] = {...personList[0], name: 'P' + i};
   }
+  const encounterList = [{
+    id: '0',
+    title: 'encountername',
+    date: new Date(),
+    description: 'this is a description ',
+    summary: 'summary here',
+    persons: [personList[0], personList[0]],
+  },
+  ];
+  for (let i = 1; i < MAX_LATEST_CARDS; i++) {
+    encounterList[i] = { ...encounterList[0], name: 'encounter' + i };
+  }
 
   const searchBarData = [{title: 'fgdgf', type: 'encounters', id: '0'}, {title: 'joe', type: 'people', id: '1'}, {title: 'xi', type: 'people', id: '2'}, {title: 'abcdef', type: 'encounters', id: '3'}];
   // END TEMP FAKE DATA
+
+  async function GetData() {
+    let peopleResult = [];
+    peopleResult = await getAllPersons();
+    setPeopleList(peopleResult); // TODO: trim to top 12
+    let encountersResult = [];
+    encountersResult = await getAllEncounters();
+    setEncountersList(encountersResult); // TODO: trim to top 12
+  }
+
 
   const handlePersonHover = (event, index) => {
     setSelectedInfo({
@@ -41,13 +74,49 @@ function App() {
     });
   };
 
-  const handleNewEntryClick = (event) => {
-    // @TODO: Need dialog/popup to do the new entry.
+  const handleEncounterHover = (event, index) => {
+    setSelectedInfo({
+      type: 'encounter',
+      info: encounterList[index],
+    });
+  };
+
+  const handleNewEntryClick = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
   return (
     <>
       {selectedInfo && <SummaryDrawer summaryInfo={selectedInfo} />}
+
+      <CustomModal open={modalOpen} onClose={handleModalClose} hasCancel={true}>
+        <div className={classes.home_modalTitle}>Add a new entry</div>
+        <div className={classes.home_modalButtonsContainer}>
+          <Link to="/people/new" style={{textDecoration: 'none'}}>
+            <IconButton
+              btnText="Person"
+              onClick={()=>{}}
+              includeIcon={true}
+              height='60px'
+              maxWidth='190px'
+              customIcon={PeopleLogo}/>
+          </Link>
+          <div className={classes.home_verticalBreak} />
+          <Link to="/encounters/new" style={{textDecoration: 'none'}}>
+            <IconButton
+              btnText="Encounter"
+              onClick={()=>{}}
+              includeIcon={true}
+              height='60px'
+              maxWidth='190px'
+              customIcon={EncountersLogo}/>
+          </Link>
+        </div>
+      </CustomModal>
 
       <div className={classes.home_container}>
         <div className={classes.home_title}>
@@ -70,7 +139,7 @@ function App() {
           {personList.map((person, index) => {
             return (
               <div key={index} className={classes.home_cardWrapper} onMouseEnter={(event) => handlePersonHover(event, index)}>
-                <Link to={`/people/${person.id}`} style={{textDecoration: 'none'}}>
+                <Link to={`/person/${person.id}`} style={{textDecoration: 'none'}}>
                   <PersonCardSummary
                     id={person.id}
                     name={person.name}
@@ -88,7 +157,23 @@ function App() {
           <Link to="/encounters" style={{textDecoration: 'none'}}><CustomButton btnText='View All' /></Link>
         </div>
 
-        <div>This is where the encounters grid will go</div>
+        <div className={classes.home_cardGridContainer + ' ' + classes.home_encounterGridContainer}>
+          {encounterList.map((encounter, index) => {
+            return (
+              <div key={index} className={classes.home_cardWrapper} onMouseEnter={(event) => handleEncounterHover(event, index)}>
+                <Link to={`/encounters/${encounter.id}`} style={{textDecoration: 'none'}}>
+                  <EncounterSummary
+                    name={encounter.persons[0]?.name}
+                    date={encounter.date}
+                    description={encounter.description}
+                    summary={encounter.title}
+                    src={encounter.persons[0]?.img}
+                  />
+                </Link>
+              </div>);
+          })}
+        </div>
+
       </div>
     </>
   );
@@ -111,8 +196,18 @@ function SummaryDrawer(summaryInfo) {
       socialMedias={summaryInfo.info.socialMedias}
     />;
   } else if (summaryInfo.type === 'encounter') {
-    return (''); // @TODO replace with encounter drawer once that is available.
+    return <EncounterDrawer
+      open={true}
+      id={summaryInfo.info.id}
+      encounterTitle={summaryInfo.info.title}
+      img={summaryInfo.info.persons[0]?.img}
+      persons={summaryInfo.info.persons}
+      dateMet={summaryInfo.info.date}
+      location={summaryInfo.info.location}
+      encounterDetail={summaryInfo.info.description} // TODO: remove this when typo is fixed.
+      encounterDetails={summaryInfo.info.description}
+    />;
   }
 }
 
-export default App;
+export default Home;
