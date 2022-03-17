@@ -26,6 +26,16 @@ export const getUser = async () => {
 };
 
 /**
+ * Creates a User in the database given the User's data
+ * @param {Object} user data of the user to create.
+ * Must include a first_name property.
+ * @return {Promise} data entry of the new Person created
+ */
+export const createUser = async (user) => {
+  return await postData('users', user);
+};
+
+/**
  * Creates a Person in the database given the Person's data
  * @param {Object} person data of the person to create.
  * Must include a first_name property.
