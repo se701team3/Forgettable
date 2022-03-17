@@ -13,12 +13,8 @@ import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
-import { createEncounter, createPerson, getAllEncounters, getAllPersons } from '../../services';
-import { Button } from '@mui/material';
+import { getAllEncounters, getAllPersons } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
-
-// The maximum summary cards shown on the large screens, small screens show less
-const MAX_LATEST_CARDS = 12;
 
 function Home() {
   const [selectedInfo, setSelectedInfo] = React.useState(undefined);
@@ -31,11 +27,9 @@ function Home() {
   const user = localStorage.getItem('userName');
 
   async function getData() {
-    console.log('GETTING DATA HOME PAGE');
     let peopleResult = [];
     peopleResult = await getAllPersons();
     setPeopleList(peopleResult);
-    console.log(peopleResult);
     let encountersResult = [];
     encountersResult = await getAllEncounters();
 
@@ -44,13 +38,11 @@ function Home() {
       encounter.persons = people;
     });
 
-    console.log(encountersResult);
     setEncountersList(encountersResult);
 
     const searchDataResult = searchBarDataFormatter(peopleResult, encountersResult);
 
     setSearchBarData(searchDataResult);
-    console.log(searchDataResult);
   }
 
   useEffect(() => {
