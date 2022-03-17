@@ -39,6 +39,20 @@ const person1Data:PersonModel = {
     social_media: null as any
   };
 
+  describe('Getting persons', () => {
+    it ('Can retrieve an id that exists', async () => {
+      const createdPerson = await personService.createPerson(person1Data);
+      const retrievedPerson = await personService.getPersonWithId(createdPerson._id.toString());
+  
+      expect(retrievedPerson?._id).toEqual(createdPerson._id);
+    });
+  
+    it ('Returns null if an id does not exist', async () => {
+      const retrievedPerson = await personService.getPersonWithId('some_fake_id');
+      expect(retrievedPerson).toBeNull();
+    });
+  })
+
   describe('Add encounter to person', () => {
     it ('Successfully add an encounter to a Person', async () => {
         const person1 = await personService.createPerson(person1Data);
