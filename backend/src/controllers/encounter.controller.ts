@@ -197,7 +197,16 @@ export const getAllEncounters = async (
     if (!user) {
       res.status(httpStatus.NOT_FOUND).end();
     } else {
-      const foundUserEncounters = await encounterService.getAllEncounters(req.query, user.encounters);
+
+      //The stringify and parse combo removes typing and allows the persons field in each encounter to be altered
+      const foundUserEncounters = JSON.parse(JSON.stringify(await encounterService.getAllEncounters(req.query, user.encounters)));
+
+      //Adds embedded person details to the returned encounters
+      for (let i = 0; i < foundUserEncounters.length; i++) {
+        foundUserEncounters[i].persons = await Promise.all(foundUserEncounters[i].persons.map(
+          async (personsId: any) => { return (await getPersonDetails(personsId))}));
+      }
+
       res.status(httpStatus.OK).json(foundUserEncounters).end();
     }
   } catch (e) {
