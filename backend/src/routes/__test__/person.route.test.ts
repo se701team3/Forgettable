@@ -74,7 +74,7 @@ const person3Data: PersonModel = {
   social_media: null as any
 }
 
-describe('Creating a person', () => {
+describe('POST persons/', () => {
   it('Can be created and stored in the user', async () => {
     // Create a new user
     await supertest(app).post('/api/users')
@@ -133,7 +133,7 @@ describe('Creating a person', () => {
   });
 });
 
-describe('Getting persons', () => {
+describe('GET persons/:id', () => {
   it ('Can be retrieved by id', async () => {
     // Create a new user
     await supertest(app).post('/api/users')
