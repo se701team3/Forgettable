@@ -5,7 +5,13 @@ import mongoose from 'mongoose';
 import Person, { PersonModel } from '../models/person.model';
 import logger from '../utils/logger';
 
-const queryKeys = ['first_name', 'last_name', 'gender', 'location', 'how_we_met', 'organisation'];
+const algoliaSearch = require('algoliasearch');
+
+const client = algoliaSearch(
+  process.env.ALGOLIA_APP_ID,
+  process.env.ALGOLIA_SECRET_KEY,
+);
+const index = client.initIndex('persons');
 
 const createPerson = async (personDetails: PersonModel) => {
   const person = new Person(personDetails);
@@ -33,19 +39,12 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
     logger.info(queryParams);
     const termValue = queryParams.term.toLowerCase();
 
-    // If no relevant fields in a Person match 'termValue', remove them from the array
-    foundUserPersons = foundUserPersons.filter((person) => {
-      for (let i = 0; i < queryKeys.length; i++) {
-        // Make sure person has a value for current queryKey
-        if (person[queryKeys[i]]) {
-          const personValue = (person[queryKeys[i]] as string).toLowerCase();
-          if (personValue.includes(termValue)) {
-            return true;
-          }
-        }
-      }
-      return false;
-    })
+    const algoliaSearchResults = await index.search(termValue);
+    const userPersonResults = algoliaSearchResults.hits.filter(
+      (hit) => userPersons.includes(hit.objectID),
+    );
+
+    foundUserPersons = userPersonResults;
   }
 
   return foundUserPersons;
@@ -63,8 +62,8 @@ const deletePersonEncounters = async (encounterID: string) => {
 }
 
 const deletePersons = async (personID: string) => {
-  await Person.deleteOne({_id: personID});
-}
+  await Person.deleteOne({ _id: personID });
+};
 
 const addEncounterToPersons = async (personIds, encounterId) => {
   for (let i = 0; i < personIds.length; i++) {
