@@ -8,23 +8,23 @@ import {useNavigate, useLocation, useParams} from 'react-router-dom';
 import imageToBase64 from 'image-to-base64/browser';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import * as apiCalls from '../../services/index';
-import axios from 'axios';
 import InputField from '../../components/InputField/InputField';
 
 const MAX_IMAGE_SIZE = 16000000;
 
-
 export default function EditPerson() {
-  // to check if it is create person or edit person
+  // to check if it is create person or edit person route
   const location = useLocation();
 
   const navigate = useNavigate();
 
-  // do a better check than this?
   const create = location.pathname.includes('/people/create') ? true : false;
+
+  const {id} = (!create) && useParams();
 
   let personData = {};
 
+  // temp data
   (!create) && (
     personData = {
       first_name: 'Name',
@@ -36,46 +36,35 @@ export default function EditPerson() {
       how_we_met: 'idk',
       interests: 'a',
       organisation: 'job co.',
-      social_media: [],
+      social_media: new Map([['twitter', 'fdfd']]),
       image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
       encounters: [],
       time_updated: '0002-02-02',
     });
 
-  // async function getPersonData() {
-  //   try {
-  //     // personData = await apiCalls.getPerson(id);
-  //     await axios.get(`/persons/${id}`)
-  //         .then((json) => personData = json);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
-  let id = null;
-  if (!create) {
-    id = useParams();
-    getPersonData();
+  async function getPersonData() {
+    try {
+      personData = await apiCalls.getPerson(id);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   let initialProfilePic = '';
   let initialProfilePicPreview = '';
 
-  // might not need to check create
-  (!create && personData.hasOwnProperty('image')) && (
-    initialProfilePic = personData.image,
-    initialProfilePicPreview = 'data:image/*;base64,' + personData.image
-  );
+  if (!create) {
+    getPersonData();
+    personData.hasOwnProperty('image') && (
+      initialProfilePic = personData.image,
+      initialProfilePicPreview = 'data:image/*;base64,' + personData.image);
+  }
 
   const [profilePicPreview, setProfilePicPreview] = useState(initialProfilePicPreview);
   const [profilePic, setProfilePic] = useState(initialProfilePic);
 
   // use data from object from API
-  const [socialMedias, setSocialMedias] = useState(new Map([
-    ['twitter', 'https://twitter.com/Twitter'],
-    ['github', 'github.com'],
-  ]));
-  // const [socialMedias, setSocialMedias] = useState(personData.social_media);
+  const [socialMedias, setSocialMedias] = useState((create) ? (new Map()) : personData.social_media);
 
   const [socialMediaModalOpen, setSocialMediaModalOpen] = useState(false);
   const [currentSocialMedia, setCurrentSocialMedia] = useState();
@@ -131,17 +120,16 @@ export default function EditPerson() {
     }
   }
 
-  // function handleDeletePerson() {
-  //   console.log('deleting');
-  //   async function deletePersonCall() {
-  //     try {
-  //       personData = await apiCalls.deletePerson(id);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   deletePersonCall();
-  // }
+  function handleDeletePerson() {
+    async function deletePersonCall() {
+      try {
+        personData = await apiCalls.deletePerson(id);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    deletePersonCall();
+  }
 
   function handleSubmit(event) {
     event.preventDefault(); // perhaps remove this later
@@ -153,17 +141,16 @@ export default function EditPerson() {
 
     console.log(Object.fromEntries(formData));
 
-    // async function postPersonData() {
-    //   try {
-    //     personData = await apiCalls.createPerson(Object.fromEntries(formData));
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }
+    async function postPersonData() {
+      try {
+        personData = await apiCalls.createPerson(Object.fromEntries(formData));
+      } catch (err) {
+        console.log(err);
+      }
+    }
 
-    // postPersonData();
+    postPersonData();
   }
-
 
   return (
     <div className={classes.editPerson}>
@@ -226,7 +213,7 @@ export default function EditPerson() {
           />
           <label htmlFor='submit'>
             <CustomButton btnText="Save"
-              // onClick={() => navigate('/encounter/create', {'replace': true})} // when create encounter is implemented
+              onClick={() => navigate('/encounters/create', {'replace': true})}
             />
           </label>
           <input ref={invisSocialMediaSubmitRef} id='submit' type="submit" className={classes.hiddenSubmit}/>

@@ -2,15 +2,16 @@
 
 exports[`renders Create person page correctly 1`] = `
 <div
-  className="EditPerson"
+  className="editPerson"
 >
-  <h1
-    className="heading"
+  <div
+    className="title"
   >
     Create
      Person 
-  </h1>
+  </div>
   <form
+    className="form"
     onSubmit={[Function]}
   >
     <div
@@ -66,105 +67,66 @@ exports[`renders Create person page correctly 1`] = `
       <div
         className="column"
       >
-        <p>
-          First Name
-        </p>
-        <div
-          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
-          data-testid="first-name"
-          onClick={[Function]}
-          required={true}
-        >
-          <input
-            autoFocus={true}
-            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
-            name="first_name"
-            onAnimationStart={[Function]}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            required={true}
-            type="text"
-          />
+        <div>
+          <label
+            className="inputLabelPrimary"
+          >
+            First Name
+            <input
+              autoFocus={true}
+              className="inputFieldPrimary"
+              name="first_name"
+              onChange={[Function]}
+              required={true}
+            />
+          </label>
         </div>
-        <p>
-          Gender
-        </p>
-        <div
-          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
-          onClick={[Function]}
-        >
-          <input
-            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
-            name="gender"
-            onAnimationStart={[Function]}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            type="text"
-          />
+        <div>
+          <label
+            className="inputLabelPrimary"
+          >
+            Gender
+            <input
+              className="inputFieldPrimary"
+              name="gender"
+              onChange={[Function]}
+            />
+          </label>
         </div>
-        <p>
-          Date First Met
-        </p>
-        <div
-          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
-          onClick={[Function]}
-        >
-          <input
-            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
-            name="first_met"
-            onAnimationStart={[Function]}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            type="date"
-          />
+        <div>
+          <label
+            className="inputLabelPrimary"
+          >
+            Date First Met
+            <input
+              className="inputFieldPrimary"
+              name="first_met"
+              onChange={[Function]}
+              type="date"
+            />
+          </label>
         </div>
-        <p>
-          Interests
-        </p>
-        <div
-          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
-          onClick={[Function]}
-        >
-          <input
-            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
-            name="interests"
-            onAnimationStart={[Function]}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            type="text"
-          />
+        <div>
+          <label
+            className="inputLabelPrimary"
+          >
+            Interests
+            <input
+              className="inputFieldPrimary"
+              name="interests"
+              onChange={[Function]}
+            />
+          </label>
         </div>
-        <p>
+        <label
+          className="socialMediaDivLabel"
+        >
           Social Media
-        </p>
+        </label>
         <div
           className="socialMediaDiv"
           data-testid="social-media-div"
         >
-          <div
-            className="MuiAvatar-root MuiAvatar-circular socialMediaIcon css-1wlk0hk-MuiAvatar-root"
-            onClick={[Function]}
-          >
-            <img
-              alt="twitter"
-              className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
-              src="twitter.svg"
-            />
-          </div>
-          <div
-            className="MuiAvatar-root MuiAvatar-circular socialMediaIcon css-1wlk0hk-MuiAvatar-root"
-            onClick={[Function]}
-          >
-            <img
-              alt="github"
-              className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
-              src="github.svg"
-            />
-          </div>
           <button
             className="addSocialMediaIcon"
             onClick={[Function]}
@@ -177,90 +139,66 @@ exports[`renders Create person page correctly 1`] = `
       <div
         className="column"
       >
-        <p>
-          Last Name
-        </p>
-        <div
-          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
-          onClick={[Function]}
-        >
-          <input
-            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
-            name="last_name"
-            onAnimationStart={[Function]}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            type="text"
-          />
+        <div>
+          <label
+            className="inputLabelPrimary"
+          >
+            Last Name
+            <input
+              className="inputFieldPrimary"
+              name="last_name"
+              onChange={[Function]}
+            />
+          </label>
         </div>
-        <p>
-          Birthday
-        </p>
-        <div
-          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
-          onClick={[Function]}
-        >
-          <input
-            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
-            name="birthday"
-            onAnimationStart={[Function]}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            type="date"
-          />
+        <div>
+          <label
+            className="inputLabelPrimary"
+          >
+            Birthday
+            <input
+              className="inputFieldPrimary"
+              name="birthday"
+              onChange={[Function]}
+              type="date"
+            />
+          </label>
         </div>
-        <p>
-          Their Current Location
-        </p>
-        <div
-          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
-          onClick={[Function]}
-        >
-          <input
-            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
-            name="location"
-            onAnimationStart={[Function]}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            type="text"
-          />
+        <div>
+          <label
+            className="inputLabelPrimary"
+          >
+            Their Current Location
+            <input
+              className="inputFieldPrimary"
+              name="location"
+              onChange={[Function]}
+            />
+          </label>
         </div>
-        <p>
-          How We Met
-        </p>
-        <div
-          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
-          onClick={[Function]}
-        >
-          <input
-            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
-            name="how_we_met"
-            onAnimationStart={[Function]}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            type="text"
-          />
+        <div>
+          <label
+            className="inputLabelPrimary"
+          >
+            How We Met
+            <input
+              className="inputFieldPrimary"
+              name="how_we_met"
+              onChange={[Function]}
+            />
+          </label>
         </div>
-        <p>
-          Organisation
-        </p>
-        <div
-          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary css-a88p61-MuiInputBase-root-MuiInput-root"
-          onClick={[Function]}
-        >
-          <input
-            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
-            name="organisation"
-            onAnimationStart={[Function]}
-            onBlur={[Function]}
-            onChange={[Function]}
-            onFocus={[Function]}
-            type="text"
-          />
+        <div>
+          <label
+            className="inputLabelPrimary"
+          >
+            Organisation
+            <input
+              className="inputFieldPrimary"
+              name="organisation"
+              onChange={[Function]}
+            />
+          </label>
         </div>
       </div>
     </div>
@@ -282,6 +220,7 @@ exports[`renders Create person page correctly 1`] = `
       >
         <div
           className="Button"
+          onClick={[Function]}
         >
           <p
             className="Text"
