@@ -1,11 +1,11 @@
 import databaseOperations from '../../utils/test/db-handler';
-import { PersonModel } from '../../models/person.model';
-import { EncounterModel } from 'src/models/encounter.model';
+import Person, { PersonModel } from '../../models/person.model';
+import Encounter, { EncounterModel } from '../../models/encounter.model';
 import app from '../../server';
 import httpStatus from "http-status";
 import testUtils from '../../utils/test/test-utils';
 import 'dotenv/config';
-import { UserModel } from 'src/models/user.model';
+import User, { UserModel } from '../../models/user.model';
 
 const supertest = require('supertest');
 
@@ -15,16 +15,24 @@ beforeAll(async () => {
 
     token = await testUtils.generateTestAuthToken();
 
-    databaseOperations.connectDatabase();
+    await databaseOperations.connectDatabase();
 });
 afterEach(async () => databaseOperations.clearDatabase());
-afterAll(async () => databaseOperations.closeDatabase());
+afterAll(async () => await databaseOperations.closeDatabase());
 
 const user1Data = {
     first_name: 'Bing',
     last_name: 'Bong',
     encounters: [] as any,
     persons: [] as any,
+}
+
+const user2Data: UserModel = {
+    auth_id: null as any,
+    first_name: 'Adam',
+    last_name: 'Weng',
+    encounters: [] as any,
+    persons: [] as any
 }
 
 const person1Data: PersonModel = {
@@ -85,7 +93,7 @@ const encounter3Data = {
     persons: [] as any
 }
 
-const encounter4Data= {
+const encounter4Data = {
     title: "Encounter4",
     description: 'Play badminton together',
     time_updated: new Date(Date.now()),
@@ -129,9 +137,9 @@ const encounterData: EncounterModel = {
 describe('POST /encounter', () => {
     it('Successfully creates an encounter with all info given', async () => {
         await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .set('Authorization', token)
-        .send(user1Data);
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(user1Data);
 
         const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
@@ -153,9 +161,9 @@ describe('POST /encounter', () => {
 
     it('Successfully creating an encounter without date field', async () => {
         await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .set('Authorization', token)
-        .send(user1Data);
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(user1Data);
 
         const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
@@ -177,11 +185,11 @@ describe('POST /encounter', () => {
 
     it('Successfuly creating an encounter without a location field', async () => {
         await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .set('Authorization', token)
-        .send(user1Data);
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(user1Data);
 
-        const { body:person } = await supertest(app).post('/api/persons')
+        const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(person1Data)
@@ -201,9 +209,9 @@ describe('POST /encounter', () => {
 
     it('Successful encounter creation return correct encounter data', async () => {
         await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .set('Authorization', token)
-        .send(user1Data);
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(user1Data);
 
         const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
@@ -231,9 +239,9 @@ describe('POST /encounter', () => {
 
     it('Failed to create an encounter without a persons field', async () => {
         await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .set('Authorization', token)
-        .send(user1Data);
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(user1Data);
 
         await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
@@ -268,9 +276,9 @@ describe('POST /encounter', () => {
 
     it('Failed to create an encounter without a description', async () => {
         await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .set('Authorization', token)
-        .send(user1Data);
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(user1Data);
 
         const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
@@ -290,9 +298,9 @@ describe('POST /encounter', () => {
 
     it('Failed to create an encounter without a title', async () => {
         await supertest(app).post('/api/users')
-        .set('Accept', 'application/json')
-        .set('Authorization', token)
-        .send(user1Data);
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(user1Data);
 
         const { body: person } = await supertest(app).post('/api/persons')
             .set('Accept', 'application/json')
@@ -353,7 +361,7 @@ describe('POST /encounter', () => {
             .set('Authorization', token)
             .expect(httpStatus.NOT_FOUND)
 
-        const { body: storedPerson} = await supertest(app).get(`/api/persons/${person._id}`)
+        const { body: storedPerson } = await supertest(app).get(`/api/persons/${person._id}`)
             .set('Authorization', token)
             .expect(httpStatus.OK);
         expect(storedPerson.encounters).not.toContain(encounter._id);
@@ -411,3 +419,396 @@ describe('encounter ', () => {
             .expect(httpStatus.NOT_FOUND)
     });
 });
+
+describe('GET /encounters pagination', () => {
+    it('Response paginated and returns correct number of entries', async () => {
+        const encounter1 = new Encounter(encounter1Data);
+        const encounter2 = new Encounter(encounter2Data);
+        const encounter3 = new Encounter(encounter4Data);
+        const encounter4 = new Encounter(encounter5Data);
+        const encounter5 = new Encounter(encounter1Data);
+        const encounter6 = new Encounter(encounter2Data);
+        const encounter7 = new Encounter(encounter2Data);
+        const encounter8 = new Encounter(encounter5Data);
+        const encounter9 = new Encounter(encounter4Data);
+        const encounter10 = new Encounter(encounter1Data);
+
+        await encounter1.save();
+        await encounter2.save();
+        await encounter3.save();
+        await encounter4.save();
+        await encounter5.save();
+        await encounter6.save();
+        await encounter7.save();
+        await encounter8.save();
+        await encounter9.save();
+        await encounter10.save();
+
+        user2Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        const user = new User(user2Data);
+        user.encounters.push(encounter1._id, encounter2._id, encounter3._id, encounter4._id, encounter5._id, encounter6._id, encounter7._id, encounter8._id, encounter9._id, encounter10._id);
+        await user.save();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 3,
+                page: 1
+            });
+
+        expect(encounters.length).toEqual(3);
+    });
+
+    it('Response paginated and returns the correct page of entries', async () => {
+        const encounter1 = new Encounter(encounter1Data);
+        const encounter2 = new Encounter(encounter2Data);
+        const encounter3 = new Encounter(encounter4Data);
+        const encounter4 = new Encounter(encounter5Data);
+        const encounter5 = new Encounter(encounter1Data);
+        const encounter6 = new Encounter(encounter2Data);
+        const encounter7 = new Encounter(encounter2Data);
+        const encounter8 = new Encounter(encounter5Data);
+        const encounter9 = new Encounter(encounter4Data);
+        const encounter10 = new Encounter(encounter1Data);
+
+        await encounter1.save();
+        await encounter2.save();
+        await encounter3.save();
+        await encounter4.save();
+        await encounter5.save();
+        await encounter6.save();
+        await encounter7.save();
+        await encounter8.save();
+        await encounter9.save();
+        await encounter10.save();
+
+        user2Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        const user = new User(user2Data);
+        user.encounters.push(encounter1._id, encounter2._id, encounter3._id, encounter4._id, encounter5._id, encounter6._id, encounter7._id, encounter8._id, encounter9._id, encounter10._id);
+        await user.save();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 3,
+                page: 2
+            });
+
+        expect(encounters[0]).toHaveProperty('_id', encounter4._id.toString());
+        expect(encounters[1]).toHaveProperty('_id', encounter5._id.toString());
+        expect(encounters[2]).toHaveProperty('_id', encounter6._id.toString());
+
+    });
+
+    it('Response not paginated when limit is not given', async () => {
+        const encounter1 = new Encounter(encounter1Data);
+        const encounter2 = new Encounter(encounter2Data);
+        const encounter3 = new Encounter(encounter4Data);
+        const encounter4 = new Encounter(encounter5Data);
+        const encounter5 = new Encounter(encounter1Data);
+        const encounter6 = new Encounter(encounter2Data);
+        const encounter7 = new Encounter(encounter2Data);
+        const encounter8 = new Encounter(encounter5Data);
+        const encounter9 = new Encounter(encounter4Data);
+        const encounter10 = new Encounter(encounter1Data);
+
+        await encounter1.save();
+        await encounter2.save();
+        await encounter3.save();
+        await encounter4.save();
+        await encounter5.save();
+        await encounter6.save();
+        await encounter7.save();
+        await encounter8.save();
+        await encounter9.save();
+        await encounter10.save();
+
+        user2Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        const user = new User(user2Data);
+        user.encounters.push(encounter1._id, encounter2._id, encounter3._id, encounter4._id, encounter5._id, encounter6._id, encounter7._id, encounter8._id, encounter9._id, encounter10._id);
+        await user.save();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                page: 4
+            });
+
+        expect(encounters.length).toEqual(10);
+    });
+
+    it('Response not paginated when page is not given', async () => {
+        const encounter1 = new Encounter(encounter1Data);
+        const encounter2 = new Encounter(encounter2Data);
+        const encounter3 = new Encounter(encounter4Data);
+        const encounter4 = new Encounter(encounter5Data);
+        const encounter5 = new Encounter(encounter1Data);
+        const encounter6 = new Encounter(encounter2Data);
+        const encounter7 = new Encounter(encounter2Data);
+        const encounter8 = new Encounter(encounter5Data);
+        const encounter9 = new Encounter(encounter4Data);
+        const encounter10 = new Encounter(encounter1Data);
+
+        await encounter1.save();
+        await encounter2.save();
+        await encounter3.save();
+        await encounter4.save();
+        await encounter5.save();
+        await encounter6.save();
+        await encounter7.save();
+        await encounter8.save();
+        await encounter9.save();
+        await encounter10.save();
+
+        user2Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        const user = new User(user2Data);
+        user.encounters.push(encounter1._id, encounter2._id, encounter3._id, encounter4._id, encounter5._id, encounter6._id, encounter7._id, encounter8._id, encounter9._id, encounter10._id);
+        await user.save();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 5,
+            });
+
+        expect(encounters.length).toEqual(10);
+    });
+
+    it('Response not paginated when limit is not a number', async () => {
+        const encounter1 = new Encounter(encounter1Data);
+        const encounter2 = new Encounter(encounter2Data);
+        const encounter3 = new Encounter(encounter4Data);
+        const encounter4 = new Encounter(encounter5Data);
+        const encounter5 = new Encounter(encounter1Data);
+        const encounter6 = new Encounter(encounter2Data);
+        const encounter7 = new Encounter(encounter2Data);
+        const encounter8 = new Encounter(encounter5Data);
+        const encounter9 = new Encounter(encounter4Data);
+        const encounter10 = new Encounter(encounter1Data);
+
+        await encounter1.save();
+        await encounter2.save();
+        await encounter3.save();
+        await encounter4.save();
+        await encounter5.save();
+        await encounter6.save();
+        await encounter7.save();
+        await encounter8.save();
+        await encounter9.save();
+        await encounter10.save();
+
+        user2Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        const user = new User(user2Data);
+        user.encounters.push(encounter1._id, encounter2._id, encounter3._id, encounter4._id, encounter5._id, encounter6._id, encounter7._id, encounter8._id, encounter9._id, encounter10._id);
+        await user.save();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: "four",
+                page: 2
+            });
+
+        expect(encounters.length).toEqual(10);
+    });
+
+    it('Response not paginated when page is not a number', async () => {
+        const encounter1 = new Encounter(encounter1Data);
+        const encounter2 = new Encounter(encounter2Data);
+        const encounter3 = new Encounter(encounter4Data);
+        const encounter4 = new Encounter(encounter5Data);
+        const encounter5 = new Encounter(encounter1Data);
+        const encounter6 = new Encounter(encounter2Data);
+        const encounter7 = new Encounter(encounter2Data);
+        const encounter8 = new Encounter(encounter5Data);
+        const encounter9 = new Encounter(encounter4Data);
+        const encounter10 = new Encounter(encounter1Data);
+
+        await encounter1.save();
+        await encounter2.save();
+        await encounter3.save();
+        await encounter4.save();
+        await encounter5.save();
+        await encounter6.save();
+        await encounter7.save();
+        await encounter8.save();
+        await encounter9.save();
+        await encounter10.save();
+
+        user2Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        const user = new User(user2Data);
+        user.encounters.push(encounter1._id, encounter2._id, encounter3._id, encounter4._id, encounter5._id, encounter6._id, encounter7._id, encounter8._id, encounter9._id, encounter10._id);
+        await user.save();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 5,
+                page: "page"
+            });
+
+        expect(encounters.length).toEqual(10);
+    });
+
+    it('Empty array is returned when page=0', async () => {
+        const encounter1 = new Encounter(encounter1Data);
+        const encounter2 = new Encounter(encounter2Data);
+        const encounter3 = new Encounter(encounter4Data);
+        const encounter4 = new Encounter(encounter5Data);
+        const encounter5 = new Encounter(encounter1Data);
+        const encounter6 = new Encounter(encounter2Data);
+        const encounter7 = new Encounter(encounter2Data);
+        const encounter8 = new Encounter(encounter5Data);
+        const encounter9 = new Encounter(encounter4Data);
+        const encounter10 = new Encounter(encounter1Data);
+
+        await encounter1.save();
+        await encounter2.save();
+        await encounter3.save();
+        await encounter4.save();
+        await encounter5.save();
+        await encounter6.save();
+        await encounter7.save();
+        await encounter8.save();
+        await encounter9.save();
+        await encounter10.save();
+
+        user2Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        const user = new User(user2Data);
+        user.encounters.push(encounter1._id, encounter2._id, encounter3._id, encounter4._id, encounter5._id, encounter6._id, encounter7._id, encounter8._id, encounter9._id, encounter10._id);
+        await user.save();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 4,
+                page: 0
+            });
+
+        expect(encounters.length).toEqual(0);
+    });
+
+    it('Empty array is returned when page<0', async () => {
+        const encounter1 = new Encounter(encounter1Data);
+        const encounter2 = new Encounter(encounter2Data);
+        const encounter3 = new Encounter(encounter4Data);
+        const encounter4 = new Encounter(encounter5Data);
+        const encounter5 = new Encounter(encounter1Data);
+        const encounter6 = new Encounter(encounter2Data);
+        const encounter7 = new Encounter(encounter2Data);
+        const encounter8 = new Encounter(encounter5Data);
+        const encounter9 = new Encounter(encounter4Data);
+        const encounter10 = new Encounter(encounter1Data);
+
+        await encounter1.save();
+        await encounter2.save();
+        await encounter3.save();
+        await encounter4.save();
+        await encounter5.save();
+        await encounter6.save();
+        await encounter7.save();
+        await encounter8.save();
+        await encounter9.save();
+        await encounter10.save();
+
+        user2Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        const user = new User(user2Data);
+        user.encounters.push(encounter1._id, encounter2._id, encounter3._id, encounter4._id, encounter5._id, encounter6._id, encounter7._id, encounter8._id, encounter9._id, encounter10._id);
+        await user.save();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 2,
+                page: -5
+            });
+
+        expect(encounters.length).toEqual(0);
+    });
+
+    it('Empty array is returned when page requested is out of bound', async () => {
+        const encounter1 = new Encounter(encounter1Data);
+        const encounter2 = new Encounter(encounter2Data);
+        const encounter3 = new Encounter(encounter4Data);
+        const encounter4 = new Encounter(encounter5Data);
+        const encounter5 = new Encounter(encounter1Data);
+        const encounter6 = new Encounter(encounter2Data);
+        const encounter7 = new Encounter(encounter2Data);
+        const encounter8 = new Encounter(encounter5Data);
+        const encounter9 = new Encounter(encounter4Data);
+        const encounter10 = new Encounter(encounter1Data);
+
+        await encounter1.save();
+        await encounter2.save();
+        await encounter3.save();
+        await encounter4.save();
+        await encounter5.save();
+        await encounter6.save();
+        await encounter7.save();
+        await encounter8.save();
+        await encounter9.save();
+        await encounter10.save();
+
+        user2Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        const user = new User(user2Data);
+        user.encounters.push(encounter1._id, encounter2._id, encounter3._id, encounter4._id, encounter5._id, encounter6._id, encounter7._id, encounter8._id, encounter9._id, encounter10._id);
+        await user.save();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 7,
+                page: 3
+            });
+
+        expect(encounters.length).toEqual(0);
+    });
+
+    it('Number of response returned is less than limit if (page * limit) < total entries', async () => {
+        const encounter1 = new Encounter(encounter1Data);
+        const encounter2 = new Encounter(encounter2Data);
+        const encounter3 = new Encounter(encounter4Data);
+        const encounter4 = new Encounter(encounter5Data);
+        const encounter5 = new Encounter(encounter1Data);
+        const encounter6 = new Encounter(encounter2Data);
+        const encounter7 = new Encounter(encounter2Data);
+        const encounter8 = new Encounter(encounter5Data);
+        const encounter9 = new Encounter(encounter4Data);
+        const encounter10 = new Encounter(encounter1Data);
+
+        await encounter1.save();
+        await encounter2.save();
+        await encounter3.save();
+        await encounter4.save();
+        await encounter5.save();
+        await encounter6.save();
+        await encounter7.save();
+        await encounter8.save();
+        await encounter9.save();
+        await encounter10.save();
+
+        user2Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        const user = new User(user2Data);
+        user.encounters.push(encounter1._id, encounter2._id, encounter3._id, encounter4._id, encounter5._id, encounter6._id, encounter7._id, encounter8._id, encounter9._id, encounter10._id);
+        await user.save();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 8,
+                page: 2
+            });
+
+        expect(encounters.length).toEqual(2);
+    })
+})
