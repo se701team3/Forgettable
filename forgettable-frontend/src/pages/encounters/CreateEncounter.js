@@ -9,6 +9,12 @@ import {Autocomplete} from '@mui/material';
 
 export default function Encounters() {
   const options = ['Flynn', 'Jared'];
+  const handleCancelClick = (event) => {
+    alert('canceled');
+  };
+  const handleSaveClick = (event) => {
+    alert('Saved');
+  };
   return (
     <div className={classes.Card}>
       <Card sx={{Width: 910, Height: 875, bgcolor: 'var(--lcard)', borderRadius: 6, boxShadow: 0}}>
@@ -58,8 +64,8 @@ export default function Encounters() {
             </TextField>
           </div>
           <div className={classes.Buttons}>
-            <CustomButton btnText='Cancel' className='Button'></CustomButton>
-            <CustomButton btnText='Save' className='Button'></CustomButton>
+            <CustomButton btnText='Cancel' className='Button' onClick={handleCancelClick}></CustomButton>
+            <CustomButton btnText='Save' className='Button' onClick={handleSaveClick}></CustomButton>
           </div>
 
         </div>
