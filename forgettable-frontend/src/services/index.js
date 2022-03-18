@@ -110,3 +110,12 @@ export const updateEncounter = async (id, encounter) => {
 export const deleteEncounter = async (id) => {
   return await deleteData('encounters/' + id);
 };
+
+/**
+ * Searches Encounters from the database given a search string
+ * @param {string} searchString string to search
+ * @return {Promise}
+ */
+export const searchEncounter = async (searchString) => {
+  return await getData('encounters/?term=' + searchString);
+};

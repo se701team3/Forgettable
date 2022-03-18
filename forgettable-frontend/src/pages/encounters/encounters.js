@@ -7,7 +7,7 @@ import IconButton from '../../components/IconButton/IconButton';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import EncounterDetailsModal from '../../components/EncounterDetailsModal/EncounterDetailsModal';
-import {deleteEncounter, getAllEncounters} from '../../services';
+import {deleteEncounter, getAllEncounters, searchEncounter} from '../../services';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -109,9 +109,9 @@ export default function Encounters() {
     setIsHover(false);
   };
 
-  const exportSearchString = (wordEntered) => {
-    // todo: to be implemented after backend search filter is implemented
-    // console.log(wordEntered);
+  const exportSearchString = async (searchString) => {
+    const searchResult = await searchEncounter(searchString);
+    setEncounterList(searchResult);
   };
 
   return (
