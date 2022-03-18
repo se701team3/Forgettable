@@ -19,14 +19,16 @@
     right: 0;
     top: 0;
     bottom: 0;
+    text-align: center;
+
 }
 
 .WelcomeBackText{
     text-align: center;
-    /*position: center;*/
     margin-top: 10%;
     font-size: var(--text-xxlarge);
     font-weight: var(--font-semibold);
+    display: inline-block;
 
 }
 
@@ -34,11 +36,11 @@
     background-color: var(--prmry);
     width: 420px;
     height: 60px;
-    font-size: 20px;
+    font-size: var(--text-medium);
     border-radius: 8px;
-    margin-left: 32.95%;
-    margin-right: 32.95%;
     text-align: center;
+    display: inline-block;
+    cursor: pointer;
 }
 
 .SignInText{
@@ -63,11 +65,11 @@
     width: 420px;
     text-align: center;
     position: center;
-    margin-left: 32.95%;
+    display: inline-block;
 }
 
 .Logo{
     width:250px;
-    margin-left: 40%;
     margin-top: 10%;
+    display: inline-block;
 }

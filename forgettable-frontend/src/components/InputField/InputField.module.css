@@ -1,6 +1,6 @@
 .inputLabelPrimary {
-    font-size: var(--text-large);
-    font-weight: var(--font-bold);
+    font-size: var(--text-medium);
+    font-weight: var(--font-medium);
     text-align: left;
     display: flex;
     flex-direction: column;
@@ -8,6 +8,7 @@
 
 .inputLabelSecondary {
     font-size: var(--text-medium);
+    font-weight: var(--font-medium);
     text-align: center;
     vertical-align: middle;
 }
@@ -21,9 +22,9 @@
 }
 
 .inputFieldPrimary{
-    font-size: var(--text-large);
+    font-size: var(--text-medium);
     width: 375px;
-    height: 45px;
+    height: 40px;
     border-radius: var(--radius-btn);
     margin-top: 5px;
     padding: 10px;

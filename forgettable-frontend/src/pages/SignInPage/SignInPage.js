@@ -58,11 +58,15 @@ export default function SignInPage({setIsLoggedIn}) {
   return (
     <div className={classes.Background}>
       <div className={classes.InnerBox}>
-        <p className={classes.WelcomeBackText}>
-          Welcome Back!
-        </p>
 
-        {/* Sign in Button */}
+        <div>
+          <p className={classes.WelcomeBackText}>
+            Welcome Back!
+          </p>
+        </div>
+
+
+        {/*   /!* Sign in Button *!/ */}
         <div className={classes.SignInButton} onClick={signInHandler}>
           <img src={googleLogin} alt="googleLogin" className={classes.GoogleLoginImage}/>
           <p className={classes.SignInText}>
@@ -70,16 +74,20 @@ export default function SignInPage({setIsLoggedIn}) {
           </p>
         </div>
 
-        {/* Create google account */}
-        <p className={classes.CreateAccountText}>
-          Please sign in using your Google account, if you do not have an
-          account, create one <a href="https://accounts.google.com/SignUp?hl=en">here</a>
-        </p>
+        {/*   /!* Create google account *!/ */}
+        <div>
+          <p className={classes.CreateAccountText}>
+            Please sign in using your Google account, if you do not have an
+            account, create one <a href="https://accounts.google.com/SignUp?hl=en">here</a>
+          </p>
+        </div>
 
-        <img
-          className={classes.Logo}
-          src={logoBlack}
-          alt="logo_black"/>
+        <div>
+          <img
+            className={classes.Logo}
+            src={logoBlack}
+            alt="logo_black"/>
+        </div>
       </div>
     </div>
   );
