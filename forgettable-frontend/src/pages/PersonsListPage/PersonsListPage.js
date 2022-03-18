@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PersonCard from '../../components/PersonCard/PersonCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './Persons.module.css';
@@ -7,46 +7,23 @@ import {getDateString} from '../../functions/dateFormatter';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {withRouter} from 'react-router-dom';
+import {getAllPersons} from '../../services';
 
 export default function Persons(props) {
   const [isHover, setIsHover] = useState(false);
   const [selectedInfo, setSelectedInfo] = useState(undefined);
   const [hasMore, setHasMore] = useState(true);
-  const [selectedPerson, setSelectedPerson] = useState(undefined);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  const [personList, setPersonList] = useState(
-      [{
-        id: '0',
-        name: 'cameron smith',
-        img: 'https://avatars.githubusercontent.com/u/28725774?v=4',
-        socialMedias: [{name: 'facebook', link: 'link'}],
-        birthday: new Date(),
-        firstMet: new Date(),
-        location: 'London',
-        interests: ['films', 'pictures', 'bad code comments'],
-      },
-      {
-        id: '1',
-        name: 'john smith',
-        img: 'https://avatars.githubusercontent.com/u/28725774?v=4',
-        socialMedias: [{name: 'facebook', link: 'link'}],
-        firstMet: new Date(),
-        location: 'Australia',
-        interests: ['cameron', 'ducks', 'soup'],
-      },
-      {
-        id: '2',
-        name: 'archibald smith',
-        img: 'https://avatars.githubusercontent.com/u/28725774?v=4',
-        socialMedias: [{name: 'facebook', link: 'link'}],
-        firstMet: new Date(),
-        location: 'Germany',
-        interests: ['fans', 'beakers', 'clocks'],
-      },
-      ],
-  );
+  const [personList, setPersonList] = useState( [] );
 
+  useEffect(() => {
+    const result = getAllPersons();
+
+    if (result) {
+      setPersonList(result);
+    }
+  }, []);
 
   const onClick = (id) => {
     console.log('hi');
@@ -56,10 +33,6 @@ export default function Persons(props) {
   const handleNavi = () => {
     console.log('hfhdajkh faljfki');
     props.history.push('/person/1');
-  };
-
-  const handleModalClose = () => {
-    setModalOpen(false);
   };
 
   const onDelete = () => {
