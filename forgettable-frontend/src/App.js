@@ -28,7 +28,7 @@ function App() {
             <Route path="settings" element={<Settings/>} />
             <Route path="people" element={<People/>} />
             <Route path="people/create" element={<EditPerson/>} />
-            <Route path="people/edit/:id" element={<EditPerson/>} />
+            <Route path="people/:id/edit" element={<EditPerson/>} />
             <Route path="encounters" element={<Encounters/>} />
             <Route path="person/:id" element={<PersonPage/>} />
           </Routes>

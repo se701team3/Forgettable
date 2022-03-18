@@ -33,7 +33,7 @@ it('Create Person heading displays when navigating to /people/create', () => {
 
 it('Edit person heading displays when navigating to /people/:id', () => {
   render(
-      <MemoryRouter initialEntries={[{pathname: '/people/edit/1'}]}>
+      <MemoryRouter initialEntries={[{pathname: '/people/1/edit'}]}>
         <EditPerson/>
       </MemoryRouter>);
 
@@ -42,7 +42,7 @@ it('Edit person heading displays when navigating to /people/:id', () => {
 
 it('Edit person page displays delete button', () => {
   render(
-      <MemoryRouter initialEntries={[{pathname: '/people/edit/1'}]}>
+      <MemoryRouter initialEntries={[{pathname: '/people/1/edit'}]}>
         <EditPerson/>
       </MemoryRouter>);
 
@@ -77,7 +77,7 @@ it('Displays correct data from database', async () => {
 
   axios.get.mockResolvedValue({data: personData});
 
-  render(<MemoryRouter initialEntries={[{pathname: '/people/edit/1'}]}>
+  render(<MemoryRouter initialEntries={[{pathname: '/people/1/edit'}]}>
     <EditPerson/>
   </MemoryRouter>);
 
