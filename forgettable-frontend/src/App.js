@@ -25,7 +25,7 @@ function App() {
         <div className="page-wrapper">
           <Routes>
             <Route path="/" element={<Home/>} />
-            <Route path="settings" element={<SettingsPage/>} />
+            <Route path="settings" element={<SettingsPage setIsLoggedIn={setIsLoggedIn}/>} />
             <Route path="people" element={<People/>} />
             <Route path="people/create" element={<EditPerson/>} />
             <Route path="people/:id/edit" element={<EditPerson/>} />
