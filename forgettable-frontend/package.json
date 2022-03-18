@@ -55,6 +55,8 @@
     "jest": "^27.5.1",
     "jest-watch-typeahead": "^0.6.5",
     "moment": "^2.29.1",
+    "react-test-renderer": "^17.0.2",
+    "react-toastify": "^8.2.0",
     "nock": "^13.2.4",
     "react-test-renderer": "^17.0.2"
   }
