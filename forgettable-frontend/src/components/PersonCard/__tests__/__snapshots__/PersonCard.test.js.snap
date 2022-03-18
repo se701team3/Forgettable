@@ -107,6 +107,7 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
             data-testid="encounters-element"
           >
             Encounters: 
+            0
              times
           </p>
           <p
@@ -124,6 +125,15 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
               data-testid="social-media-icons-element"
               max={2}
               spacing={2}
+              sx={
+                Object {
+                  "& .MuiAvatar-root": Object {
+                    "fontSize": 15,
+                    "height": 20,
+                    "width": 20,
+                  },
+                }
+              }
             />
           </div>
         </div>

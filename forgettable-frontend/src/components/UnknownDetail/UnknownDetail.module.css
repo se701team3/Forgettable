@@ -1,0 +1,5 @@
+@import '../../colours.css';
+
+.UnknownDetail {
+    color: var(--bord);
+}

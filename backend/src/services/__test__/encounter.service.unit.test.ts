@@ -185,3 +185,46 @@ describe('Delete Encounter Persons Service', () => {
         expect(await result["bool"]).toBe(true);
     })
 })
+
+describe('Get Encounters Service', () => {
+    it ('Can retrieve all encounters that belong to the user', async () => {
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+
+      const retrievedEncounters = await encounterService.getAllEncounters({}, [encounter1ID, encounter2ID]);
+  
+      expect(retrievedEncounters).toHaveLength(2);
+      expect(retrievedEncounters[0].title).toBe("Encounter1");
+      expect(retrievedEncounters[1].title).toBe("Encounter4");
+    });
+
+    it ('Returns an empty array if the user does not have any encounters', async () => {
+      const retrievedEncounters = await encounterService.getAllEncounters({}, []);
+    
+      expect(retrievedEncounters).toHaveLength(0);
+      expect(retrievedEncounters).toStrictEqual([]);
+    });
+
+    it ('Correctly filters the list of encounters by the query param', async () => {
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+      const encounter3ID = (await new Encounter(encounter3Data).save()).id;
+    
+      const retrievedEncounters = await encounterService.getAllEncounters({term: "play"}, [encounter1ID, encounter2ID, encounter3ID]);
+      
+      expect(retrievedEncounters).toHaveLength(2);
+      expect(retrievedEncounters[0].title).toBe("Encounter4");
+      expect(retrievedEncounters[1].title).toBe("Encounter5");
+    });
+
+    it ('Returns an empty array if no encounters match the query param', async () => {
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+      const encounter3ID = (await new Encounter(encounter3Data).save()).id;
+      
+      const retrievedEncounters = await encounterService.getAllEncounters({term: "no result search"}, [encounter1ID, encounter2ID, encounter3ID]);
+        
+      expect(retrievedEncounters).toHaveLength(0);
+      expect(retrievedEncounters).toStrictEqual([]);
+    });
+  })
