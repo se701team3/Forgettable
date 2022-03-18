@@ -64,10 +64,6 @@
     color: var(--txt3);
 }
 
-.UnknownText {
-    color: var(--bord);
-}
-
 .SocialMediaContainer {
     display: flex;
     flex-direction: row;

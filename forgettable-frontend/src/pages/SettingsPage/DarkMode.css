@@ -1,0 +1,90 @@
+@import '../../colours.css';
+
+:root {
+    --font-color: #333;
+    --background-color: var(--bkgd);
+    --link-color: cornflowerblue;
+}
+
+[data-theme="dark"] {
+    --font-color: #eee;
+    --background-color: var(--bkgd);
+    --link-color: lightblue;
+}
+  
+body {
+    background-color: var(--background-color);
+    color: var(--font-color);
+}
+
+a {
+    color: var(--link-color);
+}
+
+/* Custom Dark Mode Toggle Element */
+
+.toggle-theme-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 320px;
+    margin-top: -29px;
+}
+
+.toggle-theme-wrapper span {
+    font-size: 28px;
+    margin: 0 4px;
+}
+
+.toggle-theme {
+    position: relative;
+    display: inline-block;
+    height: 34px;
+    width: 68px;
+}
+
+.toggle-theme input {
+    display: none;
+}
+
+.slider {
+    background-color: #FDFDFF;
+    position: absolute;
+    cursor: pointer;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    transition: 0.2s;
+}
+
+.slider:before {
+    background-color: #5A5A5A;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: 0.4s;
+    width: 26px;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+	background-color: #F3D58A;
+}
+
+input:checked + .slider {
+    background-color: #020200;
+}
+
+.slider.round {
+    border-radius: 34px;
+    border-style: solid;
+    border-color: #4F4F4F;
+    border-width: 0.5px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
