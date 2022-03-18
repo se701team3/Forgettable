@@ -25,7 +25,6 @@
 
 .WelcomeBackText{
     text-align: center;
-    /*position: center;*/
     margin-top: 10%;
     font-size: var(--text-xxlarge);
     font-weight: var(--font-semibold);
