@@ -40,8 +40,10 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
     const termValue = queryParams.term.toLowerCase();
 
     const algoliaSearchResults = await index.search(termValue);
-    const userPersonResults = algoliaSearchResults.hits.filter(
-      (hit) => userPersons.includes(hit.objectID),
+    const algoliaSearchResultsIds = algoliaSearchResults.hits.map((hit) => hit.objectID.toString())
+  
+    const userPersonResults = foundUserPersons.filter(
+      (person) => algoliaSearchResultsIds.includes(person._id.toString()),
     );
 
     foundUserPersons = userPersonResults;
