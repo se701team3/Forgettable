@@ -2,10 +2,28 @@ import databaseOperations from '../../utils/test/db-handler';
 
 import encounterService from '../encounter.service';
 import Encounter, { EncounterModel } from '../../models/encounter.model';
+import Person, {PersonModel} from '../../models/person.model';
 
 beforeAll(async () => {databaseOperations.connectDatabase()});
 afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
+
+
+const person1Data: PersonModel = {
+    first_name: 'Ping',
+    last_name: 'Pong',
+    interests: ['video games', 'hockey'],
+    organisation: 'helloc',
+    time_updated: new Date('2022-01-01'),
+    how_we_met: 'Hockey club',
+    birthday: new Date('2002-12-12'),
+    encounters: [] as any,
+    first_met: new Date('2022-01-01'),
+    gender: "male",
+    location: "Auckland",
+    image: null as any,
+    social_media: null as any
+}
 
 const encounter1Data: EncounterModel = {
     title: "Encounter1",
@@ -70,6 +88,24 @@ const encounter7Data: EncounterModel = {
     description: "This is encounter 9" as any
 }
 
+const encounter8Data: EncounterModel = {
+    title: "Encounter1",
+    date: new Date('2022-02-23'),
+    time_updated: new Date(Date.now()),
+    description: 'Met at a cafe',
+    location: 'Auckland',
+    persons: ["656e636f756e746572314964"] as any
+}
+
+const encounter9Data: EncounterModel = {
+    title: "Encounter1",
+    date: new Date('2022-02-23'),
+    time_updated: new Date(Date.now()),
+    description: 'Met at a cafe',
+    location: 'Auckland',
+    persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any
+}
+
 describe('Encounter creation service', () => {
 
     it('Successfully stores encounter if all required fields are given',  async () => {
@@ -116,3 +152,79 @@ describe('Encounter creation service', () => {
         await expect(encounterService.createEncounter(encounter7Data)).rejects.toThrow('Persons can\'t be empty');
     })
 })
+
+describe('Delete Encounter Service', () => {
+    it('Successfully deletes encounter with valid ID',  async () => {
+        const encounterOne = new Encounter(encounter8Data);
+        const encounterOneId = (await encounterOne.save())._id;
+
+        expect(await encounterService.deleteEncounter(String(encounterOneId))).toBe(true);
+    })
+
+
+    it('Returns false with deletion of encounter with non-valid ID', async () => {
+        expect(await encounterService.deleteEncounter("123123123123")).toBe(false);
+    })
+})
+
+describe('Delete Encounter Persons Service', () => {
+    it('Successfully deletes person from a single person encounter', async () => {
+        const encounterOne = new Encounter(encounter8Data);
+        const encounterOneId = (await encounterOne.save())._id;
+
+        const result = await encounterService.deleteEncounterPerson("656e636f756e746572314964");
+        expect(await result["array"][0]?._id).toEqual(encounterOneId);
+        expect(await result["bool"]).toBe(true);
+    })
+
+    it('Successfully deletes person from a multiple person encounter', async () => {
+        const encounterOne = new Encounter(encounter9Data);
+ 
+        const result = await encounterService.deleteEncounterPerson("656e636f756e746572314964");
+        expect(await result["array"]).toEqual([]);
+        expect(await result["bool"]).toBe(true);
+    })
+})
+
+describe('Get Encounters Service', () => {
+    it ('Can retrieve all encounters that belong to the user', async () => {
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+
+      const retrievedEncounters = await encounterService.getAllEncounters({}, [encounter1ID, encounter2ID]);
+  
+      expect(retrievedEncounters).toHaveLength(2);
+      expect(retrievedEncounters[0].title).toBe("Encounter1");
+      expect(retrievedEncounters[1].title).toBe("Encounter4");
+    });
+
+    it ('Returns an empty array if the user does not have any encounters', async () => {
+      const retrievedEncounters = await encounterService.getAllEncounters({}, []);
+    
+      expect(retrievedEncounters).toHaveLength(0);
+      expect(retrievedEncounters).toStrictEqual([]);
+    });
+
+    it ('Correctly filters the list of encounters by the query param', async () => {
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+      const encounter3ID = (await new Encounter(encounter3Data).save()).id;
+    
+      const retrievedEncounters = await encounterService.getAllEncounters({term: "play"}, [encounter1ID, encounter2ID, encounter3ID]);
+      
+      expect(retrievedEncounters).toHaveLength(2);
+      expect(retrievedEncounters[0].title).toBe("Encounter4");
+      expect(retrievedEncounters[1].title).toBe("Encounter5");
+    });
+
+    it ('Returns an empty array if no encounters match the query param', async () => {
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+      const encounter3ID = (await new Encounter(encounter3Data).save()).id;
+      
+      const retrievedEncounters = await encounterService.getAllEncounters({term: "no result search"}, [encounter1ID, encounter2ID, encounter3ID]);
+        
+      expect(retrievedEncounters).toHaveLength(0);
+      expect(retrievedEncounters).toStrictEqual([]);
+    });
+  })
