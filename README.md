@@ -10,7 +10,7 @@ To run all features of the application, start the frontend, backend, and MongoDB
 
 ## Readme
 
-- [Frontend Readme]()
+- [Frontend Readme](./forgettable-frontend/)
 - [Backend Readme](./backend/)
 
 ## Developers

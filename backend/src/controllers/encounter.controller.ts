@@ -11,6 +11,7 @@ import { EncounterModel } from '../models/encounter.model';
 import userService, { getUserByAuthId } from '../services/user.service';
 import personService from '../services/person.service';
 import { PaginateableResponse } from 'src/utils/paginateable.response';
+import getPersonDetails from './utils/controller-utils';
 
 // Util function that won't be needed regularly
 const getEncounterFromReqBody = (body: any) => {
@@ -134,7 +135,9 @@ export const getEncounter = async (
       // Find encounter from database
       const encounter = await encounterService.getEncounter(encounterId);
       // Notify frontend that the operation was successful
-      res.status(httpStatus.OK).json(encounter).end();
+      let encounterDto = JSON.parse(JSON.stringify(encounter));
+      encounterDto.persons = await Promise.all(encounterDto.persons.map(async (personId: any) => { return (await getPersonDetails(personId)) }));
+      res.status(httpStatus.OK).json(encounterDto).end();
     } else {
       res.sendStatus(httpStatus.NOT_FOUND).end();
     }
@@ -196,7 +199,16 @@ export const getAllEncounters = async (
     if (!user) {
       res.status(httpStatus.NOT_FOUND).end();
     } else {
-      const foundUserEncounters = await encounterService.getAllEncounters(req.query, user.encounters);
+
+      //The stringify and parse combo removes typing and allows the persons field in each encounter to be altered
+      const foundUserEncounters = JSON.parse(JSON.stringify(await encounterService.getAllEncounters(req.query, user.encounters)));
+
+      //Adds embedded person details to the returned encounters
+      for (let i = 0; i < foundUserEncounters.length; i++) {
+        foundUserEncounters[i].persons = await Promise.all(foundUserEncounters[i].persons.map(
+          async (personsId: any) => { return (await getPersonDetails(personsId))}));
+      }
+
       res.status(httpStatus.OK).paginate(foundUserEncounters);
     }
   } catch (e) {
