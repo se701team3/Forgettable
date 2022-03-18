@@ -1,6 +1,6 @@
 # Forgettable
 
-Welcome to the Forgettable project, created by SOFTENG 701 Team 3 students from The University of Auckland.
+Welcome to the Forgettable project, created by SOFTENG 701 Team 3 students (Team Forgettable) from The University of Auckland.
 
 ## Introduction
 
