@@ -3,8 +3,6 @@ import databaseOperations from '../../utils/test/db-handler';
 
 import Person, { PersonModel } from '../../models/person.model';
 import User, { UserModel } from '../../models/user.model';
-import personService from '../../services/person.service';
-import "dotenv/config";
 import app from '../../server';
 import testUtils from '../../utils/test/test-utils';
 import "dotenv/config";
@@ -355,7 +353,7 @@ describe('GET persons/:id', () => {
     await supertest(app).post('/api/users')
       .set('Accept', 'application/json')
       .set('Authorization', token)
-      .send(reqUserData);
+      .send(user1Data);
 
   // Create a new person and store it in the user
     const { body: createdPerson } = await supertest(app).post('/api/persons')
