@@ -10,13 +10,15 @@ Our project involves creating a web app that allows users to record the encounte
 
 This makes encounters between people smoother and more engaging, while also helping you to remember people better and in greater detail.
 
-
 ## Getting Started
 
 To run all features of the application, start the Frontend, Backend, and MongoDB instances by reading and following the relevant README file below.
 
 - [Frontend README](./forgettable-frontend/)
 - [Backend README](./backend/)
+
+## Contributions
+To contribute to this project, please see the [Contributing guide](CONTRIBUTING.md) for more details.
 
 ## Developers
 _**Forgettable**_, Software Engineering 701 Team 3, The University of Auckland
