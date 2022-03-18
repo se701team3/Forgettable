@@ -5,11 +5,19 @@ import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import {createPerson, getPerson} from '../../services';
 import classes from './PersonPage.module.css';
 import {ENCOUNTERS} from './PlaceholderData';
-import {useParams} from 'react-router-dom';
+import {Link, Navigate, useParams} from 'react-router-dom';
+// import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
+/*
+ * This is the detailed person profile page. Displays the information
+ * of a single person. Includes all of their details, and encounters.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const PersonPage = (props) => {
-  // TODO: this needs to be passed in as a routing parameter
   const {id} = useParams();
+  const navigate = useNavigate();
 
   const [person, setPerson] = useState({
     firstName: '',
@@ -93,6 +101,7 @@ const PersonPage = (props) => {
         birthday={person.birthday}
         socialMedias={person.socialMedia}
         data-testid="drawer-component"
+        onEdit={() => navigate(`edit`)}
       />
       <div className={classes.ContentContainer}>
         <div className={classes.TitleContainer} >
@@ -102,12 +111,21 @@ const PersonPage = (props) => {
             {person.firstName} {person.encounters.length} times
           </h1>
           <div className={classes.ButtonContainer}>
-            <IconButton
-              btnText="New Encounter"
-              onClick={() => {}}
-              includeIcon={true}
-              height="66px"
-            />
+            <Link to={{
+              pathname: `/encounters/create`,
+              state: {
+                person: person,
+              },
+            }}
+            style={{textDecoration: 'none'}}
+            >
+              <IconButton
+                btnText="New Encounter"
+                onClick={() => {}}
+                includeIcon={true}
+                height="66px"
+              />
+            </Link>
           </div>
         </div>
         <div className={classes.EncountersContainer}>

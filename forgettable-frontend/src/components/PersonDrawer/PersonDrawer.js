@@ -15,6 +15,16 @@ import {getBirthdayString} from '../../functions/dateFormatter';
 import CustomButton from '../CustomButton/CustomButton';
 import classNames from 'classnames';
 
+/*
+ * Side drawer for displaying the detailed information of a person.
+ * The `open` and `name` props are required. Set `open` to true if
+ * the drawer should be always open.
+ * The `staticDrawer` boolean props toggles the drawer to be on the
+ * left side of the screen with slightly different style, and adds
+ * to it an Edit button.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const PersonDrawer = (props) => {
   const unknownDetail = <span className={classes.UnknownText}>Unknown</span>;
 
