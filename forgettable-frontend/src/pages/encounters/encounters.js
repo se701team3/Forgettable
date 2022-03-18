@@ -4,11 +4,10 @@ import EncounterCard from '../../components/EncounterCard/EncounterCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './encounters.module.css';
 import IconButton from '../../components/IconButton/IconButton';
-import {getDateString} from '../../functions/dateFormatter';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import EncounterDetailsModal from '../../components/EncounterDetailsModal/EncounterDetailsModal';
-import {deleteEncounter, getAllEncounters, getPerson} from '../../services';
+import {deleteEncounter, getAllEncounters} from '../../services';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -21,7 +20,7 @@ export default function Encounters() {
 
   const [selectedEncounter, setSelectedEncounter] = useState(undefined);
   const [selectedEncounterId, setSelectedEncounterId] = useState('');
-  const [modalOpen, setModalOpen] = useState(false);
+  const [encounterModalOpen, setEncounterModalOpen] = useState(false);
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
@@ -46,37 +45,21 @@ export default function Encounters() {
   }, []);
 
   const handleCardClick = (encounter) => {
-    console.log('card click');
-    console.log(encounter);
     setSelectedEncounter(encounter);
-    setModalOpen(true);
+    setEncounterModalOpen(true);
   };
 
   const handleModalClose = () => {
-    setModalOpen(false);
-  };
-
-  const handleNewEntryClick = () => {
-    console.log('new entry');
-    // todo: to be implemented after create encounter page is created
+    setEncounterModalOpen(false);
   };
 
   const onDelete = (encounterId) => {
     setSelectedEncounterId(encounterId);
     setDeleteModalOpen(true);
-    console.log('delete encounter id: ', encounterId);
-    // todo: to be implemented after backend delete encounters endpoint is merged
-    // const removeEncounter = async () => {
-    //   await deleteEncounter(encounterId).then((res) => {
-    //     console.log(res);
-    //   });
-    // };
-    // removeEncounter();
   };
 
   const onDeleteConfirmed = async (encounterId) => {
     const result = await deleteEncounter(encounterId);
-    console.log(result);
     if (result) {
       const updatedEncountersList = await getAllEncounters();
       setEncounterList(updatedEncountersList);
@@ -101,7 +84,7 @@ export default function Encounters() {
       });
     }
     setDeleteModalOpen(false);
-    setModalOpen(false);
+    setEncounterModalOpen(false);
   };
 
   const fetchMoreData = () => {
@@ -131,24 +114,6 @@ export default function Encounters() {
     // console.log(wordEntered);
   };
 
-  // useEffect(() => {
-  //   const getEncounterList = async () => {
-  //     await Promise.all(getAllEncounters().then((res) => {
-  //       res.length > 0 && res.map((r) => {
-  //         const persons = [];
-  //         r.persons.map(async (personId, index) => {
-  //           await getPerson(personId).then((person) => {
-  //             persons[index] = person;
-  //           });
-  //         });
-  //         r.persons = persons;
-  //       });
-  //       setEncounterList(res);
-  //     }));
-  //   };
-  //   getEncounterList();
-  // }, []);
-
   return (
     <div>
       {isHover && <EncounterDrawer
@@ -161,7 +126,7 @@ export default function Encounters() {
         dateMet={selectedInfo.date}
       />}
       {selectedEncounter && <EncounterDetailsModal
-        open={modalOpen}
+        open={encounterModalOpen}
         onClose={handleModalClose}
         encounter={selectedEncounter}
         onDelete={() => onDelete(selectedEncounter._id)}
