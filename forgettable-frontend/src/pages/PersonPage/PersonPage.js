@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import EncounterCard from '../../components/EncounterCard/EncounterCard';
 import IconButton from '../../components/IconButton/IconButton';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
-import {createPerson, getPerson} from '../../services';
+import {createPerson, deleteEncounter, getPerson} from '../../services';
 import classes from './PersonPage.module.css';
 import {ENCOUNTERS} from './PlaceholderData';
 import {Link, Navigate, useParams} from 'react-router-dom';
@@ -83,7 +83,7 @@ const PersonPage = (props) => {
           description={encounter.description}
           persons={encounter.persons}
           location={encounter.location}
-          onDelete={() => onDelete(encounter._id)}
+          onDelete={() => onDeleteClicked(encounter)}
           date={encounter.date}
           isInitialEncounter={false}
           onClick={() => onClick(encounter)}
@@ -93,6 +93,7 @@ const PersonPage = (props) => {
   };
 
   const onClick = (encounter) => {
+    console.log('encounter', encounter);
     setSelectedEncounter(encounter);
     setEncounterModalOpen(true);
   };
@@ -101,9 +102,24 @@ const PersonPage = (props) => {
     setEncounterModalOpen(false);
   };
 
-  const onDelete = (encounterId) => {
-    console.log('delete', encounterId);
+  const onDeleteClicked = (encounter) => {
+    console.log('delete', encounter);
+    setSelectedEncounter(encounter);
     setDeleteModalOpen(true);
+  };
+
+  const onDeleteConfirmed = async (encounter) => {
+    console.log('onDeleteConfirmed', encounter);
+    const result = await deleteEncounter(encounter._id);
+
+    if (result) {
+      console.log('Encounter deleted');
+    } else {
+      console.log('Encounter not deleted');
+    }
+
+    setDeleteModalOpen(false);
+    setEncounterModalOpen(false);
   };
 
   return (
@@ -113,13 +129,14 @@ const PersonPage = (props) => {
         open={encounterModalOpen}
         onClose={handleModalClose}
         encounter={selectedEncounter}
-        onDelete={() => onDelete(selectedEncounter._id)}
+        onDelete={() => onDeleteClicked(selectedEncounter)}
       />}
       <CustomModal
         open={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         hasCancel
         hasConfirm
+        onConfirm={() => onDeleteConfirmed(selectedEncounter)}
       >
         <div className={classes.DeleteModal}>
           <h1 >Warning</h1>
