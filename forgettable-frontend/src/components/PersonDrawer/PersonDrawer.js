@@ -115,7 +115,7 @@ const PersonDrawer = (props) => {
             </p>
             <p data-testid="interests-element">
               {'Interests: '}
-              {props.interests ?
+              {props.interests && props.interests.length > 0 ?
                <span className={classes.KnownText}>
                  {props.interests.join(', ')}
                </span> :
