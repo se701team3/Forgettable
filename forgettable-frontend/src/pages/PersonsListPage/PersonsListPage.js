@@ -87,8 +87,8 @@ export default function Persons(props) {
       {isHover &&
         <PersonDrawer
           open={true}
-          name={selectedInfo.name}
-          id={selectedInfo.id}
+          name={`${selectedInfo.first_name} ${selectedInfo.last_name || ''}`}
+          id={selectedInfo._id}
           birthday={selectedInfo.birthday}
           img={selectedInfo.img}
           gender={selectedInfo.gender}
@@ -131,13 +131,13 @@ export default function Persons(props) {
                 >
                   <PersonCard
                     id= {person.id}
-                    name= {person.name}
-                    numEncounters = {person.numEncounters}
+                    name= {`${person.first_name} ${person.last_name || ''}`}
+                    numEncounters = {person.encounters?.length}
                     lastMet= {person.lastMet}
                     onClick={() => onClickPersonCard(person._id)}
                     onEdit={onEdit}
                     onDelete={onDelete}
-                    firstMet= {person.firstMet}
+                    firstMet= {person.first}
                   />
                 </div>
               );
