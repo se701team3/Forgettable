@@ -29,7 +29,7 @@ const PersonPage = (props) => {
 
   useEffect(async () => {
     const result = await getPerson(id);
-
+    console.log('result', result);
     setPerson({
       firstName: result.first_name,
       lastName: result.last_name,
@@ -42,7 +42,6 @@ const PersonPage = (props) => {
       socialMedia: convertSocialMedia(result.socialMedia),
       img: result.image,
       encounters: result.encounters,
-      encounters: ENCOUNTERS,
       timeUpdated: result.timeUpdated,
     });
   }, [id]);
@@ -85,7 +84,7 @@ const PersonPage = (props) => {
         open={true}
         img={person.img}
         staticDrawer={true}
-        name={`${person.firstName} ${person.lastName}`}
+        name={`${person.firstName} ${person.lastName || ''}`}
         firstMet={person.firstMet}
         interests={person.interests}
         organisation={person.organisation}
