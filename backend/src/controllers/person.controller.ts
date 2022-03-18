@@ -9,6 +9,7 @@ import { PersonModel } from 'src/models/person.model';
 import userService from '../services/user.service';
 import personService from '../services/person.service';
 import encounterService from '../services/encounter.service';
+import getPersonDetails from './utils/controller-utils';
 
 import logger from '../utils/logger';
 import { POST } from './controller.types';
@@ -67,14 +68,27 @@ export const getPersonWithId = async (
     } else {
       // If the person belongs to this user, find it
       let person: any;
+      let personDto: any;
       if (user.persons.includes(new mongoose.Types.ObjectId(req.params.id))) {
         person = await personService.getPersonWithId(req.params.id);
+
+        //Adds embedded encounters with user details to returned person
+        //The stringify and parse combo removes typing and allows altering of the parsed objects.
+        personDto = JSON.parse(JSON.stringify(person));
+        personDto.encounters = JSON.parse(JSON.stringify(
+          await Promise.all(personDto.encounters.map(
+            async (encounterId: any) => { return (await encounterService.getEncounter(encounterId)) }))));
+
+        for (let i = 0; i < personDto.encounters.length; i++ ) {
+          personDto.encounters[i].persons = await Promise.all(personDto.encounters[i].persons.map(
+            async (personsId: any) => { return (await getPersonDetails(personsId))}));
+        }
       }
 
       if (!person) {
         res.status(httpStatus.NOT_FOUND).end();
       } else {
-        res.status(httpStatus.OK).json(person).end();
+        res.status(httpStatus.OK).json(personDto).end();
       }
     }
   } catch (e) {
@@ -189,4 +203,3 @@ export const updatePersonWithId = async (
     next(error);
   }
 };
-
