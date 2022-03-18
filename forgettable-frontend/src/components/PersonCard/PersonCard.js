@@ -53,7 +53,7 @@ const PersonCard = (props) => {
 
   return (
     <StyledEngineProvider injectFirst>
-      <div className={classes.PersonCard}>
+      <div className={classes.PersonCard} onClick={props.onClick}>
         <div className={classes.ContentContainer}>
           <Avatar
             alt={props.name}
