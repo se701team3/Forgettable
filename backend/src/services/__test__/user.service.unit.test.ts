@@ -1,6 +1,6 @@
 import databaseOperations from '../../utils/test/db-handler';
 
-import { addEncounterToUser, createUser } from '../user.service';
+import { addEncounterToUser, createUser, deleteUserPerson, deleteUserEncounter } from '../user.service';
 import User, { UserModel } from '../../models/user.model';
 
 beforeAll(async () => {databaseOperations.connectDatabase()});
@@ -53,6 +53,14 @@ const user6Data:UserModel = {
     last_name: 'Ray',
     encounters: null as any,
     persons: [] as any,
+}
+
+const user7Data:UserModel = {
+    auth_id: "0000",
+    first_name: 'Sting',
+    last_name: 'Ray',
+    encounters: ["62330cf64ec3986f4d1ab01a"] as any,
+    persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
 }
 
 describe('User creation service', () => {
@@ -144,3 +152,51 @@ describe('Add encounter to user', () => {
         expect(await addEncounterToUser(user1Data.auth_id, encounterId)).toEqual(false);
     })
 })
+
+// Delete User Person Service
+
+describe('Delete User Person Service', () => {
+
+    it('Successfully deletes person if person ID exists',  async () => {
+
+        // Create User
+        const user = new User(user7Data);
+
+        const result = await deleteUserPerson("656e636f756e746572314964");
+        expect(result);
+    })
+
+    it('Returns FALSE if person ID does not exist in user',  async () => {
+
+        // Create User
+        const user = new User(user7Data);
+
+        const result = await deleteUserPerson("0000636f756e746572310000");
+        expect(!result);
+    })
+});
+
+// Delete User Encounter Service
+
+describe('Delete User Encounter Service', () => {
+
+    it('Successfully deletes encounter if encounter ID exists',  async () => {
+
+        // Create User
+        const user = new User(user7Data);
+
+        const result = await deleteUserEncounter("62330cf64ec3986f4d1ab01a");
+        expect(result);
+    })
+
+    it('Returns FALSE if encounter ID does not exist in user',  async () => {
+
+        // Create User
+        const user = new User(user7Data);
+
+        const result = await deleteUserEncounter("0000636f756e746572310000");
+        expect(!result);
+    })
+});
+
+
