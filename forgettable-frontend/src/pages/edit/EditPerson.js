@@ -1,5 +1,5 @@
 import {Avatar, Input} from '@mui/material';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useState, useRef} from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import classes from './EditPerson.module.css';
@@ -22,43 +22,64 @@ export default function EditPerson() {
 
   const {id} = (!create) && useParams();
 
-  let personData = {};
+  // let personData = {};
 
   // temp data
-  (!create) && (
-    personData = {
-      first_name: 'Name',
-      last_name: 'Last',
-      birthday: '2012-03-04',
-      gender: 'male',
-      location: 'here',
-      first_met: '2001-01-01',
-      how_we_met: 'idk',
-      interests: 'a',
-      organisation: 'job co.',
-      social_media: new Map([['twitter', 'fdfd']]),
-      image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
-      encounters: [],
-      time_updated: '0002-02-02',
-    });
+  // (!create) && (
+  //   personData = {
+  //     first_name: 'Name',
+  //     last_name: 'Last',
+  //     birthday: '2012-03-04',
+  //     gender: 'male',
+  //     location: 'here',
+  //     first_met: '2001-01-01',
+  //     how_we_met: 'idk',
+  //     interests: 'a',
+  //     organisation: 'job co.',
+  //     social_media: new Map([['twitter', 'fdfd']]),
+  //     image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
+  //     encounters: [],
+  //     time_updated: '0002-02-02',
+  //   });
 
-  async function getPersonData() {
+  const [personData, setPersonData] = useState({
+    first_name: 'Name',
+    last_name: 'Last',
+    birthday: '2012-03-04',
+    gender: 'male',
+    location: 'here',
+    first_met: '2001-01-01',
+    how_we_met: 'idk',
+    interests: 'a',
+    organisation: 'job co.',
+    social_media: new Map([['twitter', 'fdfd']]),
+    image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
+    encounters: [],
+    time_updated: '0002-02-02',
+  });
+
+  function handleUpdateData(newData) {
+    setPersonData(newData);
+  }
+
+  useEffect(async () => {
     try {
-      personData = await apiCalls.getPerson(id);
+      receivedData = await apiCalls.getPerson(id);
+      handleUpdateData(receivedData);
     } catch (err) {
       console.log(err);
     }
-  }
+  }, [id]);
 
   let initialProfilePic = '';
   let initialProfilePicPreview = '';
 
   if (!create) {
-    getPersonData();
     personData.hasOwnProperty('image') && (
       initialProfilePic = personData.image,
       initialProfilePicPreview = 'data:image/*;base64,' + personData.image);
   }
+
 
   const [profilePicPreview, setProfilePicPreview] = useState(initialProfilePicPreview);
   const [profilePic, setProfilePic] = useState(initialProfilePic);
@@ -223,7 +244,7 @@ export default function EditPerson() {
           />
           <label htmlFor='submit'>
             <CustomButton btnText="Save"
-              onClick={() => navigate('/encounters/create', {'replace': true})}
+              // onClick={() => navigate('/encounters/create', {'replace': true})}
             />
           </label>
           <input ref={invisSocialMediaSubmitRef} id='submit' type="submit" className={classes.hiddenSubmit}/>
