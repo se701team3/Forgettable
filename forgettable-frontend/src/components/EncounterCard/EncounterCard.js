@@ -63,11 +63,11 @@ EncounterCard.propTypes = {
   description: PropTypes.string.isRequired,
   persons: PropTypes.arrayOf(PropTypes.shape({
     first_name: PropTypes.string.isRequired,
-    last_name: PropTypes.string.isRequired,
+    last_name: PropTypes.string,
     img: PropTypes.string,
   })),
   date: PropTypes.instanceOf(Date),
-  location: PropTypes.string.isRequired,
+  location: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   isInitialEncounter: PropTypes.bool.isRequired,
