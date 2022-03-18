@@ -134,7 +134,7 @@ const PersonCard = (props) => {
               <p className={classes.Encounters}
                 data-testid="encounters-element"
               >
-                  Encounters: {props.numEncounters} times
+                  Encounters: {props.numEncounters || '0'} times
               </p>
               <p className={classes.LastMet}
                 data-testid="last-met-element"
