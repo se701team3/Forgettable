@@ -8,8 +8,11 @@ import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {withRouter} from 'react-router-dom';
 import {getAllPersons} from '../../services';
+import {useNavigate} from 'react-router-dom';
 
 export default function Persons(props) {
+  const navigate = useNavigate();
+
   const [isHover, setIsHover] = useState(false);
   const [selectedInfo, setSelectedInfo] = useState(undefined);
   const [hasMore, setHasMore] = useState(true);
@@ -17,22 +20,22 @@ export default function Persons(props) {
 
   const [personList, setPersonList] = useState( [] );
 
-  useEffect(() => {
-    const result = getAllPersons();
+  useEffect(async () => {
+    const result = await getAllPersons();
+    console.log(result);
 
     if (result) {
       setPersonList(result);
     }
   }, []);
 
-  const onClick = (id) => {
+  const onClickNewEntry = () => {
     console.log('hi');
-    props.history.push('/person/1');
+    navigate(`/persons/create`);
   };
 
-  const handleNavi = () => {
-    console.log('hfhdajkh faljfki');
-    props.history.push('/person/1');
+  const onClickPersonCard = (id) => {
+    navigate(`/person/${id}`);
   };
 
   const onDelete = () => {
@@ -103,7 +106,7 @@ export default function Persons(props) {
         <div className={classes.Utilities}>
           <SearchBar placeholder={'Search'}/>
           <div className={classes.Button}>
-            <IconButton btnText="New Entry" onClick={onClick} includeIcon={true} />
+            <IconButton btnText="New Entry" onClick={onClickNewEntry} includeIcon={true} />
           </div>
         </div>
         <div className={classes.List}>
@@ -120,13 +123,18 @@ export default function Persons(props) {
           >
             {personList.map((person, index) => {
               return (
-                <div className={classes.PersonCard} key={`${index}-container`} onMouseOver={() => handleOnMouseOver(index)} onMouseOut={handleOnMouseOut}>
+                <div
+                  className={classes.PersonCard}
+                  key={`${index}-container`}
+                  onMouseOver={() => handleOnMouseOver(index)}
+                  onMouseOut={handleOnMouseOut}
+                >
                   <PersonCard
                     id= {person.id}
                     name= {person.name}
                     numEncounters = {person.numEncounters}
                     lastMet= {person.lastMet}
-                    onClick={handleNavi}
+                    onClick={() => onClickPersonCard(person._id)}
                     onEdit={onEdit}
                     onDelete={onDelete}
                     firstMet= {person.firstMet}
