@@ -8,12 +8,13 @@ import {
 import './index.css';
 import App from './pages/home/App';
 import reportWebVitals from './reportWebVitals';
-import NavBar from './components/NavBar/NavBar';
+import NavBar from './Components/NavBar/NavBar';
 import Settings from './pages/settings/settings';
 import People from './pages/Persons/Persons';
 import Encounters from './pages/encounters/encounters';
 import PersonPage from './pages/PersonPage/PersonPage';
 import SignInPage from './pages/SignInPage/SignInPage';
+import CreateEncounter from './pages/encounters/CreateEncounter';
 
 function LoggedIn(props: any) {
   const isLoggedIn = props.loggedIn;
@@ -34,6 +35,7 @@ ReactDOM.render(
             <Route path="people" element={<People/>} />
             <Route path="encounters" element={<Encounters/>} />
             <Route path="person/:id" element={<PersonPage/>} />
+            <Route path="encounters/create" element={<CreateEncounter/>} />
           </Routes>
         </div>
       </BrowserRouter>

@@ -1,14 +1,33 @@
 import React from 'react';
 import classes from './CreateEncounter.module.css';
-import SearchBar from '../../Components/SearchBar/SearchBar';
 import {Card} from '@mui/material';
 import TextField from '@mui/material/TextField';
 import CustomButton from '../../Components/CustomButton/CustomButton';
 import {Autocomplete} from '@mui/material';
 
 
-export default function Encounters() {
+export default function Encounters(props) {
+  const {person} = props;
+  // dummydata
   const options = ['Flynn', 'Jared'];
+
+  const [name, setName]=React.useState(' ');
+  const [date, setDate]=React.useState(' ');
+  const [where, setWhere]=React.useState(' ');
+  const [details, setDetails]=React.useState(' ');
+  const handleNameChange=(event)=>{
+    setName(event.target.name);
+  };
+  const handleDateChange=(event)=>{
+    setDate(event.target.date);
+  };
+  const handleWhereChange=(event)=>{
+    setWhere(event.target.where);
+  };
+  const handleDetailsChange=(event)=>{
+    setDetails(event.target.details);
+  };
+
   const handleCancelClick = (event) => {
     alert('canceled');
   };
@@ -29,6 +48,8 @@ export default function Encounters() {
                 sx={{width: 250}}
                 size='small'
                 renderInput={(params) => <TextField {...params} label="" />}
+                value={name}
+                onChange={handleNameChange}
               />
             </div>
           </div>
@@ -39,6 +60,8 @@ export default function Encounters() {
               id="fullWidth"
               color='info'
               sx={{width: 250, marginLeft: 3}}
+              value={date}
+              onChange={handleDateChange}
             >
             </TextField></div>
           </div>
@@ -49,6 +72,8 @@ export default function Encounters() {
               id="fullWidth"
               color='info'
               sx={{width: 250, marginLeft: 1.5}}
+              value={where}
+              onChange={handleWhereChange}
             >
             </TextField></div>
           </div>
@@ -60,6 +85,8 @@ export default function Encounters() {
               multiline
               color='info'
               rows={7}
+              value={details}
+              onChange={handleDetailsChange}
             >
             </TextField>
           </div>
