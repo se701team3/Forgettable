@@ -58,7 +58,7 @@ const PersonPage = (props) => {
       organisation: result.organisation,
       socialMedia: convertSocialMedia(result.socialMedia),
       img: result.image,
-      encounters: result.encounters,
+      encounters: result.encounters || [],
       timeUpdated: result.timeUpdated,
     });
   }, [id]);
