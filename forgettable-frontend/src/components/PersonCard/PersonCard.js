@@ -5,7 +5,6 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import './PersonCard.css';
 import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import PropTypes from 'prop-types';
 import {getFirstMetTimeString, getDateLastMetString} from '../../functions/dateFormatter';
@@ -21,10 +20,12 @@ const PersonCard = (props) => {
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (event) => {
+    event.stopPropagation();
     setAnchorEl(null);
   };
 
@@ -32,9 +33,9 @@ const PersonCard = (props) => {
     props.socialMedias.map((socialMedia) => {
       return (
         <Avatar
-          key={socialMedia}
-          src={convertSocialMediaToIcon(socialMedia)}
-          alt={socialMedia}
+          key={socialMedia.name}
+          src={convertSocialMediaToIcon(socialMedia.name)}
+          alt={socialMedia.name}
         >
         </Avatar>
       );
@@ -53,7 +54,7 @@ const PersonCard = (props) => {
 
   return (
     <StyledEngineProvider injectFirst>
-      <div className={classes.PersonCard}>
+      <div className={classes.PersonCard} onClick={props.onClick}>
         <div className={classes.ContentContainer}>
           <Avatar
             alt={props.name}
@@ -134,7 +135,7 @@ const PersonCard = (props) => {
               <p className={classes.Encounters}
                 data-testid="encounters-element"
               >
-                  Encounters: {props.numEncounters} times
+                  Encounters: {props.numEncounters || '0'} times
               </p>
               <p className={classes.LastMet}
                 data-testid="last-met-element"
@@ -146,6 +147,12 @@ const PersonCard = (props) => {
                   spacing={2}
                   aria-label="social-media-icons"
                   data-testid="social-media-icons-element"
+                  sx={{
+                    '& .MuiAvatar-root': {
+                      width: 20,
+                      height: 20,
+                      fontSize: 15},
+                  }}
                 >
                   { socialMediaIcons }
                 </AvatarGroup>
