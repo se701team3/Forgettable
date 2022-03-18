@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import EncounterCard from '../../components/EncounterCard/EncounterCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './encounters.module.css';
@@ -187,7 +188,12 @@ export default function Encounters() {
         <div className={classes.Utilities}>
           <SearchBar hasAutocomplete={false} exportSearchString={exportSearchString} placeholder={'Search'}/>
           <div className={classes.Button}>
-            <IconButton btnText="New Entry" onClick={handleNewEntryClick} includeIcon={true} />
+            <Link to={{
+              pathname: `/encounters/create`,
+            }}
+            style={{textDecoration: 'none'}}
+            >
+              <IconButton btnText="New Encounter" onClick={() => {}} includeIcon={true} />
             </Link>
           </div>
         </div>
