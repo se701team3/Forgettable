@@ -32,9 +32,9 @@ const PersonCard = (props) => {
     props.socialMedias.map((socialMedia) => {
       return (
         <Avatar
-          key={socialMedia}
-          src={convertSocialMediaToIcon(socialMedia)}
-          alt={socialMedia}
+          key={socialMedia.name}
+          src={convertSocialMediaToIcon(socialMedia.name)}
+          alt={socialMedia.name}
         >
         </Avatar>
       );
@@ -146,6 +146,12 @@ const PersonCard = (props) => {
                   spacing={2}
                   aria-label="social-media-icons"
                   data-testid="social-media-icons-element"
+                  sx={{
+                    '& .MuiAvatar-root': {
+                      width: 20,
+                      height: 20,
+                      fontSize: 15},
+                  }}
                 >
                   { socialMediaIcons }
                 </AvatarGroup>
