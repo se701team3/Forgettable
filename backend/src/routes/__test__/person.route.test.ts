@@ -627,8 +627,8 @@ describe('DELETE /person/:id', () => {
       expect(newUser?.persons).toHaveLength(user.persons.length);
   })
 
-// Delete Person 400
-  it('Sends BAD_REQUEST if Person ID is not in Collection: ', async () => {
+// Delete Person 409
+  it('Sends CONFLICT if Person ID is not in Collection: ', async () => {
       // Get Authentication ID for User
       const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -646,7 +646,7 @@ describe('DELETE /person/:id', () => {
       await supertest(app).delete(`/api/persons/${invalidPersonId}`)
           .set('Accept', 'application/json')
           .set('Authorization', token)
-          .expect(httpStatus.BAD_REQUEST);
+          .expect(httpStatus.CONFLICT);
 
       // Check that invalid ID is deleted from User
       const newUser = await User.findOne({auth_id: user.auth_id});
