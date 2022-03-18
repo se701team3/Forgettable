@@ -122,7 +122,7 @@ describe('Delete Person Service', () => {
     expect(result);
   })
 
-  it ('Returns FALSE if person ID does not exist', async () => {
+  it ('Returns false if person ID does not exist', async () => {
    const result = await personService.deletePersons("62330cf64ec3986f4d1ab01a");
    expect(!result);
  })
@@ -139,7 +139,7 @@ describe('Delete Person Encounter Service', () => {
     expect(result);
   })
 
-  it ('Returns FALSE if encounter ID does not exist', async () => {
+  it ('Returns false if encounter ID does not exist', async () => {
     // Create Person
     const personOne = new Person(person3Data);
 
