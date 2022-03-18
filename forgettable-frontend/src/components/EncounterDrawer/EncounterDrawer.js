@@ -12,10 +12,9 @@ import convertSocialMediaNamesToIcons,
 import {IconButton} from '@mui/material';
 import {getBirthdayString} from '../../functions/dateFormatter';
 import CustomAvatarCollection from '../CustomAvatarCollection/CustomAvatarCollection';
+import UnknownDetail from '../UnknownDetail/UnknownDetail';
 
 const EncounterDrawer = (props) => {
-  const unknownDetail = <span className={classes.UnknownText}>Unknown</span>;
-
   return (
     <Drawer
       sx={{
@@ -47,14 +46,14 @@ const EncounterDrawer = (props) => {
             {'Date we met: '}
             {props.dateMet ?
             getDateLastMetString(props.dateMet) :
-            unknownDetail}
+            <UnknownDetail/>}
           </div>
           <div
             className={classes.EncounterProperty}
             data-testid="location-element"
           >
             {'Location: '}
-            {props.location ? props.location : unknownDetail}
+            {props.location ? props.location : <UnknownDetail/>}
           </div>
           <h2>Details:</h2>
           <p className={classes.EncounterDetails} data-testid="details-element">
