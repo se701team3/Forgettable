@@ -36,7 +36,7 @@
     background-color: var(--prmry);
     width: 420px;
     height: 60px;
-    font-size: 20px;
+    font-size: var(--text-medium);
     border-radius: 8px;
     text-align: center;
     display: inline-block;
