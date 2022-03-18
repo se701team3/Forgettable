@@ -24,8 +24,8 @@ function SettingsPage() {
       <div className={classes.border}></div>
       <div className={classes.name}>Name</div>
       <div className={classes.content}>{user ? user : 'user name'}</div>
-      <div className={classes.email}>Email</div>
-      <div className={classes.content}>username@gmail.com</div>
+      {/* <div className={classes.email}>Email</div>
+      <div className={classes.content}>username@gmail.com</div> */}
       <div className={classes.border2}></div>
       <button className={classes.button} onClick={signOutHandler}>Log out</button>
       <div className={classes.appearence}>Appearence:</div>
