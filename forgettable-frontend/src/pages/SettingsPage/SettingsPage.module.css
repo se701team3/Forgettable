@@ -1,0 +1,116 @@
+.title{
+    text-align: left;
+    margin-left: 200px;
+    font-size: 40px;
+    margin-top: 65px;
+    font-weight: 600;
+    font-style: normal;
+  }
+  
+  .account{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 45px;
+    font-size: 23px;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  .border{
+    border-style: solid;
+    color: #C4C4C4;
+    width: 744px;
+    margin-left: 200px;
+    margin-top: 15px;
+    border-width: 1px;
+  }
+  
+  .name{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 33px;
+    font-size: 17px;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .content{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 4px;
+    font-size: 16px;
+    font-weight: 400;
+    font-style: normal;
+    color: #979797;
+  }
+  
+  .email{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 12px;
+    font-size: 17px;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .border2{
+    border-style: solid;
+    color: #C4C4C4;
+    width: 744px;
+    margin-left: 200px;
+    margin-top: 42px;
+    border-width: 1px;
+  }
+  
+  .button{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 30px;
+    border-radius: 5px;
+    background-color: white;
+    height: 33px;
+    width: 82px;
+    text-align: center;
+  }
+  
+  /* .dangerZone{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 23px;
+    font-size: 17px;
+    font-weight: 400;
+    color: #C00101;
+  }
+  
+  .button2{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 11px;
+    border-radius: 5px;
+    background-color: white;
+    height: 33px;
+    width: 169px;
+    text-align: center;
+    border-color: #C00101;
+    color: #C00101;
+  } */
+  
+  .appearence{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 150px;
+    font-size: 23px;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  .toolbar{
+    margin-top: 30px;
+  }
+  
+  .darkMode{
+    font-size: 17px;
+    margin-left: 200px;
+    text-align: left;
+    margin-top: 30px;
+  }
