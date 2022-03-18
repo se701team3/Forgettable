@@ -36,13 +36,13 @@
     margin-top: 20px;
     display: flex;
     flex-direction: row;
-    font-size: 16px;
-    font-weight: 400;
+    font-size:  var(--text-small);
+    font-weight:var(--font-regular);
 }
 .Details{
     margin-top: 10px;
-    font-size: 20px;
-    font-weight: 600;
+    font-size:  var(--text-medium);
+    font-weight: var(--font-semibold);
 }
 .Buttons{
     margin-top: 40px;
