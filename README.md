@@ -13,12 +13,10 @@ This makes encounters between people smoother and more engaging, while also help
 
 ## Getting Started
 
-To run all features of the application, start the frontend, backend, and MongoDB instances by following the readmes below.
+To run all features of the application, start the Frontend, Backend, and MongoDB instances by reading and following the relevant README file below.
 
-## Readme
-
-- [Frontend Readme](./forgettable-frontend/)
-- [Backend Readme](./backend/)
+- [Frontend README](./forgettable-frontend/)
+- [Backend README](./backend/)
 
 ## Developers
 _**Forgettable**_, Software Engineering 701 Team 3, The University of Auckland
