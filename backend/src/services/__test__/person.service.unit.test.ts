@@ -41,6 +41,22 @@ afterAll(async () => databaseOperations.closeDatabase());
   };
 
   const person3Data:PersonModel = {
+    first_name: 'test3name',
+    last_name: 'test3lastName',
+    interests: ['c', 'd'],
+    organisation: 'anotherOrg',
+    time_updated: new Date('2022-01-01'),
+    how_we_met: 'Over there',
+    birthday: new Date('2002-12-12'),
+    encounters: ["62330cf64ec3986f4d1ab01a"] as any,
+    first_met: new Date('2022-01-01'),
+    gender: "male",
+    image: null as any,
+    location: null as any,
+    social_media: null as any
+  };
+
+  const person4Data:PersonModel = {
     first_name: null as any,
     last_name: 'testllastName',
     interests: ['a', 'b'],
@@ -56,7 +72,7 @@ afterAll(async () => databaseOperations.closeDatabase());
     social_media: null as any
   };
 
-  const person4Data:PersonModel = {
+  const person5Data:PersonModel = {
     first_name: 'testfirstname',
     last_name: 'testllastName',
     interests: ['a', 'b'],
@@ -81,11 +97,11 @@ afterAll(async () => databaseOperations.closeDatabase());
     });
 
     it ('Cannot create a person if first name is missing', async () => {
-      await expect(personService.createPerson(person3Data)).rejects.toThrow('Person validation failed: first_name: Path `first_name` is required.');
+      await expect(personService.createPerson(person4Data)).rejects.toThrow('Person validation failed: first_name: Path `first_name` is required.');
     });
 
     it ('Cannot create a person if time_updated is missing', async () => {
-      await expect(personService.createPerson(person4Data)).rejects.toThrow('Person validation failed: time_updated: Path `time_updated` is required.');
+      await expect(personService.createPerson(person5Data)).rejects.toThrow('Person validation failed: time_updated: Path `time_updated` is required.');
     });
   });
 
