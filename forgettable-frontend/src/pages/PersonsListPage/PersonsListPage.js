@@ -21,12 +21,10 @@ export default function Persons(props) {
   const [hasMore, setHasMore] = useState(true);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [personToDelete, setPersonToDelete] = useState();
-
   const [personList, setPersonList] = useState( [] );
 
   useEffect(async () => {
     const result = await getAllPersons();
-    console.log(result);
 
     if (result) {
       setPersonList(result);
@@ -34,17 +32,14 @@ export default function Persons(props) {
   }, []);
 
   const onClickNewEntry = () => {
-    console.log('hi');
     navigate(`/persons/create`);
   };
 
   const onClickPersonCard = (id) => {
-    console.log('cardclicked');
     navigate(`/person/${id}`);
   };
 
   const onDeletePersonCardClicked = (event, id) => {
-    console.log('delete');
     event.stopPropagation();
     // Delete card
     setDeleteModalOpen(true);
@@ -52,7 +47,6 @@ export default function Persons(props) {
   };
 
   const onEditPersonCardClicked = (event, id) => {
-    console.log('edit');
     event.stopPropagation();
     navigate(`/person/${id}/edit`);
   };
@@ -88,31 +82,7 @@ export default function Persons(props) {
     setDeleteModalOpen(false);
   };
 
-  for (let i = 1; i < 20; i++) {
-    personList[i] = {
-      ...personList[0],
-      id: i.toString(),
-    };
-  }
-
   const fetchMoreData = () => {
-    // console.log('fetch more');
-    if (personList.length > 100) {
-      setHasMore(false);
-      return;
-    }
-
-    setTimeout(() => {
-      const newList = [];
-      newList[0] = personList[0];
-      for (let i = 0; i < 20; i++) {
-        newList[i] = {
-          ...newList[0],
-          id: i.toString(),
-        };
-      }
-      setPersonList([...personList, ...newList]);
-    }, 1000);
   };
 
   const handleOnMouseOver = (index) => {
@@ -194,7 +164,7 @@ export default function Persons(props) {
                     onClick={() => onClickPersonCard(person._id)}
                     onEdit={(e) => onEditPersonCardClicked(e, person._id)}
                     onDelete={(e) => onDeletePersonCardClicked(e, person._id)}
-                    firstMet= {person.first}
+                    firstMet= {person.first_met}
                   />
                 </div>
               );
