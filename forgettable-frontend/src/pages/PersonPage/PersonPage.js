@@ -8,6 +8,7 @@ import {ENCOUNTERS} from './PlaceholderData';
 import {Link, Navigate, useParams} from 'react-router-dom';
 // import {useHistory} from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
+import EncounterDetailsModal from '../../components/EncounterDetailsModal/EncounterDetailsModal';
 
 /*
  * This is the detailed person profile page. Displays the information
@@ -18,6 +19,9 @@ import {useNavigate} from 'react-router-dom';
 const PersonPage = (props) => {
   const {id} = useParams();
   const navigate = useNavigate();
+
+  const [selectedEncounter, setSelectedEncounter] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [person, setPerson] = useState({
     firstName: '',
@@ -77,17 +81,38 @@ const PersonPage = (props) => {
           description={encounter.description}
           persons={encounter.persons}
           location={encounter.location}
-          onClick={() => {}}
           onDelete={() => {}}
           date={encounter.date}
           isInitialEncounter={false}
+          onClick={() => onClick(encounter)}
         />
       </div>
     );
   };
 
+  const onClick = (encounter) => {
+    console.log('card click');
+    console.log(encounter);
+    setSelectedEncounter(encounter);
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
+  const onDelete = () => {
+    console.log('delete');
+  };
+
   return (
     <div className={classes.PersonPage}>
+      {selectedEncounter && <EncounterDetailsModal
+        open={modalOpen}
+        onClose={handleModalClose}
+        encounter={selectedEncounter}
+        onDelete={onDelete}
+      />}
       <PersonDrawer
         open={true}
         img={person.img}
