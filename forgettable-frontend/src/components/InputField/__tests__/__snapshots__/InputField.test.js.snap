@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders multiLine input field correctly 1`] = `
+<div>
+  <label
+    className="inputLabelMultiLine"
+  >
+    MULTILINE
+    <textarea
+      className="inputFieldMultiLine"
+      name="MultiLineInputField"
+      onChange={[Function]}
+      placeholder="MULTILINE TEXT"
+      type="text"
+      value=""
+    />
+  </label>
+</div>
+`;
+
+exports[`renders primary input field correctly 1`] = `
+<div>
+  <label
+    className="inputLabelPrimary"
+  >
+    PRIMARY
+    <input
+      className="inputFieldPrimary"
+      name="PrimaryInputField"
+      onChange={[Function]}
+      placeholder="PRIMARY TEXT"
+      type="text"
+      value=""
+    />
+  </label>
+</div>
+`;
+
+exports[`renders secondary input field correctly 1`] = `
+<div>
+  <label
+    className="inputLabelSecondary"
+  >
+    SECONDARY
+    <input
+      className="inputFieldSecondary"
+      name="SecondaryInputField"
+      onChange={[Function]}
+      placeholder="SECONDARY TEXT"
+      type="text"
+      value=""
+    />
+  </label>
+</div>
+`;

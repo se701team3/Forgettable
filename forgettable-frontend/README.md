@@ -1,4 +1,6 @@
-# Forgettable - Frontend
+git checkout main
+git merge --no-ff se701team3-main
+git push origin main# Forgettable - Frontend
 
 This is the frontend of Forgettable repository.
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

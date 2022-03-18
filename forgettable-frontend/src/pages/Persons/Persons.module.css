@@ -1,0 +1,57 @@
+@import '../../colours.css';
+
+.Container{
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-left: 35px;
+    margin-top: 70px;
+    margin-bottom: 70px;
+    margin-right: 490px;
+    min-width: 680px;
+    max-width: 934px;
+}
+
+.Left{
+    height: 100%;
+    padding: 70px;
+    width: 85%;
+    min-width: 800px;
+}
+
+.Right{
+    top: 0;
+    position: sticky;
+    padding: 70px;
+    width: 15%;
+    min-width: 150px;
+    height: auto;
+}
+
+.Header{
+    font-size: var(--text-xxlarge);
+    font-weight: var(--font-semibold);
+}
+
+.Utilities{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 26px;
+    justify-content: space-between;
+}
+
+.Button{
+    flex-shrink: 0;
+    height: auto;
+}
+
+.List{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.PersonCard{
+    margin-bottom: 40px;
+}

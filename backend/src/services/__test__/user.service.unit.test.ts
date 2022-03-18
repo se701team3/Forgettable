@@ -1,6 +1,6 @@
 import databaseOperations from '../../utils/test/db-handler';
 
-import { createUser } from '../user.service';
+import { addEncounterToUser, createUser } from '../user.service';
 import User, { UserModel } from '../../models/user.model';
 
 beforeAll(async () => {databaseOperations.connectDatabase()});
@@ -118,5 +118,29 @@ describe('User creation service', () => {
             const foundUser = await User.findOne({auth_id: user2Data.auth_id}).exec();
             expect(foundUser).toBeFalsy();
         };
+    })
+})
+
+describe('Add encounter to user', () => {
+    it ('Successfully add an encounter to a User', async () => {
+        await createUser(user1Data);
+
+        const encounterId = "656e636f756e746572314964";
+        expect(await addEncounterToUser(user1Data.auth_id, encounterId)).toEqual(true);
+    })
+
+    it ('Encounter id stored correctly', async () => {
+        await createUser(user1Data);
+
+        let encounterId = "656e636f756e746572314964";
+        await addEncounterToUser(user1Data.auth_id, encounterId);
+
+        const storedUser = await User.findOne({ auth_id: user1Data.auth_id }).exec();
+        expect(storedUser?.encounters.includes(encounterId as any)).toEqual(true);
+    })
+
+    it ('Fails to add encounter to not existing user', async () => {
+        const encounterId = "656e636f756e746572314964";
+        expect(await addEncounterToUser(user1Data.auth_id, encounterId)).toEqual(false);
     })
 })

@@ -17,3 +17,15 @@ export const getBirthdayString = (timeInMs) => {
                   moment(timeInMs).format('DD MMM YYYY') :
                   '';
 };
+
+export const calculateAge = (timeInMs) => {
+  return timeInMs ?
+                  moment().diff(moment(timeInMs), 'years') :
+                  '';
+};
+
+export const getDateString = (timeInMs) => {
+  return timeInMs ?
+          moment(timeInMs).format('DD/MM/YYYY') :
+          'Unknown :(';
+};

@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
+<ForwardRef(Drawer)
+  anchor="right"
+  data-testid="drawer-element"
+  open={true}
+  sx={
+    Object {
+      "& .MuiDrawer-paper": Object {
+        "boxSizing": "border-box",
+        "width": "460px",
+      },
+      "flexShrink": 0,
+      "width": "460px",
+    }
+  }
+  variant="persistent"
+>
+  <div
+    className="EncounterDrawer"
+  >
+    <div
+      className="ContentContainer"
+    >
+      <h1
+        className="EncounterTitle"
+        data-testid="title-element"
+      />
+      <div
+        className="SubtitleContainer"
+      >
+        <h3
+          className="EncounterSubtitle"
+        >
+          You encountered: 
+        </h3>
+        <CustomAvatarCollection
+          persons={
+            Array [
+              Object {
+                "id": "1",
+                "img": "https://www.w3schools.com/w3css/img_lights.jpg",
+                "name": "John Doe",
+              },
+              Object {
+                "id": "2",
+                "img": "https://user-images.githubusercontent.com/62003343/158133392-b606b9d2-b05a-49dc-a4e8-9d6aed696d6b.gif",
+                "name": "Mercury Lin",
+              },
+              Object {
+                "id": "3",
+                "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+                "name": "Raina Song",
+              },
+            ]
+          }
+        />
+      </div>
+      <div
+        className="EncounterProperty"
+        data-testid="date-met-element"
+      >
+        Date we met: 
+        01/01/2020
+      </div>
+      <div
+        className="EncounterProperty"
+        data-testid="location-element"
+      >
+        Location: 
+        London
+      </div>
+      <h2>
+        Details:
+      </h2>
+      <p
+        className="EncounterDetails"
+        data-testid="details-element"
+      >
+        We met on a train, it was a long journey
+      </p>
+    </div>
+  </div>
+</ForwardRef(Drawer)>
+`;
