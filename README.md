@@ -24,5 +24,5 @@ To contribute to this project, please see the [Contributing guide](CONTRIBUTING.
 _**Forgettable**_, Software Engineering 701 Team 3, The University of Auckland
 
 ## License
-MIT
+[MIT](LICENSE)
 
