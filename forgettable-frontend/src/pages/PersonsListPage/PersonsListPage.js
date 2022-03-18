@@ -35,15 +35,20 @@ export default function Persons(props) {
   };
 
   const onClickPersonCard = (id) => {
+    console.log('cardclicked');
     navigate(`/person/${id}`);
   };
 
-  const onDelete = () => {
+  const onDeletePersonCardClicked = (event, id) => {
     console.log('delete');
+    event.stopPropagation();
+    // Delete card
   };
 
-  const onEdit = () => {
+  const onEditPersonCardClicked = (event, id) => {
     console.log('edit');
+    event.stopPropagation();
+    navigate(`/person/${id}/edit`);
   };
 
   for (let i = 1; i < 20; i++) {
@@ -135,8 +140,8 @@ export default function Persons(props) {
                     numEncounters = {person.encounters?.length}
                     lastMet= {person.lastMet}
                     onClick={() => onClickPersonCard(person._id)}
-                    onEdit={onEdit}
-                    onDelete={onDelete}
+                    onEdit={(e) => onEditPersonCardClicked(e, person._id)}
+                    onDelete={(e) => onDeletePersonCardClicked(e, person._id)}
                     firstMet= {person.first}
                   />
                 </div>
