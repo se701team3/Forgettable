@@ -1,7 +1,7 @@
 import databaseOperations from '../../utils/test/db-handler';
+import User, { UserModel } from '../../models/user.model';
 import Person, { PersonModel } from '../../models/person.model';
 import Encounter, { EncounterModel } from '../../models/encounter.model';
-import User, { UserModel } from '../../models/user.model';
 import app from '../../server';
 import httpStatus from "http-status";
 import testUtils from '../../utils/test/test-utils';
@@ -23,6 +23,7 @@ afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
 const user1Data = {
+    auth_id: null as any,
     first_name: 'Bing',
     last_name: 'Bong',
     encounters: [] as any,
@@ -429,11 +430,171 @@ describe('PUT /encounters/:id ', () => {
     })
 });
 
+describe('GET encounters/', () => {
+    it ('Only return encounters associated with the user', async () => {
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+      await new Encounter(encounter4Data).save();
+  
+      user1Data.encounters = [encounter1ID, encounter2ID];
+      user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+      await new User(user1Data).save();
+  
+      const { body: retrievedEncounters } = await supertest(app)
+        .get('/api/encounters')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .expect(httpStatus.OK)
+  
+      expect(retrievedEncounters).toHaveLength(2);
+      expect(retrievedEncounters[0]._id).toEqual(encounter1ID);
+      expect(retrievedEncounters[1]._id).toEqual(encounter2ID);
+    });
+
+    it ('Return all encounters if the "term" query param is empty', async () => {
+        const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+        const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+        const encounter4ID = (await new Encounter(encounter4Data).save()).id;
+    
+        user1Data.encounters = [encounter1ID, encounter2ID, encounter4ID];
+        user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        await new User(user1Data).save();
+    
+        const { body: retrievedEncounters } = await supertest(app)
+          .get('/api/encounters')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .query({ term: "" })
+          .expect(httpStatus.OK)
+    
+        expect(retrievedEncounters).toHaveLength(3);
+    });
+
+    it ('Return "200 OK" with an empty array if the user has no encounters', async () => {
+        await new Encounter(encounter1Data).save();
+        await new Encounter(encounter2Data).save();
+        await new Encounter(encounter4Data).save();
+    
+        user1Data.encounters = [];
+        user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        await new User(user1Data).save();
+    
+        const { body: retrievedEncounters } = await supertest(app)
+          .get('/api/encounters')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .expect(httpStatus.OK)
+    
+        expect(retrievedEncounters).toHaveLength(0);
+      });
+
+    it ('Return "200 OK" with an empty array if no encounters match the query param "term"', async () => {
+        const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+        const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+        const encounter4ID = (await new Encounter(encounter4Data).save()).id;
+    
+        user1Data.encounters = [encounter1ID, encounter2ID, encounter4ID];
+        user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        await new User(user1Data).save();
+    
+        const { body: retrievedEncounters } = await supertest(app)
+          .get('/api/encounters')
+          .set('Accept', 'application/json')
+          .set('Authorization', token)
+          .query({ term: "a query that no encounters will match" })
+          .expect(httpStatus.OK)
+    
+        expect(retrievedEncounters).toHaveLength(0);
+      });
+  
+    it ('Correctly filters encounters by the "term" query param', async () => {
+      encounter1Data.title = "Movie - Spider-Man: No Way Home"
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      encounter2Data.title = "MOVIE - Free Guy"
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+      encounter4Data.title = "Sports - Badminton"
+      const encounter4ID = (await new Encounter(encounter4Data).save()).id;
+  
+      user1Data.encounters = [encounter1ID, encounter2ID, encounter4ID];
+      user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+      await new User(user1Data).save();
+  
+      const { body: retrievedEncounters } = await supertest(app)
+        .get('/api/encounters')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .query({ term: 'Movie' })
+        .expect(httpStatus.OK)
+  
+      expect(retrievedEncounters).toHaveLength(2);
+      expect(retrievedEncounters[0].title).toBe("Movie - Spider-Man: No Way Home");
+      expect(retrievedEncounters[1].title).toBe("MOVIE - Free Guy");
+    });
+  
+    it ('Does not return duplicates if multiple fields in an encounter match the "term" query', async () => {
+      encounter1Data.title = "Test";
+      encounter1Data.location = "Test";
+      encounter1Data.description = "Test";
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      encounter2Data.title = "Test";
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+  
+      user1Data.encounters = [encounter1ID, encounter2ID];
+      user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+      await new User(user1Data).save();
+  
+      const { body: retrievedEncounters } = await supertest(app)
+        .get('/api/encounters')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .query({ term: "Test" })
+        .expect(httpStatus.OK)
+  
+      expect(retrievedEncounters).toHaveLength(2);
+      expect(retrievedEncounters[0].title).toBe("Test");
+      expect(retrievedEncounters[0].location).toBe("Test");
+      expect(retrievedEncounters[0].description).toBe("Test");
+      expect(retrievedEncounters[1].title).toBe("Test");
+    });
+
+    it ('Correct data is embedded in the "persons" field for each encounter returned', async () => {
+      const person1ID = (await new Person(person1Data).save()).id;
+      const person2ID = (await new Person(person2Data).save()).id;
+      encounter1Data.persons = [person1ID, person2ID];
+      const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+      encounter2Data.persons = [person1ID];
+      const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+
+      user1Data.encounters = [encounter1ID, encounter2ID];
+      user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
+      await new User(user1Data).save();
+
+      const { body: retrievedEncounters } = await supertest(app)
+        .get('/api/encounters')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .expect(httpStatus.OK)
+
+      expect(retrievedEncounters).toHaveLength(2);
+      expect(retrievedEncounters[0].persons[0].first_name).toBe("Ping");
+      expect(retrievedEncounters[0].persons[1].first_name).toBe("Adam");
+      expect(retrievedEncounters[1].persons[0].first_name).toBe("Ping");
+    });
+  
+    it ('Return "401 Unauthorized" if the user does not have a valid auth_id', async () => {
+      await supertest(app)
+        .get('/api/encounters')
+        .set('Accept', 'application/json')
+        .set("Authorization", "FAKE_AUTH_TOKEN")
+        .expect(httpStatus.UNAUTHORIZED);
+    });
+  });
+
 // Delete Encounters Endpoint tests
 
 // Delete Encounter 200
-describe('Delete /encounter 200', () => {
-    it('Successfully deletes SINGLE ENCOUNTER with SINGLE PERSON: ', async () => {
+describe('DELETE /encounter/:id', () => {
+    it('Successfully deletes single encounter with single person: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -476,7 +637,7 @@ describe('Delete /encounter 200', () => {
         expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
     })
 
-    it('Successfully deletes SINGLE ENCOUNTER with MULTIPLE PERSONS: ', async () => {
+    it('Successfully deletes single encounter with multiple persons: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -530,7 +691,7 @@ describe('Delete /encounter 200', () => {
         expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
     })
 
-    it('Successfully deletes MULTIPLE ENCOUNTERS with SINGLE PERSONS: ', async () => {
+    it('Successfully deletes multiple encounters with single persons: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -587,12 +748,10 @@ describe('Delete /encounter 200', () => {
         expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
         expect(await Encounter.findById({_id: encounterTwoId})).toEqual(null);
     }) 
-});
 
 // Delete Encounter 404
 
-describe('Delete /encounter 404', () => {
-    it('Successfully sends back a NOT_FOUND with invalid encounter ID: ', async () => {
+    it('Sends back a NOT_FOUND when invalid encounter ID is requested: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -615,12 +774,10 @@ describe('Delete /encounter 404', () => {
         expect(newUser?.encounters).toHaveLength(user.encounters.length);
         
     })
-});
 
 // Delete Encounter 400
 
-describe('Delete /encounter 400', () => {
-    it('Successfully sends back a BAD_REQUEST with Encounter with empty persons field: ', async () => {
+    it('Sends back a BAD_REQUEST when deleting Encounter with empty persons field: ', async () => {
         // Get Authentication Token
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -646,7 +803,7 @@ describe('Delete /encounter 400', () => {
         expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
     })
 
-    it('Successfully sends back a BAD_REQUEST with Encounter with duplicate encounter IDs in User: ', async () => {
+    it('Sends back a BAD_REQUEST when deleting Encounter with duplicate encounter IDs in User: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -679,9 +836,9 @@ describe('Delete /encounter 400', () => {
 
 // Delete Person 200
 
-describe('Delete /person 200', () => {
+describe('DELETE /person/:id', () => {
 
-    it('Successfully deletes SINGLE PERSON with NO ENCOUNTER: ', async () => {
+    it('Successfully deletes single person with no encounter: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -705,7 +862,7 @@ describe('Delete /person 200', () => {
         expect(newUser?.persons).not.toContain(personOneId);
     })
 
-    it('Successfully deletes SINGLE PERSON with SINGLE ENCOUNTER: ', async () => {
+    it('Successfully deletes single person with single encounter: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -740,7 +897,7 @@ describe('Delete /person 200', () => {
         expect(newUser?.persons).not.toContain(personOneId);
     })
 
-    it('Successfully deletes MULTIPLE PERSONS with MULTIPLE ENCOUNTERS', async () => {
+    it('Successfully deletes multiple persons with multiple encounters', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -810,11 +967,10 @@ describe('Delete /person 200', () => {
         expect(await Person.findById({_id: personOneId})).toEqual(null);
         expect(await Person.findById({_id: personTwoId})).toEqual(null);
     })
-});
 
 // Delete Person 404
-describe('Delete /person 404', () => {
-    it('Successfully sends NOT_FOUND for invalid ID: ', async () => {
+
+    it('Sends NOT_FOUND for invalid ID: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -837,11 +993,9 @@ describe('Delete /person 404', () => {
         const newUser = await User.findOne({auth_id: user.auth_id});
         expect(newUser?.persons).toHaveLength(user.persons.length);
     })
-})
 
 // Delete Person 400
-describe('Delete /person 400', () => {
-    it('Successfully sends BAD_REQUEST if Person ID is not in Collection: ', async () => {
+    it('Sends BAD_REQUEST if Person ID is not in Collection: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
