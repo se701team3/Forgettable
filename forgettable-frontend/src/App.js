@@ -5,7 +5,7 @@ import {
   Route,
 } from 'react-router-dom';
 import Home from './pages/home/Home';
-import Settings from './pages/settings/settings';
+import SettingsPage from './pages/SettingsPage/SettingsPage';
 import People from './pages/Persons/Persons';
 import Encounters from './pages/encounters/encounters';
 import PersonPage from './pages/PersonPage/PersonPage';
@@ -25,7 +25,7 @@ function App() {
         <div className="page-wrapper">
           <Routes>
             <Route path="/" element={<Home/>} />
-            <Route path="settings" element={<Settings/>} />
+            <Route path="settings" element={<SettingsPage/>} />
             <Route path="people" element={<People/>} />
             <Route path="people/create" element={<EditPerson/>} />
             <Route path="people/:id/edit" element={<EditPerson/>} />

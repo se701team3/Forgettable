@@ -1,5 +1,4 @@
 import React from 'react';
-import NavBar from './components/NavBar/NavBar';
 import classes from './SettingsPage.module.css';
 import {getAuth, signOut} from 'firebase/auth';
 import DarkMode from './DarkMode';
@@ -18,7 +17,6 @@ function SettingsPage() {
 
   return (
     <div className='SettingsPage'>
-      <NavBar></NavBar>
       <div className={classes.title}>Settings:</div>
       <div className={classes.account}>Account:</div>
       <div className={classes.border}></div>
