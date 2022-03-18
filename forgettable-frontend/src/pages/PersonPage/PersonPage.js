@@ -9,6 +9,7 @@ import {Link, Navigate, useParams} from 'react-router-dom';
 // import {useHistory} from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
 import EncounterDetailsModal from '../../components/EncounterDetailsModal/EncounterDetailsModal';
+import CustomModal from '../../components/CustomModal/CustomModal';
 
 /*
  * This is the detailed person profile page. Displays the information
@@ -21,7 +22,8 @@ const PersonPage = (props) => {
   const navigate = useNavigate();
 
   const [selectedEncounter, setSelectedEncounter] = useState();
-  const [modalOpen, setModalOpen] = useState(false);
+  const [encounterModalOpen, setEncounterModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const [person, setPerson] = useState({
     firstName: '',
@@ -75,13 +77,13 @@ const PersonPage = (props) => {
 
   const createEncounterComponent = (encounter, i) => {
     return (
-      <div className={classes.CardWrapper} key={encounter.id || i}>
+      <div className={classes.CardWrapper} key={encounter._id || i}>
         <EncounterCard
           title={encounter.title}
           description={encounter.description}
           persons={encounter.persons}
           location={encounter.location}
-          onDelete={() => {}}
+          onDelete={() => onDelete(encounter._id)}
           date={encounter.date}
           isInitialEncounter={false}
           onClick={() => onClick(encounter)}
@@ -91,28 +93,42 @@ const PersonPage = (props) => {
   };
 
   const onClick = (encounter) => {
-    console.log('card click');
-    console.log(encounter);
     setSelectedEncounter(encounter);
-    setModalOpen(true);
+    setEncounterModalOpen(true);
   };
 
   const handleModalClose = () => {
-    setModalOpen(false);
+    setEncounterModalOpen(false);
   };
 
-  const onDelete = () => {
-    console.log('delete');
+  const onDelete = (encounterId) => {
+    console.log('delete', encounterId);
+    setDeleteModalOpen(true);
   };
 
   return (
     <div className={classes.PersonPage}>
+
       {selectedEncounter && <EncounterDetailsModal
-        open={modalOpen}
+        open={encounterModalOpen}
         onClose={handleModalClose}
         encounter={selectedEncounter}
-        onDelete={onDelete}
+        onDelete={() => onDelete(selectedEncounter._id)}
       />}
+      <CustomModal
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        hasCancel
+        hasConfirm
+      >
+        <div className={classes.DeleteModal}>
+          <h1 >Warning</h1>
+          <p >
+          Are you sure you want to delete this encounter?
+          You cannot undo this action.
+          </p>
+        </div>
+      </CustomModal>
       <PersonDrawer
         open={true}
         img={person.img}
