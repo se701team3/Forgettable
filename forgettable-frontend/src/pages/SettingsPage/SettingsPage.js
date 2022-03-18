@@ -5,6 +5,8 @@ import {getAuth, signOut} from 'firebase/auth';
 import DarkMode from './DarkMode';
 
 function SettingsPage() {
+  const user = localStorage.getItem('userName');
+
   const signOutHandler = ()=>{
     const auth = getAuth();
     signOut(auth).then(() => {
@@ -21,7 +23,7 @@ function SettingsPage() {
       <div className={classes.account}>Account:</div>
       <div className={classes.border}></div>
       <div className={classes.name}>Name</div>
-      <div className={classes.content}>user name</div>
+      <div className={classes.content}>{user ? user : 'user name'}</div>
       <div className={classes.email}>Email</div>
       <div className={classes.content}>username@gmail.com</div>
       <div className={classes.border2}></div>
