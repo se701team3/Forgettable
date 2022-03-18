@@ -91,6 +91,21 @@
     align-items: flex-end;
 }
 
+.delteModalTitle {
+    font-size: var(--text-xxlarge);
+    font-weight: var(--font-semibold);
+    color: var(--warn);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.deleteModalMessageDiv {
+    font-size: var(--text-large);
+    font-weight: var(--font-regular);
+    width: 525px;
+    text-align: center;
+}
+
 .hiddenSubmit {
     display: none;
 }

@@ -229,6 +229,7 @@ exports[`renders Create person page correctly 1`] = `
       >
         <div
           className="Button"
+          onClick={[Function]}
         >
           <p
             className="Text"

@@ -9,6 +9,7 @@
     --txt2: #666666; /* non-heading text */
     --txt3: #000000; /* yellow button text */
     --bord: #CACACA; /* border for when a lighter card is on top of a darker card */
+    --warn: #E05A33; /* warning text */
 
     /* filter values of colours for SVGs */
     --fprmry: invert(88%) sepia(54%) saturate(487%) hue-rotate(320deg) brightness(101%) contrast(91%); /* main accent */
