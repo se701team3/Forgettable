@@ -12,7 +12,7 @@ import EncounterDetailsModal from '../../components/EncounterDetailsModal/Encoun
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import {convertSocialMedia} from '../../functions/convertSocialMediaFormat';
 
 /*
  * This is the detailed person profile page. Displays the information
@@ -62,21 +62,6 @@ const PersonPage = (props) => {
       timeUpdated: result.timeUpdated,
     });
   }, [id]);
-
-  const convertSocialMedia = (socialMedias) => {
-    if (!socialMedias) return null;
-
-    const socialMediaArray = [];
-
-    for (const [key, value] of Object.entries(socialMedias)) {
-      socialMediaArray.push({
-        name: key,
-        link: value,
-      });
-    }
-
-    return socialMediaArray;
-  };
 
   const createEncounterComponent = (encounter, i) => {
     return (
