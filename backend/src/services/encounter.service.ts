@@ -40,8 +40,10 @@ const getAllEncounters = async (queryParams: any, userEncounters: mongoose.Types
     const termValue = queryParams.term.toLowerCase();
 
     const algoliaSearchResults = await index.search(termValue);
-    const userEncounterResults = algoliaSearchResults.hits.filter(
-      (hit) => userEncounters.includes(hit.objectID),
+    const algoliaSearchResultsIds = algoliaSearchResults.hits.map((hit) => hit.objectID.toString())
+
+    const userEncounterResults = foundUserEncounters.filter(
+      (encounter) => algoliaSearchResultsIds.includes(encounter._id.toString()),
     );
 
     foundUserEncounters = userEncounterResults;
