@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useState} from 'react';
 import styles from './InputField.module.css';
 
@@ -11,14 +11,14 @@ import styles from './InputField.module.css';
  * for the multiline style. See UI design for more details.
  *
  * Function Arguments:
- * "inputLabel" refers to the label associated with the text input component.
- * "inputType" refers to the "inputType" parameter as mentioned above.
- * "placeholder" refers to the placeholder text in the component.
- * "dataType" refers to the data format allowed as input.
- * "inputID" refers to the ID for the data associated with the input.
- * "inputStateValue" refers to the pre-filled value when the input is rendered.
- * "autoFocusState" refers to the autoFocus attribute, parameter is a Boolean.
- * "requiredState" refers to the required attribute, parameter is a Boolean.
+ * @param inputLabel refers to the label associated with the text input component.
+ * @param inputType refers to the "inputType" parameter as mentioned above.
+ * @param placeholder refers to the placeholder text in the component.
+ * @param dataType refers to the data format allowed as input.
+ * @param inputID refers to the ID for the data associated with the input.
+ * @param inputStateValue refers to the pre-filled value when the input is rendered.
+ * @param autoFocusState refers to the autoFocus attribute, parameter is a Boolean.
+ * @param requiredState refers to the required attribute, parameter is a Boolean.
  */
 
 export default function InputField({inputLabel, inputType, placeholder,
@@ -27,6 +27,10 @@ export default function InputField({inputLabel, inputType, placeholder,
      * Retrieve state of input component to be rendered in a responsive manner.
      */
   const [inputState, setInput] = useState(inputStateValue);
+
+  useEffect(() => {
+    setInput(inputStateValue);
+  }, [inputStateValue]);
 
   /**
      * Types allowed for innput component styling.
