@@ -2,9 +2,12 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import firebaseConfig from '../firebase-config';
 import 'regenerator-runtime/runtime';
+import {getAuth, signInWithPopup} from 'firebase/auth';
+// import {authentication} from '../firebase';
 
-firebase.initializeApp(firebaseConfig);
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+const app = firebase.initializeApp(firebaseConfig);
+export const authentication = getAuth(app);
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 // const postIdTokenToAuth = (idToken) => {
 //   return fetch('/authentication', {
@@ -18,23 +21,33 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const signIn = (callback) => {
-  firebase
-      .auth()
-      .signInWithPopup(googleProvider)
+  signInWithPopup(authentication, googleProvider)
       .then((result) => {
         const user = result.user;
-        user.getIdToken().then((idToken) => {
-          postIdTokenToAuth(idToken)
-              .then((response) => response.json())
-              .then((data) => {
-                callback(true, {
-                  email: user.email,
-                  displayName: user.displayName,
-                  id: data.id,
-                });
-                console.log('user id: ' + data.id);
-              });
-        });
+        console.log(user);
+
+        console.log(user);
+        // console.log(user.accessToken)
+
+        if (user) {
+          callback(true, {
+            userName: user.displayName,
+            userId: user.uid,
+          });
+        }
+
+        // user.getIdToken().then((idToken) => {
+        //   postIdTokenToAuth(idToken)
+        //       .then((response) => response.json())
+        //       .then((data) => {
+        //         callback(true, {
+        //           email: user.email,
+        //           displayName: user.displayName,
+        //           id: data.id,
+        //         });
+        //         console.log('user id: ' + data.id);
+        //       });
+        // });
       })
       .catch((error) => {
         console.log('ERROR! ', error);

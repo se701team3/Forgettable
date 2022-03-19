@@ -7,6 +7,7 @@ import NavBar from './components/NavBar/NavBar';
 import PageRouter from './hoc/PageRouter/PageRouter';
 import {AuthContext} from './context/AuthContext';
 import auth from './services/auth';
+import firebase from 'firebase/compat/app';
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -15,11 +16,18 @@ function App() {
 
   useEffect(() => {
     const status = auth.loadLoginStatus();
-    console.log('loaded login status:', status);
-    if (status.isLoggedIn) {
-      setLoggedIn(true);
-      setUserInfo(status.userInfo);
-    }
+
+    if (status) setIsLoggingIn(true);
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        setLoggedIn(true);
+        setUserInfo(user);
+      } else if (status.isLoggedIn) {
+        setLoggedIn(true);
+        setUserInfo(status.userInfo);
+      }
+      setIsLoggingIn(false);
+    });
   }, []);
 
   const login = () => {

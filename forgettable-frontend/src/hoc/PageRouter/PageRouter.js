@@ -40,7 +40,7 @@ const PageRouter = (props) => {
     console.log('not logged in');
     return (
       <Routes>
-        <Route path="/signin" element={<LogInPage setIsLoggedIn={false}/>} />
+        <Route path="/signin" element={<LogInPage/>} />
         {/* <Route path="/explanation" component={Explanation} /> */}
         <Route
           path="*"
@@ -80,7 +80,7 @@ const PageRouter = (props) => {
       <Routes>
 
         <Route path="/" element={<Home/>} />
-        <Route path="settings" element={<SettingsPage setIsLoggedIn={setIsLoggedIn}/>} />
+        <Route path="settings" element={<SettingsPage/>} />
         <Route path="people" element={<PersonsListPage/>} />
         <Route path="people/create" element={<EditPerson/>} />
         <Route path="people/:id/edit" element={<EditPerson/>} />
