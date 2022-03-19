@@ -7,7 +7,11 @@ import PropTypes from 'prop-types';
 
 const EncounterCardSummary = (props) => {
   return (
-    <div className={classes.EncounterCardSummary} onClick={props.onClick}>
+    <div
+      className={classes.EncounterCardSummary}
+      onClick={props.onClick}
+      data-testid="container-card"
+    >
       <div className={classes.ContentContainer}>
         <div className={classes.HeaderContainer}>
           <Avatar
@@ -25,18 +29,24 @@ const EncounterCardSummary = (props) => {
             }}
           />
           <div className={classes.IdentityInfoConatiner}>
-            <h3>{props.firstName}</h3>
-            <p >Met at: {props.location || 'some cool place'}</p>
+            <h3 data-testid="name-element">{props.firstName}</h3>
+            <p data-testid="location-element">
+              Met at: {props.location || 'some cool place'}
+            </p>
           </div>
         </div>
         <div className={classes.DetailsContainer}>
-          <p>
+          <p >
             {'Date you met: '}
             {props.dateMet ?
-           getLongDateStringWithSlashes(props.dateMet) :
+           <span data-testid="date-met-element">
+             getLongDateStringWithSlashes(props.dateMet)
+           </span> :
            <UnknownDetail/>}
           </p>
-          <p className={classes.DescriptionText}>
+          <p
+            className={classes.DescriptionText}
+            data-testid="description-element">
             {props.description}
           </p>
         </div>
