@@ -5,6 +5,12 @@ import {getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import UnknownDetail from '../UnknownDetail/UnknownDetail';
 import PropTypes from 'prop-types';
 
+/*
+ * Component for displaying information of an encounter in a list.
+ * This is the small version of the encounter card.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const EncounterCardSummary = (props) => {
   return (
     <div
