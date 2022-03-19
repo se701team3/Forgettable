@@ -29,14 +29,17 @@ const EncounterCardSummary = (props) => {
             <p >{props.description }</p>
           </div>
         </div>
-        <p className={classes.Date}>
-        Date you met:
-          {props.dateMet ?
+        <div className={classes.DetailsContainer}>
+          <p>
+            {'Date you met: '}
+            {props.dateMet ?
            getLongDateStringWithSlashes(props.dateMet) :
            <UnknownDetail/>}
-        </p>
-        <div className={classes.DescriptionText}>
-          {classes.description}
+          </p>
+          <p className={classes.DescriptionText}>
+            {/* {props.description} */}
+            Suspendisse scelerisque sit ultricies euismod proin ullamcorper proin don Eu duis nulla venenatis nisl aliquam. Id maecenas quam imperdiet maece
+          </p>
         </div>
       </div>
     </div>

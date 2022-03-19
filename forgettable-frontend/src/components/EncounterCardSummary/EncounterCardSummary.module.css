@@ -2,7 +2,7 @@
 
 .EncounterCardSummary{
     height: 220px;
-    width:245px;
+    width:240px;
     cursor: pointer;
     border-radius: var(--radius-card);
     background-color: var(--card);
@@ -25,7 +25,6 @@
 
 .HeaderContainer {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -63,5 +62,27 @@
     display: -webkit-box;
     -webkit-line-clamp: 2; /* number of lines to show */
             line-clamp: 2; 
+    -webkit-box-orient: vertical;
+}
+
+.DetailsContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.DetailsContainer > p {
+    color: var(--ltxt2);
+    font-size: var(--text-xsmall);
+}
+
+.DescriptionText {
+    margin:0;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* number of lines to show */
+            line-clamp: 3; 
     -webkit-box-orient: vertical;
 }
