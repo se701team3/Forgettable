@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import Home from './pages/home/Home';
 import SettingsPage from './pages/SettingsPage/SettingsPage';
-import People from './pages/Persons/Persons';
+import PersonsListPage from './pages/PersonsListPage/PersonsListPage';
 import EncountersListPage from './pages/EncountersListPage/EncountersListPage';
 import PersonPage from './pages/PersonPage/PersonPage';
 import SignInPage from './pages/SignInPage/SignInPage';
@@ -26,7 +26,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="settings" element={<SettingsPage setIsLoggedIn={setIsLoggedIn}/>} />
-            <Route path="people" element={<People/>} />
+            <Route path="people" element={<PersonsListPage/>} />
             <Route path="people/create" element={<EditPerson/>} />
             <Route path="people/:id/edit" element={<EditPerson/>} />
             <Route path="encounters" element={<EncountersListPage/>} />

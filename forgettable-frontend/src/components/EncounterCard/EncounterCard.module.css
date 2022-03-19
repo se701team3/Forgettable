@@ -46,7 +46,6 @@
 
 .Header{
     width: inherit;
-    max-width: 640px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
