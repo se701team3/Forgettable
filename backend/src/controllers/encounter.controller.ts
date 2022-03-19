@@ -202,7 +202,7 @@ export const getAllEncounters = async (
       const foundUserEncounters = JSON.parse(JSON.stringify(await encounterService.getAllEncounters(req.query, user.encounters)));
 
       // Adds embedded person details to the returned encounters
-      for (let i = 0; i < foundUserEncounters.length; i + 1) {
+      for (let i = 0; i < foundUserEncounters.length; i++) {
         foundUserEncounters[i].persons = await Promise.all(foundUserEncounters[i].persons.map(
           async (personsId: any) => { return (await getPersonDetails(personsId))}));
       }

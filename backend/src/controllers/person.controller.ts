@@ -152,7 +152,7 @@ export const deletePersons = async (
       // Check all service function calls were valid
       if (encountersBool && deletePersonsResult && deleteUserResult) {
         // Make sure that empty encounters are also deleted from User
-        for (let i = 0; i < emptyEncounters.length; i + 1) {
+        for (let i = 0; i < emptyEncounters.length; i++) {
           const result = await userService.deleteUserEncounter(emptyEncounters[i]?._id.toString());
 
           // Check that a valid deleteUserEncounter was executed
