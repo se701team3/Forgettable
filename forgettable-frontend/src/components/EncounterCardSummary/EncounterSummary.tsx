@@ -2,7 +2,8 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import {Avatar} from '@mui/material';
 import classes from './EncounterSummary.module.css';
-import {getDateLastMetString} from '../../functions/dateFormatter';
+import {getLongDateStringWithSlashes} from '../../functions/dateFormatter';
+import UnknownDetail from '../UnknownDetail/UnknownDetail';
 
 export default function EncounterSummary(props: { name: any; date: any; description: any; summary: any; src: string}) {
   const {
@@ -28,7 +29,7 @@ export default function EncounterSummary(props: { name: any; date: any; descript
         </div>
         <div className={classes.Date}>
           <div>Date you met:&nbsp;</div>
-          {getDateLastMetString(date)}
+          {date ? getLongDateStringWithSlashes(date) : <UnknownDetail/>}
         </div>
         <div className={classes.DescriptionText}>
           {description}

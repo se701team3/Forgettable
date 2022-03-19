@@ -3,7 +3,7 @@ import EncounterCard from '../../components/EncounterCard/EncounterCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './encounters.module.css';
 import IconButton from '../../components/IconButton/IconButton';
-import {getDateString} from '../../functions/dateFormatter';
+import {getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -53,7 +53,7 @@ export default function Encounters() {
   const [encounterList, setEncounterList] = useState(
       [{
         id: '0',
-        date: getDateString(new Date()),
+        date: new Date(),
         location: 'Auckland',
         title: 'Fermentum pellentesque',
         description: 'Diam dictum vestibulum mi nulla vestibulum, id nibh. Nunc consequat amet commodo turpis tellus. Scelerisque a pellentesque vel accumsan sed mauris, ac turpis pharetra. Sem tristique nulla cursus praesent tincidunt integer',
