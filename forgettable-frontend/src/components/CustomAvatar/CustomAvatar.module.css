@@ -17,4 +17,6 @@
 
 .Avatar_name{
     margin-left: 10px;
+    font-weight: var(--font-regular);
+    font-size: var(--text-normal);
 }

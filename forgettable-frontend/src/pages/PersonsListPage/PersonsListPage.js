@@ -15,7 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const PAGE_SIZE = 10;
 
-export default function Persons(props) {
+export default function PersonsListPage(props) {
   const navigate = useNavigate();
 
   const [isHover, setIsHover] = useState(false);
