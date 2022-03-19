@@ -42,7 +42,7 @@ function App() {
         auth.persistLoginStatus(user);
       } else {
         setIsLoggingIn(false);
-        console.log('error logging in');
+        console.log('Error logging in');
       }
     });
   };
@@ -61,7 +61,7 @@ function App() {
       <AuthContext.Provider
         value={{isLoggedIn, isLoggingIn, user, login, logout}}
       >
-        {isLoggedIn ?? <NavBar />}
+        {isLoggedIn && <NavBar />}
         <PageRouter/>
 
       </AuthContext.Provider>
