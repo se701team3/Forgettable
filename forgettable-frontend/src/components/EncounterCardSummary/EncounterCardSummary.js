@@ -37,8 +37,7 @@ const EncounterCardSummary = (props) => {
            <UnknownDetail/>}
           </p>
           <p className={classes.DescriptionText}>
-            {/* {props.description} */}
-            Suspendisse scelerisque sit ultricies euismod proin ullamcorper proin don Eu duis nulla venenatis nisl aliquam. Id maecenas quam imperdiet maece
+            {props.description}
           </p>
         </div>
       </div>
