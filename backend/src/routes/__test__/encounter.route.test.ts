@@ -20,7 +20,7 @@ beforeAll(async () => {
     await databaseOperations.connectDatabase();
 });
 afterEach(async () => databaseOperations.clearDatabase());
-afterAll(async () => databaseOperations.closeDatabase());
+afterAll(async () => await databaseOperations.closeDatabase());
 
 const user1Data = {
     auth_id: null as any,
@@ -28,6 +28,14 @@ const user1Data = {
     last_name: 'Bong',
     encounters: [] as any,
     persons: [] as any,
+}
+
+const user2Data: UserModel = {
+    auth_id: null as any,
+    first_name: 'Adam',
+    last_name: 'Weng',
+    encounters: [] as any,
+    persons: [] as any
 }
 
 const person1Data: PersonModel = {
@@ -430,6 +438,182 @@ describe('PUT /encounters/:id ', () => {
     })
 });
 
+describe('GET /encounters pagination', () => {
+
+    async function populateDbWithUsersEncounters() {
+        const encounter1 = new Encounter(encounter1Data);
+        const encounter2 = new Encounter(encounter2Data);
+        const encounter3 = new Encounter(encounter4Data);
+        const encounter4 = new Encounter(encounter5Data);
+        const encounter5 = new Encounter(encounter1Data);
+        const encounter6 = new Encounter(encounter2Data);
+        const encounter7 = new Encounter(encounter2Data);
+        const encounter8 = new Encounter(encounter5Data);
+        const encounter9 = new Encounter(encounter4Data);
+        const encounter10 = new Encounter(encounter1Data);
+    
+        await encounter1.save();
+        await encounter2.save();
+        await encounter3.save();
+        await encounter4.save();
+        await encounter5.save();
+        await encounter6.save();
+        await encounter7.save();
+        await encounter8.save();
+        await encounter9.save();
+        await encounter10.save();
+    
+        user2Data.auth_id = await testUtils.getAuthIdFromToken(token);
+        const user = new User(user2Data);
+        user.encounters.push(encounter1._id, encounter2._id, encounter3._id, encounter4._id, encounter5._id, encounter6._id, encounter7._id, encounter8._id, encounter9._id, encounter10._id);
+        await user.save();
+    
+        const storedEncounterIds = [encounter1._id, encounter2._id, encounter3._id, encounter4._id, encounter5._id, encounter6._id, encounter7._id, encounter8._id, encounter9._id, encounter10._id];
+    
+        return storedEncounterIds;
+    }
+
+    it('Response paginated and returns correct number of entries', async () => {
+        await populateDbWithUsersEncounters();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 3,
+                page: 1
+            });
+
+        expect(encounters.length).toEqual(3);
+    });
+
+    it('Response paginated and returns the correct page of entries', async () => {
+        const storedEncounterIds = await populateDbWithUsersEncounters();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 3,
+                page: 2
+            });
+
+        expect(encounters[0]).toHaveProperty('_id', storedEncounterIds[3]._id.toString());
+        expect(encounters[1]).toHaveProperty('_id', storedEncounterIds[4]._id.toString());
+        expect(encounters[2]).toHaveProperty('_id', storedEncounterIds[5]._id.toString());
+
+    });
+
+    it('Response not paginated when limit is not given', async () => {
+        await populateDbWithUsersEncounters();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                page: 4
+            });
+
+        expect(encounters.length).toEqual(10);
+    });
+
+    it('Response not paginated when page is not given', async () => {
+        await populateDbWithUsersEncounters();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 5,
+            });
+
+        expect(encounters.length).toEqual(10);
+    });
+
+    it('Response not paginated when limit is not a number', async () => {
+        await populateDbWithUsersEncounters();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: "four",
+                page: 2
+            });
+
+        expect(encounters.length).toEqual(10);
+    });
+
+    it('Response not paginated when page is not a number', async () => {
+        await populateDbWithUsersEncounters();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 5,
+                page: "page"
+            });
+
+        expect(encounters.length).toEqual(10);
+    });
+
+    it('Empty array is returned when page=0', async () => {
+        await populateDbWithUsersEncounters();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 4,
+                page: 0
+            });
+
+        expect(encounters.length).toEqual(0);
+    });
+
+    it('Empty array is returned when page<0', async () => {
+        await populateDbWithUsersEncounters();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 2,
+                page: -5
+            });
+
+        expect(encounters.length).toEqual(0);
+    });
+
+    it('Empty array is returned when page requested is out of bound', async () => {
+        await populateDbWithUsersEncounters();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 7,
+                page: 3
+            });
+
+        expect(encounters.length).toEqual(0);
+    });
+
+    it('Number of response returned is less than limit if (page * limit) < total entries', async () => {
+        await populateDbWithUsersEncounters();
+
+        const { body: encounters } = await supertest(app).get('/api/encounters')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .query({
+                limit: 8,
+                page: 2
+            });
+
+        expect(encounters.length).toEqual(2);
+    })
+})
 describe('GET encounters/', () => {
     it ('Only return encounters associated with the user', async () => {
       const encounter1ID = (await new Encounter(encounter1Data).save()).id;
@@ -775,9 +959,9 @@ describe('DELETE /encounter/:id', () => {
         
     })
 
-// Delete Encounter 400
+// Delete Encounter 409
 
-    it('Sends back a BAD_REQUEST when deleting Encounter with empty persons field: ', async () => {
+    it('Sends back a CONFLICT when deleting Encounter with empty persons field: ', async () => {
         // Get Authentication Token
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -797,13 +981,13 @@ describe('DELETE /encounter/:id', () => {
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(encounterOne)
-            .expect(httpStatus.BAD_REQUEST);
+            .expect(httpStatus.CONFLICT);
 
         // Encounter should still be deleted from the Encounter collection
         expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
     })
 
-    it('Sends back a BAD_REQUEST when deleting Encounter with duplicate encounter IDs in User: ', async () => {
+    it('Sends back a CONFLICT when deleting Encounter with duplicate encounter IDs in User: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -824,7 +1008,7 @@ describe('DELETE /encounter/:id', () => {
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(encounterOne)
-            .expect(httpStatus.BAD_REQUEST);
+            .expect(httpStatus.CONFLICT);
 
         // Encounter should still be deleted from User and Collection
         const newUser = await User.findOne({auth_id: user.auth_id});

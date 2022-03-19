@@ -15,10 +15,11 @@ let token;
 
 beforeAll(async () => {
   token = await testUtils.generateTestAuthToken();
-  databaseOperations.connectDatabase();
+
+  await databaseOperations.connectDatabase();
 });
 afterEach(async () => databaseOperations.clearDatabase());
-afterAll(async () => databaseOperations.closeDatabase());
+afterAll(async () => await databaseOperations.closeDatabase());
 
 const user1Data : UserModel = {
   auth_id: null as any,
@@ -76,7 +77,30 @@ const person3Data: PersonModel = {
   social_media: null as any
 }
 
-const person4Data = {
+const person4Data: PersonModel = {
+  first_name: 'Kelvin',
+  last_name: 'Kong',
+  interests: ['Studying', 'Winning'],
+  organisation: 'Winnie',
+  time_updated: new Date('2022-01-01'),
+  how_we_met: 'Bar',
+  birthday: new Date('2002-12-12'),
+  encounters: [] as any,
+  first_met: new Date('2022-01-01'),
+  gender: "other",
+  image: null as any,
+  location: 'Christchurch',
+  social_media: null as any
+}
+
+const userData: UserModel = {
+  auth_id: null as any,
+  first_name: 'Ping',
+  last_name: 'Pengy',
+  encounters: [] as any,
+    persons: [] as any
+}
+const person5Data = {
   last_name: 'John',
   interests: ['surfing', 'cooking'],
   organisation: 'an organisation',
@@ -91,7 +115,7 @@ const person4Data = {
   social_media: null as any
 }
 
-const person5Data = {
+const person6Data = {
   first_name: 'Billy',
   last_name: 'John',
   interests: ['surfing', 'cooking'],
@@ -158,7 +182,7 @@ describe('POST persons/', () => {
     // Create a new person and store it in the user
     const { body: createdPerson } = await supertest(app).post('/api/persons')
       .set('Accept', 'application/json')
-      .send(person5Data)
+      .send(person6Data)
       .set("Authorization", token)
       .expect(httpStatus.CREATED);
 
@@ -181,7 +205,7 @@ describe('POST persons/', () => {
     // Create a new person without a first name and try to store it in the user
     await supertest(app).post('/api/persons')
       .set('Accept', 'application/json')
-      .send(person4Data)
+      .send(person5Data)
       .set("Authorization", token)
       .expect(httpStatus.BAD_REQUEST);
   });
@@ -470,6 +494,166 @@ describe('GET persons/:id', () => {
   })
 });
 
+describe('GET /persons', () => {
+
+  async function populateDbWithUsersPersons() {
+    const person1 = new Person(person1Data);
+    const person2 = new Person(person2Data);
+    const person3 = new Person(person4Data);
+    const person4 = new Person(person3Data);
+    const person5 = new Person(person1Data);
+    const person6 = new Person(person4Data);
+    const person7 = new Person(person3Data);
+    const person8 = new Person(person2Data);
+    const person9 = new Person(person2Data);
+    const person10 = new Person(person1Data);
+  
+    await person1.save();
+    await person2.save();
+    await person3.save();
+    await person4.save();
+    await person5.save();
+    await person6.save();
+    await person7.save();
+    await person8.save();
+    await person9.save();
+    await person10.save();
+  
+    userData.auth_id = await testUtils.getAuthIdFromToken(token);
+    const user = new User(userData);
+    user.persons.push(person1._id, person2._id, person3._id, person4._id, person5._id, person6._id, person7._id, person8._id, person9._id, person10._id);
+    await user.save();
+  
+    const storedPersonIds = [person1._id, person2._id, person3._id, person4._id, person5._id, person6._id, person7._id, person8._id, person9._id, person10._id];
+  
+    return storedPersonIds;
+  }
+
+  it('Response paginated and returns correct number of entries', async () => {
+    await populateDbWithUsersPersons();
+
+    const { body: persons } = await supertest(app).get('/api/persons')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .query({
+        limit: 4,
+        page: 2
+      });
+
+    expect(persons.length).toEqual(4);
+  });
+
+  it('Response paginated and returns the correct page of entries', async () => {
+    const storedPersonIds = await populateDbWithUsersPersons();
+
+    const { body: persons } = await supertest(app).get('/api/persons')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .query({
+        limit: 2,
+        page: 4
+      });
+
+    expect(persons[0]).toHaveProperty('_id', storedPersonIds[6]._id.toString());
+    expect(persons[1]).toHaveProperty('_id', storedPersonIds[7]._id.toString());
+  });
+
+  it('Response not paginated when limit is not given', async () => {
+    await populateDbWithUsersPersons();
+
+    const { body: persons } = await supertest(app).get('/api/persons')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .query({
+        page: 4
+      });
+
+    expect(persons.length).toEqual(10);
+  });
+
+  it('Response not paginated when page is not given', async () => {
+    await populateDbWithUsersPersons();
+
+    const { body: persons } = await supertest(app).get('/api/persons')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .query({
+        limit: 4,
+      });
+
+    expect(persons.length).toEqual(10);
+  });
+
+  it('Response not paginated when limit is not a number', async () => {
+    await populateDbWithUsersPersons();
+
+    const { body: persons } = await supertest(app).get('/api/persons')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .query({
+        page: 2,
+        limit: "string"
+      });
+
+    expect(persons.length).toEqual(10);
+  });
+
+  it('Response not paginated when page is not a number', async () => {
+    await populateDbWithUsersPersons();
+
+    const { body: persons } = await supertest(app).get('/api/persons')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .query({
+        page: "asdf",
+        limit: 1
+      });
+
+    expect(persons.length).toEqual(10);
+  });
+
+  it('Empty array is returned when page=0', async () => {
+    await populateDbWithUsersPersons();
+
+    const { body: persons } = await supertest(app).get('/api/persons')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .query({
+        page: 0,
+        limit: 1
+      });
+
+    expect(persons.length).toEqual(0);
+  });
+
+  it('Empty array is returned when page<0', async () => {
+    await populateDbWithUsersPersons();
+
+    const { body: persons } = await supertest(app).get('/api/persons')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .query({
+        page: -1,
+        limit: 1
+      });
+
+    expect(persons.length).toEqual(0);
+  });
+
+  it('Empty array is returned when page requested is out of bound', async () => {
+    await populateDbWithUsersPersons();
+
+    const { body: persons } = await supertest(app).get('/api/persons')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .query({
+        page: 2,
+        limit: 7
+      });
+
+    expect(persons.length).toEqual(3);
+  })  
+});
 // Delete Person 200
 
 describe('DELETE /person/:id', () => {
@@ -627,8 +811,9 @@ describe('DELETE /person/:id', () => {
       expect(newUser?.persons).toHaveLength(user.persons.length);
   })
 
-// Delete Person 400
-  it('Sends BAD_REQUEST if Person ID is not in Collection: ', async () => {
+
+// Delete Person 409
+  it('Sends CONFLICT if Person ID is not in Collection: ', async () => {
       // Get Authentication ID for User
       const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -646,7 +831,7 @@ describe('DELETE /person/:id', () => {
       await supertest(app).delete(`/api/persons/${invalidPersonId}`)
           .set('Accept', 'application/json')
           .set('Authorization', token)
-          .expect(httpStatus.BAD_REQUEST);
+          .expect(httpStatus.CONFLICT);
 
       // Check that invalid ID is deleted from User
       const newUser = await User.findOne({auth_id: user.auth_id});

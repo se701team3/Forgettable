@@ -1,0 +1,94 @@
+.title{
+    text-align: left;
+    margin-left: 200px;
+    font-size: var(--text-xxlarge);
+    margin-top: 65px;
+    font-weight: var(--font-semibold);
+    font-style: normal;
+  }
+  
+  .account{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 45px;
+    font-size: var(--text-large);
+    font-weight: var(--font-medium);
+    font-style: normal;
+  }
+  
+  .border{
+    border-style: solid;
+    color: var(--bord);
+    width: 744px;
+    margin-left: 200px;
+    margin-top: 15px;
+    border-width: 1px;
+  }
+  
+  .name{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 33px;
+    font-size: var(--text-normal);
+    font-weight: var(--font-regular);
+    font-style: normal;
+  }
+  
+  .content{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 4px;
+    font-size:  var(--text-small);
+    font-weight: var(--font-regular);
+    font-style: normal;
+    color: #979797;
+  }
+  
+  .email{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 12px;
+    font-size: var(--text-normal);
+    font-weight: var(--font-regular);
+    font-style: normal;
+  }
+  
+  .border2{
+    border-style: solid;
+    color: var(--bord);
+    width: 744px;
+    margin-left: 200px;
+    margin-top: 42px;
+    border-width: 1px;
+  }
+  
+  .button{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 30px;
+    border-radius: var(--radius-btn);
+    background-color: var(--bkgd);
+    height: 33px;
+    width: 82px;
+    text-align: center;
+  }
+  
+  .appearence{
+    text-align: left;
+    margin-left: 200px;
+    margin-top: 150px;
+    font-size: var(--text-large);
+    font-weight: var(--font-medium);
+    font-style: normal;
+  }
+  
+  .toolbar{
+    margin-top: 30px;
+  }
+  
+  .darkMode{
+    font-size: var(--text-normal);
+    margin-left: 200px;
+    text-align: left;
+    margin-top: 30px;
+  }
