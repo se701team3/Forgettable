@@ -16,6 +16,16 @@ import CustomButton from '../CustomButton/CustomButton';
 import classNames from 'classnames';
 import UnknownDetail from '../UnknownDetail/UnknownDetail';
 
+/*
+ * Side drawer for displaying the detailed information of a person.
+ * The `open` and `name` props are required. Set `open` to true if
+ * the drawer should be always open.
+ * The `staticDrawer` boolean props toggles the drawer to be on the
+ * left side of the screen with slightly different style, and adds
+ * to it an Edit button.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const PersonDrawer = (props) => {
   return (
     <Drawer
@@ -114,7 +124,7 @@ const PersonDrawer = (props) => {
             </p>
             <p data-testid="interests-element">
               {'Interests: '}
-              {props.interests ?
+              {props.interests && props.interests.length > 0 ?
                <span className={classes.KnownText}>
                  {props.interests.join(', ')}
                </span> :

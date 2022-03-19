@@ -959,9 +959,9 @@ describe('DELETE /encounter/:id', () => {
         
     })
 
-// Delete Encounter 400
+// Delete Encounter 409
 
-    it('Sends back a BAD_REQUEST when deleting Encounter with empty persons field: ', async () => {
+    it('Sends back a CONFLICT when deleting Encounter with empty persons field: ', async () => {
         // Get Authentication Token
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -981,13 +981,13 @@ describe('DELETE /encounter/:id', () => {
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(encounterOne)
-            .expect(httpStatus.BAD_REQUEST);
+            .expect(httpStatus.CONFLICT);
 
         // Encounter should still be deleted from the Encounter collection
         expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
     })
 
-    it('Sends back a BAD_REQUEST when deleting Encounter with duplicate encounter IDs in User: ', async () => {
+    it('Sends back a CONFLICT when deleting Encounter with duplicate encounter IDs in User: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -1008,7 +1008,7 @@ describe('DELETE /encounter/:id', () => {
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(encounterOne)
-            .expect(httpStatus.BAD_REQUEST);
+            .expect(httpStatus.CONFLICT);
 
         // Encounter should still be deleted from User and Collection
         const newUser = await User.findOne({auth_id: user.auth_id});
