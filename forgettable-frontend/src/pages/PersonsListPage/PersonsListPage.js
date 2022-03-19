@@ -3,7 +3,7 @@ import PersonCard from '../../components/PersonCard/PersonCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './PersonsListPage.module.css';
 import IconButton from '../../components/IconButton/IconButton';
-import {getDateString} from '../../functions/dateFormatter';
+import {getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {withRouter} from 'react-router-dom';
