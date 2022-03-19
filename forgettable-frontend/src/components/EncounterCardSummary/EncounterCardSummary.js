@@ -9,7 +9,7 @@ const EncounterCardSummary = (props) => {
   return (
     <div className={classes.EncounterCardSummary}>
       <div className={classes.ContentContainer}>
-        <div className={classes.Header}>
+        <div className={classes.HeaderContainer}>
           <Avatar
             alt={props.firstName}
             src={props.img}
@@ -24,9 +24,9 @@ const EncounterCardSummary = (props) => {
                       .getPropertyValue('--text-xxlarge'),
             }}
           />
-          <div className={classes.NameDesc}>
+          <div className={classes.IdentityInfoConatiner}>
             <h3>{props.firstName}</h3>
-            <p className={classes.Description}>{props.description }</p>
+            <p >{props.description }</p>
           </div>
         </div>
         <p className={classes.Date}>
