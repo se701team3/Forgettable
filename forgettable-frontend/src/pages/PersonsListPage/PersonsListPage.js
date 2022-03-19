@@ -60,25 +60,9 @@ export default function PersonsListPage(props) {
       const newPersonsList = personList.filter((p) => p._id !== id);
       setPersonList(newPersonsList);
 
-      toast.success('Person deleted!', {
-        position: 'bottom-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastGenerator('success', 'Person deleted!', 3000);
     } else {
-      toast.error('Something went wrong... :(', {
-        position: 'bottom-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastGenerator('error', 'Something went wrong... :(', 3000);
     }
 
     setDeleteModalOpen(false);
