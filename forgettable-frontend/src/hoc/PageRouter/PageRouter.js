@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import {Route, Switch, Routes, Navigate} from 'react-router-dom';
-// import ReactLoading from "react-loading";
 import classes from './PageRouter.module.css';
 
 import {AuthContext} from '../../context/AuthContext';
@@ -11,7 +10,15 @@ import EncountersListPage from '../../pages/EncountersListPage/EncountersListPag
 import PersonsListPage from '../../pages/PersonsListPage/PersonsListPage';
 import Home from '../../pages/home/Home';
 import LogInPage from '../../pages/LogInPage/LogInPage';
+import CreateEncounterPage from '../../pages/CreateEncounterPage/CreateEncounterPage';
 
+/*
+ * Component for all routing logic. Conditionally renders
+ * different setes of routes depending on what the state of the
+ * user logIn is. (Not logged in, logged in, or loggin in)
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const PageRouter = (props) => {
   const authContext = useContext(AuthContext);
 
@@ -46,6 +53,7 @@ const PageRouter = (props) => {
         <Route path="people/:id/edit" element={<EditPerson/>} />
         <Route path="encounters" element={<EncountersListPage/>} />
         <Route path="person/:id" element={<PersonPage/>} />
+        <Route path="encounters/create" element={<CreateEncounterPage/>} />
         <Route
           path="*"
           element={<Navigate to="/" replace />}/>

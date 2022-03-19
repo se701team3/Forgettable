@@ -4,6 +4,14 @@ import firebaseConfig from '../firebase-config';
 import 'regenerator-runtime/runtime';
 import {getAuth, signInWithPopup} from 'firebase/auth';
 
+/**
+ * Contains logic for handling everything auth related. This includes
+ * logging in, logging out, and persisting login status.
+ * Stores the user's name, email and other meta info in localstorage.
+ * JWT is NOT stored.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const app = firebase.initializeApp(firebaseConfig);
 export const authentication = getAuth(app);
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);

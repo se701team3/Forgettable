@@ -4,6 +4,12 @@ import logo from '../../assets/logos/logo-black.svg';
 import googleLogo from '../../assets/icons/google-login.svg';
 import {AuthContext} from '../../context/AuthContext';
 
+/*
+ * Page component for the log in page. Uses the AuthContext to
+ * handle all logging in functionalities.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const LogInPage = (props) => {
   const authContext = useContext(AuthContext);
 
