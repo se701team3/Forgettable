@@ -8,7 +8,7 @@
     background-color: var(--card);
     transition: 0.3s;
     display: flex;
-    padding: 20px;
+    padding: 20px 22px;
     box-sizing: border-box;
 }
 
@@ -77,7 +77,7 @@
 }
 
 .DescriptionText {
-    margin:0;
+    margin-top: -2px;
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
