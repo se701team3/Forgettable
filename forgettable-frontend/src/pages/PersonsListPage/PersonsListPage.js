@@ -51,7 +51,7 @@ export default function PersonsListPage(props) {
 
   const onEditPersonCardClicked = (event, id) => {
     event.stopPropagation();
-    navigate(`/person/${id}/edit`);
+    navigate(`/people/${id}/edit`);
   };
 
   const onConfirmDeletePerson = async (id) => {
