@@ -18,6 +18,12 @@ export default function Encounters() {
   const [selectedEncounter, setSelectedEncounter] = useState(undefined);
   const [modalOpen, setModalOpen] = useState(false);
 
+  const exportSearchString = (searchString) => {
+    console.log(searchString);
+  };
+
+  exportSearchString();
+
   const persons = [
     {
       first_name: 'Kent',
@@ -132,7 +138,7 @@ export default function Encounters() {
           Encounters
         </div>
         <div className={classes.Utilities}>
-          <SearchBar placeholder={'Search'}/>
+          <SearchBar placeholder={'Search'} exportSearchString={exportSearchString}/>
           <div className={classes.Button}>
             <IconButton btnText="New Entry" onClick={onClick} includeIcon={true} />
           </div>
