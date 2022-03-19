@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import PersonCard from '../../components/PersonCard/PersonCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import classes from './Persons.module.css';
+import classes from './PersonsListPage.module.css';
 import IconButton from '../../components/IconButton/IconButton';
 import {getDateString} from '../../functions/dateFormatter';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
