@@ -13,10 +13,11 @@
     height: 40px;
     cursor: pointer;
     user-select: none;
+    background-color: var(--bkgd);
 }
 
 .Button:hover{
-    background-color: var(--bkgd);
+    background-color: var(--hilit);
 }
 
 .Text{
