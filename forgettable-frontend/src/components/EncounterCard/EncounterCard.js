@@ -8,8 +8,9 @@ import {stringAvatar} from '../../functions/helper';
 import classnames from 'classnames';
 import './EncounterCard.css';
 import PropTypes from 'prop-types';
-import {getDateString} from '../../functions/dateFormatter';
+import {getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import CustomAvatar from '../CustomAvatar/CustomAvatar';
+import UnknownDetail from '../UnknownDetail/UnknownDetail';
 
 const DELETE = 'Delete';
 const DATE_WE_MET = 'Date we met: ';
@@ -53,7 +54,11 @@ const EncounterCard = (props) => {
         </section>
         <section className={classes.Footer}>
           <div className={classes.Date}>
-            {DATE_WE_MET}<div>{getDateString(date)}</div>
+            {DATE_WE_MET}
+            <div>{date ?
+            getLongDateStringWithSlashes(date) :
+            <UnknownDetail/> }
+            </div>
           </div>
           <div className={classes.Location}>
             {WHERE_WE_MET}<div>{location ? location : 'somewhere cool'}</div>

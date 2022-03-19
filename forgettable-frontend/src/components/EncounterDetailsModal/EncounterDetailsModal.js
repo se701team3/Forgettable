@@ -3,7 +3,7 @@ import {Modal} from '@mui/material';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import CustomModal from '../CustomModal/CustomModal';
-import {getDateLastMetString} from '../../functions/dateFormatter';
+import {getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import {Avatar} from '@mui/material';
 import classes from './EncounterDetailsModal.module.css';
 import CustomButton from '../CustomButton/CustomButton';
@@ -42,7 +42,7 @@ function EncounterDetailsModal(props) {
           >
             {'Date we met: '}
             {encounter.date ?
-            getDateLastMetString(encounter.date) :
+            getLongDateStringWithSlashes(encounter.date) :
             <UnknownDetail/>}
           </div>
           <div

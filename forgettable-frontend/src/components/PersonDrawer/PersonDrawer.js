@@ -4,14 +4,14 @@ import {Avatar, Drawer} from '@mui/material';
 import PropTypes from 'prop-types';
 import {
   calculateAge,
-  getDateLastMetString,
+  getLongDateStringWithSlashes,
   getFirstMetTimeString,
 } from '../../functions/dateFormatter';
 import {capitalise} from '../../functions/stringFormatter';
 import convertSocialMediaNamesToIcons,
 {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import {IconButton} from '@mui/material';
-import {getBirthdayString} from '../../functions/dateFormatter';
+import {getLongDateStringWithSpaces} from '../../functions/dateFormatter';
 import CustomButton from '../CustomButton/CustomButton';
 import classNames from 'classnames';
 import UnknownDetail from '../UnknownDetail/UnknownDetail';
@@ -94,7 +94,7 @@ const PersonDrawer = (props) => {
               {'Birthday: '}
               {props.birthday ?
               <span className={classes.KnownText}>
-                {getBirthdayString(props.birthday)}
+                {getLongDateStringWithSpaces(props.birthday)}
               </span> :
               <UnknownDetail/>}
             </p>
@@ -118,7 +118,7 @@ const PersonDrawer = (props) => {
               {'First met: '}
               {props.firstMet ?
                 <span className={classes.KnownText}>
-                  {getDateLastMetString(props.firstMet)}
+                  {getLongDateStringWithSlashes(props.firstMet)}
                 </span> :
                  <UnknownDetail/>}
             </p>
