@@ -13,60 +13,54 @@ import InputField from '../../components/InputField/InputField';
 const MAX_IMAGE_SIZE = 16000000;
 
 export default function EditPerson() {
-  // to check if it is create person or edit person route
   const location = useLocation();
 
   const navigate = useNavigate();
 
+  // to check if it is create person or edit person route
   const create = location.pathname.includes('/people/create') ? true : false;
 
   const {id} = (!create) && useParams();
 
   const [personData, setPersonData] = useState({
-    first_name: 'Name',
-    last_name: 'Last',
-    birthday: '2012-03-04',
-    gender: 'male',
-    location: 'here',
-    first_met: '2001-01-01',
-    how_we_met: 'idk',
-    interests: 'a',
-    organisation: 'job co.',
-    social_media: new Map([['twitter', 'fdfd']]),
-    image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
+    first_name: '',
+    last_name: '',
+    birthday: '',
+    gender: '',
+    location: '',
+    first_met: '',
+    how_we_met: '',
+    interests: [],
+    organisation: '',
+    social_media: new Map(),
+    image: '',
     encounters: [],
-    time_updated: '0002-02-02',
+    time_updated: '',
   });
 
-  // const [personData, setPersonData] = useState({
-  //   first_name: '',
-  //   last_name: '',
-  //   birthday: null,
-  //   gender: '',
-  //   location: '',
-  //   first_met: null,
-  //   how_we_met: '',
-  //   interests: '',
-  //   organisation: '',
-  //   social_media: new Map(),
-  //   image: '',
-  //   encounters: [],
-  //   time_updated: '',
-  // });
 
   function handleUpdateData(newData) {
     setPersonData(newData);
   }
 
-  (!create) && (
-    useEffect(async () => {
-      try {
-        receivedData = await apiCalls.getPerson(id);
-        handleUpdateData(receivedData);
-      } catch (err) {
-        console.log(err);
-      }
-    }, [id]));
+  (!create) && (useEffect(async () => {
+    const result = await apiCalls.getPerson(id);
+    setPersonData({
+      first_name: result.first_name,
+      last_name: result.last_name || '',
+      birthday: getInputDateFormatString(result.birthday),
+      first_met: getInputDateFormatString(result.first_met),
+      gender: result.gender || '',
+      location: result.location || '',
+      how_we_met: result.how_we_met || '',
+      interests: result.interests || '',
+      organisation: result.organisation || '',
+      social_media: new Map(convertSocialMedia(result.socialMedia)),
+      img: result.image,
+      encounters: result.encounters || [],
+      time_updated: result.time_updated,
+    });
+  }, [id]));
 
   let initialProfilePic = '';
   let initialProfilePicPreview = '';
@@ -77,11 +71,9 @@ export default function EditPerson() {
       initialProfilePicPreview = 'data:image/*;base64,' + personData.image);
   }
 
-
   const [profilePicPreview, setProfilePicPreview] = useState(initialProfilePicPreview);
   const [profilePic, setProfilePic] = useState(initialProfilePic);
 
-  // use data from object from API
   const [socialMedias, setSocialMedias] = useState((create) ? (new Map()) : personData.social_media);
 
   const [socialMediaModalOpen, setSocialMediaModalOpen] = useState(false);
