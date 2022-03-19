@@ -80,7 +80,7 @@ EncounterDrawer.propTypes = {
     id: PropTypes.string,
     first_name: PropTypes.string.isRequired,
     last_name: PropTypes.string.isRequired,
-    img: PropTypes.string,
+    image: PropTypes.string,
   })).isRequired,
   dateMet: PropTypes.instanceOf(Date),
   location: PropTypes.string,

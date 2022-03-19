@@ -3,6 +3,7 @@ import React from 'react';
 import classes from './PersonCardSummary.module.css';
 import {getFirstMetTimeString} from '../../functions/dateFormatter';
 import PropTypes from 'prop-types';
+import {getImageSrcFromBuffer} from '../../functions/getImageSrcFromBuffer';
 
 /*
  * Component for displaying information of a person in a list.
@@ -32,7 +33,7 @@ const PersonCardSummary = (props) => {
                 getComputedStyle(document.body)
                     .getPropertyValue('--text-xxlarge'),
           }}
-          src={props.img}
+          src={props.img ? getImageSrcFromBuffer(props.img) : props.img}
         />
         <div className={classes.TextInfoContainer}>
           <h3 data-testid="name-element">

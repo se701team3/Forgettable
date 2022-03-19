@@ -3,6 +3,7 @@ import {AvatarGroup, Avatar} from '@mui/material';
 import classes from './CustomAvatar.module.css';
 import PropTypes from 'prop-types';
 import {stringAvatar} from '../../functions/helper';
+import {getImageSrcFromBuffer} from '../../functions/getImageSrcFromBuffer';
 
 /*
  * Component for single or multiple avatars with custom images
@@ -21,7 +22,7 @@ function CustomAvatar(props) {
       {Object.values(persons).map((person, index) => {
         return (
           <div key={`${index}-container`}>
-            <Avatar key={index} alt={`${person.first_name} ${person.last_name}`} className={classes.Avatar} {...!person.img && stringAvatar(`${person.first_name} ${person.last_name}`)} src={person.img} />
+            <Avatar key={index} alt={`${person.first_name} ${person.last_name}`} className={classes.Avatar} {...!person.image && stringAvatar(`${person.first_name} ${person.last_name}`)} src={getImageSrcFromBuffer(person.image)} />
             {!isMultiplePerson && <div className={classes.Avatar_name}>
               {person.first_name}
             </div>}
@@ -37,7 +38,7 @@ CustomAvatar.propTypes = {
   persons: PropTypes.arrayOf(PropTypes.shape({
     first_name: PropTypes.string.isRequired,
     last_name: PropTypes.string,
-    img: PropTypes.string,
+    image: PropTypes.string,
   })),
 };
 

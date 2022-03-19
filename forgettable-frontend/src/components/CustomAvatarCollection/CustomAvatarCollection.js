@@ -4,6 +4,7 @@ import classes from './CustomAvatarCollection.module.css';
 import PropTypes from 'prop-types';
 import {stringAvatar} from '../../functions/helper';
 import {Link} from 'react-router-dom';
+import {getImageSrcFromBuffer} from '../../functions/getImageSrcFromBuffer';
 
 /*
  * Component for avatars with custom images and first names
@@ -26,8 +27,8 @@ function CustomAvatarCollection(props) {
           >
             <Avatar
               alt={`${person.first_name} ${person.last_name}`}
-              {...!person.img && stringAvatar(`${person.first_name} ${person.last_name}`)}
-              src={person.img}
+              {...!person.image && stringAvatar(`${person.first_name} ${person.last_name}`)}
+              src={getImageSrcFromBuffer(person.image)}
               sx={{
                 'width': '30px',
                 'height': '30px',
@@ -45,7 +46,7 @@ CustomAvatarCollection.propTypes = {
   persons: PropTypes.arrayOf(PropTypes.shape({
     first_name: PropTypes.string.isRequired,
     last_name: PropTypes.string.isRequired,
-    img: PropTypes.string,
+    image: PropTypes.string,
   })),
 };
 

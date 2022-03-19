@@ -15,6 +15,7 @@ import {getLongDateStringWithSpaces} from '../../functions/dateFormatter';
 import CustomButton from '../CustomButton/CustomButton';
 import classNames from 'classnames';
 import UnknownDetail from '../UnknownDetail/UnknownDetail';
+import {getImageSrcFromBuffer} from '../../functions/getImageSrcFromBuffer';
 
 /*
  * Side drawer for displaying the detailed information of a person.
@@ -59,7 +60,7 @@ const PersonDrawer = (props) => {
                     .getPropertyValue('--text-xxlarge')
               ,
             }}
-            src={props.img}
+            src={props.img ? getImageSrcFromBuffer(props.img) : props.img}
           />
           <div className={classes.InfoHeader}>
             <h1 data-testid="name-element">
