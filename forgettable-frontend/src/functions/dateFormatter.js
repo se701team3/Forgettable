@@ -21,7 +21,7 @@ export const getFirstMetTimeString = (date) => {
 export const getLongDateStringWithSpaces = (date) => {
   return date ?
                   moment(date).format('DD MMM YYYY') :
-                  '';
+                  'Unknown';
 };
 
 /**
@@ -44,5 +44,5 @@ export const calculateAge = (date) => {
 export const getLongDateStringWithSlashes = (date) => {
   return date ?
           moment(date).format('DD/MM/YYYY') :
-          'Unknown :(';
+          'Unknown';
 };
