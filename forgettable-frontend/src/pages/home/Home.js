@@ -87,7 +87,7 @@ function Home() {
       <CustomModal open={modalOpen} onClose={handleModalClose} hasCancel={true}>
         <div className={classes.home_modalTitle}>Add a new entry</div>
         <div className={classes.home_modalButtonsContainer}>
-          <Link to="/people/new" style={{textDecoration: 'none'}}>
+          <Link to="/people/create" style={{textDecoration: 'none'}}>
             <IconButton
               btnText="Person"
               onClick={()=>{}}
@@ -97,7 +97,7 @@ function Home() {
               customIcon={PeopleLogo}/>
           </Link>
           <div className={classes.home_verticalBreak} />
-          <Link to="/encounters/new" style={{textDecoration: 'none'}}>
+          <Link to="/encounters/create" style={{textDecoration: 'none'}}>
             <IconButton
               btnText="Encounter"
               onClick={()=>{}}
@@ -152,7 +152,7 @@ function Home() {
           {encountersList.map((encounter, index) => {
             return (
               <div key={index + 'e'} className={classes.home_cardWrapper} onMouseEnter={(event) => handleEncounterHover(event, index)}>
-                <Link to={`/encounters/${encounter._id}`} style={{textDecoration: 'none'}}>
+                <Link to={`/encounters`} style={{textDecoration: 'none'}}>
                   <EncounterCardSummary
                     firstName={encounter.persons[0]?.first_name}
                     dateMet={encounter.date}
