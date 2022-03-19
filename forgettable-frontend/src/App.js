@@ -8,6 +8,7 @@ import PageRouter from './hoc/PageRouter/PageRouter';
 import {AuthContext} from './context/AuthContext';
 import auth from './services/auth';
 import firebase from 'firebase/compat/app';
+import {tryCreateUser} from './functions/tryCreateUser';
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -18,13 +19,12 @@ function App() {
     const status = auth.loadLoginStatus();
 
     if (status) setIsLoggingIn(true);
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
+    firebase.auth().onAuthStateChanged((u) => {
+      if (u) {
         setLoggedIn(true);
-        setUserInfo(user);
-      } else if (status.isLoggedIn) {
-        setLoggedIn(true);
-        setUserInfo(status.userInfo);
+        setUserInfo(u);
+      } else {
+        setLoggedIn(false);
       }
       setIsLoggingIn(false);
     });
@@ -33,8 +33,10 @@ function App() {
   const login = () => {
     setIsLoggingIn(true);
 
-    auth.signIn((ok, user) => {
+    auth.signIn(async (ok, user) => {
       if (ok) {
+        await tryCreateUser(user);
+
         setUserInfo(user);
         setIsLoggingIn(false);
         setLoggedIn(true);
