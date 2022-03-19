@@ -8,6 +8,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import PropTypes from 'prop-types';
 import {getFirstMetTimeString, getDateLastMetString} from '../../functions/dateFormatter';
+import UnknownDetail from '../UnknownDetail/UnknownDetail';
 
 /*
  * Component for displaying information of a person in a list.
@@ -140,7 +141,9 @@ const PersonCard = (props) => {
               <p className={classes.LastMet}
                 data-testid="last-met-element"
               >
-                Date last met: {getDateLastMetString(props.lastMet)}
+                Date last met: {
+                props.lastMet ?
+                getDateLastMetString(props.lastMet) : <UnknownDetail/>}
               </p>
               <div className={classes.SocialMediaContainer}>
                 <AvatarGroup max={2}
