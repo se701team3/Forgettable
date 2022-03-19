@@ -89,6 +89,7 @@ export const getAllEncounters = async () => {
  * @return {Promise} data of all Encounters of the user
  */
 export const getEncountersByPage = async (page, limit) => {
+  if (!page || !limit) return await getAllEncounters();
   return await getData(`encounters/?page=${page}&limit=${limit}`);
 };
 
