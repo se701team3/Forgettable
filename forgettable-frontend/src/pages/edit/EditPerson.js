@@ -9,6 +9,8 @@ import imageToBase64 from 'image-to-base64/browser';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import * as apiCalls from '../../services/index';
 import InputField from '../../components/InputField/InputField';
+import {convertSocialMedia} from '../../functions/convertSocialMediaFormat';
+import {getInputDateFormatString, getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -76,8 +78,9 @@ export default function EditPerson() {
   const [socialMediaModalOpen, setSocialMediaModalOpen] = useState(false);
   const [currentSocialMedia, setCurrentSocialMedia] = useState();
 
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
   const invisSocialMediaSubmitRef = useRef(null);
-  const invisDeleteSubmitRef = useRef(null);
 
   function handleSocialMediaModalOpen(key) {
     key ? setCurrentSocialMedia(key) : setCurrentSocialMedia();
@@ -113,6 +116,7 @@ export default function EditPerson() {
 
   // https://medium.com/geekculture/how-to-upload-and-preview-images-in-react-js-4e22a903f3db
   function uploadImagePreview(image) {
+    // todo: handle image 'too big'
     if (image.target.files[0].size < MAX_IMAGE_SIZE) {
       const imageURL = URL.createObjectURL(image.target.files[0]);
 
@@ -123,32 +127,48 @@ export default function EditPerson() {
       );
       setProfilePicPreview(imageURL);
     } else {
-      // add the custom alert here
+      toast.error('Image too big, must be less than 16mb', {
+        position: 'bottom-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.log('Image too big, must be less than 16mb');
     }
   }
 
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const onDeleteConfirmed = async (id) => {
+    const result = await apiCalls.deletePerson(id);
 
-  function handleDeleteModalOpen() {
-    setDeleteModalOpen(true);
-  };
-
-  const handleDeleteModalClose = () => {
+    if (result) {
+      toast.success('Person deleted!', {
+        position: 'bottom-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setTimeout(()=> {
+        navigate('/people');
+      }, 2000);
+    } else {
+      toast.error('Something went wrong... :(', {
+        position: 'bottom-center',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
     setDeleteModalOpen(false);
   };
-
-  function handleDeletePerson() {
-    async function deletePersonCall() {
-      try {
-        personData = await apiCalls.deletePerson(id);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    deletePersonCall();
-    navigate('/people', {'replace': true});
-  }
 
   const handleSubmit = (event) => {
     event.preventDefault(); // perhaps remove this later
@@ -265,8 +285,8 @@ export default function EditPerson() {
 
         <div className={classes.formButtonsDiv}>
           {!create && (
-            <CustomButton btnText="Delete"
-              onClick={() => handleDeleteModalOpen()}
+            <CustomButton btnText="Delete" type="button"
+              onClick={() => setDeleteModalOpen(true)}
               className={classes.formsButton}
             />
           )}
@@ -291,7 +311,7 @@ export default function EditPerson() {
           <form onSubmit={handleAddSocialMedia}>
             <div className={classes.socialMediaModalFieldsDiv}>
               <InputField inputID='platform' inputLabel='Platform: ' inputType='secondary' inputStateValue={currentSocialMedia}/>
-              <InputField inputID='url_link' inputLabel='URL Link: ' inputType='secondary' inputStateValue={socialMedias.get(currentSocialMedia)}/>
+              <InputField inputID='url_link' inputLabel='URL Link: ' inputType='secondary' inputStateValue={socialMedias.length && socialMedias.get(currentSocialMedia)}/>
               <input ref={invisSocialMediaSubmitRef} type='submit' className={classes.hiddenSubmit}></input>
             </div>
           </form>
@@ -300,18 +320,17 @@ export default function EditPerson() {
 
       <CustomModal
         open={deleteModalOpen}
-        onClose={handleDeleteModalClose}
+        onClose={() => setDeleteModalOpen(false)}
         hasCancel
         hasConfirm
-        onConfirm={() => (invisDeleteSubmitRef.current.click())} >
-        <div className={classes.deleteModalDiv}>
-          <div className={classes.delteModalTitle}>Warning</div>
-          <form onSubmit={handleDeletePerson}>
-            <div className={classes.deleteModalMessageDiv}>
-              Are you sure you want to delete this person? You cannot undo this action.
-              <input ref={invisDeleteSubmitRef} type='submit' className={classes.hiddenSubmit}></input>
-            </div>
-          </form>
+        onConfirm={() => onDeleteConfirmed(id)}
+      >
+        <div className={classes.DeleteModal}>
+          <h1 >Warning</h1>
+          <p >
+          Are you sure you want to delete this encounter?
+          You cannot undo this action.
+          </p>
         </div>
       </CustomModal>
 
