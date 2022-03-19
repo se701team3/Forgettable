@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import EncounterSummary from './EncounterSummary';
+import EncounterSummary from './EncounterCardSummary';
 
 it('renders without crashing', () => {
     // eslint-disable-next-line indent

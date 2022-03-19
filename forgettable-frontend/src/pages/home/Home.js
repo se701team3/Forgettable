@@ -8,7 +8,7 @@ import PersonCardSummary from '../../components/PersonCardSummary/PersonCardSumm
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import {Link} from 'react-router-dom';
 import IconButton from '../../components/IconButton/IconButton';
-import EncounterSummary from '../../components/EncounterCardSummary/EncounterSummary';
+import EncounterSummary from '../../components/EncounterCardSummary/EncounterCardSummary';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
