@@ -11,6 +11,7 @@ import {deleteEncounter, getAllEncounters, searchEncounter, getEncountersByPage}
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {toastGenerator} from '../../functions/helper';
 
 /*
  * This page lists out all the Encounters the user created.
@@ -75,25 +76,9 @@ export default function EncountersListPage() {
     if (result) {
       const updatedEncountersList = await getAllEncounters();
       setEncounterList(updatedEncountersList);
-      toast.success('Encounter deleted!', {
-        position: 'bottom-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastGenerator('success', 'Encounter deleted!', 3000);
     } else {
-      toast.error('Something went wrong... :(', {
-        position: 'bottom-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastGenerator('error', 'Something went wrong... :(', 3000);
     }
     setDeleteModalOpen(false);
     setEncounterModalOpen(false);

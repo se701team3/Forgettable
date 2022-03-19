@@ -46,3 +46,9 @@ export const getLongDateStringWithSlashes = (date) => {
           moment(date).format('DD/MM/YYYY') :
           'Unknown';
 };
+
+export const getInputDateFormatString = (date) => {
+  return date ?
+          moment(date).format('yyyy-MM-DD') :
+          '';
+};
