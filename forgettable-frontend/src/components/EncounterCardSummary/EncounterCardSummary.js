@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const EncounterCardSummary = (props) => {
   return (
-    <div className={classes.EncounterCardSummary}>
+    <div className={classes.EncounterCardSummary} onClick={props.onClick}>
       <div className={classes.ContentContainer}>
         <div className={classes.HeaderContainer}>
           <Avatar
