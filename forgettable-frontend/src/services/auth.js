@@ -3,31 +3,16 @@ import 'firebase/compat/auth';
 import firebaseConfig from '../firebase-config';
 import 'regenerator-runtime/runtime';
 import {getAuth, signInWithPopup} from 'firebase/auth';
-// import {authentication} from '../firebase';
 
 const app = firebase.initializeApp(firebaseConfig);
 export const authentication = getAuth(app);
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
-// const postIdTokenToAuth = (idToken) => {
-//   return fetch('/authentication', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: idToken,
-//   });
-// };
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const signIn = (callback) => {
   signInWithPopup(authentication, googleProvider)
       .then((result) => {
         const user = result.user;
-        console.log(user);
-
-        console.log(user);
-        // console.log(user.accessToken)
 
         if (user) {
           callback(true, {
@@ -35,22 +20,9 @@ const signIn = (callback) => {
             userId: user.uid,
           });
         }
-
-        // user.getIdToken().then((idToken) => {
-        //   postIdTokenToAuth(idToken)
-        //       .then((response) => response.json())
-        //       .then((data) => {
-        //         callback(true, {
-        //           email: user.email,
-        //           displayName: user.displayName,
-        //           id: data.id,
-        //         });
-        //         console.log('user id: ' + data.id);
-        //       });
-        // });
       })
       .catch((error) => {
-        console.log('ERROR! ', error);
+        console.log('Uh oh, error loggin in :( ', error);
         callback(false);
       });
 };
