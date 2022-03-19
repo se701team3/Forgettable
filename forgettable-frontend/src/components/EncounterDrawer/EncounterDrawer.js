@@ -3,17 +3,24 @@ import classes from './EncounterDrawer.module.css';
 import {Avatar, Drawer} from '@mui/material';
 import PropTypes from 'prop-types';
 import {
-  getDateLastMetString,
+  getLongDateStringWithSlashes,
   getFirstMetTimeString,
 } from '../../functions/dateFormatter';
 import {capitalise} from '../../functions/stringFormatter';
 import convertSocialMediaNamesToIcons,
 {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import {IconButton} from '@mui/material';
-import {getBirthdayString} from '../../functions/dateFormatter';
+import {getLongDateStringWithSpaces} from '../../functions/dateFormatter';
 import CustomAvatarCollection from '../CustomAvatarCollection/CustomAvatarCollection';
 import UnknownDetail from '../UnknownDetail/UnknownDetail';
 
+/*
+ * Side drawer for displaying information of an encounter.
+ * The `open`, `encounterTitle`, and `encounterDetail` props
+ * are required. Set `open` to true if the drawer should be always open.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const EncounterDrawer = (props) => {
   return (
     <Drawer
@@ -45,7 +52,7 @@ const EncounterDrawer = (props) => {
           >
             {'Date we met: '}
             {props.dateMet ?
-            getDateLastMetString(props.dateMet) :
+            getLongDateStringWithSlashes(props.dateMet) :
             <UnknownDetail/>}
           </div>
           <div

@@ -9,6 +9,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.json());
 app.use(middleware.authHandler);
+app.use(middleware.paginationHandler);
 app.use('/api', routes);
 app.use(middleware.errorHandler);
 

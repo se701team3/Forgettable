@@ -36,7 +36,7 @@ function CustomAvatar(props) {
 CustomAvatar.propTypes = {
   persons: PropTypes.arrayOf(PropTypes.shape({
     first_name: PropTypes.string.isRequired,
-    last_name: PropTypes.string.isRequired,
+    last_name: PropTypes.string,
     img: PropTypes.string,
   })),
 };

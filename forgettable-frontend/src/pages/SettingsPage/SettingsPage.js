@@ -1,18 +1,22 @@
 import React from 'react';
 import classes from './SettingsPage.module.css';
-import {getAuth, signOut} from 'firebase/auth';
+import {signOut} from 'firebase/auth';
 import DarkMode from './DarkMode';
+import {authentication} from '../../firebase.js';
 
-function SettingsPage() {
+function SettingsPage({setIsLoggedIn}) {
   const user = localStorage.getItem('userName');
 
   const signOutHandler = ()=>{
-    const auth = getAuth();
-    signOut(auth).then(() => {
+    signOut(authentication).then(() => {
       // Sign-out successful.
     }).catch((error) => {
       // An error happened.
+      console.log(error);
     });
+    localStorage.removeItem('token');
+    localStorage.removeItem('userName');
+    setIsLoggedIn(false);
   };
 
   return (

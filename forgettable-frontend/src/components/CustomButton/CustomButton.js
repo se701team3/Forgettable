@@ -7,9 +7,9 @@ function CustomButton(props) {
     btnText, onClick, className,
   } = props;
   return (
-    <div className={classnames(classes.Button, className)} onClick={onClick}>
+    <button className={classnames(classes.Button, className)} onClick={onClick}>
       <p className={classnames(classes.Text, props.textStyle)}>{ btnText }</p>
-    </div>
+    </button>
   );
 }
 
