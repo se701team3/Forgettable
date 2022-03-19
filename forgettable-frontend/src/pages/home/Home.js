@@ -8,7 +8,7 @@ import PersonCardSummary from '../../components/PersonCardSummary/PersonCardSumm
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import {Link} from 'react-router-dom';
 import IconButton from '../../components/IconButton/IconButton';
-import EncounterSummary from '../../components/EncounterCardSummary/EncounterCardSummary';
+import EncounterCardSummary from '../../components/EncounterCardSummary/EncounterCardSummary';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
@@ -42,11 +42,6 @@ function Home() {
     setPeopleList(peopleResult);
     let encountersResult = [];
     encountersResult = await getAllEncounters();
-
-    encountersResult.forEach((encounter) => {
-      const people = encounter.persons.map((personID) => peopleResult.find((element) => element._id === personID));
-      encounter.persons = people;
-    });
 
     setEncountersList(encountersResult);
 
@@ -158,12 +153,13 @@ function Home() {
             return (
               <div key={index + 'e'} className={classes.home_cardWrapper} onMouseEnter={(event) => handleEncounterHover(event, index)}>
                 <Link to={`/encounters/${encounter._id}`} style={{textDecoration: 'none'}}>
-                  <EncounterSummary
-                    name={encounter.persons[0]?.first_name}
-                    date={encounter.date}
+                  <EncounterCardSummary
+                    firstName={encounter.persons[0]?.first_name}
+                    dateMet={encounter.date}
                     description={encounter.description}
-                    summary={encounter.title}
-                    src={encounter.persons[0]?.image}
+                    firstMet={encounter.title}
+                    img={encounter.persons[0]?.image}
+                    location={encounter.location}
                   />
                 </Link>
               </div>);
