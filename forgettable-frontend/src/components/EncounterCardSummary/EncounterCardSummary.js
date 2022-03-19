@@ -1,5 +1,4 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
+import React from 'react';
 import {Avatar} from '@mui/material';
 import classes from './EncounterCardSummary.module.css';
 import {getLongDateStringWithSlashes} from '../../functions/dateFormatter';
@@ -8,37 +7,38 @@ import PropTypes from 'prop-types';
 
 const EncounterCardSummary = (props) => {
   return (
-    <div className={classes.Container}>
-      <Card
-        className={classes.Card}
-        sx={{
-          maxWidth: 220,
-          maxHeight: 240,
-          bgcolor: 'var(--lcard)',
-          borderRadius: 6,
-          boxShadow: 0}}
-      >
+    <div className={classes.EncounterCardSummary}>
+      <div className={classes.ContentContainer}>
         <div className={classes.Header}>
           <Avatar
             alt={props.firstName}
             src={props.img}
-            sx={{width: 70, height: 70}}
+            sx={{
+              height: '70px',
+              width: '70px',
+              marginRight: '14px',
+              backgroundColor:
+                  getComputedStyle(document.body).getPropertyValue('--prmry'),
+              fontSize:
+                  getComputedStyle(document.body)
+                      .getPropertyValue('--text-xxlarge'),
+            }}
           />
           <div className={classes.NameDesc}>
-            <div>{props.firstName}</div>
-            <div className={classes.Description}>{props.description }</div>
+            <h3>{props.firstName}</h3>
+            <p className={classes.Description}>{props.description }</p>
           </div>
         </div>
-        <div className={classes.Date}>
-          <div>Date you met:&nbsp;</div>
+        <p className={classes.Date}>
+        Date you met:
           {props.dateMet ?
            getLongDateStringWithSlashes(props.dateMet) :
            <UnknownDetail/>}
-        </div>
+        </p>
         <div className={classes.DescriptionText}>
           {classes.description}
         </div>
-      </Card>
+      </div>
     </div>
   );
 };
