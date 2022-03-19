@@ -7,12 +7,16 @@ import IconButton from '../../components/IconButton/IconButton';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import EncounterDetailsModal from '../../components/EncounterDetailsModal/EncounterDetailsModal';
-import {deleteEncounter, getAllEncounters, searchEncounter} from '../../services';
+import {deleteEncounter, getAllEncounters, searchEncounter, getEncountersByPage} from '../../services';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Encounters() {
+  const PAGE_SIZE = 10;
+
+  const [pageNum, setPageNum] = useState(1);
+
   const [isHover, setIsHover] = useState(false);
   const [selectedInfo, setSelectedInfo] = useState(undefined);
 
@@ -39,8 +43,7 @@ export default function Encounters() {
   ]);
 
   useEffect(async () => {
-    const result = await getAllEncounters();
-    console.log(result);
+    const result = await getEncountersByPage(pageNum, PAGE_SIZE);
     setEncounterList(result);
   }, []);
 
@@ -88,17 +91,20 @@ export default function Encounters() {
   };
 
   const fetchMoreData = () => {
-    console.log('fetch more');
-    // todo: to be implemented after backend paging feature is implemented
-    // if () {
-    //   setHasMore(false);
-    //   return;
-    // }
+    if (!hasMore) {
+      return;
+    }
 
-    // setTimeout(() => {
-    // }, 1000);
+    setTimeout(async () => {
+      const newPageNum = pageNum + 1;
+      const newResult = await getEncountersByPage(newPageNum, LIMIT);
+      setEncounterList([...encounterList, ...newResult]);
+      if (newResult.length < LIMIT || !newResult) {
+        setHasMore(false);
+      }
+      setPageNum(newPageNum);
+    }, 1000);
   };
-
 
   const handleOnMouseOver = (index) => {
     setIsHover(true);
@@ -118,7 +124,7 @@ export default function Encounters() {
     <div>
       {isHover && <EncounterDrawer
         open={true}
-        id={1}
+        id={selectedInfo._id}
         encounterTitle={selectedInfo.title}
         encounterDetail={selectedInfo.description}
         location={selectedInfo.location}
@@ -148,7 +154,7 @@ export default function Encounters() {
       </CustomModal>
       <div className={classes.Container}>
         <div className={classes.Header}>
-          Encounters
+            Encounters
         </div>
         <div className={classes.Utilities}>
           <SearchBar hasAutocomplete={false} exportSearchString={exportSearchString} placeholder={'Search'}/>
@@ -168,11 +174,9 @@ export default function Encounters() {
             next={fetchMoreData}
             hasMore={hasMore}
             loader={<h4>Loading...</h4>}
-            endMessage={
-              <p style={{textAlign: 'center'}}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
+            endMessage={<p style={{textAlign: 'center'}}>
+              <b>Yay! You have seen it all</b>
+            </p>}
           >
             {encounterList.map((encounter, index) => {
               return (
@@ -193,7 +197,6 @@ export default function Encounters() {
               );
             })}
           </InfiniteScroll> : <div><h3>No Encounters Found :(</h3></div>}
-        </div>
       </div>
       <ToastContainer
         position="bottom-center"

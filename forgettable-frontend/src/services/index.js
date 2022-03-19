@@ -83,6 +83,16 @@ export const getAllEncounters = async () => {
 };
 
 /**
+ * Fetches Encounters entries with pagination
+ * @param {string} page starting page (starting index = 1)
+ * @param {string} limit how many entries on one page
+ * @return {Promise} data of all Encounters of the user
+ */
+export const getEncountersByPage = async (page, limit) => {
+  return await getData(`encounters/?page=${page}&limit=${limit}`);
+};
+
+/**
  * Creates a new Encounter in the database given the Encounter's data
  * @param {Object} encounter data of the Encounter to create.
  * @return {Promise} data entry of the new Encounter created
