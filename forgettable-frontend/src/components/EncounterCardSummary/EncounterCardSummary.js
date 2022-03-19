@@ -36,7 +36,7 @@ const EncounterCardSummary = (props) => {
            <UnknownDetail/>}
         </div>
         <div className={classes.DescriptionText}>
-          {description}
+          {classes.description}
         </div>
       </Card>
     </div>
@@ -48,7 +48,7 @@ EncounterCardSummary.propTypes = {
   firstName: PropTypes.string.isRequired,
   img: PropTypes.string,
   dateMet: PropTypes.instanceOf(Date),
-  description: PropTypes.func.isRequired,
+  description: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
