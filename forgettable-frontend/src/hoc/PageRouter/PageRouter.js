@@ -7,7 +7,7 @@ import {AuthContext} from '../../context/AuthContext';
 import PersonPage from '../../pages/PersonPage/PersonPage';
 import EditPerson from '../../pages/edit/EditPerson';
 import SettingsPage from '../../pages/SettingsPage/SettingsPage';
-import EncountersListPage from '../../pages/encounters/encounters';
+import EncountersListPage from '../../pages/EncountersListPage/EncountersListPage';
 import PersonsListPage from '../../pages/PersonsListPage/PersonsListPage';
 import Home from '../../pages/home/Home';
 import LogInPage from '../../pages/LogInPage/LogInPage';

@@ -21,8 +21,10 @@ const LogInPage = (props) => {
           </button>
           <p className={classes.CreateAccountText}>
             Please sign in using your Google account, if you do not have an
-            account, create one
-            <a href="https://accounts.google.com/SignUp?hl=en">here</a>
+            account, create one <a
+              href="https://accounts.google.com/SignUp?hl=en"
+            >here
+            </a>
           </p>
         </div>
         <img
