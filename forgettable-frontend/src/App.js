@@ -1,19 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import './index.css';
 import {
-  Routes,
-  Route,
   BrowserRouter,
 } from 'react-router-dom';
-import Home from './pages/home/Home';
-import SettingsPage from './pages/SettingsPage/SettingsPage';
-import People from './pages/PersonsListPage/PersonsListPage';
-import Encounters from './pages/encounters/encounters';
-import PersonPage from './pages/PersonPage/PersonPage';
-import SignInPage from './pages/SignInPage/SignInPage';
 import NavBar from './components/NavBar/NavBar';
-import {authentication} from './firebase.js';
-import EditPerson from './pages/edit/EditPerson';
 import PageRouter from './hoc/PageRouter/PageRouter';
 import {AuthContext} from './context/AuthContext';
 import auth from './services/auth';
@@ -35,8 +25,6 @@ function App() {
   const login = () => {
     setIsLoggingIn(true);
 
-    // testCookieProtectedEndpoint();
-
     auth.signIn((ok, user) => {
       if (ok) {
         setUserInfo(user);
@@ -44,8 +32,6 @@ function App() {
         setLoggedIn(true);
 
         auth.persistLoginStatus(user);
-
-        // testCookieProtectedEndpoint();
       } else {
         setIsLoggingIn(false);
         console.log('error logging in');
