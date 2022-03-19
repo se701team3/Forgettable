@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useState} from 'react';
 import styles from './InputField.module.css';
 
@@ -27,6 +27,10 @@ export default function InputField({inputLabel, inputType, placeholder,
      * Retrieve state of input component to be rendered in a responsive manner.
      */
   const [inputState, setInput] = useState(inputStateValue);
+
+  useEffect(() => {
+    setInput(inputStateValue);
+  }, [inputStateValue]);
 
   /**
      * Types allowed for innput component styling.
