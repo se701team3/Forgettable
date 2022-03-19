@@ -6,15 +6,15 @@ import 'regenerator-runtime/runtime';
 firebase.initializeApp(firebaseConfig);
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
 
-const postIdTokenToAuth = (idToken) => {
-  return fetch('/authentication', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: idToken,
-  });
-};
+// const postIdTokenToAuth = (idToken) => {
+//   return fetch('/authentication', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: idToken,
+//   });
+// };
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const signIn = (callback) => {
@@ -43,13 +43,9 @@ const signIn = (callback) => {
 };
 
 const signOut = () => {
-  return fetch('/authentication', {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  firebase.auth().signOut();
 };
+
 
 const persistLoginStatus = (user) => {
   // save user details to localstorage

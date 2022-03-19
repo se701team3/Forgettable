@@ -11,6 +11,7 @@ import EncountersListPage from '../../pages/encounters/encounters';
 import PersonsListPage from '../../pages/PersonsListPage/PersonsListPage';
 import Home from '../../pages/home/Home';
 import SignInPage from '../../pages/SignInPage/SignInPage';
+import LogInPage from '../../pages/LogInPage/LogInPage';
 
 // import LandingPage from "../../containers/LandingPage/LandingPage";
 // import SelectCompetition from "../../containers/SelectCompetition/SelectCompetition";
@@ -39,7 +40,7 @@ const PageRouter = (props) => {
     console.log('not logged in');
     return (
       <Routes>
-        <Route path="/signin" element={<SignInPage setIsLoggedIn={false}/>} />
+        <Route path="/signin" element={<LogInPage setIsLoggedIn={false}/>} />
         {/* <Route path="/explanation" component={Explanation} /> */}
         <Route
           path="*"
