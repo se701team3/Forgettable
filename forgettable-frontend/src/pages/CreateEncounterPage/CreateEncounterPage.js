@@ -96,25 +96,28 @@ export default function CreateEncountersPage() {
 
   return (
     <div className={classes.Card}>
-      <Card sx={{Width: 910, Height: 875, bgcolor: 'var(--lcard)', borderRadius: 6, boxShadow: 0}}>
+      <Card sx={{borderRadius: 6, boxShadow: 0}}>
         <div className={classes.CardContent}>
           <div className={classes.Title}>Create Encounter</div>
+
           <div className={classes.SubTitle}>
-            <div className={classes.SubHeader}>Title:</div>
-            <div className={classes.SearchBar}>
+            <div className={classes.InputBox}>
               <TextField
                 size='small'
                 id="fullWidth"
+                sx={{width: 1/1}} /* setting width to 100% so it can be scaled in css */
                 color='info'
-                sx={{width: 250, marginLeft: 1.5}}
                 value={encounter.title}
                 onChange={handleTitleChange}
+                placeholder='Title of Encounter'
               />
             </div>
           </div>
-          <div className={classes.SubTitle}>
-            <div className={classes.SubHeader}>You Encountered:</div>
-            <div className={classes.SearchBar}>
+
+
+          <div className={classes.TextField}>
+            <div className={classes.Text}>You Encountered*:</div>
+            <div className={classes.InputBox}>
               <Autocomplete
                 multiple
                 id="tags-outlined"
@@ -133,36 +136,49 @@ export default function CreateEncountersPage() {
               />
             </div>
           </div>
+
+
           <div className={classes.TextField}>
             <div className={classes.Text}>Date we met:</div>
-            <input className={classes.dateInput}
+            <input className={classes.DateInput}
               type='date'
               name='date_met'
               value={encounter.date}
               onChange={handleDateChange}
             />
           </div>
+
+
           <div className={classes.TextField}>
             <div className={classes.Text}>Where we met:</div>
-            <TextField
-              size='small'
-              id="fullWidth"
-              color='info'
-              sx={{width: 250, marginLeft: 1.5}}
-              value={encounter.location}
-              onChange={handleLocationChange}
-            />
+            <div className={classes.InputBox}>
+              <TextField
+                size='small'
+                id="fullWidth"
+                sx={{width: 1/1}}
+                color='info'
+                value={encounter.location}
+                onChange={handleLocationChange}
+              />
+            </div>
           </div>
-          <div className={classes.Details}>Details:</div>
-          <TextField
-            fullWidth
-            id="fullWidth"
-            multiline
-            color='info'
-            rows={7}
-            value={encounter.description}
-            onChange={handleDescriptionChange}
-          />
+
+          <div>
+            <div className={classes.Details}>Details:</div>
+            <div className={classes.InputBox}>
+              <TextField
+                fullWidth
+                id="fullWidth"
+                multiline
+                color='info'
+                rows={7}
+                value={encounter.description}
+                onChange={handleDescriptionChange}
+              />
+            </div>
+          </div>
+
+
           <div className={classes.Buttons}>
             <Link to="/encounters" style={{textDecoration: 'none'}}>
               <CustomButton btnText='Cancel' className='Button' onClick={()=>{}}/>
@@ -175,10 +191,12 @@ export default function CreateEncountersPage() {
             }
           </div>
 
-          {showWarning && <div>Encounters must have a title and at least one person</div>}
+          <div className={classes.WarningText}>
+            {showWarning && 'Encounters must have a title and at least one person'}
+          </div>
+
 
         </div>
-
       </Card>
 
     </div>
