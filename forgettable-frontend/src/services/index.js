@@ -13,8 +13,9 @@ export const getPerson = async (id) => {
  * Fetches data of all Persons
  * @return {Promise} data of all persons
  */
-export const getAllPersons = async () => {
-  return await getData('persons');
+export const getAllPersons = async (page, limit) => {
+  if (!page || !limit) return await getData('persons');
+  return await getData(`persons?page=${page}&limit=${limit}`);
 };
 
 /**
@@ -109,4 +110,9 @@ export const updateEncounter = async (id, encounter) => {
  */
 export const deleteEncounter = async (id) => {
   return await deleteData('encounters/' + id);
+};
+
+
+export const searchPersons = async (str) => {
+  return await getData('persons/?term=' + str);
 };

@@ -55,3 +55,22 @@
 .PersonCard{
     margin-bottom: 40px;
 }
+
+.DeleteModal {
+    width: 400px;
+    display: flex;
+    flex-direction: column ;
+    align-items: center;
+}
+
+.DeleteModal > h1 {
+    color: #E05A33;
+    font-size: var(--text-xxlarge);
+    text-align: center;
+    font-weight: 600;
+}
+
+.DeleteModal > p {
+    text-align: center;
+    font-size: var(--text-large);
+}
