@@ -110,3 +110,8 @@ export const updateEncounter = async (id, encounter) => {
 export const deleteEncounter = async (id) => {
   return await deleteData('encounters/' + id);
 };
+
+
+export const searchPersons = async (str) => {
+  return await getData('persons/?term=' + str);
+};

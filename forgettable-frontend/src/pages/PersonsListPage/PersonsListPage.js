@@ -7,7 +7,7 @@ import {getDateString} from '../../functions/dateFormatter';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {withRouter} from 'react-router-dom';
-import {deleteEncounter, deletePerson, getAllPersons} from '../../services';
+import {searchPersons, deletePerson, getAllPersons} from '../../services';
 import {useNavigate} from 'react-router-dom';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
@@ -41,7 +41,6 @@ export default function Persons(props) {
 
   const onDeletePersonCardClicked = (event, id) => {
     event.stopPropagation();
-    // Delete card
     setDeleteModalOpen(true);
     setPersonToDelete(id);
   };
@@ -83,6 +82,11 @@ export default function Persons(props) {
   };
 
   const fetchMoreData = () => {
+  };
+
+  const exportSearchString = async (searchString) => {
+    const searchResult = await searchPersons(searchString);
+    setPersonList(searchResult);
   };
 
   const handleOnMouseOver = (index) => {
@@ -131,7 +135,11 @@ export default function Persons(props) {
           People
         </div>
         <div className={classes.Utilities}>
-          <SearchBar placeholder={'Search'}/>
+          <SearchBar
+            placeholder={'Search'}
+            exportSearchString={exportSearchString}
+            hasAutocomplete={false}
+          />
           <div className={classes.Button}>
             <IconButton btnText="New Entry" onClick={onClickNewEntry} includeIcon={true} />
           </div>
