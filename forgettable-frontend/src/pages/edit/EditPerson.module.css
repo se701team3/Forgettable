@@ -126,6 +126,34 @@
 
 .formsButton {
     margin-right: 20px;
+}
+
+.changeImgButton {
+    color: transparent;
+    width: 0px;
+    visibility: hidden;
+}
+
+.changeImgButtonWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border:2px solid black;
+    border-radius: var(--radius-btn);
+    padding: 3px 12px 3px 12px;
+    box-sizing: border-box;
+    width: fit-content;
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: var(--text-normal);
+    user-select: none;
+    background-color: var(--bkgd);
+}
+
+.changeImgButtonWrapper:hover{
+    background-color: var(--hilit);
+}
+
 .DeleteModal {
     width: 400px;
     display: flex;

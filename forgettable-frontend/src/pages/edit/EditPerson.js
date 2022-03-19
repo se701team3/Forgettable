@@ -244,18 +244,16 @@ export default function EditPerson() {
       <form onSubmit={handleSubmit} className={classes.form}>
         <div className={classes.avatarDiv}>
           <Avatar src={profilePicPreview} className={classes.avatar}></Avatar>
-          <label htmlFor='inputProfilePic'>
-            <CustomButton
-              btnText="Change"
-              className={classes.avatarButton}
-              onChange={() => inputProfilePic.current.click()} />
+          <label className={classes.changeImgButtonWrapper}>
+            Change
+            <Input
+              id='inputProfilePic'
+              type='file'
+              accept='image/*'
+              className={classes.changeImgButton}
+              onChange={uploadImagePreview}
+            />
           </label>
-          <Input
-            id='inputProfilePic'
-            type="file"
-            accept="image/*"
-            onChange={uploadImagePreview}
-            className={classes.profilePicUpload} />
         </div>
 
         <div className={classes.row}>
