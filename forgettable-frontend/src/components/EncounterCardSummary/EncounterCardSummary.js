@@ -26,7 +26,7 @@ const EncounterCardSummary = (props) => {
           />
           <div className={classes.IdentityInfoConatiner}>
             <h3>{props.firstName}</h3>
-            <p >{props.description }</p>
+            <p >Met at: {props.location || 'some cool place'}</p>
           </div>
         </div>
         <div className={classes.DetailsContainer}>
@@ -53,6 +53,7 @@ EncounterCardSummary.propTypes = {
   dateMet: PropTypes.instanceOf(Date),
   description: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  location: PropTypes.string,
 };
 
 export default EncounterCardSummary;
