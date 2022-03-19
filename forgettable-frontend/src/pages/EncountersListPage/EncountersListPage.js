@@ -12,7 +12,7 @@ import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function Encounters() {
+export default function EncountersListPage() {
   const PAGE_SIZE = 10;
 
   const [pageNum, setPageNum] = useState(1);
@@ -32,6 +32,7 @@ export default function Encounters() {
 
   const [encounterList, setEncounterList] = useState([
     {
+      _id: '',
       title: '',
       date: null,
       location: '',
