@@ -24,33 +24,41 @@ const WHERE_WE_MET = 'Where we met: ';
 const EncounterCard = (props) => {
   const {isInitialEncounter, title, persons, description, date, location, onClick, onDelete, className} = props;
 
+  const handleOnDelete = (event) => {
+    event.stopPropagation();
+    onDelete();
+  };
+
+  const handleOnClick = (event) => {
+    event.stopPropagation();
+    onClick();
+  };
+
   return (
-    <div className={isInitialEncounter ? classes.Card_special : classes.Card}>
+    <div className={isInitialEncounter ? classes.Card_special : classes.Card} onClick={handleOnClick}>
       <div className={classnames(classes.Card_content, className)}>
-        <div onClick={onClick}>
-          {isInitialEncounter && <section className={classes.Initial_label_container}>
-            <div className={classes.Initial_label}>First Encounter!</div>
-          </section>}
-          <section className={classes.Header}>
-            <div className={classes.Title}>
-              {title}
-            </div>
-            <div className={classes.Profile_container}>
-              <CustomAvatar persons={persons}/>
-            </div>
-          </section>
-          <section className={classes.Body}>
-            {description}
-          </section>
-        </div>
+        {isInitialEncounter && <section className={classes.Initial_label_container}>
+          <div className={classes.Initial_label}>First Encounter!</div>
+        </section>}
+        <section className={classes.Header}>
+          <div className={classes.Title}>
+            {title}
+          </div>
+          <div className={classes.Profile_container}>
+            <CustomAvatar persons={persons}/>
+          </div>
+        </section>
+        <section className={classes.Body}>
+          {description}
+        </section>
         <section className={classes.Footer}>
           <div className={classes.Date}>
             {DATE_WE_MET}<div>{getDateString(date)}</div>
           </div>
           <div className={classes.Location}>
-            {WHERE_WE_MET}<div>{location}</div>
+            {WHERE_WE_MET}<div>{location ? location : 'somewhere cool'}</div>
           </div>
-          <CustomButton btnText={DELETE} onClick={onDelete}/>
+          <CustomButton btnText={DELETE} onClick={handleOnDelete}/>
         </section>
       </div>
     </div>
@@ -63,11 +71,11 @@ EncounterCard.propTypes = {
   description: PropTypes.string.isRequired,
   persons: PropTypes.arrayOf(PropTypes.shape({
     first_name: PropTypes.string.isRequired,
-    last_name: PropTypes.string.isRequired,
+    last_name: PropTypes.string,
     img: PropTypes.string,
   })),
   date: PropTypes.instanceOf(Date),
-  location: PropTypes.string.isRequired,
+  location: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   isInitialEncounter: PropTypes.bool.isRequired,
