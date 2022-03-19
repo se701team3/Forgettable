@@ -1,44 +1,73 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './index.css';
 import {
-  Routes,
-  Route,
+  BrowserRouter,
 } from 'react-router-dom';
-import Home from './pages/home/Home';
-import SettingsPage from './pages/SettingsPage/SettingsPage';
-import PersonsListPage from './pages/PersonsListPage/PersonsListPage';
-import EncountersListPage from './pages/EncountersListPage/EncountersListPage';
-import PersonPage from './pages/PersonPage/PersonPage';
-import SignInPage from './pages/SignInPage/SignInPage';
 import NavBar from './components/NavBar/NavBar';
-import {authentication} from './firebase.js';
-import EditPerson from './pages/edit/EditPerson';
-import CreateEncountersPage from './pages/CreateEncounterPage/CreateEncounterPage';
+import PageRouter from './hoc/PageRouter/PageRouter';
+import {AuthContext} from './context/AuthContext';
+import auth from './services/auth';
+import firebase from 'firebase/compat/app';
+import {tryCreateUser} from './functions/tryCreateUser';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(authentication.currentUser);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [user, setUserInfo] = useState({});
+
+  useEffect(() => {
+    const status = auth.loadLoginStatus();
+
+    if (status) setIsLoggingIn(true);
+    firebase.auth().onAuthStateChanged((u) => {
+      if (u) {
+        setLoggedIn(true);
+        setUserInfo(u);
+      } else {
+        setLoggedIn(false);
+      }
+      setIsLoggingIn(false);
+    });
+  }, []);
+
+  const login = () => {
+    setIsLoggingIn(true);
+
+    auth.signIn(async (ok, user) => {
+      if (ok) {
+        await tryCreateUser(user);
+
+        setUserInfo(user);
+        setIsLoggingIn(false);
+        setLoggedIn(true);
+
+        auth.persistLoginStatus(user);
+      } else {
+        setIsLoggingIn(false);
+        console.log('Error logging in');
+      }
+    });
+  };
+
+  const logout = () => {
+    auth.signOut().then(() => {
+      setLoggedIn(false);
+      setIsLoggingIn(false);
+      setUserInfo({});
+      auth.clearPersistedLoginStatus();
+    });
+  };
 
   return (
-    <>
-      {isLoggedIn ? (
-      <>
-        <NavBar />
-        <div className="page-wrapper">
-          <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="settings" element={<SettingsPage setIsLoggedIn={setIsLoggedIn}/>} />
-            <Route path="people" element={<PersonsListPage/>} />
-            <Route path="people/create" element={<EditPerson/>} />
-            <Route path="encounters/create" element={<CreateEncountersPage/>} />
-            <Route path="people/:id/edit" element={<EditPerson/>} />
-            <Route path="encounters" element={<EncountersListPage/>} />
-            <Route path="person/:id" element={<PersonPage/>} />
-          </Routes>
-        </div>
-      </>
-       ) : <SignInPage setIsLoggedIn={setIsLoggedIn} />
-      }
-    </>
+    <BrowserRouter>
+      <AuthContext.Provider
+        value={{isLoggedIn, isLoggingIn, user, login, logout}}
+      >
+        {isLoggedIn && <NavBar />}
+        <PageRouter/>
+
+      </AuthContext.Provider>
+    </BrowserRouter>
   );
 }
 

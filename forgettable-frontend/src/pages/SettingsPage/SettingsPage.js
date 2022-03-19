@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './SettingsPage.module.css';
 import {signOut} from 'firebase/auth';
 import DarkMode from './DarkMode';
-import {authentication} from '../../firebase.js';
+import {authentication} from '../../services/auth';
 
 function SettingsPage({setIsLoggedIn}) {
   const user = localStorage.getItem('userName');
