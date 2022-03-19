@@ -64,8 +64,14 @@ const deletePersonEncounters = async (encounterID: string) => {
 }
 
 const deletePersons = async (personID: string) => {
-  await Person.deleteOne({ _id: personID });
-};
+  const result = await Person.deleteOne({_id: personID});
+
+  if (result.deletedCount == 1) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 const addEncounterToPersons = async (personIds, encounterId) => {
   for (let i = 0; i < personIds.length; i++) {

@@ -25,16 +25,26 @@ export const getUserByAuthId = async (uid) => {
 };
 
 
-export const deleteUserEncounter = async (encounterId : string) => {
-  const result = await User.updateOne({}, { $pullAll: {encounters: [{ _id: encounterId}]} });
-  
-  // Check if User has been updated
+export const deleteUserPerson = async (personID: String) => {
+  const result = await User.updateMany({ }, { $pullAll: {persons: [{ _id: personID}]}});
+
   if (result.modifiedCount == 1) {
     return true;
   } else {
     return false;
   }
-};
+}
+
+export const deleteUserEncounter = async (encounterID: String) => {
+  const result = await User.updateMany({ }, { $pullAll: {encounters: [{ _id: encounterID}]}});
+
+  if (result.modifiedCount == 1) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 
 export const addPersonId = async(uid, pid) => {
   const updatedUser = await User.findOneAndUpdate(
@@ -42,11 +52,6 @@ export const addPersonId = async(uid, pid) => {
     { $push: { persons: pid }},
     { returnOriginal: false })
   return updatedUser;
-}
-
-
-export const deleteUserPerson = async (personID: String) => {
-  await User.updateMany({ }, { $pullAll: {persons: [{ _id: personID}]}});
 }
 
 const userService = {

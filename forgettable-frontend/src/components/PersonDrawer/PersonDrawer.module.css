@@ -1,0 +1,86 @@
+@import '../../colours.css';
+
+.PersonDrawer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 55px;
+}
+
+.ContentContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.InfoHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.InfoHeader > h1 {
+    font-size: var(--text-drawer-title);
+    font-weight: 600;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.InfoHeader > h2 {
+    font-size: var(--text-medium);
+    font-weight: 400;
+    color: var(--txt2);
+    margin: 0;
+    text-align: center;
+}
+
+.InfoContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-sizing: border-box;
+    padding: 0;
+    align-self: flex-start;
+}
+
+.InfoContentPadding {
+    padding: 0 50px;
+}
+
+.InfoContent > p {
+    font-size: var(--text-medium);
+    font-weight: 400;
+    margin: 15px 0;
+    color: var(--txt2);
+}
+
+.KnownText {
+    font-weight: 500;
+    color: var(--txt3);
+}
+
+.SocialMediaContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.Icon {
+    height: 36px;
+    width: 36px;
+}
+
+.EditButton {
+    width: 80px;
+    margin-top: 25px;
+}
+
+.ButtonText {
+    font-size: var(--text-medium);
+}

@@ -9,6 +9,7 @@
     display: flex;
     padding: 28px;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .ContentContainer {

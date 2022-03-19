@@ -1,18 +1,18 @@
 .PersonPage {
     width: 100%;
-    height: 100vh;
+    height: 90%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    overflow-x: none;
 }
 
 .ContentContainer {
     width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-    overflow-x: none;
+    height: 90%;
     box-sizing: border-box;
     padding: 0 60px;
+    overflow-y: none;
 }
 
 .TitleContainer {
@@ -47,4 +47,23 @@
 
 .CardWrapper {
     margin: 0 40px 40px 0;
+}
+
+.DeleteModal {
+    width: 400px;
+    display: flex;
+    flex-direction: column ;
+    align-items: center;
+}
+
+.DeleteModal > h1 {
+    color: #E05A33;
+    font-size: var(--text-xxlarge);
+    text-align: center;
+    font-weight: 600;
+}
+
+.DeleteModal > p {
+    text-align: center;
+    font-size: var(--text-large);
 }

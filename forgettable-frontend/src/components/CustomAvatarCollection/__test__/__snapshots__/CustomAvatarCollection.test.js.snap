@@ -5,16 +5,38 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
   <div
     className="MiniPersonProfile"
   >
-    <ForwardRef(Avatar)
-      alt="Kent Dodds"
-      src="https://images.unsplash.com/photo-1646936218155-caedb4ed9bf7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
-      sx={
+    <Link
+      style={
         Object {
-          "height": "30px",
-          "width": "30px",
+          "textDecoration": "none",
         }
       }
-    />
+      to={
+        Object {
+          "pathname": "/person/undefined",
+          "state": Object {
+            "person": Object {
+              "first_name": "Kent",
+              "img": "https://images.unsplash.com/photo-1646936218155-caedb4ed9bf7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80",
+              "last_name": "Dodds",
+            },
+          },
+        }
+      }
+    >
+      <ForwardRef(Avatar)
+        alt="Kent Dodds"
+        src={null}
+        sx={
+          Object {
+            "height": "30px",
+            "width": "30px",
+          }
+        }
+      >
+        KD
+      </ForwardRef(Avatar)>
+    </Link>
     <p
       data-testid="name-element"
     >
@@ -24,16 +46,38 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
   <div
     className="MiniPersonProfile"
   >
-    <ForwardRef(Avatar)
-      alt="Jed Watson"
-      src="https://images.unsplash.com/photo-1600010437709-10176a56ea45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80"
-      sx={
+    <Link
+      style={
         Object {
-          "height": "30px",
-          "width": "30px",
+          "textDecoration": "none",
         }
       }
-    />
+      to={
+        Object {
+          "pathname": "/person/undefined",
+          "state": Object {
+            "person": Object {
+              "first_name": "Jed",
+              "img": "https://images.unsplash.com/photo-1600010437709-10176a56ea45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80",
+              "last_name": "Watson",
+            },
+          },
+        }
+      }
+    >
+      <ForwardRef(Avatar)
+        alt="Jed Watson"
+        src={null}
+        sx={
+          Object {
+            "height": "30px",
+            "width": "30px",
+          }
+        }
+      >
+        JW
+      </ForwardRef(Avatar)>
+    </Link>
     <p
       data-testid="name-element"
     >
@@ -43,16 +87,38 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
   <div
     className="MiniPersonProfile"
   >
-    <ForwardRef(Avatar)
-      alt="Marley George"
-      src="https://images.unsplash.com/photo-1646936218590-91d949706cb5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-      sx={
+    <Link
+      style={
         Object {
-          "height": "30px",
-          "width": "30px",
+          "textDecoration": "none",
         }
       }
-    />
+      to={
+        Object {
+          "pathname": "/person/undefined",
+          "state": Object {
+            "person": Object {
+              "first_name": "Marley",
+              "img": "https://images.unsplash.com/photo-1646936218590-91d949706cb5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+              "last_name": "George",
+            },
+          },
+        }
+      }
+    >
+      <ForwardRef(Avatar)
+        alt="Marley George"
+        src={null}
+        sx={
+          Object {
+            "height": "30px",
+            "width": "30px",
+          }
+        }
+      >
+        MG
+      </ForwardRef(Avatar)>
+    </Link>
     <p
       data-testid="name-element"
     >
@@ -62,15 +128,37 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
   <div
     className="MiniPersonProfile"
   >
-    <ForwardRef(Avatar)
-      alt="Jack Winston"
-      sx={
+    <Link
+      style={
         Object {
-          "height": "30px",
-          "width": "30px",
+          "textDecoration": "none",
         }
       }
-    />
+      to={
+        Object {
+          "pathname": "/person/undefined",
+          "state": Object {
+            "person": Object {
+              "first_name": "Jack",
+              "last_name": "Winston",
+            },
+          },
+        }
+      }
+    >
+      <ForwardRef(Avatar)
+        alt="Jack Winston"
+        src={null}
+        sx={
+          Object {
+            "height": "30px",
+            "width": "30px",
+          }
+        }
+      >
+        JW
+      </ForwardRef(Avatar)>
+    </Link>
     <p
       data-testid="name-element"
     >
@@ -80,15 +168,37 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
   <div
     className="MiniPersonProfile"
   >
-    <ForwardRef(Avatar)
-      alt="John Doe"
-      sx={
+    <Link
+      style={
         Object {
-          "height": "30px",
-          "width": "30px",
+          "textDecoration": "none",
         }
       }
-    />
+      to={
+        Object {
+          "pathname": "/person/undefined",
+          "state": Object {
+            "person": Object {
+              "first_name": "John",
+              "last_name": "Doe",
+            },
+          },
+        }
+      }
+    >
+      <ForwardRef(Avatar)
+        alt="John Doe"
+        src={null}
+        sx={
+          Object {
+            "height": "30px",
+            "width": "30px",
+          }
+        }
+      >
+        JD
+      </ForwardRef(Avatar)>
+    </Link>
     <p
       data-testid="name-element"
     >

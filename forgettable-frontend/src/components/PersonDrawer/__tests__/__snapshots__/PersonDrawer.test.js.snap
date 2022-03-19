@@ -1,0 +1,224 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders PersonDrawer UI with correct hierarchy 1`] = `
+<ForwardRef(Drawer)
+  anchor="right"
+  data-testid="drawer-element"
+  open={true}
+  sx={
+    Object {
+      "& .MuiDrawer-paper": Object {
+        "boxSizing": "border-box",
+        "marginLeft": "128px",
+        "width": "460px",
+      },
+      "flexShrink": 0,
+      "width": "460px",
+    }
+  }
+  variant="persistent"
+>
+  <div
+    className="PersonDrawer"
+  >
+    <div
+      className="ContentContainer"
+    >
+      <ForwardRef(Avatar)
+        alt="Mercury Lin"
+        src={
+          Object {
+            "data": Array [
+              134,
+              219,
+              105,
+              179,
+              255,
+              238,
+              177,
+              234,
+              254,
+              138,
+              102,
+              160,
+              122,
+              200,
+              34,
+              182,
+              27,
+              155,
+              186,
+              199,
+              171,
+              114,
+              137,
+              237,
+              122,
+              123,
+              92,
+              162,
+              111,
+              250,
+              219,
+              77,
+              55,
+              223,
+              141,
+              255,
+              215,
+              158,
+              252,
+              235,
+              125,
+              180,
+              231,
+              231,
+              118,
+              247,
+              215,
+              117,
+              105,
+              175,
+              157,
+              121,
+              230,
+              254,
+              227,
+              77,
+              61,
+              249,
+              183,
+              28,
+              243,
+              237,
+              182,
+              223,
+              205,
+              182,
+              237,
+              254,
+              123,
+              211,
+              120,
+              34,
+            ],
+            "type": "Buffer",
+          }
+        }
+        style={
+          Object {
+            "backgroundColor": "",
+            "fontSize": "",
+            "height": "200px",
+            "width": "200px",
+          }
+        }
+      />
+      <div
+        className="InfoHeader"
+      >
+        <h1
+          data-testid="name-element"
+        >
+          Mercury Lin
+        </h1>
+        <h2
+          data-testid="first-met-element"
+        >
+          First met 
+          once upon a time
+        </h2>
+      </div>
+      <div
+        className="InfoContent InfoContentPadding"
+      >
+        <p
+          data-testid="age-element"
+        >
+          Age: 
+          <UnknownDetail />
+        </p>
+        <p
+          data-testid="gender-element"
+        >
+          Gender: 
+          <span
+            className="KnownText"
+          >
+            Female
+          </span>
+        </p>
+        <p
+          data-testid="birthday-element"
+        >
+          Birthday: 
+          <UnknownDetail />
+        </p>
+        <p
+          data-testid="organisation-element"
+        >
+          Organisation: 
+          <span
+            className="KnownText"
+          >
+            Team3
+          </span>
+        </p>
+        <p
+          data-testid="location-element"
+        >
+           Location: 
+          <span
+            className="KnownText"
+          >
+            London
+          </span>
+        </p>
+        <p
+          data-testid="date-first-met-element"
+        >
+          First met: 
+          <UnknownDetail />
+        </p>
+        <p
+          data-testid="interests-element"
+        >
+          Interests: 
+          <span
+            className="KnownText"
+          >
+            food, sleep
+          </span>
+        </p>
+        <p
+          data-testid="social-medias-element"
+        >
+          Social media: 
+          <span
+            className="SocialMediaContainer"
+          >
+            <ForwardRef(IconButton)
+              data-testid="social-media-element-facebook"
+              onClick={[Function]}
+            >
+              <img
+                alt="facebook"
+                src="facebook.svg"
+              />
+            </ForwardRef(IconButton)>
+            <ForwardRef(IconButton)
+              data-testid="social-media-element-instagram"
+              onClick={[Function]}
+            >
+              <img
+                alt="instagram"
+                src="instagram.svg"
+              />
+            </ForwardRef(IconButton)>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</ForwardRef(Drawer)>
+`;
