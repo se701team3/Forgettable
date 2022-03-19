@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './LogInPage.module.css';
 import logo from '../../assets/logos/logo-black.svg';
+import googleLogo from '../../assets/icons/google-login.svg';
 
 const LogInPage = (props) => {
   return (
@@ -8,35 +9,29 @@ const LogInPage = (props) => {
     <div className={classes.LogInPage}>
       <div className={classes.ContentContainer}>
 
-        <div>
+        <div className={classes.ContentWrapper}>
           <p className={classes.WelcomeBackText}>
             Welcome Back!
           </p>
-        </div>
 
 
-        {/*   /!* Sign in Button *!/ */}
-        {/* <div className={classes.SignInButton} onClick={signInHandler}>
-          <img src={googleLogin} alt="googleLogin" className={classes.GoogleLoginImage}/>
-          <p className={classes.SignInText}>
-            Sign in with Google
-          </p>
-        </div> */}
+          <div
+            className={classes.SignInButton} onClick={() => {}}>
+            <img src={googleLogo} alt="google logo" />
+            <p>Sign in with Google</p>
+          </div>
 
-        {/*   /!* Create google account *!/ */}
-        {/* <div>
+
           <p className={classes.CreateAccountText}>
             Please sign in using your Google account, if you do not have an
             account, create one <a href="https://accounts.google.com/SignUp?hl=en">here</a>
           </p>
-        </div> */}
-
-        <div>
-          <img
-            className={classes.Logo}
-            src={logo}
-            alt="logo_black"/>
         </div>
+
+        <img
+          className={classes.Logo}
+          src={logo}
+          alt="logo_black"/>
       </div>
     </div>
   );

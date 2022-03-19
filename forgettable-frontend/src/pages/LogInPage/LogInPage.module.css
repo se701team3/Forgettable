@@ -21,52 +21,53 @@
     align-items: center;
 }
 
-/* .WelcomeBackText{
-    text-align: center;
-    margin-top: 10%;
-    font-size: var(--text-xxlarge);
+.ContentWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -5%;
+}
+
+.WelcomeBackText{
+    font-size: 40px;
     font-weight: var(--font-semibold);
-    display: inline-block;
+    text-align: center;
 }
 
 .SignInButton{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     background-color: var(--prmry);
     width: 420px;
     height: 60px;
-    font-size: var(--text-medium);
-    border-radius: 8px;
-    text-align: center;
-    display: inline-block;
+    border-radius: var(--radius-btn);
     cursor: pointer;
 }
 
-.SignInText{
-    margin-top: 18px;
-    width: 200px;
-    float: right;
-    margin-right: 90px;
-    font-size: var(--text-normal);
-    font-weight: var(--font-light);
+.SignInButton > p {
+    font-weight: 400;
+    font-size: var(--text-medium);
+    margin-left: 12px;
 }
 
-
-.GoogleLoginImage{
-    float: left;
-    margin-left: 90px;
-    margin-top: 18px;
-    height: 30px;
-    width: 30px;
-}
 
 .CreateAccountText{
     width: 420px;
     text-align: center;
     position: center;
     display: inline-block;
-} */
+}
+
+.CreateAccountText > a {
+    color: var(--prmry);
+}
 
 .Logo{
+    position: absolute;
     width:250px;
-    margin-top: 10%;
+    bottom: 20%;
     display: inline-block;
 }
