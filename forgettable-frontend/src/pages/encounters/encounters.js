@@ -20,6 +20,8 @@ export default function Encounters() {
   const [isHover, setIsHover] = useState(false);
   const [selectedInfo, setSelectedInfo] = useState(undefined);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [hasMore, setHasMore] = useState(true);
 
   const [selectedEncounter, setSelectedEncounter] = useState(undefined);
@@ -45,6 +47,7 @@ export default function Encounters() {
   useEffect(async () => {
     const result = await getEncountersByPage(pageNum, PAGE_SIZE);
     setEncounterList(result);
+    setIsLoading(false);
   }, []);
 
   const handleCardClick = (encounter) => {
@@ -168,6 +171,7 @@ export default function Encounters() {
             </Link>
           </div>
         </div>
+        {isLoading ? <h4>Loading...</h4> : (
         <div className={classes.List}>
           {encounterList.length > 0 ? <InfiniteScroll
             dataLength={encounterList.length}
@@ -197,6 +201,7 @@ export default function Encounters() {
               );
             })}
           </InfiniteScroll> : <div><h3>No Encounters Found :(</h3></div>}
+        </div>)}
       </div>
       <ToastContainer
         position="bottom-center"
