@@ -36,9 +36,10 @@ const PageRouter = (props) => {
   }
 
   if (!authContext.isLoggedIn) {
+    console.log('not logged in');
     return (
       <Routes>
-        <Route path="/signin" component={<SignInPage setIsLoggedIn={false} />} />
+        <Route path="/signin" element={<SignInPage setIsLoggedIn={false}/>} />
         {/* <Route path="/explanation" component={Explanation} /> */}
         <Route
           path="*"
@@ -73,20 +74,23 @@ const PageRouter = (props) => {
   //   }
 
   return (
-    <Routes>
+    <div className="page-wrapper">
 
-      <Route path="/" element={<Home/>} />
-      <Route path="settings" element={<SettingsPage setIsLoggedIn={setIsLoggedIn}/>} />
-      <Route path="people" element={<PersonsListPage/>} />
-      <Route path="people/create" element={<EditPerson/>} />
-      <Route path="people/:id/edit" element={<EditPerson/>} />
-      <Route path="encounters" element={<EncountersListPage/>} />
-      <Route path="person/:id" element={<PersonPage/>} />
+      <Routes>
 
-      <Route
-        path="*"
-        element={<Navigate to="/" replace />}/>
-    </Routes>
+        <Route path="/" element={<Home/>} />
+        <Route path="settings" element={<SettingsPage setIsLoggedIn={setIsLoggedIn}/>} />
+        <Route path="people" element={<PersonsListPage/>} />
+        <Route path="people/create" element={<EditPerson/>} />
+        <Route path="people/:id/edit" element={<EditPerson/>} />
+        <Route path="encounters" element={<EncountersListPage/>} />
+        <Route path="person/:id" element={<PersonPage/>} />
+
+        <Route
+          path="*"
+          element={<Navigate to="/" replace />}/>
+      </Routes>
+    </div>
   );
 };
 
