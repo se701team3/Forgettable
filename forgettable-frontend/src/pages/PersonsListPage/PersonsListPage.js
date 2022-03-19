@@ -3,10 +3,8 @@ import PersonCard from '../../components/PersonCard/PersonCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './PersonsListPage.module.css';
 import IconButton from '../../components/IconButton/IconButton';
-import {getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import {withRouter} from 'react-router-dom';
 import {searchPersons, deletePerson, getAllPersons} from '../../services';
 import {useNavigate} from 'react-router-dom';
 import CustomModal from '../../components/CustomModal/CustomModal';
@@ -123,7 +121,7 @@ export default function PersonsListPage(props) {
           name={`${selectedInfo.first_name} ${selectedInfo.last_name || ''}`}
           id={selectedInfo._id}
           birthday={selectedInfo.birthday}
-          img={selectedInfo.img}
+          img={selectedInfo.image}
           gender={selectedInfo.gender}
           organisation={selectedInfo.organisation}
           socialMedia={selectedInfo.socialMedia}
@@ -190,6 +188,7 @@ export default function PersonsListPage(props) {
                     onEdit={(e) => onEditPersonCardClicked(e, person._id)}
                     onDelete={(e) => onDeletePersonCardClicked(e, person._id)}
                     firstMet= {person.first_met}
+                    image={person.image}
                   />
                 </div>
               );

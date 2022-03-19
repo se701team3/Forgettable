@@ -9,6 +9,7 @@ import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter
 import PropTypes from 'prop-types';
 import {getFirstMetTimeString, getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import UnknownDetail from '../UnknownDetail/UnknownDetail';
+import {getImageSrcFromBuffer} from '../../functions/getImageSrcFromBuffer';
 
 /*
  * Component for displaying information of a person in a list.
@@ -70,7 +71,7 @@ const PersonCard = (props) => {
                 getComputedStyle(document.body).getPropertyValue('--text-xxlarge')
               ,
             }}
-            src={props.img}
+            src={getImageSrcFromBuffer(props.image)}
           />
           <div className={classes.InformationContainer}>
             <div className={classes.MainInformationContainer}>
@@ -171,7 +172,7 @@ const PersonCard = (props) => {
 PersonCard.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string.isRequired,
-  img: PropTypes.string,
+  image: PropTypes.string,
   socialMedias: PropTypes.arrayOf(PropTypes.string),
   numEncounters: PropTypes.number,
   lastMet: PropTypes.instanceOf(Date),
