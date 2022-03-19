@@ -12,10 +12,11 @@ import {useNavigate} from 'react-router-dom';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {toastGenerator} from '../../functions/helper';
 
 const PAGE_SIZE = 10;
 
-export default function Persons(props) {
+export default function PersonsListPage(props) {
   const navigate = useNavigate();
 
   const [isHover, setIsHover] = useState(false);
@@ -50,7 +51,7 @@ export default function Persons(props) {
 
   const onEditPersonCardClicked = (event, id) => {
     event.stopPropagation();
-    navigate(`/person/${id}/edit`);
+    navigate(`/people/${id}/edit`);
   };
 
   const onConfirmDeletePerson = async (id) => {
@@ -60,25 +61,9 @@ export default function Persons(props) {
       const newPersonsList = personList.filter((p) => p._id !== id);
       setPersonList(newPersonsList);
 
-      toast.success('Person deleted!', {
-        position: 'bottom-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastGenerator('success', 'Person deleted!', 3000);
     } else {
-      toast.error('Something went wrong... :(', {
-        position: 'bottom-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastGenerator('error', 'Something went wrong... :(', 3000);
     }
 
     setDeleteModalOpen(false);

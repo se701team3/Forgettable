@@ -14,14 +14,16 @@
 }
 
 .form {
-    margin-top: 32px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .column {
     padding-right: 40px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
 
 .row {
@@ -41,6 +43,7 @@
 .avatar {
     width: 120px !important;
     height: 120px !important;
+    border: 1.5px solid var(--bord);
 }
 
 .profilePicUpload {
@@ -51,6 +54,7 @@
     display: flex;
     flex-wrap: wrap;
     width: inherit;
+    gap: 3px;
     margin-bottom: 20px;
 }
 
@@ -65,6 +69,8 @@
     height: 50px;
     font-size: xx-large;
     background-color: var(--bkgd);
+    border: 1.5px solid var(--bord);
+    color: var(--bord);
     border-style: solid;
     cursor: pointer;
 }
@@ -113,9 +119,56 @@
 .formButtonsDiv {
     display: flex;
     float: right;
-    margin-top: 20px;
+    margin-top: 10px;
+    align-self: flex-end;
+    padding-right: 40px;
 }
 
 .formsButton {
     margin-right: 20px;
+}
+
+.changeImgButton {
+    color: transparent;
+    width: 0px;
+    visibility: hidden;
+}
+
+.changeImgButtonWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border:2px solid black;
+    border-radius: var(--radius-btn);
+    padding: 3px 12px 3px 12px;
+    box-sizing: border-box;
+    width: fit-content;
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: var(--text-normal);
+    user-select: none;
+    background-color: var(--bkgd);
+}
+
+.changeImgButtonWrapper:hover{
+    background-color: var(--hilit);
+}
+
+.DeleteModal {
+    width: 400px;
+    display: flex;
+    flex-direction: column ;
+    align-items: center;
+}
+
+.DeleteModal > h1 {
+    color: #E05A33;
+    font-size: var(--text-xxlarge);
+    text-align: center;
+    font-weight: 600;
+}
+
+.DeleteModal > p {
+    text-align: center;
+    font-size: var(--text-large);
 }

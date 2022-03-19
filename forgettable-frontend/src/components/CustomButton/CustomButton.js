@@ -7,7 +7,7 @@ function CustomButton(props) {
     btnText, onClick, className,
   } = props;
   return (
-    <button className={classnames(classes.Button, className)} onClick={onClick}>
+    <button className={classnames(classes.Button, className)} onClick={onClick} type={props.type}>
       <p className={classnames(classes.Text, props.textStyle)}>{ btnText }</p>
     </button>
   );
