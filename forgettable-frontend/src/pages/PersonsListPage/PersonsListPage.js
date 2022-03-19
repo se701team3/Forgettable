@@ -12,6 +12,7 @@ import {useNavigate} from 'react-router-dom';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {toastGenerator} from '../../functions/helper';
 
 const PAGE_SIZE = 10;
 

@@ -11,6 +11,7 @@ import {deleteEncounter, getAllEncounters, searchEncounter, getEncountersByPage}
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {toastGenerator} from '../../functions/helper';
 
 /*
  * This page lists out all the Encounters the user created.
