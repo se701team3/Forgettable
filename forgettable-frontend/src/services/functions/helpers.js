@@ -1,61 +1,10 @@
 
 import axios from 'axios';
-import {getAuth, onAuthStateChanged} from 'firebase/auth';
-import firebase from 'firebase/compat/app';
 import {authentication} from '../auth';
 const SERVER_URL = 'http://localhost:3001/api/';
 
-
-const waitForAuthInit = async () => {
-  let unsubscribe = await new Promise((resolve) => {
-    unsubscribe = firebase.auth().onAuthStateChanged((_) => resolve());
-  });
-  (unsubscribe)();
-};
-
 export const getHeaders = async () => {
-  // const token = localStorage.getItem('token');
-  // const user = getAuth().User;
-  // console.log('GET AUTH', 'USER', user);
-
-  // const user2 = firebase.User;
-  // console.log('FiREBASE', 'USER', user2);
-
-  // const user3 = firebase.auth().currentUser;
-  // console.log('FIREBASE', 'AUTH USER', user3);
-
-
-  // const auth = getAuth();
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //   // User is signed in, see docs for a list of available properties
-  //   // https://firebase.google.com/docs/reference/js/firebase.User
-  //     const uid = user.uid;
-  //   // ...
-  //   } else {
-  //   // User is signed out
-  //   // ...
-  //   }
-  // });
-
-  console.log(authentication);
-  console.log(authentication.currentUser);
-  console.log(authentication.currentUser?.getIdToken());
-  console.log(authentication.currentUser?.accessToken);
-
-  const something = await waitForAuthInit;
-  console.log('WAIT FOR AUTH INIT', something);
-
   const token = await authentication.currentUser.getIdToken();
-
-
-  // console.log('test>>>>>>>>>>>>>>>>>>>>>>', test);
-
-
-  // const token = await user.getIdToken();
-  // const token = await getAuth().currentUser.getIdToken();
-
-  console.log('TOKENNNN', token);
 
   if (!token) return null;
   const headers = {Authorization: `${token}`};
