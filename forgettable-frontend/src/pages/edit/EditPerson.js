@@ -9,6 +9,8 @@ import imageToBase64 from 'image-to-base64/browser';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import * as apiCalls from '../../services/index';
 import InputField from '../../components/InputField/InputField';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const MAX_IMAGE_SIZE = 16000000;
 
@@ -37,11 +39,6 @@ export default function EditPerson() {
     encounters: [],
     time_updated: '',
   });
-
-
-  function handleUpdateData(newData) {
-    setPersonData(newData);
-  }
 
   (!create) && (useEffect(async () => {
     const result = await apiCalls.getPerson(id);
@@ -153,36 +150,73 @@ export default function EditPerson() {
     navigate('/people', {'replace': true});
   }
 
-  function handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault(); // perhaps remove this later
-    const formData = new FormData(event.target);
+    const formData = Object.fromEntries(new FormData(event.target));
 
-    // check dates from form are in correct format (Date type)
-    formData.append('image', profilePic);
-    formData.append('social_media', socialMedias);
+    const data = {
+      ...formData,
+      interests: formData.interests.split(/[-_,\s.|]+/),
+      image: profilePic,
+      social_media: socialMedias,
+    };
 
-    console.log(Object.fromEntries(formData));
-
-    if (create) {
-      async function postPersonData() {
-        try {
-          personData = await apiCalls.createPerson(Object.fromEntries(formData));
-        } catch (err) {
-          console.log(err);
+    setTimeout(async () => {
+      if (create) {
+        const result = await apiCalls.createPerson(data);
+        if (result) {
+          toast.success('Person Created!', {
+            position: 'bottom-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(()=> {
+            navigate('/encounters/create');
+          }, 3000);
+        } else {
+          toast.error('Something went wrong... :(', {
+            position: 'bottom-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      } else {
+        const result = await apiCalls.updatePerson(id, data);
+        if (result == '') {
+          toast.success('Person Saved!', {
+            position: 'bottom-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+          setTimeout(()=> {
+            navigate(`/person/${id}`);
+          }, 3000);
+        } else {
+          toast.error('Something went wrong... :(', {
+            position: 'bottom-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         }
       }
-      postPersonData();
-    } else {
-      async function putPersonData() {
-        try {
-          personData = await apiCalls.updatePerson(id, Object.fromEntries(formData));
-        } catch (err) {
-          console.log(err);
-        }
-      }
-      putPersonData();
-    }
-  }
+    }, 1000);
+  };
 
   return (
     <div className={classes.editPerson}>
@@ -206,10 +240,10 @@ export default function EditPerson() {
 
         <div className={classes.row}>
           <div className={classes.column}>
-            <InputField inputID='first_name' inputLabel='First Name' inputType='primary' inputStateValue={personData.first_name} autoFocusState={true} requiredState/>
-            <InputField inputID='gender' inputLabel='Gender' inputType='primary' inputStateValue={personData.gender}/>
-            <InputField inputID='first_met'inputLabel='Date First Met' inputType='primary' dataType='date' inputStateValue={personData.first_met}/>
-            <InputField inputID='interests' inputLabel='Interests' inputType='primary' inputStateValue={personData.interests}/>
+            <InputField inputID='first_name' placeholder={'E.g. John'} inputLabel='First Name' inputType='primary' inputStateValue={personData.first_name} autoFocusState={true} requiredState/>
+            <InputField inputID='gender' placeholder={'E.g. Female'} inputLabel='Gender' inputType='primary' inputStateValue={personData.gender}/>
+            <InputField inputID='first_met' inputLabel='Date First Met' inputType='primary' dataType='date' inputStateValue={personData.first_met}/>
+            <InputField inputID='interests' placeholder={'E.g. music, photography, art'} inputLabel='Interests' inputType='primary' inputStateValue={personData.interests.toString()}/>
             <label className={classes.socialMediaDivLabel}>Social Media</label>
             <div className={classes.socialMediaDiv} data-testid='social-media-div'>
               {handleDisplaySocialMedia()}
@@ -221,11 +255,11 @@ export default function EditPerson() {
             </div>
           </div>
           <div className={classes.column}>
-            <InputField inputID='last_name' inputLabel='Last Name' inputType='primary' inputStateValue={personData.last_name}/>
+            <InputField inputID='last_name' placeholder={'E.g. Smith'} inputLabel='Last Name' inputType='primary' inputStateValue={personData.last_name}/>
             <InputField inputID='birthday' inputLabel='Birthday' inputType='primary' dataType='date' inputStateValue={personData.birthday}/>
-            <InputField inputID='location' inputLabel='Their Current Location' inputType='primary' inputStateValue={personData.location}/>
-            <InputField inputID='how_we_met' inputLabel='How We Met' inputType='primary' inputStateValue={personData.how_we_met}/>
-            <InputField inputID='organisation' inputLabel='Organisation' inputType='primary' inputStateValue={personData.organisation}/>
+            <InputField inputID='location' placeholder={'E.g. Auckland'} inputLabel='Their Current Location' inputType='primary' inputStateValue={personData.location}/>
+            <InputField inputID='how_we_met' placeholder={'E.g. We met in the library'} inputLabel='How We Met' inputType='primary' inputStateValue={personData.how_we_met}/>
+            <InputField inputID='organisation' placeholder={'E.g. University'} inputLabel='Organisation' inputType='primary' inputStateValue={personData.organisation}/>
           </div>
         </div>
 
@@ -236,18 +270,12 @@ export default function EditPerson() {
               className={classes.formsButton}
             />
           )}
-
-          {/* navigate(-1) returns to previous page (like a back button) */}
           <CustomButton
-            btnText="Cancel"
+            btnText="Cancel" type="button"
             onClick={() => navigate(-1, {'replace': true})}
             className={classes.formsButton}
           />
-          <label htmlFor='submit'>
-            <CustomButton btnText="Save"
-              onClick={() => navigate('/encounters/create', {'replace': true})}
-            />
-          </label>
+          <CustomButton btnText="Save"/>
           <input ref={invisSocialMediaSubmitRef} id='submit' type="submit" className={classes.hiddenSubmit}/>
         </div>
       </form>
@@ -287,6 +315,17 @@ export default function EditPerson() {
         </div>
       </CustomModal>
 
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
