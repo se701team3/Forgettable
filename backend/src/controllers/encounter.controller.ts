@@ -150,39 +150,40 @@ export const deleteEncounters = async (
   req: Request,
   res: Response,
   next: NextFunction,
-  ): Promise<void> => {
-    logger.info("DELETE /encounters/:encounterID request from frontend");
-    const auth_id = req.headers.authorization?.["user_id"];
-    
-    const current_user = await userService.getUserByAuthId(auth_id);
-    const id = req.params.id;
-    const user_encounters = current_user?.encounters;
-    let string_encounters = user_encounters?.map(x => x.toString());
+): Promise<void> => {
+  logger.info('DELETE /encounters/:encounterID request from frontend');
+  const authId = req.headers.authorization?.['user_id'];
+  const user = await userService.getUserByAuthId(authId);
 
-    if (string_encounters?.includes(id.toString())) {
-      try {
-        // Delete encounter from Encounter and Person collection
-        const deleteEncounterResult = await encounterService.deleteEncounter(id);
-        const deletePersonEncountersResult = await personService.deletePersonEncounters(id);
-        const deleteUserEncounterResult = await userService.deleteUserEncounter(id);
+  if (!user) {
+    // User cannot be found in db so must be unauthorized
+    res.status(httpStatus.UNAUTHORIZED).end();
+  }
 
-        // Notify frontend that the operation was successful
-        if (deleteEncounterResult && deletePersonEncountersResult && deleteUserEncounterResult) {
-          res.sendStatus(httpStatus.OK).end();
-        } else {
-          res.sendStatus(httpStatus.BAD_REQUEST).end();
-        }
-        
-      } catch(e) {
-  
-        next(e);
+  const id = req.params.id;
+  const userEncounters = user?.encounters;
+  const stringEncounters = userEncounters?.map((x) => x.toString());
+
+  if (stringEncounters?.includes(id.toString())) {
+    try {
+      // Delete encounter from Encounter and Person collection
+      const deleteEncounterResult = await encounterService.deleteEncounter(id);
+      const deletePersonEncountersResult = await personService.deletePersonEncounters(id);
+      const deleteUserEncounterResult = await userService.deleteUserEncounter(id);
+
+      // Notify frontend that the operation was successful
+      if (deleteEncounterResult && deletePersonEncountersResult && deleteUserEncounterResult) {
+        res.sendStatus(httpStatus.OK).end();
+      } else {
+        res.sendStatus(httpStatus.CONFLICT).end();
       }
-    } else {
-      res.sendStatus(httpStatus.NOT_FOUND).end();
+    } catch (e) {
+      next(e);
     }
-    
-    res.status(httpStatus.OK).end();
-  };
+  } else {
+    res.sendStatus(httpStatus.NOT_FOUND).end();
+  }
+};
 
 export const getAllEncounters = async (
   req: Request,
@@ -199,11 +200,10 @@ export const getAllEncounters = async (
     if (!user) {
       res.status(httpStatus.NOT_FOUND).end();
     } else {
-
-      //The stringify and parse combo removes typing and allows the persons field in each encounter to be altered
+      // The stringify-parse combo removes typing allowing alteration of the persons field in each encounter
       const foundUserEncounters = JSON.parse(JSON.stringify(await encounterService.getAllEncounters(req.query, user.encounters)));
 
-      //Adds embedded person details to the returned encounters
+      // Adds embedded person details to the returned encounters
       for (let i = 0; i < foundUserEncounters.length; i++) {
         foundUserEncounters[i].persons = await Promise.all(foundUserEncounters[i].persons.map(
           async (personsId: any) => { return (await getPersonDetails(personsId))}));
