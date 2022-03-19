@@ -40,7 +40,7 @@ const EncounterCardSummary = (props) => {
             {'Date you met: '}
             {props.dateMet ?
            <span data-testid="date-met-element">
-             getLongDateStringWithSlashes(props.dateMet)
+             { getLongDateStringWithSlashes(props.dateMet)}
            </span> :
            <UnknownDetail/>}
           </p>
