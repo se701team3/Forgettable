@@ -73,7 +73,7 @@ exports[`renders PersonPage UI with correct hierarchy 1`] = `
                   "firstName": "",
                   "gender": "",
                   "howWeMet": "",
-                  "img": "",
+                  "image": "",
                   "interests": Array [],
                   "lastName": "",
                   "location": "",

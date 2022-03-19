@@ -15,7 +15,7 @@ import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
 import { getAllEncounters, getAllPersons } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
-global.Buffer = global.Buffer || require('buffer').Buffer;
+import { getImageSrcFromBuffer } from '../../functions/getImageSrcFromBuffer';
 
 function Home() {
   const [selectedInfo, setSelectedInfo] = React.useState(undefined);
@@ -34,8 +34,7 @@ function Home() {
     // convert people image buffers to image srcs.
     peopleResult.forEach((person) => {
       if (person.image) {
-        const base64String = Buffer.from(person.image, 'base64');
-        person.image = base64String;
+        person.image = getImageSrcFromBuffer(person.image);
       }
     });
 
@@ -178,7 +177,7 @@ function SummaryDrawer(summaryInfo) {
       open={true}
       id={summaryInfo.info.id}
       name={summaryInfo.info.first_name}
-      img={summaryInfo.info.img}
+      img={summaryInfo.info.image}
       firstMet={summaryInfo.info.firstMet}
       onClick={summaryInfo.info.onClick}
       location={summaryInfo.info.location}
@@ -192,7 +191,7 @@ function SummaryDrawer(summaryInfo) {
       open={true}
       id={summaryInfo.info.id}
       encounterTitle={summaryInfo.info.title}
-      img={summaryInfo.info.persons[0]?.img}
+      img={summaryInfo.info.persons[0]?.image}
       persons={summaryInfo.info.persons}
       dateMet={summaryInfo.info.date}
       location={summaryInfo.info.location}

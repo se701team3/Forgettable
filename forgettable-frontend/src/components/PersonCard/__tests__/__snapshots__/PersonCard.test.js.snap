@@ -12,6 +12,7 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
     >
       <ForwardRef(Avatar)
         alt="Mercury Lin"
+        src={null}
         style={
           Object {
             "backgroundColor": "",
@@ -115,7 +116,7 @@ exports[`renders PersonCard UI with correct hierarchy 1`] = `
             data-testid="last-met-element"
           >
             Date last met: 
-            never :(
+            <UnknownDetail />
           </p>
           <div
             className="SocialMediaContainer"

@@ -4,6 +4,7 @@ import classes from './EncounterCardSummary.module.css';
 import {getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import UnknownDetail from '../UnknownDetail/UnknownDetail';
 import PropTypes from 'prop-types';
+import {getImageSrcFromBuffer} from '../../functions/getImageSrcFromBuffer';
 
 /*
  * Component for displaying information of an encounter in a list.
@@ -22,7 +23,7 @@ const EncounterCardSummary = (props) => {
         <div className={classes.HeaderContainer}>
           <Avatar
             alt={props.firstName}
-            src={props.img}
+            src={getImageSrcFromBuffer(props.img)}
             sx={{
               height: '70px',
               width: '70px',
