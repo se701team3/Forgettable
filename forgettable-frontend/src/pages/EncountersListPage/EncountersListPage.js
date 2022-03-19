@@ -12,6 +12,11 @@ import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+/*
+ * This page lists out all the Encounters the user created.
+ *
+ * Author: Raina Song (rainasong)
+ */
 export default function EncountersListPage() {
   const PAGE_SIZE = 10;
 
