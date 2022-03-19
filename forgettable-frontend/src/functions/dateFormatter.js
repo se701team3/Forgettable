@@ -33,7 +33,7 @@ export const getLongDateStringWithSpaces = (date) => {
 export const calculateAge = (date) => {
   return date ?
                   moment().diff(moment(date), 'years') :
-                  '';
+                  'Unknown';
 };
 
 /**
