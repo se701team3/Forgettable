@@ -13,6 +13,8 @@ import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const PAGE_SIZE = 10;
+
 export default function Persons(props) {
   const navigate = useNavigate();
 
@@ -22,10 +24,11 @@ export default function Persons(props) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [personToDelete, setPersonToDelete] = useState();
   const [personList, setPersonList] = useState( [] );
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(async () => {
-    const result = await getAllPersons();
-
+    const result = await getAllPersons(currentPage, PAGE_SIZE);
+    console.log(result);
     if (result) {
       setPersonList(result);
     }
@@ -82,6 +85,20 @@ export default function Persons(props) {
   };
 
   const fetchMoreData = () => {
+    if (!hasMore) return;
+
+    setTimeout(async () => {
+      const newPage = currentPage + 1;
+
+      const additionalData = await getAllPersons(newPage, PAGE_SIZE);
+      if (!additionalData || additionalData.length < PAGE_SIZE) {
+        setHasMore(false);
+        return;
+      }
+
+      setCurrentPage(newPage);
+      setPersonList([...personList, ...additionalData]);
+    });
   };
 
   const exportSearchString = async (searchString) => {
