@@ -29,6 +29,13 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
   const clearInput = () => {
     setFilteredData([]);
     setWordEntered('');
+    exportSearchString('');
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      exportSearchString(event.target.value);
+    }
   };
 
   if (hasAutocomplete === true) {
@@ -76,11 +83,20 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
             placeholder={placeholder}
             value={wordEntered}
             onChange={handleFilter}
+            onKeyDown={handleKeyDown}
           />
           {/* The search icon is variable so that it shows the search icon when the text is empty
            while it shows the clear button when there is text, allowing for easy search bar clearing */}
-          <div className={classes.SearchIcon}>
+          {/* <div className={classes.SearchIcon}>
             <SearchIcon className={classes.ClearBtn} onClick={() => exportSearchString(wordEntered)}/>
+          </div> */}
+
+          <div className={classes.SearchIcon}>
+            {wordEntered === '' ? (
+              <SearchIcon className={classes.ClearBtn} onClick={() => exportSearchString(wordEntered)} />
+            ) : (
+              <CloseIcon id="clearBtn" className={classes.ClearBtn} onClick={clearInput} />
+            )}
           </div>
         </div>
       </div>

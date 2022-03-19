@@ -13,8 +13,9 @@ export const getPerson = async (id) => {
  * Fetches data of all Persons
  * @return {Promise} data of all persons
  */
-export const getAllPersons = async () => {
-  return await getData('persons');
+export const getAllPersons = async (page, limit) => {
+  if (!page || !limit) return await getData('persons');
+  return await getData(`persons?page=${page}&limit=${limit}`);
 };
 
 /**
@@ -23,6 +24,16 @@ export const getAllPersons = async () => {
  */
 export const getUser = async () => {
   return await getData('users');
+};
+
+/**
+ * Creates a User in the database given the User's data
+ * @param {Object} user data of the user to create.
+ * Must include a first_name property.
+ * @return {Promise} data entry of the new Person created
+ */
+export const createUser = async (user) => {
+  return await postData('users', user);
 };
 
 /**
@@ -99,4 +110,9 @@ export const updateEncounter = async (id, encounter) => {
  */
 export const deleteEncounter = async (id) => {
   return await deleteData('encounters/' + id);
+};
+
+
+export const searchPersons = async (str) => {
+  return await getData('persons/?term=' + str);
 };

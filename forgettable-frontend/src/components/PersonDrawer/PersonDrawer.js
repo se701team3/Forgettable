@@ -14,10 +14,19 @@ import {IconButton} from '@mui/material';
 import {getBirthdayString} from '../../functions/dateFormatter';
 import CustomButton from '../CustomButton/CustomButton';
 import classNames from 'classnames';
+import UnknownDetail from '../UnknownDetail/UnknownDetail';
 
+/*
+ * Side drawer for displaying the detailed information of a person.
+ * The `open` and `name` props are required. Set `open` to true if
+ * the drawer should be always open.
+ * The `staticDrawer` boolean props toggles the drawer to be on the
+ * left side of the screen with slightly different style, and adds
+ * to it an Edit button.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const PersonDrawer = (props) => {
-  const unknownDetail = <span className={classes.UnknownText}>Unknown</span>;
-
   return (
     <Drawer
       sx={{
@@ -71,7 +80,7 @@ const PersonDrawer = (props) => {
               <span className={classes.KnownText}>
                 {calculateAge(props.birthday)}
               </span> :
-              unknownDetail}
+              <UnknownDetail/>}
             </p>
             <p data-testid="gender-element">
               {'Gender: '}
@@ -79,7 +88,7 @@ const PersonDrawer = (props) => {
               <span className={classes.KnownText}>
                 {capitalise(props.gender)}
               </span> :
-              unknownDetail}
+              <UnknownDetail/>}
             </p>
             <p data-testid="birthday-element">
               {'Birthday: '}
@@ -87,7 +96,7 @@ const PersonDrawer = (props) => {
               <span className={classes.KnownText}>
                 {getBirthdayString(props.birthday)}
               </span> :
-              unknownDetail}
+              <UnknownDetail/>}
             </p>
             <p data-testid="organisation-element">
               {'Organisation: '}
@@ -95,7 +104,7 @@ const PersonDrawer = (props) => {
               <span className={classes.KnownText}>
                 {capitalise(props.organisation)}
               </span> :
-              unknownDetail}
+              <UnknownDetail/>}
             </p>
             <p data-testid="location-element">
               {' Location: '}
@@ -103,7 +112,7 @@ const PersonDrawer = (props) => {
               <span className={classes.KnownText}>
                 {capitalise(props.location)}
               </span> :
-              unknownDetail}
+              <UnknownDetail/>}
             </p>
             <p data-testid="date-first-met-element">
               {'First met: '}
@@ -111,15 +120,15 @@ const PersonDrawer = (props) => {
                 <span className={classes.KnownText}>
                   {getDateLastMetString(props.firstMet)}
                 </span> :
-                 unknownDetail}
+                 <UnknownDetail/>}
             </p>
             <p data-testid="interests-element">
               {'Interests: '}
-              {props.interests ?
+              {props.interests && props.interests.length > 0 ?
                <span className={classes.KnownText}>
                  {props.interests.join(', ')}
                </span> :
-               unknownDetail}
+               <UnknownDetail/>}
             </p>
             <p data-testid="social-medias-element">
               {'Social media: '}
@@ -139,7 +148,7 @@ const PersonDrawer = (props) => {
                     null
                    );
                  })}
-               </span> :unknownDetail}
+               </span> :<UnknownDetail/>}
             </p>
             {props.staticDrawer &&
             <CustomButton

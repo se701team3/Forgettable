@@ -14,10 +14,10 @@ beforeAll(async () => {
   
   token = await testUtils.generateTestAuthToken();
 
-  databaseOperations.connectDatabase();
+  await databaseOperations.connectDatabase();
 });
 afterEach(async () => databaseOperations.clearDatabase());
-afterAll(async () => databaseOperations.closeDatabase());
+afterAll(async () => await databaseOperations.closeDatabase());
 
 const user1Data = {
   first_name: "Bing",

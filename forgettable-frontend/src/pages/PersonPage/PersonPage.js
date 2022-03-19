@@ -1,129 +1,217 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import EncounterCard from '../../components/EncounterCard/EncounterCard';
 import IconButton from '../../components/IconButton/IconButton';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
+import {createPerson, deleteEncounter, getPerson} from '../../services';
 import classes from './PersonPage.module.css';
+import {ENCOUNTERS} from './PlaceholderData';
+import {Link, Navigate, useParams} from 'react-router-dom';
+// import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import EncounterDetailsModal from '../../components/EncounterDetailsModal/EncounterDetailsModal';
+import CustomModal from '../../components/CustomModal/CustomModal';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {convertSocialMedia} from '../../functions/convertSocialMediaFormat';
 
+/*
+ * This is the detailed person profile page. Displays the information
+ * of a single person. Includes all of their details, and encounters.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const PersonPage = (props) => {
+  const {id} = useParams();
+  const navigate = useNavigate();
+
+  const [selectedEncounter, setSelectedEncounter] = useState();
+  const [encounterModalOpen, setEncounterModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  const [person, setPerson] = useState({
+    firstName: '',
+    lastName: '',
+    birthday: null,
+    gender: '',
+    location: '',
+    howWeMet: '',
+    firstMet: null,
+    interests: [],
+    organisation: '',
+    socialMedia: [],
+    img: '',
+    encounters: [],
+    timeUpdated: null,
+  });
+
+  useEffect(async () => {
+    const result = await getPerson(id);
+
+    setPerson({
+      firstName: result.first_name,
+      lastName: result.last_name,
+      birthday: result.birthday,
+      gender: result.gender,
+      location: result.location,
+      howWeMet: result.how_we_met,
+      interests: result.interests,
+      organisation: result.organisation,
+      socialMedia: convertSocialMedia(result.socialMedia),
+      img: result.image,
+      encounters: result.encounters || [],
+      timeUpdated: result.timeUpdated,
+    });
+  }, [id]);
+
+  const createEncounterComponent = (encounter, i) => {
+    return (
+      <div className={classes.CardWrapper} key={encounter._id || i}>
+        <EncounterCard
+          title={encounter.title}
+          description={encounter.description}
+          persons={encounter.persons}
+          location={encounter.location}
+          onDelete={() => onDeleteClicked(encounter)}
+          date={encounter.date}
+          isInitialEncounter={false}
+          onClick={() => onClick(encounter)}
+        />
+      </div>
+    );
+  };
+
+  const onClick = (encounter) => {
+    setSelectedEncounter(encounter);
+    setEncounterModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setEncounterModalOpen(false);
+  };
+
+  const onDeleteClicked = (encounter) => {
+    setSelectedEncounter(encounter);
+    setDeleteModalOpen(true);
+  };
+
+  const onDeleteConfirmed = async (encounter) => {
+    const result = await deleteEncounter(encounter._id);
+
+    if (result) {
+      setPerson({
+        ...person,
+        encounters: person.encounters.filter((e) => e._id !== encounter._id),
+      });
+
+      toast.success('Encounter deleted!', {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.error('Something went wrong... :(', {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+
+    setDeleteModalOpen(false);
+    setEncounterModalOpen(false);
+  };
+
   return (
     <div className={classes.PersonPage}>
+
+      {selectedEncounter && <EncounterDetailsModal
+        open={encounterModalOpen}
+        onClose={handleModalClose}
+        encounter={selectedEncounter}
+        onDelete={() => onDeleteClicked(selectedEncounter)}
+      />}
+      <CustomModal
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        hasCancel
+        hasConfirm
+        onConfirm={() => onDeleteConfirmed(selectedEncounter)}
+      >
+        <div className={classes.DeleteModal}>
+          <h1 >Warning</h1>
+          <p >
+          Are you sure you want to delete this encounter?
+          You cannot undo this action.
+          </p>
+        </div>
+      </CustomModal>
+
       <PersonDrawer
         open={true}
-        img="https://user-images.githubusercontent.com/62003343/158300159-495244dd-f05e-4384-9fac-ddf88a06be39.gif"
+        img={person.img}
         staticDrawer={true}
-        name={'Mercury Lin'}
-        firstMet={new Date()}
-        interests={['art', 'sewing', 'coding']}
-        organisation="Team3"
-        gender="Female"
-        birthday={new Date('01-01-2010')}
-        socialMedias={[{name: 'facebook', link: 'link'}, {name: 'instagram', link: 'link'}]}
+        name={`${person.firstName} ${person.lastName || ''}`}
+        firstMet={person.firstMet}
+        interests={person.interests}
+        organisation={person.organisation}
+        location={person.location}
+        gender={person.gender}
+        birthday={person.birthday}
+        socialMedias={person.socialMedia}
+        data-testid="drawer-component"
+        onEdit={() => navigate(`edit`)}
       />
       <div className={classes.ContentContainer}>
         <div className={classes.TitleContainer} >
           <h1 className={classes.Title}>
             You encountered
             <br/>
-            Mercury 4 times
+            {person.firstName} {person.encounters.length} times
           </h1>
           <div className={classes.ButtonContainer}>
-            <IconButton
-              btnText="New Encounter"
-              onClick={() => {}}
-              includeIcon={true}
-              height="66px"
-            />
+            <Link to={{
+              pathname: `/encounters/create`,
+              state: {
+                person: person,
+              },
+            }}
+            style={{textDecoration: 'none'}}
+            >
+              <IconButton
+                btnText="New Encounter"
+                onClick={() => {}}
+                includeIcon={true}
+                height="66px"
+              />
+            </Link>
           </div>
         </div>
         <div className={classes.EncountersContainer}>
-
-          <div className={classes.CardWrapper}>
-            <EncounterCard
-              title="Aenean et quam"
-              description="Nunc aliquet leo vitae sapien varius ullamcorper. Donec eget vestibulum turpis. Suspendisse dolor urna, ultricies in neque quis, dictum sodales arcu. "
-              persons={[
-                {
-                  first_name: 'Mercury',
-                  last_name: 'Lin',
-                  img: 'https://user-images.githubusercontent.com/62003343/158300159-495244dd-f05e-4384-9fac-ddf88a06be39.gif',
-                },
-              ]}
-              location='Auckland'
-              onClick={() => {}}
-              onDelete={() => {}}
-              date={new Date()}
-              isInitialEncounter={false}
-            />
-          </div>
-          <div className={classes.CardWrapper}>
-            <EncounterCard
-              title="Sed a est venenatis"
-              description="Sed sed urna dui. Nam gravida, leo ac molestie pulvinar, odio erat egestas lorem, in ullamcorper lacus eros eu purus. Proin nulla neque, tristique ac euismod ut, convallis vitae mi. "
-              persons={[
-                {
-                  first_name: 'Mercury',
-                  last_name: 'Lin',
-                  img: 'https://user-images.githubusercontent.com/62003343/158300159-495244dd-f05e-4384-9fac-ddf88a06be39.gif',
-                },
-                {
-                  first_name: 'Raina',
-                  last_name: 'Song',
-                  img: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
-                },
-                {
-                  first_name: 'Hazel',
-                  last_name: 'Williams',
-                  img: 'https://www.publicdomainpictures.net/pictures/320000/nahled/background-image.png',
-                },
-              ]}
-              location='Auckland'
-              onClick={() => {}}
-              date={new Date()}
-              onDelete={() => {}}
-              isInitialEncounter={false}
-            />
-          </div>
-
-          <div className={classes.CardWrapper}>
-            <EncounterCard
-              title="Good times!"
-              description="Diam dictum vestibulum mi nulla vestibulum, id nibh. Nunc consequat amet commodo turpis tellus. Scelerisque a pellentesque vel accumsan sed mauris, ac turpis pharetra. Sem tristique nulla cursus praesent tincidunt integer faucibus in aliquam. Pretium nam enim ut suspendisse dictum. Arcu tristique turpis nam nunc nisl. Mi, molestie quis tincidunt ipsum hendrerit. Lacinia at ut dui nibh placerat scelerisque congue egestas ut. Et fusce odio amet, etiam consectetur ipsum a. Adipiscing iaculis dictum nisl lobortis. Pharetra nunc semper adipiscing massa aenean eu iaculis risus. At quam feugiat lorem ac dui. A, facilisi lectus mus iaculis convallis proin semper dolor accumsan. Ut nibh quis porttitor faucibus sagittis netus sit quis."
-              persons={[
-                {
-                  first_name: 'Mercury',
-                  last_name: 'Lin',
-                  img: 'https://user-images.githubusercontent.com/62003343/158300159-495244dd-f05e-4384-9fac-ddf88a06be39.gif',
-
-                },
-              ]}
-              location='Auckland'
-              onClick={() => {}}
-              onDelete={() => {}}
-              isInitialEncounter={false}
-            />
-          </div>
-
-          <div className={classes.CardWrapper}>
-            <EncounterCard
-              title="Good times!"
-              description="Diam dictum vestibulum mi nulla vestibulum, id nibh. Nunc consequat amet commodo turpis tellus. Scelerisque a pellentesque vel accumsan sed mauris, ac turpis pharetra. Sem tristique nulla cursus praesent tincidunt integer ..."
-              persons={[
-                {
-                  first_name: 'Mercury',
-                  last_name: 'Lin',
-                  img: 'https://user-images.githubusercontent.com/62003343/158300159-495244dd-f05e-4384-9fac-ddf88a06be39.gif',
-
-                },
-              ]}
-              location='Auckland'
-              onClick={() => {}}
-              onDelete={() => {}}
-              isInitialEncounter={true}
-              date={new Date()}
-            />
-          </div>
+          {
+            person.encounters.map((encounter, i) => {
+              return createEncounterComponent(encounter, i);
+            })
+          }
         </div>
       </div>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
