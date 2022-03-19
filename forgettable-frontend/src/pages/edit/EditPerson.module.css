@@ -14,14 +14,16 @@
 }
 
 .form {
-    margin-top: 32px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .column {
     padding-right: 40px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 }
 
 .row {
@@ -41,6 +43,7 @@
 .avatar {
     width: 120px !important;
     height: 120px !important;
+    border: 1.5px solid var(--bord);
 }
 
 .profilePicUpload {
@@ -51,6 +54,7 @@
     display: flex;
     flex-wrap: wrap;
     width: inherit;
+    gap: 3px;
     margin-bottom: 20px;
 }
 
@@ -65,6 +69,8 @@
     height: 50px;
     font-size: xx-large;
     background-color: var(--bkgd);
+    border: 1.5px solid var(--bord);
+    color: var(--bord);
     border-style: solid;
     cursor: pointer;
 }
@@ -113,7 +119,9 @@
 .formButtonsDiv {
     display: flex;
     float: right;
-    margin-top: 20px;
+    margin-top: 10px;
+    align-self: flex-end;
+    padding-right: 40px;
 }
 
 .formsButton {

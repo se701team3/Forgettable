@@ -1,3 +1,5 @@
+@import '../../colours.css';
+
 .inputLabelPrimary {
     font-size: var(--text-medium);
     font-weight: var(--font-medium);
@@ -22,12 +24,16 @@
 }
 
 .inputFieldPrimary{
-    font-size: var(--text-medium);
-    width: 375px;
-    height: 40px;
+    font-size: var(--text-normal);
+    width: 340px;
+    height: 35px;
     border-radius: var(--radius-btn);
-    margin-top: 5px;
+    border: 1.5px solid var(--bord);
+    box-shadow: none;
+    margin-top: 8px;
     padding: 10px;
+    padding-left: 18px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .inputFieldSecondary{
@@ -37,6 +43,7 @@
     border-radius: var(--radius-btn);
     margin-left: 10px;
     padding: 10px;
+    font-family: 'Poppins', sans-serif;
 }
 
 .inputFieldMultiLine {
