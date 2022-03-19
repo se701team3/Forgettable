@@ -101,9 +101,9 @@ export default function EncountersListPage() {
 
     setTimeout(async () => {
       const newPageNum = pageNum + 1;
-      const newResult = await getEncountersByPage(newPageNum, LIMIT);
+      const newResult = await getEncountersByPage(newPageNum, PAGE_SIZE);
       setEncounterList([...encounterList, ...newResult]);
-      if (newResult.length < LIMIT || !newResult) {
+      if (newResult.length < PAGE_SIZE || !newResult) {
         setHasMore(false);
       }
       setPageNum(newPageNum);
