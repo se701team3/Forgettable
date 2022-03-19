@@ -13,6 +13,7 @@ import SignInPage from './pages/SignInPage/SignInPage';
 import NavBar from './components/NavBar/NavBar';
 import {authentication} from './firebase.js';
 import EditPerson from './pages/edit/EditPerson';
+import CreateEncountersPage from './pages/CreateEncounterPage/CreateEncounterPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(authentication.currentUser);
@@ -28,6 +29,7 @@ function App() {
             <Route path="settings" element={<SettingsPage setIsLoggedIn={setIsLoggedIn}/>} />
             <Route path="people" element={<PersonsListPage/>} />
             <Route path="people/create" element={<EditPerson/>} />
+            <Route path="encounters/create" element={<CreateEncountersPage/>} />
             <Route path="people/:id/edit" element={<EditPerson/>} />
             <Route path="encounters" element={<EncountersListPage/>} />
             <Route path="person/:id" element={<PersonPage/>} />

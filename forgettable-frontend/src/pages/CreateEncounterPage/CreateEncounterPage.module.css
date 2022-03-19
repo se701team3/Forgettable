@@ -1,0 +1,87 @@
+@import '../../colours.css';
+
+.Card{
+    display:flex;
+    flex-direction: column;
+    width: 60%;
+    min-width: 910px;
+    margin-top: 50px;
+}
+
+.WarningText{
+    color: var(--warn);
+    text-align: right;
+    min-height: 20px;
+    border-width: 1px;
+}
+
+.Title{
+    font-size: var(--text-xxlarge);
+    font-weight: var(--font-semibold);
+}
+
+.CardContent{
+   padding: 30px 58px 30px 58px;
+   /* background-color: var(--card); */
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   gap: 20px;
+}
+
+.SubTitle{
+    font-size: var(--text-medium);
+    font-weight: var(--font-semibold);
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.TextField{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    font-size: var(--text-small);
+    font-weight: var(--font-regular);
+}
+
+.DateInput{
+    /* these are to match MUi components, so hard coded on purpose. */
+    font-size: 1rem; 
+    line-height: 1.4375em;
+    font-weight: 400;
+    border-radius: 4px;
+    border: 1px solid var(--bord);
+    padding: 8.5px 14px 8.5px 14px;
+    background-color: var(--bkgd);
+    width: 100%;
+}
+
+.InputBox{
+    width: 100%;
+    background-color: var(--bkgd);
+    border-radius: 4px;
+}
+
+.Details{
+    font-size:  var(--text-medium);
+    font-weight: var(--font-semibold);
+}
+
+.Buttons{
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-self: flex-end;
+}
+
+.Button{
+    width: 90px;
+    height: 38px;
+    font-size: var(--text-normal);
+}
+
+.Text{
+    flex-shrink: 0;
+}
