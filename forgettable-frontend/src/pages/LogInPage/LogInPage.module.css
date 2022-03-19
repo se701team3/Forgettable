@@ -45,6 +45,7 @@
     height: 60px;
     border-radius: var(--radius-btn);
     cursor: pointer;
+    border: none
 }
 
 .SignInButton > p {
