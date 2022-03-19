@@ -7,8 +7,11 @@ import {getDateString} from '../../functions/dateFormatter';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {withRouter} from 'react-router-dom';
-import {getAllPersons} from '../../services';
+import {deleteEncounter, deletePerson, getAllPersons} from '../../services';
 import {useNavigate} from 'react-router-dom';
+import CustomModal from '../../components/CustomModal/CustomModal';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Persons(props) {
   const navigate = useNavigate();
@@ -17,6 +20,7 @@ export default function Persons(props) {
   const [selectedInfo, setSelectedInfo] = useState(undefined);
   const [hasMore, setHasMore] = useState(true);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [personToDelete, setPersonToDelete] = useState();
 
   const [personList, setPersonList] = useState( [] );
 
@@ -43,12 +47,45 @@ export default function Persons(props) {
     console.log('delete');
     event.stopPropagation();
     // Delete card
+    setDeleteModalOpen(true);
+    setPersonToDelete(id);
   };
 
   const onEditPersonCardClicked = (event, id) => {
     console.log('edit');
     event.stopPropagation();
     navigate(`/person/${id}/edit`);
+  };
+
+  const onConfirmDeletePerson = async (id) => {
+    const result = await deletePerson(id);
+
+    if (result) {
+      const newPersonsList = personList.filter((p) => p._id !== id);
+      setPersonList(newPersonsList);
+
+      toast.success('Person deleted!', {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.error('Something went wrong... :(', {
+        position: 'bottom-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+
+    setDeleteModalOpen(false);
   };
 
   for (let i = 1; i < 20; i++) {
@@ -104,6 +141,21 @@ export default function Persons(props) {
           interests={selectedInfo.interests}
         />
       }
+      <CustomModal
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        hasCancel
+        hasConfirm
+        onConfirm={() => onConfirmDeletePerson(personToDelete)}
+      >
+        <div className={classes.DeleteModal}>
+          <h1 >Warning</h1>
+          <p >
+          Are you sure you want to delete this encounter?
+          You cannot undo this action.
+          </p>
+        </div>
+      </CustomModal>
       <div className={classes.Container}>
         <div className={classes.Header}>
           People
@@ -150,6 +202,17 @@ export default function Persons(props) {
           </InfiniteScroll>
         </div>
       </div>
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 }
