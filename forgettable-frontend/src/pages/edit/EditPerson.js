@@ -13,6 +13,7 @@ import {convertSocialMedia} from '../../functions/convertSocialMediaFormat';
 import {getInputDateFormatString, getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {toastGenerator} from '../../functions/helper';
 
 const MAX_IMAGE_SIZE = 16000000;
 
@@ -127,45 +128,19 @@ export default function EditPerson() {
       );
       setProfilePicPreview(imageURL);
     } else {
-      toast.error('Image too big, must be less than 16mb', {
-        position: 'bottom-center',
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      console.log('Image too big, must be less than 16mb');
+      toastGenerator('error', 'Image too big, must be less than 16mb', 2000);
     }
   }
 
   const onDeleteConfirmed = async (id) => {
     const result = await apiCalls.deletePerson(id);
-
     if (result) {
-      toast.success('Person deleted!', {
-        position: 'bottom-center',
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastGenerator('success', 'Person deleted!', 2000);
       setTimeout(()=> {
         navigate('/people');
       }, 2000);
     } else {
-      toast.error('Something went wrong... :(', {
-        position: 'bottom-center',
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toastGenerator('error', 'Something went wrong... :(', 2000);
     }
     setDeleteModalOpen(false);
   };
@@ -185,54 +160,22 @@ export default function EditPerson() {
       if (create) {
         const result = await apiCalls.createPerson(data);
         if (result) {
-          toast.success('Person Created!', {
-            position: 'bottom-center',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          toastGenerator('success', 'Person Created!', 2000);
           setTimeout(()=> {
             navigate('/encounters/create');
-          }, 3000);
+          }, 2000);
         } else {
-          toast.error('Something went wrong... :(', {
-            position: 'bottom-center',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          toastGenerator('error', 'Something went wrong... :(', 2000);
         }
       } else {
         const result = await apiCalls.updatePerson(id, data);
         if (result == '') {
-          toast.success('Person Saved!', {
-            position: 'bottom-center',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          toastGenerator('success', 'Person Saved!', 2000);
           setTimeout(()=> {
             navigate(`/person/${id}`);
-          }, 3000);
+          }, 2000);
         } else {
-          toast.error('Something went wrong... :(', {
-            position: 'bottom-center',
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          toastGenerator('error', 'Something went wrong... :(', 2000);
         }
       }
     }, 1000);
