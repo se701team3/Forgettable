@@ -20,8 +20,6 @@ function App() {
 
   useEffect(() => {
     const currentLocation = location.pathname;
-    console.log('Current location: ', currentLocation);
-
     const status = auth.loadLoginStatus();
 
     if (status) setIsLoggingIn(true);
@@ -33,15 +31,13 @@ function App() {
         setLoggedIn(false);
       }
       setIsLoggingIn(false);
-      console.log('navigating to: ', currentLocation);
+
       navigate(currentLocation);
     });
   }, []);
 
   const login = () => {
     const currentLocation = location.pathname;
-    console.log('Current location: ', currentLocation);
-
     setIsLoggingIn(true);
 
     auth.signIn(async (ok, user) => {
@@ -57,7 +53,7 @@ function App() {
         setIsLoggingIn(false);
         console.log('Error logging in');
       }
-      console.log('navigating to: ', currentLocation);
+
       navigate(currentLocation);
     });
   };
