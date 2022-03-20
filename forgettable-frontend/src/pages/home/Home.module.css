@@ -90,11 +90,11 @@
     height: 120px;
 }
 
-@media only screen and (min-width: 1900px)  {
-    .home_container{
-        max-width: 2400px;
+@media only screen and (max-width: 1440px)  {
+    .home_searchArea{
+        max-width: 780px;
     }
-    .body_container{
-        max-width: 2400px;
+    .home_subtitleContainer{
+        max-width: 780px;
     }
 }
