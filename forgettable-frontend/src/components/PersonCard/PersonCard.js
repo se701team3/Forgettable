@@ -144,7 +144,8 @@ const PersonCard = (props) => {
               >
                 Date last met: {
                 props.lastMet ?
-                getLongDateStringWithSlashes(props.lastMet) : <UnknownDetail/>}
+                <span>getLongDateStringWithSlashes(props.lastMet)</span> :
+                 <UnknownDetail/>}
               </p>
               <div className={classes.SocialMediaContainer}>
                 <AvatarGroup max={2}
