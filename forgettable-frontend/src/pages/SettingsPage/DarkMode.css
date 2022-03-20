@@ -27,8 +27,8 @@ a {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-left: 320px;
-    margin-top: -29px;
+    /* margin-left: 320px; */
+    /* margin-top: -29px; */
 }
 
 .toggle-theme-wrapper span {
@@ -40,7 +40,7 @@ a {
     position: relative;
     display: inline-block;
     height: 34px;
-    width: 68px;
+    width: 66px;
 }
 
 .toggle-theme input {
@@ -60,10 +60,10 @@ a {
 
 .slider:before {
     background-color: #5A5A5A;
-    bottom: 4px;
+    bottom: 3px;
     content: "";
     height: 26px;
-    left: 4px;
+    left: 6px;
     position: absolute;
     transition: 0.4s;
     width: 26px;

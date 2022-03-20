@@ -3,9 +3,10 @@ import classes from './SettingsPage.module.css';
 import {signOut} from 'firebase/auth';
 import DarkMode from './DarkMode';
 import {authentication} from '../../services/auth';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 function SettingsPage({setIsLoggedIn}) {
-  const user = localStorage.getItem('userName');
+  const userName = JSON.parse(localStorage.getItem('user')).userName;
 
   const signOutHandler = ()=>{
     signOut(authentication).then(() => {
@@ -20,16 +21,14 @@ function SettingsPage({setIsLoggedIn}) {
   };
 
   return (
-    <div className='SettingsPage'>
+    <div className={classes.container}>
       <div className={classes.title}>Settings:</div>
       <div className={classes.account}>Account:</div>
       <div className={classes.border}></div>
-      <div className={classes.name}>Name</div>
-      <div className={classes.content}>{user ? user : 'user name'}</div>
-      {/* <div className={classes.email}>Email</div>
-      <div className={classes.content}>username@gmail.com</div> */}
+      <div className={classes.name}>Name:</div>
+      <div className={classes.content}>{userName ? userName : 'Username'}</div>
       <div className={classes.border2}></div>
-      <button className={classes.button} onClick={signOutHandler}>Log out</button>
+      <CustomButton className={classes.button} onClick={signOutHandler} btnText="Log out"/>
       <div className={classes.appearence}>Appearence:</div>
       <div className={classes.border}></div>
       <toolbar className={classes.toolbar}>
