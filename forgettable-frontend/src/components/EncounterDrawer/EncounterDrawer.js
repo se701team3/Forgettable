@@ -65,7 +65,7 @@ const EncounterDrawer = (props) => {
           </div>
           <h2>Details:</h2>
           <p className={classes.EncounterDetails} data-testid="details-element">
-            {props.encounterDetail}
+            {props.encounterDetails ? props.encounterDetails : 'No details :)'}
           </p>
         </div>
       </div>

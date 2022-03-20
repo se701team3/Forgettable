@@ -1,7 +1,7 @@
 @import '../../colours.css';
 
 .PersonDrawer {
-    height: 100%;
+    height: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -10,6 +10,10 @@
     padding: 55px;
     background-color: var(--bkgd);
     color: var(--txt1);
+}
+
+.PersonDrawer::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 
 .ContentContainer {
@@ -23,7 +27,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 30px 0;
+    margin: 10px 0 20px 0;
 }
 
 .InfoHeader > h1 {
@@ -34,7 +38,7 @@
 }
 
 .InfoHeader > h2 {
-    font-size: var(--text-medium);
+    font-size: var(--text-normal);
     font-weight: 400;
     color: var(--txt2);
     margin: 0;
@@ -55,15 +59,15 @@
 }
 
 .InfoContent > p {
-    font-size: var(--text-medium);
-    font-weight: 400;
+    font-size: var(--text-normal);
+    font-weight: var(--font-normal);
     margin: 15px 0;
-    color: var(--txt2);
+    color: var(--txt4);
 }
 
 .KnownText {
-    font-weight: 500;
-    color: var(--txt3);
+    font-weight: var(--font-normal);
+    color: var(--txt2);
 }
 
 .SocialMediaContainer {
