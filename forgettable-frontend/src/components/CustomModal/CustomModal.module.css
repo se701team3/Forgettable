@@ -17,7 +17,7 @@
     align-items: center;
     padding: 20px;
     padding-bottom: 90px;
-    overflow-y: scroll;
+    overflow: hidden;
   }
   
   .Container::-webkit-scrollbar { 
