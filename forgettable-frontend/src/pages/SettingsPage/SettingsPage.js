@@ -1,41 +1,42 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import classes from './SettingsPage.module.css';
-import {signOut} from 'firebase/auth';
 import DarkMode from './DarkMode';
-import {authentication} from '../../services/auth';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import {AuthContext} from '../../context/AuthContext';
 
-function SettingsPage({setIsLoggedIn}) {
-  const user = localStorage.getItem('userName');
-
-  const signOutHandler = ()=>{
-    signOut(authentication).then(() => {
-      // Sign-out successful.
-    }).catch((error) => {
-      // An error happened.
-      console.log(error);
-    });
-    localStorage.removeItem('token');
-    localStorage.removeItem('userName');
-    setIsLoggedIn(false);
-  };
+function SettingsPage() {
+  const authContext = useContext(AuthContext);
 
   return (
-    <div className='SettingsPage'>
-      <div className={classes.title}>Settings:</div>
-      <div className={classes.account}>Account:</div>
-      <div className={classes.border}></div>
-      <div className={classes.name}>Name</div>
-      <div className={classes.content}>{user ? user : 'user name'}</div>
-      {/* <div className={classes.email}>Email</div>
-      <div className={classes.content}>username@gmail.com</div> */}
-      <div className={classes.border2}></div>
-      <button className={classes.button} onClick={signOutHandler}>Log out</button>
-      <div className={classes.appearence}>Appearence:</div>
-      <div className={classes.border}></div>
-      <toolbar className={classes.toolbar}>
-        <div className={classes.darkMode}>Dark mode</div>
-        <DarkMode />
-      </toolbar>
+    <div className={classes.SettingsPage}>
+      <h1>Settings</h1>
+      <div className={classes.ContentContainer}>
+        <h2>
+          Account
+        </h2>
+        <div className={classes.DetailSet}>
+          <h4>Name</h4>
+          <p>{authContext.user.displayName}</p>
+        </div>
+        <div className={classes.DetailSet}>
+          <h4>Email</h4>
+          <p>{authContext.user.email}</p>
+        </div>
+        <CustomButton
+          btnText="Log out"
+          className={classes.Button}
+          onClick={authContext.logout}
+        />
+        <h2>
+          Appearance
+        </h2>
+        <div className={classes.DarkModeContainer}>
+          <p>Dark mode</p>
+          <div className={classes.TogglerContainer}>
+            <DarkMode/>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
