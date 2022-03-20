@@ -32,14 +32,14 @@
 
 .InfoHeader > h1 {
     font-size: var(--text-drawer-title);
-    font-weight: 600;
+    font-weight: var(--font-semibold);
     margin: 5px 0;
     text-align: center;
 }
 
 .InfoHeader > h2 {
     font-size: var(--text-normal);
-    font-weight: 400;
+    font-weight: var(--font-regular);
     color: var(--txt2);
     margin: 0;
     text-align: center;

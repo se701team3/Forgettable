@@ -10,6 +10,6 @@
 
 .MiniPersonProfile > p {
     font-size: var(--text-medium);
-    font-weight: 400;
+    font-weight: var(--font-regular);
     margin-left: 10px;
 }
