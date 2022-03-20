@@ -5,5 +5,27 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: aliceblue;
+    overflow: hidden;
+}
+
+.ContentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -5%;
+}
+
+.ContentContainer > h1 {
+
+}
+
+.ContentContainer > p {
+    margin-bottom: 50px;
+    margin-top: 0;
+}
+
+.Logo {
+    position: absolute;
+    width:250px;
+    bottom: 20%;
 }

@@ -3,6 +3,7 @@ import classes from './NotFound.module.css';
 import LightLogo from '../../assets/logos/logo-black.svg';
 import DarkLogo from '../../assets/logos/logo-white.svg';
 import IconButton from '../../components/IconButton/IconButton';
+import {useNavigate} from 'react-router-dom';
 /*
  * This is the 404 Not Found page. All invalid URLs will
  * redirect to here.
@@ -10,6 +11,8 @@ import IconButton from '../../components/IconButton/IconButton';
  * Author: Mercury Lin (lin8231)
  */
 const NotFound = (props) => {
+  const navigate = useNavigate();
+
   const theme = localStorage.getItem('theme');
 
   return (
@@ -21,10 +24,17 @@ const NotFound = (props) => {
           {'the page you\'re looking for :('}
         </h1>
         <p>Error 404 - Page Not Found</p>
-
-        <IconButton btnText="Go back to Homepage" height="60px"/>
+        <IconButton
+          btnText="Go back to homepage"
+          height="60px"
+          onClick={() => navigate('/')}
+        />
       </div>
-      <img src={theme == 'dark' ? DarkLogo : LightLogo} alt="Forgettable Logo" className={classes.Logo}/>
+      <img
+        src={theme == 'dark' ? DarkLogo : LightLogo}
+        alt="Forgettable Logo"
+        className={classes.Logo}
+      />
     </div>
   );
 };
