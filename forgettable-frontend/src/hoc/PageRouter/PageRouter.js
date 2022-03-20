@@ -11,6 +11,7 @@ import PersonsListPage from '../../pages/PersonsListPage/PersonsListPage';
 import Home from '../../pages/home/Home';
 import LogInPage from '../../pages/LogInPage/LogInPage';
 import CreateEncounterPage from '../../pages/CreateEncounterPage/CreateEncounterPage';
+import Loading from '../../pages/Loading/Loading';
 import NotFound from '../../pages/NotFound/NotFound';
 
 /*
@@ -25,10 +26,7 @@ const PageRouter = (props) => {
 
   if (authContext.isLoggingIn) {
     return (
-      <div className={classes.Loading}>
-        {/* <ReactLoading type="spokes" color="#2f7de7" /> */}
-        <p>Signing in...</p>
-      </div>
+      <Loading text="Signing you in..."/>
     );
   }
 
@@ -56,6 +54,7 @@ const PageRouter = (props) => {
         <Route path="encounters" element={<EncountersListPage/>} />
         <Route path="person/:id" element={<PersonPage/>} />
         <Route path="encounters/create" element={<CreateEncounterPage/>} />
+        <Route path="/signin" element={<Navigate replace to="/"/>} />
         <Route path="*" element={<NotFound/>} />
 
       </Routes>
