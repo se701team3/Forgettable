@@ -34,7 +34,7 @@ export default function PersonsListPage(props) {
   }, []);
 
   const onClickNewEntry = () => {
-    navigate(`/persons/create`);
+    navigate(`/person/create`);
   };
 
   const onClickPersonCard = (id) => {
