@@ -13,8 +13,6 @@ const client = algoliaSearch(
 );
 const index = client.initIndex('persons');
 
-const queryKeys = ['first_name', 'last_name', 'gender', 'location', 'how_we_met', 'organisation'];
-
 const createPerson = async (personDetails: PersonModel) => {
   const person = new Person(personDetails);
   await person.save();
@@ -48,19 +46,14 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
     logger.info(queryParams);
     const termValue = queryParams.term.toLowerCase();
 
-    // If no relevant fields in a Person match 'termValue', remove them from the array
-    foundUserPersons = foundUserPersons.filter((person) => {
-      for (let i = 0; i < queryKeys.length; i++) {
-        // Make sure person has a value for current queryKey
-        if (person[queryKeys[i]]) {
-          const personValue = (person[queryKeys[i]] as string).toLowerCase();
-          if (personValue.includes(termValue)) {
-            return true;
-          }
-        }
-      }
-      return false;
-    })
+    const algoliaSearchResults = await index.search(termValue);
+    const algoliaSearchResultsIds = algoliaSearchResults.hits.map((hit) => hit.objectID.toString())
+  
+    const userPersonResults = foundUserPersons.filter(
+      (person) => algoliaSearchResultsIds.includes(person._id.toString()),
+    );
+
+    foundUserPersons = userPersonResults;
   }
 
   return foundUserPersons;
