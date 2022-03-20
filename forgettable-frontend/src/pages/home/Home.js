@@ -86,7 +86,7 @@ function Home() {
       <CustomModal open={modalOpen} onClose={handleModalClose} hasCancel={true}>
         <div className={classes.home_modalTitle}>Add a new entry</div>
         <div className={classes.home_modalButtonsContainer}>
-          <Link to="/people/create" style={{textDecoration: 'none'}}>
+          <Link to="/person/create" style={{textDecoration: 'none'}}>
             <IconButton
               btnText="Person"
               onClick={()=>{}}

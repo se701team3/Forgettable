@@ -53,7 +53,7 @@ export const postData = async (url, data) => {
       `${SERVER_URL}${url}`,
       data,
       {
-        headers: getHeaders(),
+        headers: await getHeaders(),
       },
   )
       .catch((error) => {
@@ -73,7 +73,7 @@ export const putData = async (url, data) => {
       `${SERVER_URL}${url}`,
       data,
       {
-        headers: getHeaders(),
+        headers: await getHeaders(),
       },
   )
       .catch((error) => {
@@ -92,7 +92,7 @@ export const deleteData = async (url, data) => {
   const response = await axios.delete(
       `${SERVER_URL}${url}`,
       {
-        headers: getHeaders(),
+        headers: await getHeaders(),
         ...(data && {params: data}),
       },
   ).catch((error) => {
