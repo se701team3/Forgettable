@@ -49,8 +49,8 @@ const PageRouter = (props) => {
         <Route path="/" element={<Home/>} />
         <Route path="settings" element={<SettingsPage/>} />
         <Route path="people" element={<PersonsListPage/>} />
-        <Route path="people/create" element={<EditPerson/>} />
-        <Route path="people/:id/edit" element={<EditPerson/>} />
+        <Route path="person/create" element={<EditPerson/>} />
+        <Route path="person/:id/edit" element={<EditPerson/>} />
         <Route path="encounters" element={<EncountersListPage/>} />
         <Route path="person/:id" element={<PersonPage/>} />
         <Route path="encounters/create" element={<CreateEncounterPage/>} />
