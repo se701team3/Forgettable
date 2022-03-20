@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from 'react';
 import Drawer from '@mui/material/Drawer';
 import {List, ListItem} from '@mui/material';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import HomePageLogo from '../../assets/icons/navbar/homepage.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
@@ -20,6 +20,7 @@ export default function NavBar() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const theme = localStorage.getItem('theme');
   const [isDarkTheme, setIsDarkTheme] = useState(theme == 'dark');
+  const location = useLocation();
 
   const linkProperties = [{
     src: HomePageLogo,
@@ -83,7 +84,7 @@ export default function NavBar() {
                 <ListItem
                   button
                   onClick={(event) => handleListItemClick(event, index)}
-                  selected={selectedIndex === index}
+                  selected={linkItem.path === location.pathname}
                   classes={{selected: classes.navBar_listItem}}
                 >
                   <div className={classes.navBar_selectMarker} />
@@ -98,7 +99,6 @@ export default function NavBar() {
                   </div>
                 </ListItem>
               </Link>
-
             ))}
           </List>
         </div>

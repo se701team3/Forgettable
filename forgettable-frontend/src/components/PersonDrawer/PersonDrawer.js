@@ -50,8 +50,8 @@ const PersonDrawer = (props) => {
             alt={props.name}
             // this style is written inline because MUI does not support className
             style={{
-              height: '200px',
-              width: '200px',
+              height: '180px',
+              width: '180px',
               backgroundColor:
                 getComputedStyle(document.body)
                     .getPropertyValue('--prmry'),

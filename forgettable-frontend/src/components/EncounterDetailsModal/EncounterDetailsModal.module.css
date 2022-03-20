@@ -3,21 +3,33 @@
 .ContentContainer {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-left: 40px;
-    margin-right: 40px;
-    margin-bottom: 40px;
+    justify-content: center;
+    align-items: center;
+    margin: 30px;
+    max-width: 400px;
+    height: 500px;
+    min-width: 750px;
+    margin-left: 80px;
+    margin-right: 80px;
+    overflow: scroll;
 }
 
+.ContentContainer::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+  }
+
 .Content {
-    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    height: inherit;
+    margin: 40px;
 }
 
 .EncounterTitle {
     font-weight: 600;
     font-size: var(--text-xlarge);
-    margin-top: 60px;
+    margin-top: 10px;
     margin-bottom: 0px;
 }
 
@@ -78,4 +90,5 @@
     margin-top: 10px;
     position: absolute;
     right: 60px;
+    bottom: 40px;
 }

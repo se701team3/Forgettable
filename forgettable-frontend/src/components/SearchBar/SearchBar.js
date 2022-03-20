@@ -3,10 +3,13 @@ import React, {useState} from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import classes from './SearchBar.module.css';
+import {useNavigate} from 'react-router-dom';
 
 function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState('');
+  const [resultURL, setResultURL] = useState('');
+  const navigate = useNavigate();
 
   // this const gets the string input from the search bar, filters the data array to match the string
   // then sets that as the filtered dataset to be used with the suggestions
@@ -65,7 +68,13 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
           but it will be changed with the api */}
             {filteredData.slice(0, 15).map((value, key) => {
               return (
-                <a className={classes.DataItem} href={window.location.href + value.type + '/' + value.id} rel="noreferrer" key={key}>
+                <a className={classes.DataItem} onClick={() => {
+                  if (value.type == 'people') {
+                    navigate(`/person/${value.id}`);
+                  } else {
+                    navigate(`/encounters`, {state: {id: value.id}});
+                  }
+                }} rel="noreferrer" key={key}>
                   <p className={classes.DataItemP}>{value.title}</p>
                 </a>
               );

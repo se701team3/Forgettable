@@ -25,7 +25,16 @@
 
 .home_newEntryBtn {
     flex-shrink: 0;
-    height: auto;
+    height: 62px;
+}
+
+.body_container{
+    max-width: 1055px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    position: absolute;
+    top: 230px;
 }
 
 .body_container{
@@ -90,11 +99,8 @@
     height: 120px;
 }
 
-@media only screen and (min-width: 1900px)  {
-    .home_container{
-        max-width: 2400px;
-    }
-    .body_container{
-        max-width: 2400px;
+@media only screen and (max-width: 1440px)  {
+    .home_searchArea, .home_subtitleContainer, .body_container{
+        max-width: 780px;
     }
 }

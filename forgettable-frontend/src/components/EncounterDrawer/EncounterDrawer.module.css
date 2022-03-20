@@ -9,11 +9,16 @@
     box-sizing: border-box;
     border-left: 1px solid var(--line);
     padding: 0 50px;
+    padding-left: 60px;
     overflow-y: scroll;
     overflow-x: none;
     background-color: var(--bkgd);
     color: var(--txt1);
 }
+
+.EncounterDrawer::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+  }
 
 .ContentContainer {
     display: flex;
@@ -24,8 +29,8 @@
 
 .EncounterTitle {
     font-weight: 600;
-    font-size: var(--text-xlarge);
-    margin-top: 60px;
+    font-size: var(--text-xxlarge);
+    margin-top: 100px;
     margin-bottom: 0px;
 }
 

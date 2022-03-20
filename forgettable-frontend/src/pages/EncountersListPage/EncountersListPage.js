@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import EncounterCard from '../../components/EncounterCard/EncounterCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './EncountersListPage.module.css';
@@ -7,7 +7,7 @@ import IconButton from '../../components/IconButton/IconButton';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import EncounterDetailsModal from '../../components/EncounterDetailsModal/EncounterDetailsModal';
-import {deleteEncounter, getAllEncounters, searchEncounter, getEncountersByPage} from '../../services';
+import {deleteEncounter, getAllEncounters, searchEncounter, getEncountersByPage, getEncounter} from '../../services';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,6 +20,9 @@ import {toastGenerator} from '../../functions/helper';
  */
 export default function EncountersListPage() {
   const PAGE_SIZE = 10;
+
+  const location = useLocation();
+  console.log(location);
 
   const [pageNum, setPageNum] = useState(1);
 
@@ -55,6 +58,18 @@ export default function EncountersListPage() {
     const result = await getEncountersByPage(pageNum, PAGE_SIZE);
     setEncounterList(result);
     setIsLoading(false);
+  }, []);
+
+  useEffect(async () => {
+    if (location.state) {
+      if (location.state.hasOwnProperty('id')) {
+        const encounter = await getEncounter(location.state.id);
+        setSelectedEncounter(encounter);
+      } else {
+        setSelectedEncounter(location.state.encounter);
+      }
+      setEncounterModalOpen(true);
+    }
   }, []);
 
   const handleCardClick = (encounter) => {

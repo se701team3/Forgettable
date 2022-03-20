@@ -8,7 +8,7 @@
     margin-top: 70px;
     margin-bottom: 70px;
     margin-right: 490px;
-    min-width: 680px;
+    min-width: 675px;
     max-width: 934px;
 }
 
@@ -34,7 +34,7 @@
 }
 
 .Utilities{
-    width: 100%;
+    width: 101%;
     display: flex;
     flex-direction: row;
     gap: 26px;
@@ -73,4 +73,10 @@
 .DeleteModal > p {
     text-align: center;
     font-size: var(--text-large);
+}
+
+@media only screen and (max-width: 1440px)  {
+    .Container{
+        max-width: 780px;
+    }
 }

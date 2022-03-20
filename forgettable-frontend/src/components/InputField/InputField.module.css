@@ -25,6 +25,8 @@
 
 .inputFieldPrimary{
     font-size: var(--text-normal);
+    background-color: var(--bkgd);
+    color: var(--txt2);
     width: 340px;
     height: 35px;
     border-radius: var(--radius-btn);

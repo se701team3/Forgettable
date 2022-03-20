@@ -2,6 +2,8 @@
 
 .SearchContainer {
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .SearchInputs{
@@ -11,13 +13,14 @@
 }
 
 .SearchNameInput{
-    background-color: var(--lbkgd);
+    background-color: var(--bkgd);
     border: 0;
     border-radius: 8px 0px 0px 8px;
     font-size: var(--text-normal);
     padding: 15px;
     padding-left: 20px;
     width: 100%;
+    color: var(--txt1);
     font-family: 'Poppins', sans-serif;
 }
 
@@ -30,7 +33,7 @@
     width: 60px;
     border-radius: 0px 8px 8px 0px;
     padding-right: 3px;
-    background-color: var(--lbkgd);
+    background-color: var(--bkgd);
     display: grid;
     place-items: center;
 }
@@ -44,17 +47,17 @@
 }
 
 .DataResult {
-    margin-top: 0px;
-    width: 500px;
+    width: inherit;
+    z-index: 100;
     border-radius: 8px;
     max-height: 200px;
-    background-color: var(--lbkgd);
     overflow: hidden;
     overflow-y: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    position: fixed;
     border: 1px solid var(--bord);
+    background-color: var(--bkgd);
+    
 }
 
 .DataResult::-webkit-scrollbar{
@@ -66,13 +69,14 @@
     height: 50px;
     font-size: 20px;
     display: flex;
+    position: relative;
     align-items: center;
-    color: var(--ltxt1);
+    color: var(--txt1);
     text-decoration: none;
 }
 
 .DataItem:hover{
-    background-color: var(--lcard);
+    background-color: var(--card);
 }
 
 .DataItemP {
