@@ -1,20 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import classes from './SettingsPage.module.css';
-import {signOut} from 'firebase/auth';
 import DarkMode from './DarkMode';
-import {authentication} from '../../services/auth';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import {AuthContext} from '../../context/AuthContext';
 
-function SettingsPage({setIsLoggedIn}) {
-  const user = localStorage.getItem('userName');
-
-  const signOutHandler = ()=>{
-    signOut(authentication).catch((error) => {
-      console.log('Error signing out', error);
-    });
-    localStorage.removeItem('userName');
-    setIsLoggedIn(false);
-  };
+function SettingsPage() {
+  const authContext = useContext(AuthContext);
 
   return (
     <div className={classes.SettingsPage}>
@@ -25,16 +16,16 @@ function SettingsPage({setIsLoggedIn}) {
         </h2>
         <div className={classes.DetailSet}>
           <h4>Name</h4>
-          <p>nmae</p>
+          <p>{authContext.user.displayName}</p>
         </div>
         <div className={classes.DetailSet}>
           <h4>Email</h4>
-          <p>dsafsafsaS</p>
+          <p>{authContext.user.email}</p>
         </div>
         <CustomButton
           btnText="Log out"
           className={classes.Button}
-          onClick={signOutHandler}
+          onClick={authContext.signOut}
         />
         <h2>
           Appearance
