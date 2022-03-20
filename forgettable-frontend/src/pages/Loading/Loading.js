@@ -17,7 +17,7 @@ const Loading = (props) => {
           width={100}
           height={6}
         />
-        <p>{props.text || 'Signing you in...'}</p>
+        <p>{props.text || 'Loading...'}</p>
       </div>
     </div>
   );

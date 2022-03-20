@@ -63,7 +63,7 @@ function App() {
       <AuthContext.Provider
         value={{isLoggedIn, isLoggingIn, user, login, logout}}
       >
-        {isLoggedIn && <NavBar />}
+        {isLoggedIn && !isLoggingIn && <NavBar />}
         <PageRouter/>
 
       </AuthContext.Provider>
