@@ -96,7 +96,7 @@ export default function CreateEncountersPage() {
 
   return (
     <div className={classes.Card}>
-      <Card sx={{borderRadius: 6, boxShadow: 0}}>
+      <Card sx={{borderRadius: 0, boxShadow: 0}}>
         <div className={classes.CardContent}>
           <div className={classes.Title}>Create Encounter</div>
 
@@ -116,7 +116,7 @@ export default function CreateEncountersPage() {
 
 
           <div className={classes.TextField}>
-            <div className={classes.Text}>You Encountered*:</div>
+            <div className={classes.Text}>You Encountered:</div>
             <div className={classes.InputBox}>
               <Autocomplete
                 multiple
