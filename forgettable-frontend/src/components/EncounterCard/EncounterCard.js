@@ -61,7 +61,7 @@ const EncounterCard = (props) => {
             </div>
           </div>
           <div className={classes.Location}>
-            {WHERE_WE_MET}<div>{location ? location : <UnknownDetail/>}</div>
+            {WHERE_WE_MET}<span>{location ? location : <UnknownDetail/>}</span>
           </div>
           <CustomButton btnText={DELETE} onClick={handleOnDelete}/>
         </section>
