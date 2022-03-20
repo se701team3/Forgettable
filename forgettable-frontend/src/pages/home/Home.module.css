@@ -37,6 +37,13 @@
     top: 230px;
 }
 
+.body_container{
+    max-width: 1055px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
 .home_subtitleContainer {
     max-width: 1055px;
     display: flex;
