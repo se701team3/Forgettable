@@ -11,6 +11,7 @@ import PersonsListPage from '../../pages/PersonsListPage/PersonsListPage';
 import Home from '../../pages/home/Home';
 import LogInPage from '../../pages/LogInPage/LogInPage';
 import CreateEncounterPage from '../../pages/CreateEncounterPage/CreateEncounterPage';
+import Loading from '../../pages/Loading/Loading';
 
 /*
  * Component for all routing logic. Conditionally renders
@@ -24,10 +25,7 @@ const PageRouter = (props) => {
 
   if (authContext.isLoggingIn) {
     return (
-      <div className={classes.Loading}>
-        {/* <ReactLoading type="spokes" color="#2f7de7" /> */}
-        <p>Signing in...</p>
-      </div>
+      <Loading text="Signing you in..."/>
     );
   }
 
