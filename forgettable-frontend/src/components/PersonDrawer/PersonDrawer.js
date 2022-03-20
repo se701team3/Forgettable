@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import classes from './PersonDrawer.module.css';
 import {Avatar, Drawer} from '@mui/material';
 import PropTypes from 'prop-types';
@@ -28,6 +28,15 @@ import {getImageSrcFromBuffer} from '../../functions/getImageSrcFromBuffer';
  * Author: Mercury Lin (lin8231)
  */
 const PersonDrawer = (props) => {
+  const theme = localStorage.getItem('theme');
+  const [isDarkTheme, setIsDarkTheme] = useState(theme == 'dark');
+  useEffect(() => {
+    if (theme == 'dark') {
+      setIsDarkTheme(true);
+    } else {
+      setIsDarkTheme(false);
+    }
+  }, [theme]);
   return (
     <Drawer
       sx={{
@@ -37,6 +46,7 @@ const PersonDrawer = (props) => {
           width: props.staticDrawer ? '375px' : '460px',
           boxSizing: 'border-box',
           marginLeft: '128px',
+          backgroundColor: isDarkTheme ? '#141414' : '#FFFFFF',
         },
       }}
       variant="persistent"

@@ -6,9 +6,12 @@ import TextField from '@mui/material/TextField';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import {Autocomplete} from '@mui/material';
 import {createEncounter, getAllPersons} from '../../services';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import {toastGenerator} from '../../functions/helper';
+import {ToastContainer} from 'react-toastify';
 
 export default function CreateEncountersPage() {
+  const navigate = useNavigate();
   const [optionsList, setOptionsList] = React.useState([]);
   const [encounter, setEncounter] = React.useState({
     title: '',
@@ -72,12 +75,13 @@ export default function CreateEncountersPage() {
     setEncounter({...encounter, description: event.target.value});
   };
 
-  const handleSaveClick = (event) => {
-    if (!encounter.title || encounter.persons.length === 0) {
-      // tell user title is must be included and there must be people selected
+  const handleSaveClick = async (event) => {
+    if (!encounter.title || encounter.persons.length === 0 || !encounter.description) {
+      setShowWarning(true);
     } else {
+      setShowWarning(false);
       setEncounter({...encounter, time_updated: Date()});
-      saveEncounter(encounter);
+      await saveEncounter(encounter);
     };
   };
 
@@ -86,11 +90,14 @@ export default function CreateEncountersPage() {
   };
 
   async function saveEncounter(encounterToPost) {
-    try {
-      await createEncounter(encounterToPost);
-    } catch (err) {
-      console.log('something went wrong when creating an encounter');
-      console.log(err);
+    const result = await createEncounter(encounterToPost);
+    if (result) {
+      toastGenerator('success', 'Encounter Created!', 2000);
+      setTimeout(()=> {
+        navigate('/encounters', {state: {person: result}});
+      }, 2000);
+    } else {
+      toastGenerator('error', 'Something went wrong... :(', 2000);
     }
   }
 
@@ -180,25 +187,32 @@ export default function CreateEncountersPage() {
 
 
           <div className={classes.Buttons}>
-            <Link to="/encounters" style={{textDecoration: 'none'}}>
-              <CustomButton btnText='Cancel' className='Button' onClick={()=>{}}/>
-            </Link>
+            <CustomButton btnText='Cancel' className='Button' onClick={()=>{
+              navigate(-1, {replace: true});
+            }}/>
             {isSubmittable ?
-            <Link to="/encounters" style={{textDecoration: 'none'}} onClick={handleSaveClick} enabled={isSubmittable}>
-              <CustomButton btnText='Save' className='Button' onClick={()=>{}}/>
-            </Link> :
+              <CustomButton btnText='Save' className='Button' onClick={handleSaveClick} /> :
             <CustomButton btnText='Save' className='Button' onClick={handleShowWarning}/>
             }
           </div>
 
           <div className={classes.WarningText}>
-            {showWarning && 'Encounters must have a title and at least one person'}
+            {showWarning && 'Encounters must have a title, a description and at least one person'}
           </div>
-
 
         </div>
       </Card>
-
+      <ToastContainer
+        position="bottom-center"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
