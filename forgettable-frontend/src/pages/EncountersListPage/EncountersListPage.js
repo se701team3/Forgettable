@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import EncounterCard from '../../components/EncounterCard/EncounterCard';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './EncountersListPage.module.css';
@@ -20,6 +20,9 @@ import {toastGenerator} from '../../functions/helper';
  */
 export default function EncountersListPage() {
   const PAGE_SIZE = 10;
+
+  const location = useLocation();
+  console.log(location);
 
   const [pageNum, setPageNum] = useState(1);
 
@@ -50,6 +53,13 @@ export default function EncountersListPage() {
       }],
     },
   ]);
+
+  useEffect(() => {
+    if (location.state.encounter) {
+      setSelectedEncounter(location.state.encounter);
+      setEncounterModalOpen(true);
+    }
+  }, []);
 
   useEffect(async () => {
     const result = await getEncountersByPage(pageNum, PAGE_SIZE);

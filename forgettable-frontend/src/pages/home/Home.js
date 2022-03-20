@@ -89,6 +89,15 @@ function Home() {
     setIsHover(false);
   };
 
+  const handleEncounterCardClick = (encounter) => {
+    navigate(
+        '/encounters',
+        {state: {
+          encounter: encounter,
+        }},
+    );
+  };
+
   return (
     <>
       {isHover && <SummaryDrawer summaryInfo={selectedInfo} />}
@@ -169,7 +178,9 @@ function Home() {
                     firstMet={encounter.title}
                     img={encounter.persons[0]?.image}
                     location={encounter.location}
-                    onClick={() => navigate(`/encounters`)}
+                    onClick={() => {
+                      handleEncounterCardClick(encounter);
+                    }}
                   />
                 </div>);
             })}
