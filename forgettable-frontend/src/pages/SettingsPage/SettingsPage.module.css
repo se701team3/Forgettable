@@ -16,13 +16,13 @@
 
 .SettingsPage > h1 {
   margin: 0;
-  font-weight: 600;
+  font-weight: var(--font-semibold);
   font-size: var(--text-xxlarge);
 }
 
 .ContentContainer > h2 {
   font-size: var(--text-large);
-  font-weight: 500;
+  font-weight: var(--font-medium);
   border-bottom: solid 1px var(--bord);
   padding-bottom: 10px;
   width: 100%;
@@ -36,7 +36,7 @@
 
 .DetailSet > h4 {
   font-size: var(--text-normal);
-  font-weight: 400;
+  font-weight: var(--font-regular);
   margin: 0;
   margin-top: 20px;
 }
@@ -63,7 +63,7 @@
 }
 
 .DarkModeContainer > p {
-  font-weight: 400;
+  font-weight: var(--font-regular);
   font-size: var(--text-normal);
   margin-right: 50px;
 }

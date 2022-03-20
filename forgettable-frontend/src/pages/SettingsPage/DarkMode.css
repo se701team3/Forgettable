@@ -50,7 +50,7 @@
 
 input:checked + .slider:before {
     transform: translateX(26px);
-	background-color: #F3D58A;
+	background-color: var(--prmry);
 }
 
 input:checked + .slider {

@@ -3,6 +3,12 @@ import classes from './Loading.module.css';
 import PropTypes from 'prop-types';
 import BarLoader from 'react-spinners/BarLoader';
 
+/*
+ * Loading screen which takes in a text prop. Defaults to "Loading..."
+ * if nothing is passed.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
 const Loading = (props) => {
   return (
     <div className={classes.Loading}>
