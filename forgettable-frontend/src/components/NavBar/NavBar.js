@@ -18,10 +18,8 @@ const LOGO_SIZE = '50px';
 
 export default function NavBar() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  // const isLightTheme = localStorage.getItem('theme') == 'light';
   const theme = localStorage.getItem('theme');
   const [isDarkTheme, setIsDarkTheme] = useState(theme == 'dark');
-  const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--bkgd');
 
   const linkProperties = [{
     src: HomePageLogo,
@@ -53,9 +51,6 @@ export default function NavBar() {
     }
   }, [theme]);
 
-  console.log(theme);
-  console.log(isDarkTheme);
-
   return (
     <Drawer
       sx={{
@@ -64,7 +59,7 @@ export default function NavBar() {
         '& .MuiDrawer-paper': {
           width: DRAWER_WIDTH,
           boxSizing: 'border-box',
-          backgroundColor,
+          backgroundColor: 'none',
           borderRight: 1,
           borderColor: isDarkTheme ? '#5A5A5A' : '#E5E5E5',
         },
@@ -73,38 +68,40 @@ export default function NavBar() {
       anchor="left"
       className={classes.drawer}
     >
-      <div className={classes.navBar_container}>
-        <img
-          src={isDarkTheme ? DarkThemeLogo : LightThemeLogo}
-          alt="Forgettable Logo"
-          height={LOGO_SIZE}
-          width={LOGO_SIZE}
-          className={classes.navBar_logo}
-        />
-        <List>
-          {linkProperties.map((linkItem, index) => (
-            <Link to={linkItem.path} key={index}>
-              <ListItem
-                button
-                onClick={(event) => handleListItemClick(event, index)}
-                selected={selectedIndex === index}
-                classes={{selected: classes.navBar_listItem}}
-              >
-                <div className={classes.navBar_selectMarker} />
-                <div className={classes.navBar_innerListItem}>
-                  <img
-                    src={linkItem.src}
-                    alt={linkItem.alt}
-                    height={ICON_SIZE}
-                    width={ICON_SIZE}
-                    className={classes.navBar_linkIcon}
-                  />
-                </div>
-              </ListItem>
-            </Link>
+      <div className={classes.backgroundContainer}>
+        <div className={classes.navBar_container}>
+          <img
+            src={isDarkTheme ? DarkThemeLogo : LightThemeLogo}
+            alt="Forgettable Logo"
+            height={LOGO_SIZE}
+            width={LOGO_SIZE}
+            className={classes.navBar_logo}
+          />
+          <List>
+            {linkProperties.map((linkItem, index) => (
+              <Link to={linkItem.path} key={index}>
+                <ListItem
+                  button
+                  onClick={(event) => handleListItemClick(event, index)}
+                  selected={selectedIndex === index}
+                  classes={{selected: classes.navBar_listItem}}
+                >
+                  <div className={classes.navBar_selectMarker} />
+                  <div className={classes.navBar_innerListItem}>
+                    <img
+                      src={linkItem.src}
+                      alt={linkItem.alt}
+                      height={ICON_SIZE}
+                      width={ICON_SIZE}
+                      className={classes.navBar_linkIcon}
+                    />
+                  </div>
+                </ListItem>
+              </Link>
 
-          ))}
-        </List>
+            ))}
+          </List>
+        </div>
       </div>
     </Drawer>
   );
