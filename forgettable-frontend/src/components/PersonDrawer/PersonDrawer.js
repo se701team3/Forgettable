@@ -173,10 +173,12 @@ PersonDrawer.propTypes = {
   socialMedias: PropTypes.arrayOf(Object), // See below for an example
   // [{name: 'facebook', link: 'https://www.google.com/'}, {name: 'instagram', link: 'https://www.google.com/'}]
   firstMet: PropTypes.instanceOf(Date),
+  birthday: PropTypes.instanceOf(Date),
   location: PropTypes.string,
   interests: PropTypes.arrayOf(PropTypes.string),
+  organisation: PropTypes.string,
   staticDrawer: PropTypes.bool,
-  onEdit: PropTypes.bool,
+  onEdit: PropTypes.func,
 };
 
 export default PersonDrawer;

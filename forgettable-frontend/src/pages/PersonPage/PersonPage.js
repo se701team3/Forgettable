@@ -75,7 +75,7 @@ const PersonPage = (props) => {
           persons={encounter.persons}
           location={encounter.location}
           onDelete={() => onDeleteClicked(encounter)}
-          date={encounter.date}
+          date={new Date(encounter.date)}
           isInitialEncounter={false}
           onClick={() => onClick(encounter)}
         />
@@ -141,6 +141,7 @@ const PersonPage = (props) => {
       </CustomModal>
 
       <PersonDrawer
+        id={id}
         open={true}
         img={person.image}
         staticDrawer={true}
@@ -150,7 +151,7 @@ const PersonPage = (props) => {
         organisation={person.organisation}
         location={person.location}
         gender={person.gender}
-        birthday={person.birthday}
+        birthday={new Date(person.birthday)}
         socialMedias={person.socialMedia}
         data-testid="drawer-component"
         onEdit={() => navigate(`/people/${id}/edit`)}

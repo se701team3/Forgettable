@@ -161,7 +161,7 @@ function Home() {
                   firstMet={encounter.title}
                   img={encounter.persons[0]?.image}
                   location={encounter.location}
-                  onClick={() => navigate(`/encounter`)}
+                  onClick={() => navigate(`/encounters`)}
                 />
               </div>);
           })}
