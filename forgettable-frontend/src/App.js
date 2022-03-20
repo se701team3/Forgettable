@@ -44,7 +44,6 @@ function App() {
   }, []);
 
   const login = () => {
-    const currentLocation = location.pathname;
     setIsLoggingIn(true);
 
     auth.signIn(async (ok, user) => {
@@ -60,8 +59,6 @@ function App() {
         setIsLoggingIn(false);
         console.log('Error logging in');
       }
-
-      navigate(currentLocation);
     });
   };
 

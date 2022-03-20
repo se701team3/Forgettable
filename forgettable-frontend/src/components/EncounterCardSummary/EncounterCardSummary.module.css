@@ -41,7 +41,7 @@
 .IdentityInfoConatiner > h3 {
     font-size: var(--text-medium);
     color: var(--txt1);
-    font-weight: 600;
+    font-weight: var(--font-semibold);
     margin: 0;
     text-align: left;
     overflow: hidden;
@@ -85,4 +85,11 @@
     -webkit-line-clamp: 3; /* number of lines to show */
             line-clamp: 3; 
     -webkit-box-orient: vertical;
+}
+
+.IdentityInfoConatiner > h3 {
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 110px;
 }

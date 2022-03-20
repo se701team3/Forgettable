@@ -5,7 +5,7 @@
     height: fit-content;
     background-color: var(--card);
     box-shadow: none;
-    border-radius: 13px;
+    border-radius: var(--radius-card);
     z-index: 1;
     user-select: none;
     color: var(--txt1);
@@ -96,6 +96,13 @@
     font-size: var(--text-small);
     font-weight: var(--font-regular);
     color: var(--txt2);
+    max-width: 40%;
+    white-space: nowrap;
+}
+
+.Location > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .Avatar{

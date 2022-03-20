@@ -28,7 +28,7 @@
 
 .TitleContainer > h1 {
     font-size: 50px;
-    font-weight: 600;
+    font-weight: var(--font-semibold);
     line-height: 75px;
     margin: 0;
 }
@@ -60,7 +60,7 @@
     color: #E05A33;
     font-size: var(--text-xxlarge);
     text-align: center;
-    font-weight: 600;
+    font-weight: var(--font-semibold);
 }
 
 .DeleteModal > p {

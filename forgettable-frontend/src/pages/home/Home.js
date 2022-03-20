@@ -35,13 +35,6 @@ function Home() {
     let peopleResult = [];
     peopleResult = await getAllPersons();
 
-    // convert people image buffers to image srcs.
-    peopleResult.forEach((person) => {
-      if (person.image) {
-        person.image = getImageSrcFromBuffer(person.image);
-      }
-    });
-
     setPeopleList(peopleResult);
     let encountersResult = [];
     encountersResult = await getAllEncounters();
@@ -148,7 +141,12 @@ function Home() {
           <div className={classes.home_cardGridContainer + ' ' + classes.home_personGridContainer}>
             {peopleList.map((person, index) => {
               return (
-                <div key={index} className={classes.home_cardWrapper} onMouseOver={(event) => handlePersonHover(event, index)} onMouseOut={handleOnMouseOut}>
+                <div
+                  key={index}
+                  className={classes.home_cardWrapper}
+                  onMouseEnter={(event) => handlePersonHover(event, index)}
+                  onMouseLeave={handleOnMouseOut
+                  }>
                   <Link to={`/person/${person._id}`} style={{textDecoration: 'none'}}>
                     <PersonCardSummary
                       id={person._id}

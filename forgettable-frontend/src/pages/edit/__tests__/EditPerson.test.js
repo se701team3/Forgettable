@@ -13,27 +13,27 @@ jest.mock('axios');
 
 it('renders Create person page correctly', () => {
   const history = createMemoryHistory();
-  history.push('/people/create');
-  const rendered = renderer.create(<MemoryRouter initialEntries={[{pathname: '/people/create'}]}>
+  history.push('/person/create');
+  const rendered = renderer.create(<MemoryRouter initialEntries={[{pathname: '/person/create'}]}>
     <EditPerson/>
   </MemoryRouter>).toJSON();
   expect(rendered).toMatchSnapshot();
 });
 
-it('Create Person heading displays when navigating to /people/create', () => {
+it('Create Person heading displays when navigating to /person/create', () => {
   const history = createMemoryHistory();
-  history.push('/people/create');
+  history.push('/person/create');
   render(
-      <MemoryRouter initialEntries={[{pathname: '/people/create'}]}>
+      <MemoryRouter initialEntries={[{pathname: '/person/create'}]}>
         <EditPerson/>
       </MemoryRouter>);
 
   expect(screen.getByText('Create Person')).toBeInTheDocument();
 });
 
-it('Edit person heading displays when navigating to /people/:id', () => {
+it('Edit person heading displays when navigating to /person/:id', () => {
   render(
-      <MemoryRouter initialEntries={[{pathname: '/people/1/edit'}]}>
+      <MemoryRouter initialEntries={[{pathname: '/person/1/edit'}]}>
         <EditPerson/>
       </MemoryRouter>);
 
@@ -42,7 +42,7 @@ it('Edit person heading displays when navigating to /people/:id', () => {
 
 it('Edit person page displays delete button', () => {
   render(
-      <MemoryRouter initialEntries={[{pathname: '/people/1/edit'}]}>
+      <MemoryRouter initialEntries={[{pathname: '/person/1/edit'}]}>
         <EditPerson/>
       </MemoryRouter>);
 
@@ -51,7 +51,7 @@ it('Edit person page displays delete button', () => {
 
 it('Create person page does not display delete button', () => {
   render(
-      <MemoryRouter initialEntries={[{pathname: '/people/create'}]}>
+      <MemoryRouter initialEntries={[{pathname: '/person/create'}]}>
         <EditPerson/>
       </MemoryRouter>);
 
@@ -77,7 +77,7 @@ it('Displays correct data from database', async () => {
 
   axios.get.mockResolvedValue({data: personData});
 
-  render(<MemoryRouter initialEntries={[{pathname: '/people/1/edit'}]}>
+  render(<MemoryRouter initialEntries={[{pathname: '/person/1/edit'}]}>
     <EditPerson/>
   </MemoryRouter>);
 

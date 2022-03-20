@@ -14,6 +14,13 @@ import {toastGenerator} from '../../functions/helper';
 
 const PAGE_SIZE = 10;
 
+/*
+ * This page lists out all the Persons the user created.
+ * Results are paginated, the number of items per pull is
+ * determined by the PAGE_SIZE constant.
+ *
+ * Author: Raina Song (rainasong)
+ */
 export default function PersonsListPage(props) {
   const navigate = useNavigate();
 
@@ -49,7 +56,7 @@ export default function PersonsListPage(props) {
 
   const onEditPersonCardClicked = (event, id) => {
     event.stopPropagation();
-    navigate(`/people/${id}/edit`);
+    navigate(`/person/${id}/edit`);
   };
 
   const onConfirmDeletePerson = async (id) => {

@@ -22,7 +22,7 @@
 
 .Text{
     color: var(--txt1);
-    font-size: 18px;
+    font-size: var(--text-normal);
     line-height: 0px;
     font-family: 'Poppins', sans-serif;
 }
