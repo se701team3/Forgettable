@@ -62,7 +62,7 @@
     font-size: var(--text-card-body-large);
     /* line-height: 0; */
     margin: 2px 0;
-    color: var(--ltxt2)
+    color: var(--txt2)
 }
 
 .SupplementaryInformationContainer {
@@ -74,7 +74,7 @@
 .SupplementaryInformationContainer > p {
     margin: 0;
     font-size: var(--text-card-body-normal);
-    color: var(--ltxt2)
+    color: var(--txt2)
 }
 
 .SupplementaryInformationContainer > div {

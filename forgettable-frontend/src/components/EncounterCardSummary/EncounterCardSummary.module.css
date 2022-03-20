@@ -55,7 +55,7 @@
 .IdentityInfoConatiner > p {
     font-size: var(--text-card-body-normal);
     margin: 0;
-    color: var(--ltxt2);
+    color: var(--txt2);
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -72,7 +72,7 @@
 }
 
 .DetailsContainer > p {
-    color: var(--ltxt2);
+    color: var(--txt2);
     font-size: var(--text-xsmall);
 }
 

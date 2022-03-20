@@ -54,7 +54,7 @@
 .TextInfoContainer > p {
     font-size: var(--text-card-body-normal);
     margin: 0;
-    color: var(--ltxt2);
+    color: var(--txt2);
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
