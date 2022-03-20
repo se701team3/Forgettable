@@ -79,7 +79,7 @@ EncounterDetailsModal.propTypes = {
     description: PropTypes.string.isRequired,
     persons: PropTypes.arrayOf(PropTypes.shape({
       first_name: PropTypes.string.isRequired,
-      last_name: PropTypes.string.isRequired,
+      last_name: PropTypes.string,
       img: PropTypes.string,
     })),
     date: PropTypes.instanceOf(Date),

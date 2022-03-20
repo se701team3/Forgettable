@@ -120,15 +120,18 @@ export default function EncountersListPage() {
         open={true}
         id={selectedInfo._id}
         encounterTitle={selectedInfo.title}
-        encounterDetail={selectedInfo.description}
+        encounterDetails={selectedInfo.description}
         location={selectedInfo.location}
         persons={selectedInfo.persons}
-        dateMet={selectedInfo.date}
+        dateMet={new Date(selectedInfo.date)}
       />}
-      {selectedEncounter && <EncounterDetailsModal
+      {selectedEncounter &&
+      <EncounterDetailsModal
         open={encounterModalOpen}
         onClose={handleModalClose}
-        encounter={selectedEncounter}
+        encounter={
+          {...selectedEncounter, date: new Date(selectedEncounter.date)}
+        }
         onDelete={() => onDelete(selectedEncounter._id)}
       />}
       <CustomModal
@@ -182,7 +185,7 @@ export default function EncountersListPage() {
                     description={encounter.description}
                     location={encounter.location}
                     persons={encounter.persons}
-                    date={encounter.date}
+                    date={new Date(encounter.date)}
                     className={classes.EncounterCard}
                     onClick={() => handleCardClick(encounter)}
                     onDelete={() => onDelete(encounter._id)}
