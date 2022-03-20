@@ -80,7 +80,7 @@ export const getPersonWithId = async (
           await Promise.all(personDto.encounters.map(
             async (encounterId: any) => { return (await encounterService.getEncounter(encounterId)) }))));
 
-        for (let i = 0; i < personDto.encounters.length; i + 1) {
+        for (let i = 0; i < personDto.encounters.length; i++) {
           personDto.encounters[i].persons = await Promise.all(personDto.encounters[i].persons.map(
             async (personsId: any) => { return (await getPersonDetails(personsId)); }));
         }

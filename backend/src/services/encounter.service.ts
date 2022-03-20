@@ -3,7 +3,13 @@ import mongoose from 'mongoose';
 import Encounter, { EncounterModel } from '../models/encounter.model';
 import logger from '../utils/logger';
 
-const queryKeys = ['title', 'location', 'description'];
+const algoliaSearch = require('algoliasearch');
+
+const client = algoliaSearch(
+  process.env.ALGOLIA_APP_ID,
+  process.env.ALGOLIA_SECRET_KEY,
+);
+const index = client.initIndex('encounters');
 
 const createEncounter = async (encounterDetails: EncounterModel) => {
   const encounter = new Encounter(encounterDetails);
@@ -33,19 +39,14 @@ const getAllEncounters = async (queryParams: any, userEncounters: mongoose.Types
     logger.info(queryParams);
     const termValue = queryParams.term.toLowerCase();
 
-    // If no relevant fields in an Encounter match 'termValue', remove them from the array
-    foundUserEncounters = foundUserEncounters.filter((encounter) => {
-      for (let i = 0; i < queryKeys.length; i++) {
-        // Make sure person has a value for current queryKey
-        if (encounter[queryKeys[i]]) {
-          const encounterValue = (encounter[queryKeys[i]] as string).toLowerCase();
-          if (encounterValue.includes(termValue)) {
-            return true;
-          }
-        }
-      }
-      return false;
-    })
+    const algoliaSearchResults = await index.search(termValue);
+    const algoliaSearchResultsIds = algoliaSearchResults.hits.map((hit) => hit.objectID.toString())
+
+    const userEncounterResults = foundUserEncounters.filter(
+      (encounter) => algoliaSearchResultsIds.includes(encounter._id.toString()),
+    );
+
+    foundUserEncounters = userEncounterResults;
   }
 
   return foundUserEncounters;
@@ -55,6 +56,11 @@ const updateEncounter = async (objectID: string, encounterDetails: EncounterMode
   console.log(objectID);
   const updatedEncounter = await Encounter
     .findByIdAndUpdate(objectID, encounterDetails, { new: true });
+
+  const updatedEncounterAlgolia : any = await Encounter.findById(objectID);
+  updatedEncounterAlgolia.objectID = objectID;
+  await index.partialUpdateObject(updatedEncounterAlgolia);
+
   return updatedEncounter;
 };
 
@@ -80,6 +86,7 @@ const deleteEncounter = async (encounterID: String) => {
   
   // Check that Encounter has been deleted
   if (result.deletedCount == 1) {
+    await index.deleteObject(encounterID);
     return true;
   } else {
     return false;
