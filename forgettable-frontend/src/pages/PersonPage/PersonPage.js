@@ -154,7 +154,7 @@ const PersonPage = (props) => {
         birthday={new Date(person.birthday)}
         socialMedias={person.socialMedia}
         data-testid="drawer-component"
-        onEdit={() => navigate(`/people/${id}/edit`)}
+        onEdit={() => navigate(`/person/${id}/edit`)}
       />
       <div className={classes.ContentContainer}>
         <div className={classes.TitleContainer} >
