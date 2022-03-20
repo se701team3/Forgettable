@@ -25,7 +25,7 @@ function SettingsPage() {
         <CustomButton
           btnText="Log out"
           className={classes.Button}
-          onClick={authContext.signOut}
+          onClick={authContext.logout}
         />
         <h2>
           Appearance
