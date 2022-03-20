@@ -5,6 +5,8 @@
     margin-left: 35px;
     margin-top: 70px;
     margin-right: 490px; /* accounts for summary panel + margin */
+    min-width: 805px;
+    max-width: 1565px;
 }
 
 .home_title {
@@ -18,6 +20,7 @@
     flex-direction: row;
     justify-content: space-between;
     gap: 26px;
+    max-width: 1055px;
 }
 
 .home_newEntryBtn {
@@ -25,11 +28,19 @@
     height: auto;
 }
 
+.body_container{
+    max-width: 1055px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
 .home_subtitleContainer {
-    width: 100%;
+    max-width: 1055px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-top: 20px;
 }
 
 .home_subtitle {
@@ -40,10 +51,10 @@
 /* ----- CARD GRIDS ----- */
 
 .home_cardGridContainer {
-    max-width: calc(max-content - 100px); /* max-content is currently limited by the overall view size sooo. need to fix this */
     display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
+    flex-flow: wrap;
+    justify-content: left;
+    gap: 30px;
     row-gap: 24px;
     overflow-y: hidden; /* cut off all extra ones that don't fit in the two rows */
 }
@@ -67,7 +78,7 @@
 }
 
 .home_modalButtonsContainer {
-    margin-top: 10px;
+    margin-top: 40px;
     display: flex;
     flex-direction: row;
     gap: 35px;
@@ -77,6 +88,13 @@
 .home_verticalBreak {
     border-left: 1px solid var(--txt2);
     height: 120px;
+}
 
-
+@media only screen and (min-width: 1900px)  {
+    .home_container{
+        max-width: 2400px;
+    }
+    .body_container{
+        max-width: 2400px;
+    }
 }

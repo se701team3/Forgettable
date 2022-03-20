@@ -1,5 +1,5 @@
 @import '../../colours.css';
 
 .UnknownDetail {
-    color: var(--bord);
+    color: var(--txt2);
 }

@@ -1,26 +1,5 @@
 @import '../../colours.css';
 
-:root {
-    --font-color: #333;
-    --background-color: var(--bkgd);
-    --link-color: cornflowerblue;
-}
-
-[data-theme="dark"] {
-    --font-color: #eee;
-    --background-color: var(--bkgd);
-    --link-color: lightblue;
-}
-  
-body {
-    background-color: var(--background-color);
-    color: var(--font-color);
-}
-
-a {
-    color: var(--link-color);
-}
-
 /* Custom Dark Mode Toggle Element */
 
 /* .toggle-theme-wrapper {
@@ -40,7 +19,7 @@ a {
     position: relative;
     display: inline-block;
     height: 34px;
-    width: 68px;
+    width: 66px;
 }
 
 .toggle-theme input {
@@ -60,10 +39,10 @@ a {
 
 .slider:before {
     background-color: #5A5A5A;
-    bottom: 4px;
+    bottom: 2px;
     content: "";
     height: 26px;
-    left: 4px;
+    left: 5px;
     position: absolute;
     transition: 0.4s;
     width: 26px;
@@ -75,14 +54,14 @@ input:checked + .slider:before {
 }
 
 input:checked + .slider {
-    background-color: #020200;
+    background-color: var(--bkgd);
 }
 
 .slider.round {
     border-radius: 34px;
     border-style: solid;
-    border-color: #4F4F4F;
-    border-width: 0.5px;
+    border-color: var(--line);
+    border-width: 2px;
 }
 
 .slider.round:before {

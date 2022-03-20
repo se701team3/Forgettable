@@ -69,8 +69,8 @@
     height: 50px;
     font-size: xx-large;
     background-color: var(--bkgd);
-    border: 1.5px solid var(--bord);
-    color: var(--bord);
+    border: 1.5px solid var(--btnb);
+    color: var(--btnb);
     border-style: solid;
     cursor: pointer;
 }
@@ -138,7 +138,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border:2px solid black;
+    border:2px solid var(--btnb);
     border-radius: var(--radius-btn);
     padding: 3px 12px 3px 12px;
     box-sizing: border-box;

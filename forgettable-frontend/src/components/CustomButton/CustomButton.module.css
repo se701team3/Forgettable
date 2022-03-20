@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border:2px solid black;
+    border:2px solid var(--btnb);
     border-radius: var(--radius-btn);
     padding: 0 15px 0 15px;
     box-sizing: border-box;
@@ -21,7 +21,7 @@
 }
 
 .Text{
-    color: black;
+    color: var(--txt1);
     font-size: 18px;
     line-height: 0px;
     font-family: 'Poppins', sans-serif;

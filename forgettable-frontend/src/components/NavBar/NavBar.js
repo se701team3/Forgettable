@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable max-len */
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Drawer from '@mui/material/Drawer';
 import {List, ListItem} from '@mui/material';
 import {Link} from 'react-router-dom';
@@ -18,8 +18,8 @@ const LOGO_SIZE = '50px';
 
 export default function NavBar() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const isLightTheme = true; // @TODO: When a state for dark theme is made, use this state so we can set the logo appropriately.
-  const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--bkgd');
+  const theme = localStorage.getItem('theme');
+  const [isDarkTheme, setIsDarkTheme] = useState(theme == 'dark');
 
   const linkProperties = [{
     src: HomePageLogo,
@@ -43,6 +43,14 @@ export default function NavBar() {
     setSelectedIndex(index);
   };
 
+  useEffect(() => {
+    if (theme == 'dark') {
+      setIsDarkTheme(true);
+    } else {
+      setIsDarkTheme(false);
+    }
+  }, [theme]);
+
   return (
     <Drawer
       sx={{
@@ -51,44 +59,49 @@ export default function NavBar() {
         '& .MuiDrawer-paper': {
           width: DRAWER_WIDTH,
           boxSizing: 'border-box',
-          backgroundColor,
+          backgroundColor: 'none',
+          borderRight: 1,
+          borderColor: isDarkTheme ? '#5A5A5A' : '#E5E5E5',
         },
       }}
       variant="permanent"
       anchor="left"
+      className={classes.drawer}
     >
-      <div className={classes.navBar_container}>
-        <img
-          src={isLightTheme ? LightThemeLogo : DarkThemeLogo}
-          alt="Forgettable Logo"
-          height={LOGO_SIZE}
-          width={LOGO_SIZE}
-          className={classes.navBar_logo}
-        />
-        <List>
-          {linkProperties.map((linkItem, index) => (
-            <Link to={linkItem.path} key={linkItem}>
-              <ListItem
-                button
-                onClick={(event) => handleListItemClick(event, index)}
-                selected={selectedIndex === index}
-                classes={{selected: classes.navBar_listItem}}
-              >
-                <div className={classes.navBar_selectMarker} />
-                <div className={classes.navBar_innerListItem}>
-                  <img
-                    src={linkItem.src}
-                    alt={linkItem.alt}
-                    height={ICON_SIZE}
-                    width={ICON_SIZE}
-                    className={classes.navBar_linkIcon}
-                  />
-                </div>
-              </ListItem>
-            </Link>
+      <div className={classes.backgroundContainer}>
+        <div className={classes.navBar_container}>
+          <img
+            src={isDarkTheme ? DarkThemeLogo : LightThemeLogo}
+            alt="Forgettable Logo"
+            height={LOGO_SIZE}
+            width={LOGO_SIZE}
+            className={classes.navBar_logo}
+          />
+          <List>
+            {linkProperties.map((linkItem, index) => (
+              <Link to={linkItem.path} key={index}>
+                <ListItem
+                  button
+                  onClick={(event) => handleListItemClick(event, index)}
+                  selected={selectedIndex === index}
+                  classes={{selected: classes.navBar_listItem}}
+                >
+                  <div className={classes.navBar_selectMarker} />
+                  <div className={classes.navBar_innerListItem}>
+                    <img
+                      src={linkItem.src}
+                      alt={linkItem.alt}
+                      height={ICON_SIZE}
+                      width={ICON_SIZE}
+                      className={classes.navBar_linkIcon}
+                    />
+                  </div>
+                </ListItem>
+              </Link>
 
-          ))}
-        </List>
+            ))}
+          </List>
+        </div>
       </div>
     </Drawer>
   );

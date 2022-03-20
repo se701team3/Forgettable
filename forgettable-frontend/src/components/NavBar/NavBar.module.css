@@ -46,4 +46,7 @@
     visibility: visible;
 }
 
-
+.backgroundContainer{
+    background-color: var(--bkgd);
+    height: 100%;
+}

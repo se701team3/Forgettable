@@ -8,6 +8,8 @@
     justify-content: center;
     box-sizing: border-box;
     padding: 55px;
+    background-color: var(--bkgd);
+    color: var(--txt1);
 }
 
 .ContentContainer {
