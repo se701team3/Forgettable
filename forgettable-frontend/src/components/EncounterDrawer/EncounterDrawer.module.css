@@ -7,9 +7,12 @@
     flex-direction: column;
     justify-content: flex-start;
     box-sizing: border-box;
+    border-left: 1px solid var(--line);
     padding: 0 50px;
     overflow-y: scroll;
     overflow-x: none;
+    background-color: var(--bkgd);
+    color: var(--txt1);
 }
 
 .ContentContainer {

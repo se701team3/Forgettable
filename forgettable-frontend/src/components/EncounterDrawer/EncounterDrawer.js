@@ -30,6 +30,7 @@ const EncounterDrawer = (props) => {
         '& .MuiDrawer-paper': {
           width: '460px',
           boxSizing: 'border-box',
+          border: 'none',
         },
       }}
       variant="persistent"

@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable max-len */
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Drawer from '@mui/material/Drawer';
 import {List, ListItem} from '@mui/material';
 import {Link} from 'react-router-dom';
@@ -18,7 +18,9 @@ const LOGO_SIZE = '50px';
 
 export default function NavBar() {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const isLightTheme = true; // @TODO: When a state for dark theme is made, use this state so we can set the logo appropriately.
+  // const isLightTheme = localStorage.getItem('theme') == 'light';
+  const theme = localStorage.getItem('theme');
+  const [isDarkTheme, setIsDarkTheme] = useState(theme == 'dark');
   const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--bkgd');
 
   const linkProperties = [{
@@ -43,6 +45,17 @@ export default function NavBar() {
     setSelectedIndex(index);
   };
 
+  useEffect(() => {
+    if (theme == 'dark') {
+      setIsDarkTheme(true);
+    } else {
+      setIsDarkTheme(false);
+    }
+  }, [theme]);
+
+  console.log(theme);
+  console.log(isDarkTheme);
+
   return (
     <Drawer
       sx={{
@@ -52,14 +65,17 @@ export default function NavBar() {
           width: DRAWER_WIDTH,
           boxSizing: 'border-box',
           backgroundColor,
+          borderRight: 1,
+          borderColor: isDarkTheme ? '#5A5A5A' : '#E5E5E5',
         },
       }}
       variant="permanent"
       anchor="left"
+      className={classes.drawer}
     >
       <div className={classes.navBar_container}>
         <img
-          src={isLightTheme ? LightThemeLogo : DarkThemeLogo}
+          src={isDarkTheme ? DarkThemeLogo : LightThemeLogo}
           alt="Forgettable Logo"
           height={LOGO_SIZE}
           width={LOGO_SIZE}
