@@ -2,11 +2,13 @@
 
 /* Custom Dark Mode Toggle Element */
 
-.toggle-theme-wrapper {
+/* .toggle-theme-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
-}
+    margin-left: 320px;
+    margin-top: -29px;
+} */
 
 .toggle-theme-wrapper span {
     font-size: 28px;

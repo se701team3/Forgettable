@@ -7,6 +7,15 @@ This is the backend of Forgettable repository.
 2. Create .env under repo's `backend` folder
     - `MONGODB_URI` should be set to a running mongodb instance url (should start with `mongodb+src://`)
     - `PORT` should be set to 3001 (*that is, if proxy on `forgettable-frontend` is set to `http://localhost:3001/`)
+    - `FIREBASE_TEST_AUTH_KEY` should be set to the Firebase project's web API key (project can be accessed with the team gmail account)
+    - `FIREBASE_TEST_AUTH_EMAIL` should be set to a Firebase project user's email (e.g. se701.team3@gmail.com or any account on https://console.firebase.google.com/u/4/project/forgettable-78b96/authentication/users)
+    - `FIREBASE_TEST_AUTH_PASS` should be set to the above Firebase project user's password 
+    - `ALGOLIA_APP_ID` should be set to the Aloglia Forgettable app id (https://www.algolia.com/ can be accessed using the team account credentials)
+    - `ALGOLIA_SECRET_KEY`should be set to the `Admin API Key` found on the Algolia Forgettable app
+    
+3. Add the `forgettable_service_account.json` to the `firebase-configs` folder. These keys can be generated at: https://console.firebase.google.com/u/4/project/forgettable-78b96/settings/serviceaccounts/adminsdk and should be renamed to `forgettable_service_account.json`   
+
+**NOTE**: The above .env variables and service_account json can be found in the `setup-resources` channel in the SE701 Team 3 Discord server 
     
 
 ## To run application

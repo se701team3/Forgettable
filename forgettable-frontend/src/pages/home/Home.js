@@ -16,9 +16,12 @@ import PeopleLogo from '../../assets/icons/navbar/persons.svg';
 import { getAllEncounters, getAllPersons } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
 import { getImageSrcFromBuffer } from '../../functions/getImageSrcFromBuffer';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [isHover, setIsHover] = useState(false);
+  const navigate = useNavigate();
+
   const [selectedInfo, setSelectedInfo] = React.useState(undefined);
   const [modalOpen, setModalOpen] = React.useState(false);
 
@@ -158,17 +161,16 @@ function Home() {
           <div className={classes.home_cardGridContainer + ' ' + classes.home_encounterGridContainer}>
             {encountersList.map((encounter, index) => {
               return (
-                <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handleEncounterHover(event, index)}>
-                  <Link to={`/encounters`} style={{textDecoration: 'none'}}>
-                    <EncounterCardSummary
-                      firstName={encounter.persons[0]?.first_name}
-                      dateMet={encounter.date}
-                      description={encounter.description}
-                      firstMet={encounter.title}
-                      img={encounter.persons[0]?.image}
-                      location={encounter.location}
-                    />
-                  </Link>
+                <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handleEncounterHover(event, index)} onMouseOut={handleOnMouseOut}>
+                  <EncounterCardSummary
+                    firstName={encounter.persons[0]?.first_name}
+                    dateMet={new Date(encounter.date)}
+                    description={encounter.description}
+                    firstMet={encounter.title}
+                    img={encounter.persons[0]?.image}
+                    location={encounter.location}
+                    onClick={() => navigate(`/encounters`)}
+                  />
                 </div>);
             })}
           </div>
@@ -201,9 +203,8 @@ function SummaryDrawer(summaryInfo) {
       encounterTitle={summaryInfo.info.title}
       img={summaryInfo.info.persons[0]?.image}
       persons={summaryInfo.info.persons}
-      dateMet={summaryInfo.info.date}
+      dateMet={new Date()}
       location={summaryInfo.info.location}
-      encounterDetail={summaryInfo.info.description} // TODO: remove this when typo is fixed.
       encounterDetails={summaryInfo.info.description}
     />;
   }
