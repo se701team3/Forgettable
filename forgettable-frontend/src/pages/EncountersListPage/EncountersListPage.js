@@ -55,7 +55,7 @@ export default function EncountersListPage() {
   ]);
 
   useEffect(() => {
-    if (location.state.encounter) {
+    if (location.state) {
       setSelectedEncounter(location.state.encounter);
       setEncounterModalOpen(true);
     }
