@@ -23,8 +23,10 @@ const DarkMode = () => {
 
   const toggleTheme = (e) => {
     if (e.target.checked) {
+      window.location.reload(false);
       setDark();
     } else {
+      window.location.reload(false);
       setLight();
     }
   };
