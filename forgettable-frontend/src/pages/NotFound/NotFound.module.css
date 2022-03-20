@@ -1,0 +1,31 @@
+.NotFound {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.ContentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -5%;
+}
+
+.ContentContainer > h1 {
+
+}
+
+.ContentContainer > p {
+    margin-bottom: 50px;
+    margin-top: 0;
+}
+
+.Logo {
+    position: absolute;
+    width:250px;
+    bottom: 20%;
+}

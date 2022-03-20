@@ -11,6 +11,7 @@ import PersonsListPage from '../../pages/PersonsListPage/PersonsListPage';
 import Home from '../../pages/home/Home';
 import LogInPage from '../../pages/LogInPage/LogInPage';
 import CreateEncounterPage from '../../pages/CreateEncounterPage/CreateEncounterPage';
+import NotFound from '../../pages/NotFound/NotFound';
 
 /*
  * Component for all routing logic. Conditionally renders
@@ -46,6 +47,7 @@ const PageRouter = (props) => {
   return (
     <div className="page-wrapper">
       <Routes>
+
         <Route path="/" element={<Home/>} />
         <Route path="settings" element={<SettingsPage/>} />
         <Route path="people" element={<PersonsListPage/>} />
@@ -54,9 +56,8 @@ const PageRouter = (props) => {
         <Route path="encounters" element={<EncountersListPage/>} />
         <Route path="person/:id" element={<PersonPage/>} />
         <Route path="encounters/create" element={<CreateEncounterPage/>} />
-        <Route
-          path="*"
-          element={<Navigate to="/" replace />}/>
+        <Route path="*" element={<NotFound/>} />
+
       </Routes>
     </div>
   );
