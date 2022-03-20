@@ -23,7 +23,7 @@ export default function EditPerson() {
   const navigate = useNavigate();
 
   // to check if it is create person or edit person route
-  const create = location.pathname.includes('/people/create') ? true : false;
+  const create = location.pathname.includes('/create');
 
   const {id} = (!create) && useParams();
 
@@ -162,7 +162,7 @@ export default function EditPerson() {
         if (result) {
           toastGenerator('success', 'Person Created!', 2000);
           setTimeout(()=> {
-            navigate('/encounters/create');
+            navigate('/encounters/create', {state: {person: result}});
           }, 2000);
         } else {
           toastGenerator('error', 'Something went wrong... :(', 2000);
