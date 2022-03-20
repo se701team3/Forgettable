@@ -17,7 +17,15 @@ function SettingsPage({setIsLoggedIn}) {
 
   return (
     <div className={classes.SettingsPage}>
+      <h1>Settings</h1>
       <div className={classes.ContentContainer}>
+        <h2>
+          Account
+        </h2>
+
+        <h2>
+          Appearance
+        </h2>
       </div>
     </div>
   );
