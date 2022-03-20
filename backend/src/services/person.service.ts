@@ -21,7 +21,14 @@ const createPerson = async (personDetails: PersonModel) => {
 
 const updatePersonWithId = async (reqPersonId: string, personNewDetails: PersonModel) => {
   const query = { _id: reqPersonId };
-  return Person.findOneAndUpdate(query, personNewDetails, { upsert: true });
+  
+  const updatedPerson = await Person.findOneAndUpdate(query, personNewDetails, { upsert: true });
+
+  const updatedPersonAlgolia : any = await Person.findById(reqPersonId);
+  updatedPersonAlgolia.objectID = reqPersonId;
+  await index.partialUpdateObject(updatedPersonAlgolia);
+
+  return updatedPerson;
 };
 
 const getPersonWithId = async (reqPersonId: string) => {
@@ -67,6 +74,7 @@ const deletePersons = async (personID: string) => {
   const result = await Person.deleteOne({_id: personID});
 
   if (result.deletedCount == 1) {
+    await index.deleteObject(personID);
     return true;
   } else {
     return false;
