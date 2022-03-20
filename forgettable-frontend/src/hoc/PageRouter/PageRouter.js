@@ -54,6 +54,7 @@ const PageRouter = (props) => {
         <Route path="encounters" element={<EncountersListPage/>} />
         <Route path="person/:id" element={<PersonPage/>} />
         <Route path="encounters/create" element={<CreateEncounterPage/>} />
+        <Route path="/signin" element={<Navigate replace to="/"/>} />
         <Route path="*" element={<NotFound/>} />
 
       </Routes>
