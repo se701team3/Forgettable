@@ -1,10 +1,18 @@
 
 import axios from 'axios';
-
+import {authentication} from '../auth';
 const SERVER_URL = 'http://localhost:3001/api/';
 
-export const getHeaders = () => {
-  const token = localStorage.getItem('token');
+/**
+ * This file contains all the helper functions that are used for
+ * making API calls to the backend. All API calls should be made
+ * through one of these functions for consistency and simplicity.
+ *
+ * Author: Mercury Lin (lin8231)
+ */
+
+export const getHeaders = async () => {
+  const token = await authentication.currentUser.getIdToken();
 
   if (!token) return null;
   const headers = {Authorization: `${token}`};
@@ -23,7 +31,7 @@ export const getData = async (url, data) => {
   const response = await axios.get(
       `${SERVER_URL}${url}`,
       {
-        headers: getHeaders(),
+        headers: await getHeaders(),
         ...(data && {params: data}),
       },
   ).catch((error) => {

@@ -8,8 +8,8 @@
     margin-top: 70px;
     margin-bottom: 70px;
     margin-right: 490px;
-    min-width: 680px;
-    max-width: 934px;
+    min-width: 805px;
+    max-width: 1120px;
 }
 
 .Left{
@@ -52,6 +52,25 @@
     width: fit-content;
 }
 
-.PersonCard{
-    margin-bottom: 40px;
+.EncounterCard{
+    margin-bottom: 30px;
+}
+
+.DeleteModal {
+    width: 400px;
+    display: flex;
+    flex-direction: column ;
+    align-items: center;
+}
+
+.DeleteModal > h1 {
+    color: #E05A33;
+    font-size: var(--text-xxlarge);
+    text-align: center;
+    font-weight: 600;
+}
+
+.DeleteModal > p {
+    text-align: center;
+    font-size: var(--text-large);
 }

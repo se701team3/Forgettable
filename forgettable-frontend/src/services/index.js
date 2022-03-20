@@ -13,8 +13,9 @@ export const getPerson = async (id) => {
  * Fetches data of all Persons
  * @return {Promise} data of all persons
  */
-export const getAllPersons = async () => {
-  return await getData('persons');
+export const getAllPersons = async (page, limit) => {
+  if (!page || !limit) return await getData('persons');
+  return await getData(`persons?page=${page}&limit=${limit}`);
 };
 
 /**
@@ -23,6 +24,16 @@ export const getAllPersons = async () => {
  */
 export const getUser = async () => {
   return await getData('users');
+};
+
+/**
+ * Creates a User in the database given the User's data
+ * @param {Object} user data of the user to create.
+ * Must include a first_name property.
+ * @return {Promise} data entry of the new Person created
+ */
+export const createUser = async (user) => {
+  return await postData('users', user);
 };
 
 /**
@@ -73,6 +84,17 @@ export const getAllEncounters = async () => {
 };
 
 /**
+ * Fetches Encounters entries with pagination
+ * @param {string} page starting page (starting index = 1)
+ * @param {string} limit how many entries on one page
+ * @return {Promise} data of all Encounters of the user
+ */
+export const getEncountersByPage = async (page, limit) => {
+  if (!page || !limit) return await getAllEncounters();
+  return await getData(`encounters/?page=${page}&limit=${limit}`);
+};
+
+/**
  * Creates a new Encounter in the database given the Encounter's data
  * @param {Object} encounter data of the Encounter to create.
  * @return {Promise} data entry of the new Encounter created
@@ -99,4 +121,22 @@ export const updateEncounter = async (id, encounter) => {
  */
 export const deleteEncounter = async (id) => {
   return await deleteData('encounters/' + id);
+};
+
+/**
+ * Searches Encounters from the database given a search string
+ * @param {string} searchString string to search
+ * @return {Promise}
+ */
+export const searchEncounter = async (searchString) => {
+  return await getData('encounters/?term=' + searchString);
+};
+
+/**
+ * Searches Persons from the database given a search string
+ * @param {string} searchString string to search
+ * @return {Promise}
+ */
+export const searchPersons = async (str) => {
+  return await getData('persons/?term=' + str);
 };
