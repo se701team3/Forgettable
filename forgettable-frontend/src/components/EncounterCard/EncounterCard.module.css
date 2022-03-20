@@ -96,6 +96,13 @@
     font-size: var(--text-small);
     font-weight: var(--font-regular);
     color: var(--txt2);
+    max-width: 40%;
+    white-space: nowrap;
+}
+
+.Location > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .Avatar{

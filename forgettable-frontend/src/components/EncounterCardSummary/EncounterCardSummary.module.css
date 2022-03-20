@@ -86,3 +86,10 @@
             line-clamp: 3; 
     -webkit-box-orient: vertical;
 }
+
+.IdentityInfoConatiner > h3 {
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 110px;
+}

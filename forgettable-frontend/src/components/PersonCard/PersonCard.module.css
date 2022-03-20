@@ -88,3 +88,20 @@
     align-self: flex-start;
 }
 
+.LastMet {
+    max-width: 40%;
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+}
+
+.LastMet > span {
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+            line-clamp: 1; 
+    -webkit-box-orient: vertical;
+    margin-left: 3px;
+}
