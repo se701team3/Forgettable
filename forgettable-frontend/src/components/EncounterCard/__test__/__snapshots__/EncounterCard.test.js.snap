@@ -3,58 +3,55 @@
 exports[`renders EncounterCard UI to test correct hierarchy 1`] = `
 <div
   className="Card"
+  onClick={[Function]}
 >
   <div
     className="Card_content"
   >
-    <div
-      onClick={[MockFunction]}
+    <section
+      className="Header"
     >
-      <section
-        className="Header"
+      <div
+        className="Title"
       >
-        <div
-          className="Title"
-        >
-          Example Title
-        </div>
-        <div
-          className="Profile_container"
-        >
-          <CustomAvatar
-            persons={
-              Array [
-                Object {
-                  "first_name": "Kent",
-                  "last_name": "Dodds",
-                },
-                Object {
-                  "first_name": "Jed",
-                  "last_name": "Watson",
-                },
-                Object {
-                  "first_name": "Marley",
-                  "last_name": "George",
-                },
-                Object {
-                  "first_name": "Jack",
-                  "last_name": "Winston",
-                },
-                Object {
-                  "first_name": "John",
-                  "last_name": "Doe",
-                },
-              ]
-            }
-          />
-        </div>
-      </section>
-      <section
-        className="Body"
+        Example Title
+      </div>
+      <div
+        className="Profile_container"
       >
-        Example Description
-      </section>
-    </div>
+        <CustomAvatar
+          persons={
+            Array [
+              Object {
+                "first_name": "Kent",
+                "last_name": "Dodds",
+              },
+              Object {
+                "first_name": "Jed",
+                "last_name": "Watson",
+              },
+              Object {
+                "first_name": "Marley",
+                "last_name": "George",
+              },
+              Object {
+                "first_name": "Jack",
+                "last_name": "Winston",
+              },
+              Object {
+                "first_name": "John",
+                "last_name": "Doe",
+              },
+            ]
+          }
+        />
+      </div>
+    </section>
+    <section
+      className="Body"
+    >
+      Example Description
+    </section>
     <section
       className="Footer"
     >
@@ -63,7 +60,7 @@ exports[`renders EncounterCard UI to test correct hierarchy 1`] = `
       >
         Date we met: 
         <div>
-          Unknown :(
+          <UnknownDetail />
         </div>
       </div>
       <div
@@ -76,7 +73,7 @@ exports[`renders EncounterCard UI to test correct hierarchy 1`] = `
       </div>
       <CustomButton
         btnText="Delete"
-        onClick={[MockFunction]}
+        onClick={[Function]}
       />
     </section>
   </div>

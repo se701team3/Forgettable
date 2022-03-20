@@ -3,11 +3,12 @@ import {Modal} from '@mui/material';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import CustomModal from '../CustomModal/CustomModal';
-import {getDateLastMetString} from '../../functions/dateFormatter';
+import {getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import {Avatar} from '@mui/material';
 import classes from './EncounterDetailsModal.module.css';
 import CustomButton from '../CustomButton/CustomButton';
 import CustomAvatarCollection from '../CustomAvatarCollection/CustomAvatarCollection';
+import UnknownDetail from '../UnknownDetail/UnknownDetail';
 
 /*
  * Component for displaying encounter details in a pop-up modal
@@ -41,15 +42,15 @@ function EncounterDetailsModal(props) {
           >
             {'Date we met: '}
             {encounter.date ?
-            getDateLastMetString(encounter.date) :
-            unknownDetail}
+            getLongDateStringWithSlashes(encounter.date) :
+            <UnknownDetail/>}
           </div>
           <div
             className={classes.EncounterProperty}
             data-testid="location-element"
           >
             {'Location: '}
-            {encounter.location ? encounter.location : unknownDetail}
+            {encounter.location ? encounter.location : <UnknownDetail/>}
           </div>
           <h2>Details:</h2>
           <p className={classes.EncounterDetails} data-testid="details-element">

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable dot-notation */
 /**
  * Controller contains high-level operations using services, consumed by routes
@@ -9,9 +10,11 @@ import { PersonModel } from 'src/models/person.model';
 import userService from '../services/user.service';
 import personService from '../services/person.service';
 import encounterService from '../services/encounter.service';
+import getPersonDetails from './utils/controller-utils';
 
 import logger from '../utils/logger';
 import { POST } from './controller.types';
+import { PaginateableResponse } from 'src/utils/paginateable.response';
 
 export const createPerson: POST = async (
   req: Request,
@@ -19,13 +22,13 @@ export const createPerson: POST = async (
   next: NextFunction,
 ): Promise<void> => {
   logger.info('POST /persons request from frontend');
-  const auth_id = req.headers.authorization?.["user_id"];
+  const authId = req.headers.authorization?.['user_id'];
 
   try {
-    let user = await userService.getUserByAuthId(auth_id);
+    let user = await userService.getUserByAuthId(authId);
 
     if (!user) {
-      res.status(httpStatus.NOT_FOUND).end();
+      res.status(httpStatus.UNAUTHORIZED).end();
     } else {
       // Create a new person with the provided information
       const createdPerson = await personService.createPerson(req.body);
@@ -34,10 +37,10 @@ export const createPerson: POST = async (
         res.status(httpStatus.BAD_REQUEST).end();
       } else {
         // Add a reference to the created person to the user
-        user = await userService.addPersonId(user.auth_id, createdPerson._id)
-        // If user doesn't contain reference to new person 
+        user = await userService.addPersonId(user.auth_id, createdPerson._id);
+        // If user doesn't contain reference to new person
         if (!user?.persons.includes(new mongoose.Types.ObjectId(createdPerson._id))) {
-          // return Conflict and delete person from db
+          // Return Conflict and delete person from db
           await personService.deletePersons(createdPerson._id.toString());
           res.status(httpStatus.CONFLICT).end();
         } else {
@@ -45,8 +48,7 @@ export const createPerson: POST = async (
         }
       }
     }
-  }
-  catch (e) {
+  } catch (e) {
     next(e);
   }
 };
@@ -54,7 +56,7 @@ export const createPerson: POST = async (
 export const getPersonWithId = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): Promise<void> => {
   logger.info('GET /persons/:id request from frontend');
   const authId = req.headers.authorization?.['user_id'];
@@ -67,14 +69,27 @@ export const getPersonWithId = async (
     } else {
       // If the person belongs to this user, find it
       let person: any;
+      let personDto: any;
       if (user.persons.includes(new mongoose.Types.ObjectId(req.params.id))) {
         person = await personService.getPersonWithId(req.params.id);
+
+        // Adds embedded encounters with user details to returned person
+        // The stringify and parse combo removes typing and allows altering of the parsed objects.
+        personDto = JSON.parse(JSON.stringify(person));
+        personDto.encounters = JSON.parse(JSON.stringify(
+          await Promise.all(personDto.encounters.map(
+            async (encounterId: any) => { return (await encounterService.getEncounter(encounterId)) }))));
+
+        for (let i = 0; i < personDto.encounters.length; i + 1) {
+          personDto.encounters[i].persons = await Promise.all(personDto.encounters[i].persons.map(
+            async (personsId: any) => { return (await getPersonDetails(personsId)); }));
+        }
       }
 
       if (!person) {
         res.status(httpStatus.NOT_FOUND).end();
       } else {
-        res.status(httpStatus.OK).json(person).end();
+        res.status(httpStatus.OK).json(personDto).end();
       }
     }
   } catch (e) {
@@ -84,9 +99,11 @@ export const getPersonWithId = async (
 
 export const getAllPeople = async (
   req: Request,
-  res: Response,
+  expressRes: Response,
   next: NextFunction,
 ): Promise<void> => {
+  const res = expressRes as PaginateableResponse;
+
   logger.info('GET /persons request from frontend');
 
   const authId = req.headers.authorization?.['user_id'];
@@ -94,10 +111,11 @@ export const getAllPeople = async (
 
   try {
     if (!user) {
-      res.status(httpStatus.NOT_FOUND).end();
+      res.status(httpStatus.UNAUTHORIZED).end();
     } else {
       const foundUserPersons = await personService.getPeople(req.query, user.persons);
-      res.status(httpStatus.OK).json(foundUserPersons).end();
+
+      res.status(httpStatus.OK).paginate(foundUserPersons);
     }
   } catch (e) {
     next(e);
@@ -108,57 +126,57 @@ export const deletePersons = async (
   req: Request,
   res: Response,
   next: NextFunction,
-  ): Promise<void> => {
-    logger.info("DELETE /persons/:personID request from frontend");
-    const auth_id = req.headers.authorization?.["user_id"];
-    
-    const current_user = await userService.getUserByAuthId(auth_id);
-    const id = req.params.id;
+): Promise<void> => {
+  logger.info('DELETE /persons/:personID request from frontend');
+  const authId = req.headers.authorization?.['user_id'];
 
-    const user_persons = current_user?.persons;
-    let string_persons = user_persons?.map(x => x.toString());
+  const user = await userService.getUserByAuthId(authId);
+  const id = req.params.id;
 
-    if (string_persons?.includes(id.toString())) {
-      try {
-        // Delete person from database
-        const deletePersonsResult = await personService.deletePersons(id);
+  if (!user) {
+    res.status(httpStatus.UNAUTHORIZED).end();
+  }
 
-        // return encounters that may have empty persons fields
-        const deleteEncountersResult = await encounterService.deleteEncounterPerson(id);
-        const empty_encounters = deleteEncountersResult["array"];
-        const EncountersBool = deleteEncountersResult["bool"];
+  const userPersons = user?.persons;
+  const stringPersons = userPersons?.map((x) => x.toString());
 
-        //delete person from current User document
-        const deleteUserResult = await userService.deleteUserPerson(id);
+  if (stringPersons?.includes(id.toString())) {
+    try {
+      // Delete person from database
+      const deletePersonsResult = await personService.deletePersons(id);
 
-        // Check all service function calls were valid
-        if (EncountersBool && deletePersonsResult && deleteUserResult) {
+      // Return encounters that may have empty persons fields
+      const deleteEncountersResult = await encounterService.deleteEncounterPerson(id);
+      const emptyEncounters = deleteEncountersResult['array'];
+      const encountersBool = deleteEncountersResult['bool'];
 
-          // Make sure that empty encounters are also deleted from User
-          for (let i = 0; i < empty_encounters.length; i++) {
-            let result = await userService.deleteUserEncounter(empty_encounters[i]?._id.toString());
+      // Delete person from current User document
+      const deleteUserResult = await userService.deleteUserPerson(id);
 
-            // Check that a valid deleteUserEncounter was executed
-            if (!result) {
-              res.sendStatus(httpStatus.BAD_REQUEST).end();
-            }
+      // Check all service function calls were valid
+      if (encountersBool && deletePersonsResult && deleteUserResult) {
+        // Make sure that empty encounters are also deleted from User
+        for (let i = 0; i < emptyEncounters.length; i++) {
+          const result = await userService.deleteUserEncounter(emptyEncounters[i]?._id.toString());
+
+          // Check that a valid deleteUserEncounter was executed
+          if (!result) {
+            res.sendStatus(httpStatus.CONFLICT).end();
           }
-          // Notify frontend that the operation was successful
-          res.sendStatus(httpStatus.OK).end();
-        } else {
-          // Notify frontend that the operation was successful
-          res.sendStatus(httpStatus.BAD_REQUEST).end();
         }
-      } catch(e) {
-  
-        next(e);
+        // Notify frontend that the operation was successful
+        res.sendStatus(httpStatus.OK).end();
+      } else {
+        // Notify frontend that the operation was unsuccessful
+        res.sendStatus(httpStatus.CONFLICT).end();
       }
-    } else {
-      res.sendStatus(httpStatus.NOT_FOUND).end();
+    } catch (e) {
+      next(e);
     }
-    
-    res.status(httpStatus.OK).end();
-  };
+  } else {
+    res.sendStatus(httpStatus.NOT_FOUND).end();
+  }
+};
 
 export const updatePersonWithId = async (
   req: Request,
@@ -189,4 +207,3 @@ export const updatePersonWithId = async (
     next(error);
   }
 };
-

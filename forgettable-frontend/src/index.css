@@ -30,12 +30,24 @@
   --radius-card: 13px;
 }
 
+:root {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bkgd);
+  height: 100%;
+  width: 100%;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
 }
 
 .page-wrapper {

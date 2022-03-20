@@ -1,0 +1,74 @@
+@import '../../colours.css';
+
+.LogInPage{
+    height: 100%;
+    width: 100%;
+    background-color: var(--prmry);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ContentContainer{
+    height: 80%;
+    width:80%;
+    box-sizing: border-box;
+    background-color: var(--bkgd);
+    border-radius: var(--radius-card);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ContentWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -5%;
+}
+
+.WelcomeBackText{
+    font-size: 40px;
+    font-weight: var(--font-semibold);
+    text-align: center;
+}
+
+.SignInButton{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--prmry);
+    width: 420px;
+    height: 60px;
+    border-radius: var(--radius-btn);
+    cursor: pointer;
+    border: none
+}
+
+.SignInButton > p {
+    font-weight: 400;
+    font-size: var(--text-medium);
+    margin-left: 12px;
+}
+
+
+.CreateAccountText{
+    width: 420px;
+    text-align: center;
+    position: center;
+    display: inline-block;
+}
+
+.CreateAccountText > a {
+    color: var(--prmry);
+}
+
+.Logo{
+    position: absolute;
+    width:250px;
+    bottom: 20%;
+    display: inline-block;
+}
