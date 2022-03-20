@@ -7,7 +7,7 @@ import IconButton from '../../components/IconButton/IconButton';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import EncounterDetailsModal from '../../components/EncounterDetailsModal/EncounterDetailsModal';
-import {deleteEncounter, getAllEncounters, searchEncounter, getEncountersByPage} from '../../services';
+import {deleteEncounter, getAllEncounters, searchEncounter, getEncountersByPage, getEncounter} from '../../services';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -54,17 +54,22 @@ export default function EncountersListPage() {
     },
   ]);
 
-  useEffect(() => {
-    if (location.state) {
-      setSelectedEncounter(location.state.encounter);
-      setEncounterModalOpen(true);
-    }
-  }, []);
-
   useEffect(async () => {
     const result = await getEncountersByPage(pageNum, PAGE_SIZE);
     setEncounterList(result);
     setIsLoading(false);
+  }, []);
+
+  useEffect(async () => {
+    if (location.state) {
+      if (location.state.hasOwnProperty('id')) {
+        const encounter = await getEncounter(location.state.id);
+        setSelectedEncounter(encounter);
+      } else {
+        setSelectedEncounter(location.state.encounter);
+      }
+      setEncounterModalOpen(true);
+    }
   }, []);
 
   const handleCardClick = (encounter) => {
