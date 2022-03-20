@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import './colours.css';
 
 :root {
   /* font weights */
@@ -41,6 +42,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bkgd);
+  color: var(--txt1);
   height: 100%;
   width: 100%;
 }

@@ -25,7 +25,7 @@
   
   .border{
     border-style: solid;
-    color: var(--bord);
+    color: var(--line);
     width: 744px;
     margin-top: 15px;
     border-width: 1px;
@@ -45,7 +45,7 @@
     font-size:  var(--text-normal);
     font-weight: var(--font-regular);
     font-style: normal;
-    color: #979797;
+    color: var(--txt4);
   }
   
   .email{
@@ -58,7 +58,7 @@
   
   .border2{
     border-style: solid;
-    color: var(--bord);
+    color: var(--line);
     width: 744px;
     margin-top: 25px;
     border-width: 1px;

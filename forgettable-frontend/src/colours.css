@@ -8,8 +8,10 @@
     --txt1: #000000; /* heading text */
     --txt2: #666666; /* non-heading text */
     --txt3: #000000; /* yellow button text */
+    --txt4: #979797; /* grey text */
     --bord: #CACACA; /* border for when a lighter card is on top of a darker card */
     --warn: #E05A33; /* warning text */
+    --line: #E5E5E5;
 
     /* filter values of colours for SVGs */
     --fprmry: invert(88%) sepia(54%) saturate(487%) hue-rotate(320deg) brightness(101%) contrast(91%); /* main accent */
@@ -40,14 +42,18 @@
 
 
 [data-theme='dark'] {
-    --bkgd: #232323; /* background */ 
+    --bkgd: #141414; /* background */ 
+    --hilit: #404040;
     --icon: #BABABA; /* navbar icons */
-    --card: #141414; /* card background */
+    --card: #303030; /* card background */
     --txt1: #FFFFFF; /* heading text */
     --txt2: #CBCBCB; /* non-heading text */
     --txt3: #000000; /* yellow button text */
+    --txt4: #BABABA; /* grey text */
     --bord: #3A3A3A; /* border for when a lighter card is on top of a darker card */
-    
+    --line: #5A5A5A;
     /* filter values of colours for SVGs */
     --ficon: invert(83%) sepia(0%) saturate(538%) hue-rotate(185deg) brightness(90%) contrast(94%); /* navbar icons */
+  }
+
   }
