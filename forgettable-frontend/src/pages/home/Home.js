@@ -163,7 +163,7 @@ function Home() {
           </div>
 
           <div className={classes.home_subtitleContainer}>
-            <div className={classes.home_subtitle}>Recently Encounters</div>
+            <div className={classes.home_subtitle}>Recent Encounters</div>
             <Link to="/encounters" style={{textDecoration: 'none'}}><CustomButton btnText='View All' /></Link>
           </div>
 
