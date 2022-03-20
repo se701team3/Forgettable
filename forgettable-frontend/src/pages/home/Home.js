@@ -1,6 +1,6 @@
 /* eslint-disable object-curly-spacing */
 /* eslint-disable max-len */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './Home.module.css';
@@ -18,6 +18,7 @@ import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
 import { getImageSrcFromBuffer } from '../../functions/getImageSrcFromBuffer';
 
 function Home() {
+  const [isHover, setIsHover] = useState(false);
   const [selectedInfo, setSelectedInfo] = React.useState(undefined);
   const [modalOpen, setModalOpen] = React.useState(false);
 
@@ -25,7 +26,7 @@ function Home() {
   const [encountersList, setEncountersList] = React.useState([]);
   const [searchBarData, setSearchBarData] = React.useState([]);
 
-  const user = localStorage.getItem('userName');
+  const userName = JSON.parse(localStorage.getItem('user')).userName;
 
   async function getData() {
     let peopleResult = [];
@@ -62,6 +63,7 @@ function Home() {
       type: 'person',
       info: peopleList[index],
     });
+    setIsHover(true);
   };
 
   const handleEncounterHover = (event, index) => {
@@ -69,6 +71,7 @@ function Home() {
       type: 'encounter',
       info: encountersList[index],
     });
+    setIsHover(true);
   };
 
   const handleNewEntryClick = () => {
@@ -79,9 +82,13 @@ function Home() {
     setModalOpen(false);
   };
 
+  const handleOnMouseOut = () => {
+    setIsHover(false);
+  };
+
   return (
     <>
-      {selectedInfo && <SummaryDrawer summaryInfo={selectedInfo} />}
+      {isHover && <SummaryDrawer summaryInfo={selectedInfo} />}
 
       <CustomModal open={modalOpen} onClose={handleModalClose} hasCancel={true}>
         <div className={classes.home_modalTitle}>Add a new entry</div>
@@ -110,7 +117,7 @@ function Home() {
 
       <div className={classes.home_container}>
         <div className={classes.home_title}>
-          Hi {user ? user : 'there'}, Welcome back!
+          Hi {userName ? userName : 'there'}, Welcome back!
         </div>
 
         <div className={classes.home_searchArea}>
@@ -120,51 +127,52 @@ function Home() {
           </div>
         </div>
 
-        <div className={classes.home_subtitleContainer}>
-          <div className={classes.home_subtitle}>Recently Updated</div>
-          <Link to="/people" style={{textDecoration: 'none'}}><CustomButton btnText='View All' /></Link>
-        </div>
+        <div className={classes.body_container}>
+          <div className={classes.home_subtitleContainer}>
+            <div className={classes.home_subtitle}>Recently Updated</div>
+            <Link to="/people" style={{textDecoration: 'none'}}><CustomButton btnText='View All' /></Link>
+          </div>
 
-        <div className={classes.home_cardGridContainer + ' ' + classes.home_personGridContainer}>
-          {peopleList.map((person, index) => {
-            return (
-              <div key={index} className={classes.home_cardWrapper} onMouseEnter={(event) => handlePersonHover(event, index)}>
-                <Link to={`/person/${person._id}`} style={{textDecoration: 'none'}}>
-                  <PersonCardSummary
-                    id={person._id}
-                    name={person.first_name}
-                    img={person.image}
-                    firstMet={person.firstMet}
-                    onClick={() => { }}
-                  />
-                </Link>
-              </div>);
-          })}
-        </div>
+          <div className={classes.home_cardGridContainer + ' ' + classes.home_personGridContainer}>
+            {peopleList.map((person, index) => {
+              return (
+                <div key={index} className={classes.home_cardWrapper} onMouseOver={(event) => handlePersonHover(event, index)} onMouseOut={handleOnMouseOut}>
+                  <Link to={`/person/${person._id}`} style={{textDecoration: 'none'}}>
+                    <PersonCardSummary
+                      id={person._id}
+                      name={person.first_name}
+                      img={person.image}
+                      firstMet={person.firstMet}
+                      onClick={() => { }}
+                    />
+                  </Link>
+                </div>);
+            })}
+          </div>
 
-        <div className={classes.home_subtitleContainer}>
-          <div className={classes.home_subtitle}>Recently Encounters</div>
-          <Link to="/encounters" style={{textDecoration: 'none'}}><CustomButton btnText='View All' /></Link>
-        </div>
+          <div className={classes.home_subtitleContainer}>
+            <div className={classes.home_subtitle}>Recently Encounters</div>
+            <Link to="/encounters" style={{textDecoration: 'none'}}><CustomButton btnText='View All' /></Link>
+          </div>
 
-        <div className={classes.home_cardGridContainer + ' ' + classes.home_encounterGridContainer}>
-          {encountersList.map((encounter, index) => {
-            return (
-              <div key={index + 'e'} className={classes.home_cardWrapper} onMouseEnter={(event) => handleEncounterHover(event, index)}>
-                <Link to={`/encounters`} style={{textDecoration: 'none'}}>
-                  <EncounterCardSummary
-                    firstName={encounter.persons[0]?.first_name}
-                    dateMet={encounter.date}
-                    description={encounter.description}
-                    firstMet={encounter.title}
-                    img={encounter.persons[0]?.image}
-                    location={encounter.location}
-                  />
-                </Link>
-              </div>);
-          })}
+          <div className={classes.home_cardGridContainer + ' ' + classes.home_encounterGridContainer}>
+            {encountersList.map((encounter, index) => {
+              return (
+                <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handleEncounterHover(event, index)}>
+                  <Link to={`/encounters`} style={{textDecoration: 'none'}}>
+                    <EncounterCardSummary
+                      firstName={encounter.persons[0]?.first_name}
+                      dateMet={encounter.date}
+                      description={encounter.description}
+                      firstMet={encounter.title}
+                      img={encounter.persons[0]?.image}
+                      location={encounter.location}
+                    />
+                  </Link>
+                </div>);
+            })}
+          </div>
         </div>
-
       </div>
     </>
   );
