@@ -11,8 +11,6 @@ const client = algoliaSearch(
 );
 const index = client.initIndex('encounters');
 
-const queryKeys = ['title', 'location', 'description'];
-
 const createEncounter = async (encounterDetails: EncounterModel) => {
   const encounter = new Encounter(encounterDetails);
 
@@ -41,19 +39,14 @@ const getAllEncounters = async (queryParams: any, userEncounters: mongoose.Types
     logger.info(queryParams);
     const termValue = queryParams.term.toLowerCase();
 
-    // If no relevant fields in an Encounter match 'termValue', remove them from the array
-    foundUserEncounters = foundUserEncounters.filter((encounter) => {
-      for (let i = 0; i < queryKeys.length; i++) {
-        // Make sure person has a value for current queryKey
-        if (encounter[queryKeys[i]]) {
-          const encounterValue = (encounter[queryKeys[i]] as string).toLowerCase();
-          if (encounterValue.includes(termValue)) {
-            return true;
-          }
-        }
-      }
-      return false;
-    })
+    const algoliaSearchResults = await index.search(termValue);
+    const algoliaSearchResultsIds = algoliaSearchResults.hits.map((hit) => hit.objectID.toString())
+
+    const userEncounterResults = foundUserEncounters.filter(
+      (encounter) => algoliaSearchResultsIds.includes(encounter._id.toString()),
+    );
+
+    foundUserEncounters = userEncounterResults;
   }
 
   return foundUserEncounters;
