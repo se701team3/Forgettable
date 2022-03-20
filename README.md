@@ -1,5 +1,7 @@
 # Forgettable
 
+![logo-black](https://user-images.githubusercontent.com/37087904/159186294-00a03a55-693d-492d-a002-22a46a9bab1c.svg)
+
 Welcome to the Forgettable project, created by SOFTENG 701 Team 3 students (Team Forgettable) from The University of Auckland.
 
 ## Introduction
