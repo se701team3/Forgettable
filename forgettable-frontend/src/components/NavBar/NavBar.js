@@ -83,7 +83,7 @@ export default function NavBar() {
         />
         <List>
           {linkProperties.map((linkItem, index) => (
-            <Link to={linkItem.path} key={linkItem}>
+            <Link to={linkItem.path} key={index}>
               <ListItem
                 button
                 onClick={(event) => handleListItemClick(event, index)}
