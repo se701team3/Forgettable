@@ -27,3 +27,22 @@
   padding-top: 25px;
 }
 
+.DetailSet {
+
+}
+
+
+.DetailSet > h4 {
+  font-size: var(--text-normal);
+  font-weight: 400;
+  margin: 0;
+  margin-top: 15px;
+}
+
+
+.DetailSet > p {
+  font-size: var(--text-small);
+  color: var(--txt2);
+  margin: 0;
+  margin-top: 3px
+}

@@ -22,6 +22,14 @@ function SettingsPage({setIsLoggedIn}) {
         <h2>
           Account
         </h2>
+        <div className={classes.DetailSet}>
+          <h4>Name</h4>
+          <p>nmae</p>
+        </div>
+        <div className={classes.DetailSet}>
+          <h4>Email</h4>
+          <p>dsafsafsaS</p>
+        </div>
 
         <h2>
           Appearance
