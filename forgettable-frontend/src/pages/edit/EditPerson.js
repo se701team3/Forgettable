@@ -161,7 +161,7 @@ export default function EditPerson() {
       ...formData,
       interests: formData.interests.split(/[-_,\s.|]+/),
       image: profilePic,
-      social_media: socialMedias,
+      social_media: Object.fromEntries(socialMedias),
     };
 
     if (create) {
