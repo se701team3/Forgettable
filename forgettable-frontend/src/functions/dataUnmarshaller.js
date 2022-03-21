@@ -1,3 +1,5 @@
+import {convertSocialMedia} from './convertSocialMediaFormat';
+
 export const unmarshalPerson = (person) => {
   return (
     {
@@ -6,9 +8,10 @@ export const unmarshalPerson = (person) => {
       howWeMet: person.how_we_met,
       firstName: person.first_name,
       lastName: person.last_name,
-      socialMedia: person.social_media,
+      socialMedia: convertSocialMedia(person.social_media),
       timeUpdated: person.time_updated,
       id: person._id,
+      encounters: person.encounters || [],
     }
   );
 };
