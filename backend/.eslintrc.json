@@ -19,6 +19,17 @@
         "import/no-unresolved": "off",
         "import/extensions": "off",
         "consistent-return": "off",
-        "import/prefer-default-export": "off"
+        "import/prefer-default-export": "off",
+        "max-len": "off",
+        "no-return-await": "off",
+        "no-plusplus": "off",
+        "no-await-in-loop": "off",
+        "camelcase": "off",
+        "no-console": "off",
+        "eqeqeq": "off",
+        "no-unused-vars": "off",
+        "radix": "off",
+        "no-restricted-globals": "off",
+        "no-underscore-dangle": "off"
     }
 }

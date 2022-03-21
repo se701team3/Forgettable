@@ -5,13 +5,7 @@ import mongoose from 'mongoose';
 import Person, { PersonModel } from '../models/person.model';
 import logger from '../utils/logger';
 
-const algoliaSearch = require('algoliasearch');
-
-const client = algoliaSearch(
-  process.env.ALGOLIA_APP_ID,
-  process.env.ALGOLIA_SECRET_KEY,
-);
-const index = client.initIndex('persons');
+const queryKeys = ['first_name', 'last_name', 'gender', 'location', 'how_we_met', 'organisation'];
 
 const createPerson = async (personDetails: PersonModel) => {
   const person = new Person(personDetails);
@@ -21,12 +15,8 @@ const createPerson = async (personDetails: PersonModel) => {
 
 const updatePersonWithId = async (reqPersonId: string, personNewDetails: PersonModel) => {
   const query = { _id: reqPersonId };
-  
-  const updatedPerson = await Person.findOneAndUpdate(query, personNewDetails, { upsert: true });
 
-  const updatedPersonAlgolia : any = await Person.findById(reqPersonId);
-  updatedPersonAlgolia.objectID = reqPersonId;
-  await index.partialUpdateObject(updatedPersonAlgolia);
+  const updatedPerson = await Person.findOneAndUpdate(query, personNewDetails, { upsert: true });
 
   return updatedPerson;
 };
@@ -46,40 +36,42 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
     logger.info(queryParams);
     const termValue = queryParams.term.toLowerCase();
 
-    const algoliaSearchResults = await index.search(termValue);
-    const algoliaSearchResultsIds = algoliaSearchResults.hits.map((hit) => hit.objectID.toString())
-  
-    const userPersonResults = foundUserPersons.filter(
-      (person) => algoliaSearchResultsIds.includes(person._id.toString()),
-    );
-
-    foundUserPersons = userPersonResults;
+    // If no relevant fields in a Person match 'termValue', remove them from the array
+    foundUserPersons = foundUserPersons.filter((person) => {
+      for (let i = 0; i < queryKeys.length; i++) {
+        // Make sure person has a value for current queryKey
+        if (person[queryKeys[i]]) {
+          const personValue = (person[queryKeys[i]] as string).toLowerCase();
+          if (personValue.includes(termValue)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    });
   }
 
   return foundUserPersons;
 };
 
 const deletePersonEncounters = async (encounterID: string) => {
-  const result = await Person.updateMany({ }, { $pullAll: {encounters: [{ _id: encounterID}]} });
+  const result = await Person.updateMany({ }, { $pullAll: { encounters: [{ _id: encounterID }] } });
 
   // Check that Persons with the respective encounters has been updated
   if (result.modifiedCount > 0) {
     return true;
-  } else {
-    return false;
   }
-}
+  return false;
+};
 
 const deletePersons = async (personID: string) => {
-  const result = await Person.deleteOne({_id: personID});
+  const result = await Person.deleteOne({ _id: personID });
 
   if (result.deletedCount == 1) {
-    await index.deleteObject(personID);
     return true;
-  } else {
-    return false;
   }
-}
+  return false;
+};
 
 const addEncounterToPersons = async (personIds, encounterId) => {
   for (let i = 0; i < personIds.length; i++) {
