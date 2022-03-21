@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {convertSocialMedia} from '../../functions/convertSocialMediaFormat';
 import {getImageSrcFromBuffer} from '../../functions/getImageSrcFromBuffer';
 import {toastGenerator} from '../../functions/helper';
+import {unmarshalPerson} from '../../functions/dataUnmarshaller';
 
 
 /*
@@ -49,20 +50,7 @@ const PersonPage = (props) => {
   useEffect(async () => {
     const result = await getPerson(id);
 
-    setPerson({
-      firstName: result.first_name,
-      lastName: result.last_name,
-      birthday: result.birthday,
-      gender: result.gender,
-      location: result.location,
-      howWeMet: result.how_we_met,
-      interests: result.interests,
-      organisation: result.organisation,
-      socialMedia: convertSocialMedia(result.socialMedia),
-      image: result.image,
-      encounters: result.encounters || [],
-      timeUpdated: result.timeUpdated,
-    });
+    setPerson(unmarshalPerson(result));
   }, [id]);
 
   const createEncounterComponent = (encounter, i) => {
@@ -74,7 +62,7 @@ const PersonPage = (props) => {
           persons={encounter.persons}
           location={encounter.location}
           onDelete={() => onDeleteClicked(encounter)}
-          date={new Date(encounter.date)}
+          date={encounter.date}
           isInitialEncounter={false}
           onClick={() => onClick(encounter)}
         />
