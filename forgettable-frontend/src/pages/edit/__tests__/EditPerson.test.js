@@ -81,5 +81,5 @@ it('Displays correct data from database', async () => {
     <EditPerson/>
   </MemoryRouter>);
 
-  expect(screen.getByDisplayValue('Name')).toBeInTheDocument();
+  expect(screen.getByText('newf')).toBeInTheDocument();
 });
