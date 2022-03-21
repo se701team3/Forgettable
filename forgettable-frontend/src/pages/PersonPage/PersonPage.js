@@ -138,7 +138,7 @@ const PersonPage = (props) => {
         organisation={person.organisation}
         location={person.location}
         gender={person.gender}
-        birthday={new Date(person.birthday)}
+        birthday={person.birthday}
         socialMedia={person.socialMedia}
         data-testid="drawer-component"
         onEdit={() => navigate(`/person/${id}/edit`)}
