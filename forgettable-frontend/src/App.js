@@ -19,8 +19,13 @@ function App() {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [user, setUserInfo] = useState({});
 
+  const path = location.pathname;
+
   useEffect(() => {
-    const currentLocation = location.pathname;
+    navigate(path);
+  }, []);
+
+  useEffect(() => {
     const status = auth.loadLoginStatus();
 
     if (status) setIsLoggingIn(true);
@@ -32,8 +37,6 @@ function App() {
         setLoggedIn(false);
       }
       setIsLoggingIn(false);
-
-      navigate(currentLocation);
     });
 
     const theme = localStorage.getItem('theme');

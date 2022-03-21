@@ -17,6 +17,7 @@ import { getAllEncounters, getAllPersons } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
 import { getImageSrcFromBuffer } from '../../functions/getImageSrcFromBuffer';
 import { useNavigate } from 'react-router-dom';
+import { unmarshalPerson, unmarshalEncounters } from '../../functions/dataUnmarshaller';
 
 function Home() {
   const [isHover, setIsHover] = useState(false);
@@ -32,14 +33,17 @@ function Home() {
   const userName = JSON.parse(localStorage.getItem('user')).userName;
 
   async function getData() {
-    let peopleResult = [];
-    peopleResult = await getAllPersons();
+    const peopleResult = await getAllPersons();
 
-    setPeopleList(peopleResult);
-    let encountersResult = [];
-    encountersResult = await getAllEncounters();
+    const unmarshalledPersons = peopleResult.map((person) => unmarshalPerson(person));
 
-    setEncountersList(encountersResult);
+    setPeopleList(unmarshalledPersons);
+
+    const encountersResult = await getAllEncounters();
+
+    const unmarshalledEncounters = encountersResult.map((encounter) => unmarshalEncounters(encounter));
+
+    setEncountersList(unmarshalledEncounters);
 
     const searchDataResult = searchBarDataFormatter(peopleResult, encountersResult);
 
@@ -195,7 +199,7 @@ function SummaryDrawer(summaryInfo) {
     return <PersonDrawer
       open={true}
       id={summaryInfo.info.id}
-      name={summaryInfo.info.first_name}
+      name={summaryInfo.info.firstName}
       img={summaryInfo.info.image}
       firstMet={summaryInfo.info.firstMet}
       onClick={summaryInfo.info.onClick}
@@ -203,7 +207,8 @@ function SummaryDrawer(summaryInfo) {
       gender={summaryInfo.info.gender}
       organisation={summaryInfo.info.organisation}
       interests={summaryInfo.info.interests}
-      socialMedias={summaryInfo.info.socialMedias}
+      socialMedia={summaryInfo.info.socialMedia}
+      birthday={summaryInfo.info.birthday}
     />;
   } else if (summaryInfo.type === 'encounter') {
     return <EncounterDrawer

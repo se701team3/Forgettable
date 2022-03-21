@@ -5,12 +5,13 @@ import classes from './PersonsListPage.module.css';
 import IconButton from '../../components/IconButton/IconButton';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import {searchPersons, deletePerson, getAllPersons} from '../../services';
+import {searchPersons, deletePerson, getAllPersons, getEncounter} from '../../services';
 import {useNavigate} from 'react-router-dom';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
+import {unmarshalPerson} from '../../functions/dataUnmarshaller';
 
 const PAGE_SIZE = 10;
 
@@ -34,9 +35,28 @@ export default function PersonsListPage(props) {
 
   useEffect(async () => {
     const result = await getAllPersons(currentPage, PAGE_SIZE);
-    console.log(result);
+
     if (result) {
-      setPersonList(result);
+      const unmarshalledPersonList =
+      await Promise.all(
+          result.map(async (person) =>{
+            let lastEncounter;
+
+            if (person.encounters && person.encounters.length > 0) {
+              lastEncounter =
+               await getEncounter(
+                   person.encounters[0]);
+            }
+
+            const lastMet = lastEncounter?.date;
+
+
+            return {
+              ...unmarshalPerson(person),
+              lastMet,
+            };
+          }));
+      setPersonList(unmarshalledPersonList);
     }
   }, []);
 
@@ -110,8 +130,8 @@ export default function PersonsListPage(props) {
       {isHover &&
         <PersonDrawer
           open={true}
-          name={`${selectedInfo.first_name} ${selectedInfo.last_name || ''}`}
-          id={selectedInfo._id}
+          name={`${selectedInfo.firstName} ${selectedInfo.lastName || ''}`}
+          id={selectedInfo.id}
           birthday={selectedInfo.birthday}
           img={selectedInfo.image}
           gender={selectedInfo.gender}

@@ -161,7 +161,7 @@ export default function EditPerson() {
       ...formData,
       interests: formData.interests.split(/[-_,\s.|]+/),
       image: profilePic,
-      social_media: socialMedias,
+      social_media: Object.fromEntries(socialMedias),
     };
 
     if (create) {
@@ -263,7 +263,7 @@ export default function EditPerson() {
           )}
           <CustomButton
             btnText="Cancel" type="button"
-            onClick={() => navigate(-1, {'replace': true})}
+            onClick={() => navigate('/people')}
             className={classes.formsButton}
           />
           <CustomButton btnText="Save"/>
