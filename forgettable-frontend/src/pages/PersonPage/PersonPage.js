@@ -4,7 +4,6 @@ import IconButton from '../../components/IconButton/IconButton';
 import PersonDrawer from '../../components/PersonDrawer/PersonDrawer';
 import {createPerson, deleteEncounter, getPerson} from '../../services';
 import classes from './PersonPage.module.css';
-import {ENCOUNTERS} from './PlaceholderData';
 import {Link, Navigate, useParams} from 'react-router-dom';
 // import {useHistory} from 'react-router-dom';
 import {useNavigate} from 'react-router-dom';
