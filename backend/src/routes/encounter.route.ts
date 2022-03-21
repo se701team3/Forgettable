@@ -19,4 +19,3 @@ routes.get('/:id', getEncounter);
 routes.delete('/:id', deleteEncounters);
 
 export default routes;
-

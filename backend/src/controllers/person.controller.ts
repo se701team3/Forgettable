@@ -7,6 +7,7 @@ import { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import httpStatus from 'http-status';
 import { PersonModel } from 'src/models/person.model';
+import { PaginateableResponse } from 'src/utils/paginateable.response';
 import userService from '../services/user.service';
 import personService from '../services/person.service';
 import encounterService from '../services/encounter.service';
@@ -14,7 +15,6 @@ import getPersonDetails from './utils/controller-utils';
 
 import logger from '../utils/logger';
 import { POST } from './controller.types';
-import { PaginateableResponse } from 'src/utils/paginateable.response';
 
 export const createPerson: POST = async (
   req: Request,
@@ -78,11 +78,14 @@ export const getPersonWithId = async (
         personDto = JSON.parse(JSON.stringify(person));
         personDto.encounters = JSON.parse(JSON.stringify(
           await Promise.all(personDto.encounters.map(
-            async (encounterId: any) => { return (await encounterService.getEncounter(encounterId)) }))));
+            async (encounterId: any) => (await encounterService.getEncounter(encounterId)),
+          )),
+        ));
 
         for (let i = 0; i < personDto.encounters.length; i++) {
           personDto.encounters[i].persons = await Promise.all(personDto.encounters[i].persons.map(
-            async (personsId: any) => { return (await getPersonDetails(personsId)); }));
+            async (personsId: any) => (await getPersonDetails(personsId)),
+          ));
         }
       }
 
@@ -131,7 +134,7 @@ export const deletePersons = async (
   const authId = req.headers.authorization?.['user_id'];
 
   const user = await userService.getUserByAuthId(authId);
-  const id = req.params.id;
+  const { id } = req.params;
 
   if (!user) {
     res.status(httpStatus.UNAUTHORIZED).end();

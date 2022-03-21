@@ -1,17 +1,17 @@
-import { NextFunction, Request, Response } from "express";
-import httpStatus from "http-status";
-import logger from "./logger";
-import FirebaseAdmin from "../firebase-configs/firebase-config";
-import { PaginateableResponse } from "./paginateable.response";
+import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
+import logger from './logger';
+import FirebaseAdmin from '../firebase-configs/firebase-config';
+import { PaginateableResponse } from './paginateable.response';
 
 const errorHandler = (
   error: any,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   logger.error(error.message);
-  if (error.name === "ValidationError") {
+  if (error.name === 'ValidationError') {
     return res.status(httpStatus.BAD_REQUEST).json({ error: error.message });
   }
   if (error.name === 'CastError') {
@@ -24,7 +24,7 @@ const errorHandler = (
 
 const authHandler = (req: Request, res: Response, next: NextFunction) => {
   if (!req.headers.authorization) {
-    logger.info("No Authorization Header - authHandler");
+    logger.info('No Authorization Header - authHandler');
     res.status(httpStatus.UNAUTHORIZED).end();
   } else {
     const idToken = req.headers.authorization;
@@ -33,11 +33,11 @@ const authHandler = (req: Request, res: Response, next: NextFunction) => {
       .verifyIdToken(idToken)
       .then((decodedToken) => {
         req.headers.authorization = decodedToken;
-        logger.info("Request Authorized - authHandler");
+        logger.info('Request Authorized - authHandler');
         next();
       })
       .catch((error) => {
-        logger.info("Caught Unauthorized Request - authHandler");
+        logger.info('Caught Unauthorized Request - authHandler');
         res.status(httpStatus.UNAUTHORIZED).end();
       });
   }
@@ -46,7 +46,7 @@ const authHandler = (req: Request, res: Response, next: NextFunction) => {
 /**
  * Middleware for paginating results into pages. This middleware attaches a function
  * to 'res' that can be used for pagination.
- * 
+ *
  * If either page or limit is less than 1, then an empty array is returned
  */
 const paginationHandler = (req: Request, res: Response, next: NextFunction) => {
@@ -74,10 +74,10 @@ const paginationHandler = (req: Request, res: Response, next: NextFunction) => {
 
   paginateableResponse.paginate = paginate;
   next();
-}
+};
 
 export default {
   errorHandler,
   authHandler,
-  paginationHandler
+  paginationHandler,
 };
