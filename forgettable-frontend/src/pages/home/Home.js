@@ -207,7 +207,7 @@ function SummaryDrawer(summaryInfo) {
       gender={summaryInfo.info.gender}
       organisation={summaryInfo.info.organisation}
       interests={summaryInfo.info.interests}
-      socialMedias={summaryInfo.info.socialMedias}
+      socialMedia={summaryInfo.info.socialMedia}
       birthday={summaryInfo.info.birthday}
     />;
   } else if (summaryInfo.type === 'encounter') {

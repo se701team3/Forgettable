@@ -143,18 +143,18 @@ const PersonDrawer = (props) => {
             </p>
             <p data-testid="social-medias-element">
               {'Social media: '}
-              {props.socialMedias?.length ?
+              {props.socialMedia?.length ?
                <span className={classes.SocialMediaContainer}>
-                 {props.socialMedias.map((socialMedia) => {
-                   const icon = convertSocialMediaToIcon(socialMedia.name);
+                 {props.socialMedia.map((sm) => {
+                   const icon = convertSocialMediaToIcon(sm.name);
 
                    return (icon ?
                     <IconButton
-                      key={socialMedia.name}
-                      data-testid={`social-media-element-${socialMedia.name}`}
-                      onClick={() => window.open(socialMedia.link, '_blank')}
+                      key={sm.name}
+                      data-testid={`social-media-element-${sm.name}`}
+                      onClick={() => window.open(sm.link, '_blank')}
                     >
-                      <img src={icon} alt={socialMedia.name} />
+                      <img src={icon} alt={sm.name} />
                     </IconButton> :
                     null
                    );
@@ -180,7 +180,7 @@ PersonDrawer.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string.isRequired,
   img: PropTypes.string,
-  socialMedias: PropTypes.arrayOf(Object), // See below for an example
+  socialMedia: PropTypes.arrayOf(Object), // See below for an example
   // [{name: 'facebook', link: 'https://www.google.com/'}, {name: 'instagram', link: 'https://www.google.com/'}]
   firstMet: PropTypes.instanceOf(Date),
   birthday: PropTypes.instanceOf(Date),

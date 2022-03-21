@@ -8,7 +8,7 @@ export const unmarshalPerson = (person) => {
       howWeMet: person.how_we_met,
       firstName: person.first_name,
       lastName: person.last_name,
-      socialMedia: convertSocialMedia(person.social_media),
+      socialMedia: convertSocialMedia(person.social_media) || [],
       timeUpdated: person.time_updated ? new Date(person.time_updated) : null,
       id: person._id,
       encounters: person.encounters || [],

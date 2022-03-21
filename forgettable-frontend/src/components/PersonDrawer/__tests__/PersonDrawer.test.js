@@ -22,7 +22,7 @@ it('renders PersonDrawer UI with correct hierarchy', () => {
     gender="female"
     organisation="Team3"
     interests={['food, sleep']}
-    socialMedias={[
+    socialMedia={[
       {
         name: 'facebook',
         link: 'https://google.com/',
@@ -188,7 +188,7 @@ it('displays the social media items correctly', () => {
       <PersonDrawer
         open={true}
         name={PERSON_NAME}
-        socialMedias={socialMedias}
+        socialMedia={socialMedias}
       />);
 
   // eslint-disable-next-line guard-for-in
