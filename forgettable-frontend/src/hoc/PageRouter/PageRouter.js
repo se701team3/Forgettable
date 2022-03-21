@@ -31,7 +31,6 @@ const PageRouter = (props) => {
   }
 
   if (!authContext.isLoggedIn) {
-    console.log('not logged in');
     return (
       <Routes>
         <Route path="/signin" element={<LogInPage/>} />
