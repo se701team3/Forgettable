@@ -11,3 +11,13 @@ export const unmarshalPerson = (person) => {
     }
   );
 };
+
+export const unmarshalEncounters = (encounter) => {
+  return (
+    {
+      ...encounter,
+      id: encounter._id,
+      timeUpdated: encounter.time_updated,
+    }
+  );
+};
