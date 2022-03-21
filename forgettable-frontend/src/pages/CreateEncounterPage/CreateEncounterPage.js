@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import classes from './CreateEncounterPage.module.css';
 import {Card} from '@mui/material';
 import TextField from '@mui/material/TextField';
@@ -9,6 +9,7 @@ import {createEncounter, getAllPersons} from '../../services';
 import {Link, useNavigate} from 'react-router-dom';
 import {toastGenerator} from '../../functions/helper';
 import {ToastContainer} from 'react-toastify';
+import Loading from '../Loading/Loading';
 
 export default function CreateEncountersPage() {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ export default function CreateEncountersPage() {
   });
   const [isSubmittable, setIsSubmittable] = React.useState(false);
   const [showWarning, setShowWarning] = React.useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   async function getData() {
     let peopleResult = [];
@@ -90,18 +93,25 @@ export default function CreateEncountersPage() {
   };
 
   async function saveEncounter(encounterToPost) {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
     const result = await createEncounter(encounterToPost);
     if (result) {
       toastGenerator('success', 'Encounter Created!', 2000);
       setTimeout(()=> {
         navigate('/encounters', {state: {person: result}});
-      }, 2000);
+      }, 1000);
     } else {
       toastGenerator('error', 'Something went wrong... :(', 2000);
+      setLoading(false);
     }
   }
 
   return (
+    loading ? <Loading /> :
     <div className={classes.Card}>
       <Card sx={{borderRadius: 0, boxShadow: 0}}>
         <div className={classes.CardContent}>
