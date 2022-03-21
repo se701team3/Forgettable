@@ -24,10 +24,6 @@ const updatePersonWithId = async (reqPersonId: string, personNewDetails: PersonM
   
   const updatedPerson = await Person.findOneAndUpdate(query, personNewDetails, { upsert: true });
 
-  const updatedPersonAlgolia : any = await Person.findById(reqPersonId);
-  updatedPersonAlgolia.objectID = reqPersonId;
-  await index.partialUpdateObject(updatedPersonAlgolia);
-
   return updatedPerson;
 };
 

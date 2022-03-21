@@ -57,10 +57,6 @@ const updateEncounter = async (objectID: string, encounterDetails: EncounterMode
   const updatedEncounter = await Encounter
     .findByIdAndUpdate(objectID, encounterDetails, { new: true });
 
-  const updatedEncounterAlgolia : any = await Encounter.findById(objectID);
-  updatedEncounterAlgolia.objectID = objectID;
-  await index.partialUpdateObject(updatedEncounterAlgolia);
-
   return updatedEncounter;
 };
 
