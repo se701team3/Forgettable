@@ -199,7 +199,7 @@ function SummaryDrawer(summaryInfo) {
     return <PersonDrawer
       open={true}
       id={summaryInfo.info.id}
-      name={summaryInfo.info.first_name}
+      name={summaryInfo.info.firstName}
       img={summaryInfo.info.image}
       firstMet={summaryInfo.info.firstMet}
       onClick={summaryInfo.info.onClick}
@@ -208,6 +208,7 @@ function SummaryDrawer(summaryInfo) {
       organisation={summaryInfo.info.organisation}
       interests={summaryInfo.info.interests}
       socialMedias={summaryInfo.info.socialMedias}
+      birthday={summaryInfo.info.birthday}
     />;
   } else if (summaryInfo.type === 'encounter') {
     return <EncounterDrawer

@@ -4,14 +4,15 @@ export const unmarshalPerson = (person) => {
   return (
     {
       ...person,
-      firstMet: person.first_met,
+      firstMet: person.first_met ? new Date(person.first_met) : null,
       howWeMet: person.how_we_met,
       firstName: person.first_name,
       lastName: person.last_name,
       socialMedia: convertSocialMedia(person.social_media),
-      timeUpdated: person.time_updated,
+      timeUpdated: person.time_updated ? new Date(person.time_updated) : null,
       id: person._id,
       encounters: person.encounters || [],
+      birthday: person.birthday ? new Date(person.birthday) : null,
     }
   );
 };
@@ -21,7 +22,8 @@ export const unmarshalEncounters = (encounter) => {
     {
       ...encounter,
       id: encounter._id,
-      timeUpdated: encounter.time_updated,
+      timeUpdated: encounter.time_updated ?
+      new Date(encounter.time_updated) : null,
       date: encounter.date ? new Date(encounter.date) : null,
     }
   );
