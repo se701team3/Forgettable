@@ -19,6 +19,7 @@ export const unmarshalEncounters = (encounter) => {
       ...encounter,
       id: encounter._id,
       timeUpdated: encounter.time_updated,
+      date: encounter.date ? new Date(encounter.date) : null,
     }
   );
 };

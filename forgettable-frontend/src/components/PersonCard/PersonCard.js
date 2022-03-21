@@ -144,7 +144,7 @@ const PersonCard = (props) => {
               >
                 Date last met: {
                 props.lastMet ?
-                <span>getLongDateStringWithSlashes(props.lastMet)</span> :
+                <span>{getLongDateStringWithSlashes(props.lastMet)}</span> :
                  <UnknownDetail/>}
               </p>
               <div className={classes.SocialMediaContainer}>

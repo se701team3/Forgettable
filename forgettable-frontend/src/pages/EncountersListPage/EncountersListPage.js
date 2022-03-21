@@ -138,14 +138,14 @@ export default function EncountersListPage() {
         encounterDetails={selectedInfo.description}
         location={selectedInfo.location}
         persons={selectedInfo.persons}
-        dateMet={new Date(selectedInfo.date)}
+        dateMet={selectedInfo.date}
       />}
       {selectedEncounter &&
       <EncounterDetailsModal
         open={encounterModalOpen}
         onClose={handleModalClose}
         encounter={
-          {...selectedEncounter, date: new Date(selectedEncounter.date)}
+          {...selectedEncounter, date: selectedEncounter.date}
         }
         onDelete={() => onDelete(selectedEncounter._id)}
       />}
