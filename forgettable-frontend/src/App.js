@@ -10,6 +10,7 @@ import auth from './services/auth';
 import firebase from 'firebase/compat/app';
 import {tryCreateUser} from './functions/tryCreateUser';
 import {useLocation} from 'react-router-dom';
+import {ToastContainer} from 'react-toastify';
 
 function App() {
   const location = useLocation();
@@ -77,6 +78,7 @@ function App() {
     >
       {isLoggedIn && !isLoggingIn && <NavBar />}
       <PageRouter/>
+      <ToastContainer/>
     </AuthContext.Provider>
   );
 }

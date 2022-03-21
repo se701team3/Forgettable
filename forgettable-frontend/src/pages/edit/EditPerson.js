@@ -14,6 +14,7 @@ import {getInputDateFormatString, getLongDateStringWithSlashes} from '../../func
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
+import Loading from '../Loading/Loading';
 
 const MAX_IMAGE_SIZE = 16000000;
 
@@ -83,6 +84,8 @@ export default function EditPerson() {
 
   const invisSocialMediaSubmitRef = useRef(null);
 
+  const [loading, setLoading] = useState(false);
+
   function handleSocialMediaModalOpen(key) {
     key ? setCurrentSocialMedia(key) : setCurrentSocialMedia();
     setSocialMediaModalOpen(true);
@@ -145,7 +148,12 @@ export default function EditPerson() {
     setDeleteModalOpen(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
     event.preventDefault(); // perhaps remove this later
     const formData = Object.fromEntries(new FormData(event.target));
 
@@ -156,32 +164,36 @@ export default function EditPerson() {
       social_media: socialMedias,
     };
 
-    setTimeout(async () => {
-      if (create) {
-        const result = await apiCalls.createPerson(data);
-        if (result) {
-          toastGenerator('success', 'Person Created!', 2000);
-          setTimeout(()=> {
-            navigate('/encounters/create', {state: {person: result}});
-          }, 2000);
-        } else {
-          toastGenerator('error', 'Something went wrong... :(', 2000);
-        }
+    if (create) {
+      const result = await apiCalls.createPerson(data);
+
+      if (result) {
+        toastGenerator('success', 'Person Created!', 2000);
+
+        setTimeout(()=> {
+          navigate('/encounters/create', {state: {person: result}});
+        }, 1000);
       } else {
-        const result = await apiCalls.updatePerson(id, data);
-        if (result == '') {
-          toastGenerator('success', 'Person Saved!', 2000);
-          setTimeout(()=> {
-            navigate(`/person/${id}`);
-          }, 2000);
-        } else {
-          toastGenerator('error', 'Something went wrong... :(', 2000);
-        }
+        toastGenerator('error', 'Something went wrong... :(', 2000);
+        setLoading(false);
       }
-    }, 1000);
+    } else {
+      const result = await apiCalls.updatePerson(id, data);
+      if (result == '') {
+        toastGenerator('success', 'Person Saved!', 2000);
+
+        setTimeout(()=> {
+          navigate(`/person/${id}`);
+        }, 1000);
+      } else {
+        toastGenerator('error', 'Something went wrong... :(', 2000);
+        setLoading(false);
+      }
+    }
   };
 
-  return (
+
+  return ( loading ? <Loading/> :
     <div className={classes.editPerson}>
       <div className={classes.title}>{create ? 'Create' : 'Edit'} Person </div>
       <form onSubmit={handleSubmit} className={classes.form}>
@@ -216,11 +228,29 @@ export default function EditPerson() {
             </div>
           </div>
           <div className={classes.column}>
-            <InputField inputID='last_name' placeholder={'E.g. Smith'} inputLabel='Last Name' inputType='primary' inputStateValue={personData.last_name}/>
-            <InputField inputID='birthday' inputLabel='Birthday' inputType='primary' dataType='date' inputStateValue={personData.birthday}/>
-            <InputField inputID='location' placeholder={'E.g. Auckland'} inputLabel='Their Current Location' inputType='primary' inputStateValue={personData.location}/>
-            <InputField inputID='how_we_met' placeholder={'E.g. We met in the library'} inputLabel='How We Met' inputType='primary' inputStateValue={personData.how_we_met}/>
-            <InputField inputID='organisation' placeholder={'E.g. University'} inputLabel='Organisation' inputType='primary' inputStateValue={personData.organisation}/>
+            <InputField inputID='last_name'
+              placeholder={'E.g. Smith'}
+              inputLabel='Last Name'
+              inputType='primary'
+              inputStateValue={personData.last_name}/>
+            <InputField inputID='birthday'
+              inputLabel='Birthday'
+              inputType='primary'
+              dataType='date'
+              inputStateValue={personData.birthday}/>
+            <InputField inputID='location'
+              placeholder={'E.g. Auckland'}
+              inputLabel='Their Current Location'
+              inputType='primary'
+              inputStateValue={personData.location}/>
+            <InputField inputID='how_we_met'
+              placeholder={'E.g. We met in the library'}
+              inputLabel='How We Met' inputType='primary'
+              inputStateValue={personData.how_we_met}/>
+            <InputField inputID='organisation'
+              placeholder={'E.g. University'} inputLabel='Organisation'
+              inputType='primary'
+              inputStateValue={personData.organisation}/>
           </div>
         </div>
 
