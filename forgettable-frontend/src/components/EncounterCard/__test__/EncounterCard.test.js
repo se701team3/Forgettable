@@ -160,7 +160,7 @@ it('Displays date placeholder correctly when there is no date specified', () => 
     onDelete={jest.fn()}
     isInitialEncounter={isInitialEncounter}
   />);
-  const dateElement = screen.getByText(/once upon a time/i);
+  const dateElement = screen.getByText(/unknown/i);
 
   expect(dateElement).toBeInTheDocument();
 });

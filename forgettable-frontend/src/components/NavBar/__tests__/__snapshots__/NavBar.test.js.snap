@@ -1,149 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders NavBar UI with correct hierarchy 1`] = `
-<ForwardRef(Drawer)
-  anchor="left"
-  sx={
+<Router
+  location={
     Object {
-      "& .MuiDrawer-paper": Object {
-        "backgroundColor": "",
-        "boxSizing": "border-box",
-        "width": 128,
-      },
-      "flexShrink": 0,
-      "width": 128,
+      "hash": "",
+      "key": "default",
+      "pathname": "/",
+      "search": "",
+      "state": null,
     }
   }
-  variant="permanent"
+  navigationType="POP"
+  navigator={
+    Object {
+      "action": "POP",
+      "back": [Function],
+      "block": [Function],
+      "createHref": [Function],
+      "forward": [Function],
+      "go": [Function],
+      "listen": [Function],
+      "location": Object {
+        "hash": "",
+        "key": "default",
+        "pathname": "/",
+        "search": "",
+        "state": null,
+      },
+      "push": [Function],
+      "replace": [Function],
+    }
+  }
 >
-  <div
-    className="navBar_container"
-  >
-    <img
-      alt="Forgettable Logo"
-      className="navBar_logo"
-      height="50px"
-      src="logo-short-black.svg"
-      width="50px"
-    />
-    <ForwardRef(List)>
-      <Link
-        to="/"
-      >
-        <ForwardRef(ListItem)
-          button={true}
-          classes={
-            Object {
-              "selected": "navBar_listItem",
-            }
-          }
-          onClick={[Function]}
-          selected={true}
-        >
-          <div
-            className="navBar_selectMarker"
-          />
-          <div
-            className="navBar_innerListItem"
-          >
-            <img
-              alt="Home Page"
-              className="navBar_linkIcon"
-              height="26px"
-              src="homepage.svg"
-              width="26px"
-            />
-          </div>
-        </ForwardRef(ListItem)>
-      </Link>
-      <Link
-        to="/people"
-      >
-        <ForwardRef(ListItem)
-          button={true}
-          classes={
-            Object {
-              "selected": "navBar_listItem",
-            }
-          }
-          onClick={[Function]}
-          selected={false}
-        >
-          <div
-            className="navBar_selectMarker"
-          />
-          <div
-            className="navBar_innerListItem"
-          >
-            <img
-              alt="People Page"
-              className="navBar_linkIcon"
-              height="26px"
-              src="persons.svg"
-              width="26px"
-            />
-          </div>
-        </ForwardRef(ListItem)>
-      </Link>
-      <Link
-        to="/encounters"
-      >
-        <ForwardRef(ListItem)
-          button={true}
-          classes={
-            Object {
-              "selected": "navBar_listItem",
-            }
-          }
-          onClick={[Function]}
-          selected={false}
-        >
-          <div
-            className="navBar_selectMarker"
-          />
-          <div
-            className="navBar_innerListItem"
-          >
-            <img
-              alt="Encounters Page"
-              className="navBar_linkIcon"
-              height="26px"
-              src="encounters.svg"
-              width="26px"
-            />
-          </div>
-        </ForwardRef(ListItem)>
-      </Link>
-      <Link
-        to="/settings"
-      >
-        <ForwardRef(ListItem)
-          button={true}
-          classes={
-            Object {
-              "selected": "navBar_listItem",
-            }
-          }
-          onClick={[Function]}
-          selected={false}
-        >
-          <div
-            className="navBar_selectMarker"
-          />
-          <div
-            className="navBar_innerListItem"
-          >
-            <img
-              alt="Settings Page"
-              className="navBar_linkIcon"
-              height="26px"
-              src="settings.svg"
-              width="26px"
-            />
-          </div>
-        </ForwardRef(ListItem)>
-      </Link>
-    </ForwardRef(List)>
-  </div>
-</ForwardRef(Drawer)>
+  <NavBar />
+</Router>
 `;

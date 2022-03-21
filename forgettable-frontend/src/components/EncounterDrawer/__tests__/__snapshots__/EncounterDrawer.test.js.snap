@@ -8,6 +8,7 @@ exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
   sx={
     Object {
       "& .MuiDrawer-paper": Object {
+        "border": "none",
         "boxSizing": "border-box",
         "width": "460px",
       },
@@ -26,7 +27,9 @@ exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
       <h1
         className="EncounterTitle"
         data-testid="title-element"
-      />
+      >
+        Title
+      </h1>
       <div
         className="SubtitleContainer"
       >
@@ -39,19 +42,19 @@ exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
           persons={
             Array [
               Object {
+                "first_name": "John Doe",
                 "id": "1",
                 "img": "https://www.w3schools.com/w3css/img_lights.jpg",
-                "name": "John Doe",
               },
               Object {
+                "first_name": "Mercury Lin",
                 "id": "2",
                 "img": "https://user-images.githubusercontent.com/62003343/158133392-b606b9d2-b05a-49dc-a4e8-9d6aed696d6b.gif",
-                "name": "Mercury Lin",
               },
               Object {
+                "first_name": "Raina Song",
                 "id": "3",
                 "img": "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-                "name": "Raina Song",
               },
             ]
           }

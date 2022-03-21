@@ -86,7 +86,7 @@ it('displays the correct format for lastMet', () => {
   const {getByText} = within(getByTestId('last-met-element'));
 
   expect(
-      getByText('Date last met: 11/03/2022'),
+      getByText('11/03/2022'),
   ).toBeInTheDocument();
 });
 

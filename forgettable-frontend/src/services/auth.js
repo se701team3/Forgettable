@@ -14,7 +14,6 @@ import {getAuth, signInWithPopup} from 'firebase/auth';
  */
 const app = firebase.initializeApp(firebaseConfig);
 export const authentication = getAuth(app);
-firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const signIn = (callback) => {

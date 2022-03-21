@@ -12,7 +12,6 @@ exports[`renders multiLine input field correctly 1`] = `
       onChange={[Function]}
       placeholder="MULTILINE TEXT"
       type="text"
-      value=""
     />
   </label>
 </div>
@@ -30,7 +29,6 @@ exports[`renders primary input field correctly 1`] = `
       onChange={[Function]}
       placeholder="PRIMARY TEXT"
       type="text"
-      value=""
     />
   </label>
 </div>
@@ -48,7 +46,6 @@ exports[`renders secondary input field correctly 1`] = `
       onChange={[Function]}
       placeholder="SECONDARY TEXT"
       type="text"
-      value=""
     />
   </label>
 </div>

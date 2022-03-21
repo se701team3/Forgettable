@@ -32,10 +32,10 @@ const PersonCard = (props) => {
   };
 
   const socialMediaIcons = props.socialMedias &&
-    props.socialMedias.map((socialMedia) => {
+    props.socialMedias.map((socialMedia, index) => {
       return (
         <Avatar
-          key={socialMedia.name}
+          key={`${socialMedia.name}-${index}`}
           src={convertSocialMediaToIcon(socialMedia.name)}
           alt={socialMedia.name}
         >
@@ -144,7 +144,7 @@ const PersonCard = (props) => {
               >
                 Date last met: {
                 props.lastMet ?
-                <span>getLongDateStringWithSlashes(props.lastMet)</span> :
+                <span>{getLongDateStringWithSlashes(props.lastMet)}</span> :
                  <UnknownDetail/>}
               </p>
               <div className={classes.SocialMediaContainer}>
