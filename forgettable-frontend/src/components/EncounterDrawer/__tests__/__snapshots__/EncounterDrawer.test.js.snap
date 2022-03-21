@@ -8,6 +8,7 @@ exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
   sx={
     Object {
       "& .MuiDrawer-paper": Object {
+        "border": "none",
         "boxSizing": "border-box",
         "width": "460px",
       },
@@ -78,7 +79,7 @@ exports[`renders EncounterDrawer UI with correct hierarchy 1`] = `
         className="EncounterDetails"
         data-testid="details-element"
       >
-        We met on a train, it was a long journey
+        No details :)
       </p>
     </div>
   </div>

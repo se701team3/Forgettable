@@ -33,33 +33,25 @@ exports[`renders Create person page correctly 1`] = `
         </svg>
       </div>
       <label
-        htmlFor="inputProfilePic"
+        className="changeImgButtonWrapper"
       >
+        Change
         <div
-          className="Button avatarButton"
+          accept="image/*"
+          className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary changeImgButton css-a88p61-MuiInputBase-root-MuiInput-root"
+          onClick={[Function]}
         >
-          <p
-            className="Text"
-          >
-            Change
-          </p>
+          <input
+            className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            id="inputProfilePic"
+            onAnimationStart={[Function]}
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="file"
+          />
         </div>
       </label>
-      <div
-        accept="image/*"
-        className="MuiInput-root MuiInput-underline MuiInputBase-root MuiInputBase-colorPrimary profilePicUpload css-a88p61-MuiInputBase-root-MuiInput-root"
-        onClick={[Function]}
-      >
-        <input
-          className="MuiInput-input MuiInputBase-input css-1x51dt5-MuiInputBase-input-MuiInput-input"
-          id="inputProfilePic"
-          onAnimationStart={[Function]}
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          type="file"
-        />
-      </div>
     </div>
     <div
       className="row"
@@ -77,8 +69,9 @@ exports[`renders Create person page correctly 1`] = `
               className="inputFieldPrimary"
               name="first_name"
               onChange={[Function]}
+              placeholder="E.g. John"
               required={true}
-              value="Name"
+              value=""
             />
           </label>
         </div>
@@ -91,7 +84,8 @@ exports[`renders Create person page correctly 1`] = `
               className="inputFieldPrimary"
               name="gender"
               onChange={[Function]}
-              value="male"
+              placeholder="E.g. Female"
+              value=""
             />
           </label>
         </div>
@@ -105,7 +99,7 @@ exports[`renders Create person page correctly 1`] = `
               name="first_met"
               onChange={[Function]}
               type="date"
-              value="2001-01-01"
+              value=""
             />
           </label>
         </div>
@@ -118,7 +112,8 @@ exports[`renders Create person page correctly 1`] = `
               className="inputFieldPrimary"
               name="interests"
               onChange={[Function]}
-              value="a"
+              placeholder="E.g. music, photography, art"
+              value=""
             />
           </label>
         </div>
@@ -152,7 +147,8 @@ exports[`renders Create person page correctly 1`] = `
               className="inputFieldPrimary"
               name="last_name"
               onChange={[Function]}
-              value="Last"
+              placeholder="E.g. Smith"
+              value=""
             />
           </label>
         </div>
@@ -166,7 +162,7 @@ exports[`renders Create person page correctly 1`] = `
               name="birthday"
               onChange={[Function]}
               type="date"
-              value="2012-03-04"
+              value=""
             />
           </label>
         </div>
@@ -179,7 +175,8 @@ exports[`renders Create person page correctly 1`] = `
               className="inputFieldPrimary"
               name="location"
               onChange={[Function]}
-              value="here"
+              placeholder="E.g. Auckland"
+              value=""
             />
           </label>
         </div>
@@ -192,7 +189,8 @@ exports[`renders Create person page correctly 1`] = `
               className="inputFieldPrimary"
               name="how_we_met"
               onChange={[Function]}
-              value="idk"
+              placeholder="E.g. We met in the library"
+              value=""
             />
           </label>
         </div>
@@ -205,7 +203,8 @@ exports[`renders Create person page correctly 1`] = `
               className="inputFieldPrimary"
               name="organisation"
               onChange={[Function]}
-              value="job co."
+              placeholder="E.g. University"
+              value=""
             />
           </label>
         </div>
@@ -214,30 +213,26 @@ exports[`renders Create person page correctly 1`] = `
     <div
       className="formButtonsDiv"
     >
-      <div
+      <button
         className="Button formsButton"
         onClick={[Function]}
+        type="button"
       >
         <p
           className="Text"
         >
           Cancel
         </p>
-      </div>
-      <label
-        htmlFor="submit"
+      </button>
+      <button
+        className="Button"
       >
-        <div
-          className="Button"
-          onClick={[Function]}
+        <p
+          className="Text"
         >
-          <p
-            className="Text"
-          >
-            Save
-          </p>
-        </div>
-      </label>
+          Save
+        </p>
+      </button>
       <input
         className="hiddenSubmit"
         id="submit"
@@ -245,5 +240,8 @@ exports[`renders Create person page correctly 1`] = `
       />
     </div>
   </form>
+  <div
+    className="Toastify"
+  />
 </div>
 `;
