@@ -4,7 +4,7 @@ import {act} from 'react-dom/test-utils';
 import * as api from '../../../services';
 import ShallowRenderer from 'react-test-renderer/shallow';
 import EncountersListPage from '../EncountersListPage';
-import { BrowserRouter } from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 
 jest.mock('../../../services');
 
