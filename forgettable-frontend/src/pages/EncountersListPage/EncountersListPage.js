@@ -22,7 +22,6 @@ export default function EncountersListPage() {
   const PAGE_SIZE = 10;
 
   const location = useLocation();
-  console.log(location);
 
   const [pageNum, setPageNum] = useState(1);
 
