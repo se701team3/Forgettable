@@ -263,7 +263,7 @@ export default function EditPerson() {
           )}
           <CustomButton
             btnText="Cancel" type="button"
-            onClick={() => navigate(-1, {'replace': true})}
+            onClick={() => navigate('/people')}
             className={classes.formsButton}
           />
           <CustomButton btnText="Save"/>

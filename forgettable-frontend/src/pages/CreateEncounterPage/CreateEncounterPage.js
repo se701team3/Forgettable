@@ -198,7 +198,7 @@ export default function CreateEncountersPage() {
 
           <div className={classes.Buttons}>
             <CustomButton btnText='Cancel' className='Button' onClick={()=>{
-              navigate(-1, {replace: true});
+              navigate('/people');
             }}/>
             {isSubmittable ?
               <CustomButton btnText='Save' className='Button' onClick={handleSaveClick} /> :
