@@ -30,6 +30,11 @@
         "no-unused-vars": "off",
         "radix": "off",
         "no-restricted-globals": "off",
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
+        "no-else-return": "off",
+        "no-useless-return": "off",
+        "prefer-const": "off",
+        "dot-notation": "off"
+
     }
 }

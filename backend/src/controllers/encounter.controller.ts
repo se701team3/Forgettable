@@ -5,12 +5,12 @@
  */
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { PaginateableResponse } from 'src/utils/paginateable.response';
 import encounterService from '../services/encounter.service';
 import logger from '../utils/logger';
 import { EncounterModel } from '../models/encounter.model';
 import userService, { getUserByAuthId } from '../services/user.service';
 import personService from '../services/person.service';
-import { PaginateableResponse } from 'src/utils/paginateable.response';
 import getPersonDetails from './utils/controller-utils';
 
 // Util function that won't be needed regularly
@@ -136,7 +136,7 @@ export const getEncounter = async (
       const encounter = await encounterService.getEncounter(encounterId);
       // Notify frontend that the operation was successful
       let encounterDto = JSON.parse(JSON.stringify(encounter));
-      encounterDto.persons = await Promise.all(encounterDto.persons.map(async (personId: any) => { return (await getPersonDetails(personId)) }));
+      encounterDto.persons = await Promise.all(encounterDto.persons.map(async (personId: any) => (await getPersonDetails(personId))));
       res.status(httpStatus.OK).json(encounterDto).end();
     } else {
       res.sendStatus(httpStatus.NOT_FOUND).end();
@@ -160,7 +160,7 @@ export const deleteEncounters = async (
     res.status(httpStatus.UNAUTHORIZED).end();
   }
 
-  const id = req.params.id;
+  const { id } = req.params;
   const userEncounters = user?.encounters;
   const stringEncounters = userEncounters?.map((x) => x.toString());
 
@@ -206,7 +206,8 @@ export const getAllEncounters = async (
       // Adds embedded person details to the returned encounters
       for (let i = 0; i < foundUserEncounters.length; i++) {
         foundUserEncounters[i].persons = await Promise.all(foundUserEncounters[i].persons.map(
-          async (personsId: any) => { return (await getPersonDetails(personsId))}));
+          async (personsId: any) => (await getPersonDetails(personsId)),
+        ));
       }
 
       res.status(httpStatus.OK).paginate(foundUserEncounters);

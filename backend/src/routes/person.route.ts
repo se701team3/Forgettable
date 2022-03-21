@@ -3,7 +3,7 @@
  */
 import { Router } from 'express';
 import {
-  createPerson, getAllPeople, getPersonWithId, updatePersonWithId, deletePersons
+  createPerson, getAllPeople, getPersonWithId, updatePersonWithId, deletePersons,
 } from '../controllers/person.controller';
 
 const routes = Router();
@@ -12,6 +12,6 @@ routes.post('/', createPerson)
   .get('/:id', getPersonWithId)
   .get('/', getAllPeople)
   .put('/:id', updatePersonWithId)
-  .delete("/:id", deletePersons);
+  .delete('/:id', deletePersons);
 
 export default routes;

@@ -5,7 +5,7 @@ import EditPerson from '../EditPerson';
 import {createMemoryHistory} from 'history';
 import {MemoryRouter, Router} from 'react-router-dom';
 import axios from 'axios';
-
+import firebase from 'firebase/compat/app';
 
 afterEach(cleanup);
 
@@ -73,13 +73,18 @@ it('Displays correct data from database', async () => {
     image: 'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAI2SURBVHhe7dpBcgFBFIdxspqlJTtu4hhuwC0cgx23MMexdAPLyavqri6FZOYfyWuv8v0WySBJma9aT6cZd103wjAf+TsGIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCYglIJaAWAJiCf5LrLZtF4vF+IHdeTwe8w/16iI7nU7L5fJwOOTbN+yh+XyeT/JbTdPk3+kTO9Z0OrWztQGSTvtnNptN/nN9gsUaPl6eGt7lqQCxXgn0Yp077xtLavS7Ub7yprGs1GQyySUelDT5ttdl6k1jPY6pp2MnP+YV603XWev1Oh2URrvdLt1TUexP/pVFg89Z8O+OgFgCYgmIJQgcq23bfOQl8NVwNptdLpd0zNWwRylla7F08NcCjyznRZZhghdEjeU/u5uoL0P/2d1EHVn+s7uJOrL8Z3fDBC8IGWu/3+cjZzaMw0nvgJnVapXvchFyzioT1vV6bZomHTuIHcv5ycebszyXo/efkAg3sjyXo1bqfD7nGxFHludytLzJlMQbWfZqSAf+z5xFqSBYrCqbDUWwl2GVzYYi2MiqstlQBBtZFWd3wwQvIJaAWAJiCSLFqrbnV9hlJYpae35FpKVDWTc47/kVIWPVes5M8AJiCYgliBSryqR+K1Ks7XZrX6vsNyTxtpUrYs4SEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBMQSEEtALAGxBhuNPgHlJKV46HCjogAAAABJRU5ErkJggg==',
     encounters: [],
     time_updated: '0002-02-02',
+    _id: '1',
   };
 
   axios.get.mockResolvedValue({data: personData});
+  firebase.auth().onAuthStateChanged(async (u) => {
+    if (u) {
+      await apiCalls.getPerson('1');
+      render(<MemoryRouter initialEntries={[{pathname: '/person/1/edit'}]}>
+        <EditPerson/>
+      </MemoryRouter>);
 
-  render(<MemoryRouter initialEntries={[{pathname: '/person/1/edit'}]}>
-    <EditPerson/>
-  </MemoryRouter>);
-
-  expect(screen.getByDisplayValue('Name')).toBeInTheDocument();
+      expect(screen.getByText('newf')).toBeInTheDocument();
+    }
+  });
 });

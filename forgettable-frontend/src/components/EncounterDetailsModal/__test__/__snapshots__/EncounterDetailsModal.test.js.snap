@@ -45,7 +45,7 @@ exports[`renders EncounterDetailsModal UI to test correct hierarchy 1`] = `
         data-testid="date-met-element"
       >
         Date we met: 
-        19/03/2022
+        21/03/2022
       </div>
       <div
         className="EncounterProperty"

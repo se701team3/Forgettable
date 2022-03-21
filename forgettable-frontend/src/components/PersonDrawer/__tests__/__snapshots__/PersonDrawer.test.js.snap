@@ -8,6 +8,7 @@ exports[`renders PersonDrawer UI with correct hierarchy 1`] = `
   sx={
     Object {
       "& .MuiDrawer-paper": Object {
+        "backgroundColor": "#FFFFFF",
         "boxSizing": "border-box",
         "marginLeft": "128px",
         "width": "460px",
@@ -26,91 +27,13 @@ exports[`renders PersonDrawer UI with correct hierarchy 1`] = `
     >
       <ForwardRef(Avatar)
         alt="Mercury Lin"
-        src={
-          Object {
-            "data": Array [
-              134,
-              219,
-              105,
-              179,
-              255,
-              238,
-              177,
-              234,
-              254,
-              138,
-              102,
-              160,
-              122,
-              200,
-              34,
-              182,
-              27,
-              155,
-              186,
-              199,
-              171,
-              114,
-              137,
-              237,
-              122,
-              123,
-              92,
-              162,
-              111,
-              250,
-              219,
-              77,
-              55,
-              223,
-              141,
-              255,
-              215,
-              158,
-              252,
-              235,
-              125,
-              180,
-              231,
-              231,
-              118,
-              247,
-              215,
-              117,
-              105,
-              175,
-              157,
-              121,
-              230,
-              254,
-              227,
-              77,
-              61,
-              249,
-              183,
-              28,
-              243,
-              237,
-              182,
-              223,
-              205,
-              182,
-              237,
-              254,
-              123,
-              211,
-              120,
-              34,
-            ],
-            "type": "Buffer",
-          }
-        }
+        src="data:image/png;base64, ��i������f�z�\\"���ǫr��z{\\\\�o��M7ߍ�מ��}���v��ui��y���M=������Ͷ��{�x\\""
         style={
           Object {
             "backgroundColor": "",
             "fontSize": "",
-            "height": "200px",
-            "width": "200px",
+            "height": "180px",
+            "width": "180px",
           }
         }
       />
