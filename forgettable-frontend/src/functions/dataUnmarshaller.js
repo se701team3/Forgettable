@@ -4,6 +4,7 @@ export const unmarshalPerson = (person) => {
       ...person,
       firstMet: person.first_met,
       howWeMet: person.how_we_met,
+      firstName: person.first_name,
       lastName: person.last_name,
       socialMedia: person.social_media,
       timeUpdated: person.time_updated,

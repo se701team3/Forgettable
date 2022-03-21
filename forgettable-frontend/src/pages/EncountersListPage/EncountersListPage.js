@@ -12,6 +12,7 @@ import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
+import {unmarshalEncounters} from '../../functions/dataUnmarshaller';
 
 /*
  * This page lists out all the Encounters the user created.
@@ -55,7 +56,7 @@ export default function EncountersListPage() {
 
   useEffect(async () => {
     const result = await getEncountersByPage(pageNum, PAGE_SIZE);
-    setEncounterList(result);
+    setEncounterList(result.map((encounter) => unmarshalEncounters(encounter)));
     setIsLoading(false);
   }, []);
 
@@ -63,7 +64,7 @@ export default function EncountersListPage() {
     if (location.state) {
       if (location.state.hasOwnProperty('id')) {
         const encounter = await getEncounter(location.state.id);
-        setSelectedEncounter(encounter);
+        setSelectedEncounter(unmarshalEncounters(encounter));
       } else {
         setSelectedEncounter(location.state.encounter);
       }
@@ -199,7 +200,7 @@ export default function EncountersListPage() {
                     description={encounter.description}
                     location={encounter.location}
                     persons={encounter.persons}
-                    date={new Date(encounter.date)}
+                    date={encounter.date}
                     className={classes.EncounterCard}
                     onClick={() => handleCardClick(encounter)}
                     onDelete={() => onDelete(encounter._id)}
