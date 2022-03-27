@@ -2,6 +2,7 @@
  * Model defines a datatype's schema (kinda like class)
  */
 import mongoose, { Schema, model } from 'mongoose';
+import { Importance } from '../enums/importance';
 
 export interface PersonModel {
   first_name: string,
@@ -9,6 +10,7 @@ export interface PersonModel {
   birthday: Date,
   gender: string,
   location: string,
+  importance_level: Importance,
   first_met: Date,
   how_we_met: string,
   interests: string[],
@@ -25,6 +27,7 @@ const schema = new Schema<PersonModel>({
   birthday: { type: Date, required: false },
   gender: { type: String, required: false },
   location: { type: String, required: false },
+  importance_level: { type: Number, required: false },
   first_met: { type: Date, required: false },
   how_we_met: { type: String, required: false },
   interests: { type: [String], required: false },

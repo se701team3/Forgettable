@@ -3,6 +3,7 @@ import databaseOperations from '../../utils/test/db-handler';
 import personService from '../person.service';
 import Person, { PersonModel } from '../../models/person.model';
 import deletePersons from '../person.service';
+import {Importance} from "../../enums/importance";
 
 beforeAll(async () => {databaseOperations.connectDatabase()});
 afterEach(async () => databaseOperations.clearDatabase());
@@ -14,6 +15,7 @@ const person1Data:PersonModel = {
     interests: ['a', 'b'],
     organisation: 'testorg',
     time_updated: new Date('2022-01-01'),
+    importance_level: Importance.Very_Important,
     how_we_met: 'testmet',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
@@ -30,6 +32,7 @@ const person1Data:PersonModel = {
     interests: ['c', 'd'],
     organisation: 'anotherOrg',
     time_updated: new Date('2022-01-01'),
+    importance_level: Importance.Should_Remember,
     how_we_met: 'Over there',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
@@ -46,6 +49,7 @@ const person1Data:PersonModel = {
     interests: ['c', 'd'],
     organisation: 'anotherOrg',
     time_updated: new Date('2022-01-01'),
+    importance_level: Importance.Casual_Contact,
     how_we_met: 'Over there',
     birthday: new Date('2002-12-12'),
     encounters: ["62330cf64ec3986f4d1ab01a"] as any,
@@ -62,6 +66,7 @@ const person1Data:PersonModel = {
     interests: ['a', 'b'],
     organisation: 'testorg',
     time_updated: new Date('2022-01-01'),
+    importance_level: Importance.Very_Important,
     how_we_met: 'testmet',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
@@ -78,6 +83,7 @@ const person1Data:PersonModel = {
     interests: ['a', 'b'],
     organisation: 'testorg',
     time_updated: null as any,
+    importance_level: Importance.Casual_Contact,
     how_we_met: 'testmet',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,

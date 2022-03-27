@@ -8,6 +8,7 @@ import personService from '../../services/person.service';
 import app from '../../server';
 import "dotenv/config";
 import testUtils from '../../utils/test/test-utils';
+import {Importance} from "../../enums/importance";
 
 const supertest = require('supertest');
 
@@ -35,6 +36,7 @@ const person1Data: PersonModel = {
   interests: ['video games', 'hockey'],
   organisation: 'helloc',
   time_updated: new Date('2022-01-01'),
+  importance_level: Importance.Very_Important,
   how_we_met: 'Hockey club',
   birthday: new Date('2002-12-12'),
   encounters: [] as any,
@@ -51,6 +53,7 @@ const person2Data: PersonModel = {
   interests: ['badminton', 'golf'],
   organisation: 'helloc',
   time_updated: new Date('2022-02-23'),
+  importance_level: Importance.Should_Remember,
   how_we_met: 'Skype',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
@@ -67,6 +70,7 @@ const person3Data: PersonModel = {
   interests: ['surfing', 'cooking'],
   organisation: 'an organisation',
   time_updated: new Date('2022-02-23'),
+  importance_level: Importance.Casual_Contact,
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
@@ -83,6 +87,7 @@ const person4Data: PersonModel = {
   interests: ['Studying', 'Winning'],
   organisation: 'Winnie',
   time_updated: new Date('2022-01-01'),
+  importance_level: Importance.Very_Important,
   how_we_met: 'Bar',
   birthday: new Date('2002-12-12'),
   encounters: [] as any,
@@ -105,6 +110,7 @@ const person5Data = {
   interests: ['surfing', 'cooking'],
   organisation: 'an organisation',
   time_updated: new Date('2022-02-23'),
+  importance_level: Importance.Casual_Contact,
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
