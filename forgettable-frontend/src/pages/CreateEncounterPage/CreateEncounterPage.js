@@ -10,6 +10,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {toastGenerator} from '../../functions/helper';
 import {ToastContainer} from 'react-toastify';
 import Loading from '../Loading/Loading';
+import AutocompleteLocationInput from '../../components/AutocompleteLocationInput/AutocompleteLocationInput';
 
 export default function CreateEncountersPage() {
   const navigate = useNavigate();
@@ -71,8 +72,12 @@ export default function CreateEncountersPage() {
     setEncounter({...encounter, title: event.target.value});
   };
 
-  const handleLocationChange=(event)=>{
-    setEncounter({...encounter, location: event.target.value});
+  const handleLocationChange=(placeName)=>{
+    console.log('placeName:');
+    console.log(placeName);
+    setEncounter({...encounter, location: placeName});
+    console.log('encounter:');
+    console.log(encounter);
   };
   const handleDescriptionChange=(event)=>{
     setEncounter({...encounter, description: event.target.value});
@@ -168,16 +173,7 @@ export default function CreateEncountersPage() {
 
           <div className={classes.TextField}>
             <div className={classes.Text}>Where we met:</div>
-            <div className={classes.InputBox}>
-              <TextField
-                size='small'
-                id="fullWidth"
-                sx={{width: 1/1}}
-                color='info'
-                value={encounter.location}
-                onChange={handleLocationChange}
-              />
-            </div>
+            <AutocompleteLocationInput handleChange={handleLocationChange} className={classes.InputBox}/>
           </div>
 
           <div>
