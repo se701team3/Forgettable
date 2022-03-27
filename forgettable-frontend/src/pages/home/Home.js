@@ -18,6 +18,7 @@ import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
 import { getImageSrcFromBuffer } from '../../functions/getImageSrcFromBuffer';
 import { useNavigate } from 'react-router-dom';
 import { unmarshalPerson, unmarshalEncounters } from '../../functions/dataUnmarshaller';
+import UpcomingBirthdaySummary from '../../components/UpcomingBirthdaySummary/UpcomingBirthdaySummary';
 
 function Home() {
   const [isHover, setIsHover] = useState(false);
@@ -180,6 +181,26 @@ function Home() {
                     firstMet={encounter.title}
                     img={encounter.persons[0]?.image}
                     location={encounter.location}
+                    onClick={() => {
+                      handleEncounterCardClick(encounter);
+                    }}
+                  />
+                </div>);
+            })}
+          </div>
+          {/* test */}
+          <div className={classes.home_subtitleContainer}>
+            <div className={classes.home_subtitle}>Upcoming Birthdays</div>
+          </div>
+
+          <div className={classes.home_cardGridContainer + ' ' + classes.home_encounterGridContainer}>
+            {encountersList.map((encounter, index) => {
+              return (
+                <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handleEncounterHover(event, index)} onMouseOut={handleOnMouseOut}>
+                  <UpcomingBirthdaySummary
+                    firstName={encounter.persons[0]?.first_name}
+                    birthday={encounter.birthday}
+                    img={encounter.persons[0]?.image}
                     onClick={() => {
                       handleEncounterCardClick(encounter);
                     }}

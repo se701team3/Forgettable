@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders EncounterCardSummary UI with correct hierarchy 1`] = `
+<div
+  className="EncounterCardSummary"
+  data-testid="container-card"
+  onClick={[MockFunction]}
+>
+  <div
+    className="ContentContainer"
+  >
+    <div
+      className="HeaderContainer"
+    >
+      <ForwardRef(Avatar)
+        alt="Mercury"
+        src={null}
+        sx={
+          Object {
+            "backgroundColor": "",
+            "fontSize": "",
+            "height": "70px",
+            "marginRight": "14px",
+            "width": "70px",
+          }
+        }
+      />
+      <div
+        className="IdentityInfoConatiner"
+      >
+        <h3
+          data-testid="name-element"
+        >
+          Mercury
+        </h3>
+        <p
+          data-testid="location-element"
+        >
+          Met at: 
+          some cool place
+        </p>
+      </div>
+    </div>
+    <div
+      className="DetailsContainer"
+    >
+      <p>
+        Date you met: 
+        <UnknownDetail />
+      </p>
+      <p
+        className="DescriptionText"
+        data-testid="description-element"
+      >
+        I met her at a mall
+      </p>
+    </div>
+  </div>
+</div>
+`;
