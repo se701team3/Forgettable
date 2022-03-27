@@ -9,6 +9,7 @@ import 'dotenv/config';
 import encounterService from '../../services/encounter.service';
 import personService from 'src/services/person.service';
 import { UserRecord } from 'firebase-admin/lib/auth/user-record';
+import {Importance} from "../../enums/importance";
 
 const supertest = require('supertest');
 
@@ -45,6 +46,7 @@ const person1Data: PersonModel = {
     interests: ['video games', 'hockey'],
     organisation: 'helloc',
     time_updated: new Date('2022-01-01'),
+    importance_level: Importance.Very_Important,
     how_we_met: 'Hockey club',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
@@ -61,6 +63,7 @@ const person2Data: PersonModel = {
     interests: ['badminton', 'golf'],
     organisation: 'helloc',
     time_updated: new Date('2022-02-23'),
+    importance_level: Importance.Should_Remember,
     how_we_met: 'Skype',
     birthday: new Date('2001-07-16'),
     encounters: [] as any,
