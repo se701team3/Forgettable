@@ -13,17 +13,18 @@ import Loading from '../Loading/Loading';
 
 export default function CreateEncountersPage() {
   const navigate = useNavigate();
+  const currentDateString = new Date().toLocaleDateString('en-CA');
+
   const [optionsList, setOptionsList] = React.useState([]);
   const [encounter, setEncounter] = React.useState({
     title: '',
-    date: null,
-    location: null,
+    date: currentDateString,
+    location: '',
     description: '',
     persons: [],
   });
   const [isSubmittable, setIsSubmittable] = React.useState(false);
   const [showWarning, setShowWarning] = React.useState(false);
-
   const [loading, setLoading] = useState(false);
 
   async function getData() {
@@ -79,7 +80,10 @@ export default function CreateEncountersPage() {
   };
 
   const handleSaveClick = async (event) => {
-    if (!encounter.title || encounter.persons.length === 0 || !encounter.description) {
+    const currentDate = new Date(currentDateString).getTime();
+    const encounterDate = new Date(encounter.date).getTime();
+
+    if (!encounter.title || encounter.persons.length === 0 || !encounter.description || encounterDate > currentDate) {
       setShowWarning(true);
     } else {
       setShowWarning(false);
@@ -209,7 +213,7 @@ export default function CreateEncountersPage() {
           </div>
 
           <div className={classes.WarningText}>
-            {showWarning && 'Encounters must have a title, a description and at least one person'}
+            {showWarning && 'Encounters must have a title, a description, at least one person and must not take place in the future'}
           </div>
 
         </div>
