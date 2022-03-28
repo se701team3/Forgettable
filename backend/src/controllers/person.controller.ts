@@ -197,6 +197,8 @@ export const updatePersonWithId = async (
       return res.status(httpStatus.UNAUTHORIZED).end();
     }
     const newPersonData: PersonModel = req.body;
+    // update time_updated to the present time
+    newPersonData.time_updated = new Date(Date.now());
     let updatedPerson: any;
     // If the person belongs to this user, find it and update
     if (user.persons.includes(new mongoose.Types.ObjectId(req.params.id))) {

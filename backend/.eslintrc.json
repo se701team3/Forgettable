@@ -16,6 +16,10 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "linebreak-style": [
+            "error",
+            "windows"
+        ],
         "import/no-unresolved": "off",
         "import/extensions": "off",
         "consistent-return": "off",
