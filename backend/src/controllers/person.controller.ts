@@ -233,8 +233,7 @@ export const getPeopleWithUpcomingBirthday = async (
       threeMonthFromToday.setMonth(threeMonthFromToday.getMonth() + 3);
       threeMonthFromToday.setHours(0, 0, 0, 0);
       const foundUserPersons = await personService.getPersonWithBirthdayRange(user.persons, today, threeMonthFromToday);
-
-      res.status(httpStatus.OK).paginate(foundUserPersons);
+      res.status(httpStatus.OK).json(foundUserPersons).end();
     }
   } catch (e) {
     next(e);
