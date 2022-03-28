@@ -18,7 +18,6 @@ export interface PersonModel {
   social_media: Map<string, string>,
   image: Buffer,
   encounters: mongoose.Types.ObjectId[],
-  goals: mongoose.Types.ObjectId[],
   time_updated: Date,
 }
 
@@ -36,7 +35,6 @@ const schema = new Schema<PersonModel>({
   social_media: { type: Map, of: String, required: false },
   image: { type: Buffer, required: false },
   encounters: { type: [mongoose.Types.ObjectId], required: false },
-  goals: { type: [mongoose.Types.ObjectId], required: false },
   time_updated: { type: Date, default: new Date(Date.now()), required: true },
 });
 
