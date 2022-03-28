@@ -8,6 +8,7 @@ export default function AutocompleteLocationInput(props) {
   const {ref: ref} = usePlacesWidget({
     apiKey: process.env.REACT_APP_MAPS_API_KEY,
     options: {
+      componentRestrictions: {country: 'nz'},
       types: ['establishment'],
       fields: ['name'],
     },
