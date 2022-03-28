@@ -90,6 +90,41 @@ const addEncounterToPersons = async (personIds, encounterId) => {
   return true;
 };
 
+const getPersonWithBirthdayRange = async (userPersons: mongoose.Types.ObjectId[], startDate: Date, endDate: Date) => {
+  console.log(startDate);
+  console.log(endDate);
+  console.log(startDate.getMonth() + 1);
+  console.log(endDate.getMonth() + 1);
+
+  let foundUserPersons = {};
+  const startMonth = startDate.getMonth() + 1;
+  const endMonth = endDate.getMonth() + 1;
+  if (startMonth < endMonth) {
+    foundUserPersons = await Person.aggregate([
+      { $project: { name: 1, month: { $month: '$birthday' } } },
+      { $match: { _id: { $in: userPersons } } },
+      { $match: { month: { $gte: startDate.getMonth() + 1 } } },
+      { $match: { month: { $lt: endDate.getMonth() + 1 } } },
+    ]);
+  } else {
+    foundUserPersons = await Person.aggregate([
+      { $project: { name: 1, month: { $month: '$birthday' } } },
+      { $match: { _id: { $in: userPersons } } },
+      {
+        $match: {
+          $or:
+        [
+          { month: { $gte: startDate.getMonth() + 1 } },
+          { month: { $lt: endDate.getMonth() + 1 } },
+        ],
+        },
+      },
+    ]);
+  }
+  // const peopleWithUpcomingBday = Person.find({ birthday: { $lte: endDate } });
+  return foundUserPersons;
+};
+
 const personService = {
   createPerson,
   getPersonWithId,
@@ -98,6 +133,14 @@ const personService = {
   deletePersons,
   addEncounterToPersons,
   updatePersonWithId,
+  getPersonWithBirthdayRange,
 };
 
 export default personService;
+function $expr($expr: any, arg1: { $eq: (number | { $month: string; })[]; }) {
+  throw new Error('Function not implemented.');
+}
+
+function from(from: any, arg1: { $regex: RegExp; }) {
+  throw new Error('Function not implemented.');
+}

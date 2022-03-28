@@ -210,3 +210,40 @@ export const updatePersonWithId = async (
     next(error);
   }
 };
+
+export const getPeopleWithUpcomingBirthday = async (
+  req: Request,
+  expressRes: Response,
+  next: NextFunction,
+): Promise<any> => {
+  logger.info('GET /birthdays request from frontend');
+
+  const res = expressRes as PaginateableResponse;
+
+  logger.info('GET /persons request from frontend');
+
+  const authId = req.headers.authorization?.['user_id'];
+  const user = await userService.getUserByAuthId(authId);
+
+  try {
+    if (!user) {
+      res.status(httpStatus.UNAUTHORIZED).end();
+    } else {
+      let today = new Date('2011-10-11T10:20:30Z');
+      today.setHours(0, 0, 0, 0);
+
+      let threeMonthFromToday = new Date('2011-11-11T10:20:30Z');
+      threeMonthFromToday.setMonth(threeMonthFromToday.getMonth() + 3);
+      threeMonthFromToday.setHours(0, 0, 0, 0);
+
+      console.log(`${today}\n${threeMonthFromToday}`);
+      console.log(user);
+
+      const foundUserPersons = await personService.getPersonWithBirthdayRange(user.persons, today, threeMonthFromToday);
+
+      res.status(httpStatus.OK).paginate(foundUserPersons);
+    }
+  } catch (e) {
+    next(e);
+  }
+};
