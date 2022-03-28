@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import classes from './AutocompleteLocationInput.module.css';
-import Autocomplete, {usePlacesWidget} from 'react-google-autocomplete';
+import {usePlacesWidget} from 'react-google-autocomplete';
 
 export default function AutocompleteLocationInput(props) {
   const [placename, setPlacename] = useState('');
-  
+
   const {ref: ref} = usePlacesWidget({
     apiKey: process.env.REACT_APP_MAPS_API_KEY,
     options: {
@@ -12,7 +12,9 @@ export default function AutocompleteLocationInput(props) {
       types: ['establishment'],
       fields: ['name'],
     },
-    onPlaceSelected: (place) => {setPlacename(place.name);},
+    onPlaceSelected: (place) => {
+      setPlacename(place.name);
+    },
   });
 
   useEffect(() => {

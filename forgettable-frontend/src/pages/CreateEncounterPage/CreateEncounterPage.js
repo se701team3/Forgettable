@@ -76,7 +76,7 @@ export default function CreateEncountersPage() {
   const handleLocationChange=(placename)=>{
     setEncounter({...encounter, location: placename});
   };
-  
+
   const handleDescriptionChange=(event)=>{
     setEncounter({...encounter, description: event.target.value});
   };
