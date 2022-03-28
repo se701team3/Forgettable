@@ -91,38 +91,42 @@ const addEncounterToPersons = async (personIds, encounterId) => {
 };
 
 const getPersonWithBirthdayRange = async (userPersons: mongoose.Types.ObjectId[], startDate: Date, endDate: Date) => {
-  console.log(startDate);
-  console.log(endDate);
-  console.log(startDate.getMonth() + 1);
-  console.log(endDate.getMonth() + 1);
+  function getDayOfYear(date:Date) {
+    let start:Date = new Date(date.getFullYear(), 0, 0);
+    let diff = (date.valueOf() - start.valueOf()) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
+    let oneDay = 1000 * 60 * 60 * 24;
+    let day = Math.floor(diff / oneDay);
+    return day;
+  }
 
   let foundUserPersons = {};
-  const startMonth = startDate.getMonth() + 1;
-  const endMonth = endDate.getMonth() + 1;
-  if (startMonth < endMonth) {
+  const startDay = getDayOfYear(startDate);
+  const endDay = getDayOfYear(endDate);
+
+  if (startDay < endDay) {
     foundUserPersons = await Person.aggregate([
-      { $project: { name: 1, month: { $month: '$birthday' } } },
+      { $project: { name: 1, dayOfYear: { $dayOfYear: '$birthday' } } },
       { $match: { _id: { $in: userPersons } } },
-      { $match: { month: { $gte: startDate.getMonth() + 1 } } },
-      { $match: { month: { $lt: endDate.getMonth() + 1 } } },
+      { $match: { dayOfYear: { $gte: startDay } } },
+      { $match: { dayOfYear: { $lt: endDay } } },
     ]);
   } else {
     foundUserPersons = await Person.aggregate([
-      { $project: { name: 1, month: { $month: '$birthday' } } },
+      { $project: { name: 1, dayOfYear: { $dayOfYear: '$birthday' } } },
       { $match: { _id: { $in: userPersons } } },
       {
         $match: {
           $or:
         [
-          { month: { $gte: startDate.getMonth() + 1 } },
-          { month: { $lt: endDate.getMonth() + 1 } },
+          { dayOfYear: { $gte: startDay } },
+          { dayOfYear: { $lt: endDay } },
         ],
         },
       },
     ]);
   }
-  // const peopleWithUpcomingBday = Person.find({ birthday: { $lte: endDate } });
-  return foundUserPersons;
+  const peopleWithUpcomingBday = await Person.find({ _id: { $in: foundUserPersons } });
+  return peopleWithUpcomingBday;
 };
 
 const personService = {
