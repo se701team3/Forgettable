@@ -159,6 +159,8 @@ export default function CreateEncountersPage() {
             <div className={classes.Text}>Date we met:</div>
             <input className={classes.DateInput}
               type='date'
+              // the en-CA locale uses yyyy-mm-dd formatting which is required for the max date
+              max={new Date().toLocaleDateString('en-CA')}
               name='date_met'
               value={encounter.date}
               onChange={handleDateChange}
