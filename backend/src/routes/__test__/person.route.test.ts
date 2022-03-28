@@ -28,6 +28,7 @@ const user1Data : UserModel = {
   last_name: 'Bong',
   encounters: [] as any,
   persons: [] as any,
+  companies: [] as any
 }
 
 const person1Data: PersonModel = {
@@ -40,6 +41,7 @@ const person1Data: PersonModel = {
   how_we_met: 'Hockey club',
   birthday: new Date('2002-12-12'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: new Date('2022-01-01'),
   gender: "male",
   location: "Auckland",
@@ -57,6 +59,7 @@ const person2Data: PersonModel = {
   how_we_met: 'Skype',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: null as any,
   gender: "male",
   image: null as any,
@@ -74,6 +77,7 @@ const person3Data: PersonModel = {
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: null as any,
   gender: "male",
   image: null as any,
@@ -91,6 +95,7 @@ const person4Data: PersonModel = {
   how_we_met: 'Bar',
   birthday: new Date('2002-12-12'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: new Date('2022-01-01'),
   gender: "other",
   image: null as any,
@@ -103,7 +108,8 @@ const userData: UserModel = {
   first_name: 'Ping',
   last_name: 'Pengy',
   encounters: [] as any,
-    persons: [] as any
+  persons: [] as any,
+  companies: [] as any
 }
 const person5Data = {
   last_name: 'John',
@@ -114,6 +120,7 @@ const person5Data = {
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: null as any,
   gender: "male",
   image: null as any,
@@ -129,6 +136,7 @@ const person6Data = {
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: null as any,
   gender: "male",
   image: null as any,
