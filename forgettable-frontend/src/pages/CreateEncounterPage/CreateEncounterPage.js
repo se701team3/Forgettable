@@ -72,13 +72,11 @@ export default function CreateEncountersPage() {
     setEncounter({...encounter, title: event.target.value});
   };
 
-  const handleLocationChange=(placeName)=>{
-    console.log('placeName:');
-    console.log(placeName);
-    setEncounter({...encounter, location: placeName});
-    console.log('encounter:');
-    console.log(encounter);
+  // Doesn't use an event as it's called by passing in as a prop to AutocompleteLocationInput
+  const handleLocationChange=(placename)=>{
+    setEncounter({...encounter, location: placename});
   };
+  
   const handleDescriptionChange=(event)=>{
     setEncounter({...encounter, description: event.target.value});
   };
