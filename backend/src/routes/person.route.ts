@@ -3,7 +3,7 @@
  */
 import { Router } from 'express';
 import {
-  createPerson, getAllPeople, getPersonWithId, updatePersonWithId, deletePersons,
+  createPerson, getAllPeople, getPersonWithId, updatePersonWithId, deletePersons, getPersonsByCompany,
 } from '../controllers/person.controller';
 
 const routes = Router();
@@ -11,6 +11,7 @@ const routes = Router();
 routes.post('/', createPerson)
   .get('/:id', getPersonWithId)
   .get('/', getAllPeople)
+  .get('/companies/:id', getPersonsByCompany)
   .put('/:id', updatePersonWithId)
   .delete('/:id', deletePersons);
 

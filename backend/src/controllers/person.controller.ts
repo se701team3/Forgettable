@@ -15,6 +15,7 @@ import getPersonDetails from './utils/controller-utils';
 
 import logger from '../utils/logger';
 import { POST } from './controller.types';
+import companyService from 'src/services/company.service';
 
 export const createPerson: POST = async (
   req: Request,
@@ -119,6 +120,44 @@ export const getAllPeople = async (
       const foundUserPersons = await personService.getPeople(req.query, user.persons);
 
       res.status(httpStatus.OK).paginate(foundUserPersons);
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const getPersonsByCompany = async (
+  req: Request,
+  expressRes: Response,
+  next: NextFunction,
+): Promise<void> => {
+  const res = expressRes as PaginateableResponse;
+
+  logger.info('GET /persons/companies/:id request from frontend');
+
+  const authId = req.headers.authorization?.['user_id'];
+  const user = await userService.getUserByAuthId(authId);
+
+  try {
+    let company: any;
+    let companyPeople: any;
+    if (!user) {
+      res.status(httpStatus.UNAUTHORIZED).end();
+    } else {
+      // check if company belongs to user
+      if (user.companies.includes(new mongoose.Types.ObjectId(req.params.id))) {
+        company = await companyService.getCompany(req.params.id);
+        // get each person from the company
+        companyPeople = await Promise.all(company.persons.map(
+          async (personsId: any) => (await getPersonDetails(personsId)),
+        ));
+      }
+      
+      if (!company) {
+        res.status(httpStatus.NOT_FOUND).end();
+      } else {
+        res.status(httpStatus.OK).paginate(companyPeople);
+      }
     }
   } catch (e) {
     next(e);
