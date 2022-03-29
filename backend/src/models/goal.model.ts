@@ -10,7 +10,7 @@ export interface GoalModel{
 const schema = new Schema<GoalModel>({
   date_start: { type: Date, required: true },
   date_end: { type: Date, required: true },
-  duration: { type: String },
+  duration: { type: String, required: false },
   recurring: { type: Boolean, required: true },
 });
 

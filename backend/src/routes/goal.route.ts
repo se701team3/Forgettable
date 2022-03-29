@@ -3,14 +3,14 @@
  */
 import { Router } from 'express';
 import {
-    getGoals, createGoals, updateGoals, deleteGoals,
+  getGoal, createGoal, updateGoal, deleteGoal,
 } from '../controllers/goal.controller';
 
 const routes = Router();
 
-routes.get('/:id', getGoals)
-    .post('/:id', createGoals)
-    .put('/:id', updateGoals)
-    .delete('/:id', deleteGoals);
+routes.get('/:id', getGoal)
+  .post('/:id', createGoal)
+  .put('/:id', updateGoal)
+  .delete('/:id', deleteGoal);
 
 export default routes;

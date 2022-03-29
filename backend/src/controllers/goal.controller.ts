@@ -39,7 +39,7 @@ const isGoalExistsInUser = (user, goalId: string): boolean => {
   return findGoal.length !== 0;
 };
 
-export const getGoals = async (
+export const getGoal = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -70,7 +70,7 @@ export const getGoals = async (
   }
 };
 
-export const createGoals = async (
+export const createGoal = async (
   req: Request,
   res: Response,
   next: NextFunction,
