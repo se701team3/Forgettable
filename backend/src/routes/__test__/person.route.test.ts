@@ -154,6 +154,52 @@ const encounter2Data: EncounterModel = {
   persons: [] as any
 }
 
+const person7Data = {
+  first_name: 'Yesterday',
+  last_name: 'Birthday',
+  interests: ['surfing', 'cooking'],
+  organisation: 'an organisation',
+  how_we_met: 'At the park',
+  birthday: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
+  encounters: [] as any,
+  first_met: null as any,
+  gender: "male",
+  image: null as any,
+  location: null as any,
+  social_media: null as any
+}
+
+const person8Data = {
+  first_name: 'Tomorrow',
+  last_name: 'Birthday',
+  interests: ['surfing', 'cooking'],
+  organisation: 'an organisation',
+  how_we_met: 'At the park',
+  birthday: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+  encounters: [] as any,
+  first_met: null as any,
+  gender: "male",
+  image: null as any,
+  location: null as any,
+  social_media: null as any
+}
+
+const person9Data = {
+  first_name: 'NextMonth',
+  last_name: 'Birthday',
+  interests: ['surfing', 'cooking'],
+  organisation: 'an organisation',
+  how_we_met: 'At the park',
+  birthday: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 30),
+  encounters: [] as any,
+  first_met: null as any,
+  gender: "male",
+  image: null as any,
+  location: null as any,
+  social_media: null as any
+}
+
+
 describe('POST persons/', () => {
   it ('Can be created and stored in the user when all information is provided', async () => {
     // Create a new user
@@ -845,3 +891,52 @@ describe('DELETE /person/:id', () => {
   })
 })
 
+describe('GET /birthdays', () => {
+
+  async function populateDbWithUsersPersons() {
+    const person1 = new Person(person7Data);
+    const person2 = new Person(person8Data);
+    const person3 = new Person(person9Data);    
+    
+    await person1.save();
+    await person2.save();
+    await person3.save();
+    
+    userData.auth_id = await testUtils.getAuthIdFromToken(token);
+    const user = new User(userData);
+    user.persons.push(person1._id, person2._id, person3._id);
+    await user.save();
+  
+    const storedPersonIds = [person1._id, person2._id, person3._id];
+  
+    return storedPersonIds;
+  }
+
+  it('Returns correct number of entries', async () => {
+    await populateDbWithUsersPersons();
+    const { body: people }  = await supertest(app).get('/api/birthdays')
+      .set('Accept', 'application/json')
+      .set('Authorization', token);
+
+    expect(people.length).toEqual(2);
+  });
+
+  it('Returns the correct page of entries', async () => {
+    const storedPersonIds = await populateDbWithUsersPersons();
+
+    const { body: people }   = await supertest(app).get('/api/birthdays')
+      .set('Accept', 'application/json')
+      .set('Authorization', token);
+
+    expect(people[0]).toHaveProperty('_id', storedPersonIds[1]._id.toString());
+    expect(people[1]).toHaveProperty('_id', storedPersonIds[2]._id.toString());
+  });
+
+  it('Empty array is returned when no-one has a birthdays in a given data-range', async () => {
+    const { body: people } = await supertest(app).get('/api/birthdays')
+      .set('Accept', 'application/json')
+      .set('Authorization', token);
+
+    expect(people).toEqual({});
+  });
+});
