@@ -1,0 +1,12 @@
+@import "../../colours.css";
+
+.searchFilterPanel {
+    display: flex;
+    flex-direction: row;
+}
+
+.filterSelectionPanel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

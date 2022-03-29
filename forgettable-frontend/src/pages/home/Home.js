@@ -18,6 +18,7 @@ import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
 import { getImageSrcFromBuffer } from '../../functions/getImageSrcFromBuffer';
 import { useNavigate } from 'react-router-dom';
 import { unmarshalPerson, unmarshalEncounters } from '../../functions/dataUnmarshaller';
+import SearchFilterPanel from '../../components/SearchFilterPanel/SearchFilterPanel';
 
 function Home() {
   const [isHover, setIsHover] = useState(false);
@@ -135,6 +136,8 @@ function Home() {
             <IconButton btnText="New Entry" onClick={handleNewEntryClick} includeIcon={true} />
           </div>
         </div>
+
+        <SearchFilterPanel />
 
         <div className={classes.body_container}>
           <div className={classes.home_subtitleContainer}>

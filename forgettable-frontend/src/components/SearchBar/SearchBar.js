@@ -44,8 +44,9 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
   if (hasAutocomplete === true) {
     return (
       <div className={classes.SearchContainer}>
-        <div className={classes.SearchInputs} >
-          <input className={classes.SearchNameInput}
+        <div className={classes.SearchInputs}>
+          <input
+            className={classes.SearchNameInput}
             type="text"
             placeholder={placeholder}
             value={wordEntered}
@@ -57,7 +58,11 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
             {wordEntered === '' ? (
               <SearchIcon />
             ) : (
-              <CloseIcon id="clearBtn" className={classes.ClearBtn} onClick={clearInput} />
+              <CloseIcon
+                id="clearBtn"
+                className={classes.ClearBtn}
+                onClick={clearInput}
+              />
             )}
           </div>
         </div>
@@ -68,13 +73,18 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
           but it will be changed with the api */}
             {filteredData.slice(0, 15).map((value, key) => {
               return (
-                <a className={classes.DataItem} onClick={() => {
-                  if (value.type == 'people') {
-                    navigate(`/person/${value.id}`);
-                  } else {
-                    navigate(`/encounters`, {state: {id: value.id}});
-                  }
-                }} rel="noreferrer" key={key}>
+                <a
+                  className={classes.DataItem}
+                  onClick={() => {
+                    if (value.type == 'people') {
+                      navigate(`/person/${value.id}`);
+                    } else {
+                      navigate(`/encounters`, {state: {id: value.id}});
+                    }
+                  }}
+                  rel="noreferrer"
+                  key={key}
+                >
                   <p className={classes.DataItemP}>{value.title}</p>
                 </a>
               );
@@ -86,8 +96,9 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
   } else {
     return (
       <div className={classes.SearchContainer}>
-        <div className={classes.SearchInputs} >
-          <input className={classes.SearchNameInput}
+        <div className={classes.SearchInputs}>
+          <input
+            className={classes.SearchNameInput}
             type="text"
             placeholder={placeholder}
             value={wordEntered}
@@ -102,9 +113,16 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
 
           <div className={classes.SearchIcon}>
             {wordEntered === '' ? (
-              <SearchIcon className={classes.ClearBtn} onClick={() => exportSearchString(wordEntered)} />
+              <SearchIcon
+                className={classes.ClearBtn}
+                onClick={() => exportSearchString(wordEntered)}
+              />
             ) : (
-              <CloseIcon id="clearBtn" className={classes.ClearBtn} onClick={clearInput} />
+              <CloseIcon
+                id="clearBtn"
+                className={classes.ClearBtn}
+                onClick={clearInput}
+              />
             )}
           </div>
         </div>

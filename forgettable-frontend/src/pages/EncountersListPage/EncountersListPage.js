@@ -13,6 +13,7 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
 import {unmarshalEncounters} from '../../functions/dataUnmarshaller';
+import SearchFilterPanel from '../../components/SearchFilterPanel/SearchFilterPanel';
 
 /*
  * This page lists out all the Encounters the user created.
@@ -180,6 +181,7 @@ export default function EncountersListPage() {
             </Link>
           </div>
         </div>
+        <SearchFilterPanel filterType="encounter" />
         {isLoading ? <h4>Loading...</h4> : (
         <div className={classes.List}>
           {encounterList.length > 0 ? <InfiniteScroll

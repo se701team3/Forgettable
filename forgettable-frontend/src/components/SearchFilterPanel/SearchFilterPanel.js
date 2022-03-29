@@ -1,34 +1,66 @@
-import { Button } from "@mui/material";
-import React from "react";
+import {Button} from '@mui/material';
+import React from 'react';
+import classes from './SearchFilterPanel.module.css';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
-const SearchFilterPanel = () => {
+const SearchFilterPanel = ({filterType}) => {
   /*
     The filters should be the properties of the model object.
     */
-  return (
-    <div>
+  if (filterType === 'encounter') {
+    return (
       <div>
-        Encounter
-        <Button>Title</Button>
-        <Button>Date</Button>
-        <Button>Location</Button>
-        <Button>Description</Button>
+        <h3>Filters</h3>
+        <div className={classes.filterSelectionPanel}>
+          <CustomButton btnText="Title" />
+          <CustomButton btnText="Date" />
+          <CustomButton btnText="Location" />
+          <CustomButton btnText="Description" />
+        </div>
       </div>
+    );
+  } else if (filterType === 'person') {
+    return (
       <div>
-        Person
-        <Button>First name</Button>
-        <Button>Last name</Button>
-        <Button>Birthday</Button>
-        <Button>Gender</Button>
-        <Button>Location</Button>
-        <Button>Importance level</Button>
-        <Button>First met</Button>
-        <Button>How we met</Button>
-        <Button>Interests</Button>
-        <Button>Organisation</Button>
+        <h3>Filters</h3>
+        <div className={classes.filterSelectionPanel}>
+          <CustomButton btnText="Name" />
+          <CustomButton btnText="Birthday" />
+          <CustomButton btnText="Gender" />
+          <CustomButton btnText="Location" />
+          <CustomButton btnText="Importance" />
+          <CustomButton btnText="Interests" />
+          <CustomButton btnText="Organisation" />
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className={classes.searchFilterPanel}>
+        <div>
+          <h3>Encounter Filters</h3>
+          <div className={classes.filterSelectionPanel}>
+            <CustomButton btnText="Title" />
+            <CustomButton btnText="Date" />
+            <CustomButton btnText="Location" />
+            <CustomButton btnText="Description" /></div>
+
+        </div>
+        <div>
+          <h3>Person Filters</h3>
+          <div className={classes.filterSelectionPanel}>
+            <CustomButton btnText="Name" />
+            <CustomButton btnText="Birthday" />
+            <CustomButton btnText="Gender" />
+            <CustomButton btnText="Location" />
+            <CustomButton btnText="Importance" />
+            <CustomButton btnText="Interests" />
+            <CustomButton btnText="Organisation" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default SearchFilterPanel;
