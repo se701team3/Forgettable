@@ -16,7 +16,7 @@ import getPersonDetails from './utils/controller-utils';
 // Util function that won't be needed regularly
 const getCompanyFromReqBody = (body: any) => {
   const company: CompanyModel = {
-    name: body.title,
+    name: body.name,
     date_founded: body.date_founded,
     time_updated: body.time_updated,
     location: body.location,
@@ -128,10 +128,10 @@ export const getCompany = async (
  
     const userCurrent = await userService.getUserByAuthId(authId);
     const companyId = req.params.id.toString();
-    const usercompanys = userCurrent?.companies;
-    const stringcompanys = usercompanys?.map((x) => x.toString());
+    const usercompanies = userCurrent?.companies;
+    const stringcompanies = usercompanies?.map((x) => x.toString());
  
-    if (stringcompanys?.includes(companyId)) {
+    if (stringcompanies?.includes(companyId)) {
       // Find company from database
       const company = await companyService.getCompany(companyId);
       // Notify frontend that the operation was successful

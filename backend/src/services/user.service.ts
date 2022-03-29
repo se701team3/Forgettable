@@ -20,7 +20,7 @@ export const addEncounterToUser = async (authId, encounterId) => {
 };
 
 export const addCompanyToUser = async (authId, companyId) => {
-  const result = await User.updateOne({ auth_id: authId }, { $push: { encounters: companyId } });
+  const result = await User.updateOne({ auth_id: authId }, { $push: { companies: companyId } });
 
   return result.modifiedCount === 1;
 };
