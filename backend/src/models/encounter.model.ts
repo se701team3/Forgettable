@@ -12,7 +12,9 @@ export interface EncounterModel {
 const schema = new Schema<EncounterModel>({
   title: { type: String, required: true },
   date: { type: Date, required: false },
-  time_updated: { type: Date, default: new Date(Date.now()), required: true },
+  time_updated: {
+    type: Date, default: new Date(Date.now()), expires: 31536000, required: true, // Added a one year expiry time to Encounter entries
+  },
   location: { type: String, required: false },
   description: { type: String, required: true },
   persons: { type: [mongoose.Types.ObjectId], required: true },
