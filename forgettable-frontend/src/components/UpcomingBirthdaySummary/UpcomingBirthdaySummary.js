@@ -1,7 +1,7 @@
 import React from 'react';
 import {Avatar} from '@mui/material';
 import classes from './UpcomingBirthdaySummary.module.css';
-import {getLongDateStringWithSlashes} from '../../functions/dateFormatter';
+import {getBirthdayDate} from '../../functions/dateFormatter';
 import UnknownDetail from '../UnknownDetail/UnknownDetail';
 import PropTypes from 'prop-types';
 import {getImageSrcFromBuffer} from '../../functions/getImageSrcFromBuffer';
@@ -44,7 +44,7 @@ const UpcomingBirthdaySummary = (props) => {
             {'Birthday: '}
             {props.birthday ?
            <span data-testid="birthdate-element">
-             { getLongDateStringWithSlashes(props.dateMet)}
+             {getBirthdayDate(props.birthday)}
            </span> :
            <UnknownDetail/>}
           </p>

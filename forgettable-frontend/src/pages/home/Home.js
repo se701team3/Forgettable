@@ -13,7 +13,7 @@ import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
-import { getAllEncounters, getAllPersons } from '../../services';
+import { getAllEncounters, getAllPersons, getPeopleWithUpcomingBirthday } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
 import { getImageSrcFromBuffer } from '../../functions/getImageSrcFromBuffer';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,7 @@ function Home() {
   const [peopleList, setPeopleList] = React.useState([]);
   const [encountersList, setEncountersList] = React.useState([]);
   const [searchBarData, setSearchBarData] = React.useState([]);
+  const [upcomingBirthdayList, setUpcomingBirthdayList] = React.useState([]);
 
   const userName = JSON.parse(localStorage.getItem('user')).userName;
 
@@ -49,6 +50,10 @@ function Home() {
     const searchDataResult = searchBarDataFormatter(peopleResult, encountersResult);
 
     setSearchBarData(searchDataResult);
+
+    const upcomingBirthdays = await getPeopleWithUpcomingBirthday();
+
+    setUpcomingBirthdayList(upcomingBirthdays);
   }
 
   useEffect(() => {
@@ -71,6 +76,14 @@ function Home() {
     setSelectedInfo({
       type: 'encounter',
       info: encountersList[index],
+    });
+    setIsHover(true);
+  };
+
+  const handleBirthdayHover = (event, index) => {
+    setSelectedInfo({
+      type: 'person',
+      info: peopleList[index],
     });
     setIsHover(true);
   };
@@ -194,16 +207,13 @@ function Home() {
           </div>
 
           <div className={classes.home_cardGridContainer + ' ' + classes.home_encounterGridContainer}>
-            {encountersList.map((encounter, index) => {
+            {upcomingBirthdayList.map((birthdayPerson, index) => {
               return (
-                <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handleEncounterHover(event, index)} onMouseOut={handleOnMouseOut}>
+                <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handleBirthdayHover(event, index)} onMouseOut={handleOnMouseOut}>
                   <UpcomingBirthdaySummary
-                    firstName={encounter.persons[0]?.first_name}
-                    birthday={encounter.birthday}
-                    img={encounter.persons[0]?.image}
-                    onClick={() => {
-                      handleEncounterCardClick(encounter);
-                    }}
+                    firstName={birthdayPerson.persons[0]?.first_name}
+                    birthday={birthdayPerson.birthday}
+                    img={birthdayPerson.persons[0]?.image}
                   />
                 </div>);
             })}
