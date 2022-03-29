@@ -103,6 +103,7 @@ export const updateCompany = async (
  
     // update company
     const newCompanyData = getCompanyFromReqBody(req.body);
+    newCompanyData.time_updated = new Date(Date.now());
     const updatedCompany = await companyService.updateCompany(
       companyIdToUpdate,
       newCompanyData,
