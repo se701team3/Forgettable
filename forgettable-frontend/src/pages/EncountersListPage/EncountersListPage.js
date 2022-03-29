@@ -129,6 +129,7 @@ export default function EncountersListPage() {
     setEncounterList(searchResult);
   };
 
+  // console.log(encounterList);
   return (
     <div>
       {isHover && <EncounterDrawer
