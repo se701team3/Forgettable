@@ -300,7 +300,7 @@ export default function EditPerson() {
           <h1>Warning</h1>
           <p >
           Are you sure you want to delete this person?
-          All single-person encounters will with this person be deleted!
+          All single-person encounters with this person will be deleted!
           You cannot undo this action.
           </p>
         </div>
