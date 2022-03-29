@@ -1,7 +1,7 @@
 @import  '../../colours.css';
 
 .UpcomingBirthdaySummary{
-    height: 220px;
+    height: 150px;
     width:240px;
     cursor: pointer;
     border-radius: var(--radius-card);

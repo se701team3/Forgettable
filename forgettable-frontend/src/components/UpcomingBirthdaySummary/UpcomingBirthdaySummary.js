@@ -8,7 +8,8 @@ import {getImageSrcFromBuffer} from '../../functions/getImageSrcFromBuffer';
 
 /*
  * Component for displaying information for upcoming birthdays.
- * Based off of EncounterCardSummary orginally authored by Mercury Lin (lin8231)
+ * Based off of EncounterCardSummary and PersonCardSummary components
+ * orginally authored by Mercury Lin (lin8231)
  *
  * Author: Aaron Song (ason720)
  */

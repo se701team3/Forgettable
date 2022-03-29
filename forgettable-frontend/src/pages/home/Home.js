@@ -201,7 +201,6 @@ function Home() {
                 </div>);
             })}
           </div>
-          {/* test */}
           <div className={classes.home_subtitleContainer}>
             <div className={classes.home_subtitle}>Upcoming Birthdays</div>
           </div>
@@ -210,11 +209,14 @@ function Home() {
             {upcomingBirthdayList.map((birthdayPerson, index) => {
               return (
                 <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handleBirthdayHover(event, index)} onMouseOut={handleOnMouseOut}>
-                  <UpcomingBirthdaySummary
-                    firstName={birthdayPerson.persons[0]?.first_name}
-                    birthday={birthdayPerson.birthday}
-                    img={birthdayPerson.persons[0]?.image}
-                  />
+                  <Link to={`/person/${birthdayPerson._id}`} style={{textDecoration: 'none'}}>
+                    <UpcomingBirthdaySummary
+                      firstName={birthdayPerson.first_name}
+                      birthday={birthdayPerson.birthday}
+                      img={birthdayPerson.image}
+                      onClick={() => { }}
+                    />
+                  </Link>
                 </div>);
             })}
           </div>
