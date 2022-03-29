@@ -9,6 +9,8 @@ import app from '../../server';
 import "dotenv/config";
 import testUtils from '../../utils/test/test-utils';
 import {Importance} from "../../enums/importance";
+import Company, { CompanyModel } from 'src/models/company.model';
+import companyService from '../../services/company.service';
 
 const supertest = require('supertest');
 
@@ -207,6 +209,15 @@ const person9Data = {
   social_media: null as any
 }
 
+
+const companyData: CompanyModel = {
+  name: "A Company",
+  location: "Somewhere",
+  description: "Important stuff",
+  date_founded: new Date('2000-01-20'),
+  time_updated: new Date(Date.now()),
+  persons: [] as any,
+}
 
 describe('POST persons/', () => {
   it ('Can be created and stored in the user when all information is provided', async () => {
@@ -552,6 +563,75 @@ describe('GET persons/:id', () => {
 
     expect(retrievedPerson.encounters[0].title).toEqual(encounter1Data.title)
   })
+});
+
+describe('GET persons/companies/:id', () => {
+  it ('Returns "Unauthorized" if the user does not have a valid auth_id', async () => {
+
+    await supertest(app).get(`/api/persons/companies/FAKE_COMPANY_ID`)
+      .set('Accept', 'application/json')
+      .set('Authorization', 'FAKE_AUTH_ID')
+      .expect(httpStatus.UNAUTHORIZED);
+    
+  });
+
+  it ('Returns "Not Found" if company not in user', async () => {
+    // Create a new user
+    await supertest(app).post('/api/users')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .send(user1Data);
+
+    const person = await personService.createPerson(person1Data);
+    companyData.persons = [person._id];
+    const company = await companyService.createCompany(companyData);
+
+    await supertest(app).get(`/api/persons/companies/${company._id}`)
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .expect(httpStatus.NOT_FOUND);
+    
+    companyData.persons = [];
+  });
+
+  it ('Can be retrieved by id', async () => {
+    // Create a new user
+    await supertest(app).post('/api/users')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .send(user1Data);
+
+    // Create new people 
+    const { body: personOne } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person1Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);
+    const { body: personTwo } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person1Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);
+
+    companyData.persons = [personOne._id, personTwo._id];
+    // Create a new company
+    const { body: company } = await supertest(app).post('/api/companies')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(companyData)
+            .expect(httpStatus.CREATED);
+    
+    const { body: persons } = await supertest(app).get(`/api/persons/companies/${company._id}`)
+    .set('Accept', 'application/json')
+    .set('Authorization', token)
+
+    expect(persons.length).toEqual(2)
+    expect(persons[0]).toHaveProperty('_id', personOne._id.toString());
+    expect(persons[1]).toHaveProperty('_id', personTwo._id.toString());
+    
+    companyData.persons = [];
+  });
+
 });
 
 describe('GET /persons', () => {

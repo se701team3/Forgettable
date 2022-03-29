@@ -15,7 +15,7 @@ import getPersonDetails from './utils/controller-utils';
 
 import logger from '../utils/logger';
 import { POST } from './controller.types';
-import companyService from 'src/services/company.service';
+import companyService from '../services/company.service';
 
 export const createPerson: POST = async (
   req: Request,
@@ -128,10 +128,9 @@ export const getAllPeople = async (
 
 export const getPersonsByCompany = async (
   req: Request,
-  expressRes: Response,
+  res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  const res = expressRes as PaginateableResponse;
 
   logger.info('GET /persons/companies/:id request from frontend');
 
@@ -156,7 +155,7 @@ export const getPersonsByCompany = async (
       if (!company) {
         res.status(httpStatus.NOT_FOUND).end();
       } else {
-        res.status(httpStatus.OK).paginate(companyPeople);
+        res.status(httpStatus.OK).json(companyPeople).end();
       }
     }
   } catch (e) {
