@@ -18,8 +18,8 @@ export default function AutocompleteLocationInput({
       onPlaceSelected={(place) => {
         setLocation(place.name);
         handleLatLongChange([
-          place.geometry.location.lng(),
           place.geometry.location.lat(),
+          place.geometry.location.lng(),
         ]);
       }}
     />
