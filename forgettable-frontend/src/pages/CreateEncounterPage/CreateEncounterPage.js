@@ -25,6 +25,7 @@ export default function CreateEncountersPage() {
   const [isSubmittable, setIsSubmittable] = React.useState(false);
   const [showWarning, setShowWarning] = React.useState(false);
   const [location, setLocation] = useState('');
+  const [latLong, setLatLong] = useState([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -91,7 +92,7 @@ export default function CreateEncountersPage() {
     } else {
       setShowWarning(false);
       setEncounter({...encounter, time_updated: Date()});
-      await saveEncounter({...encounter, location});
+      await saveEncounter({...encounter, location, latLong});
     }
   };
 
@@ -174,8 +175,7 @@ export default function CreateEncountersPage() {
             <AutocompleteLocationInput
               setLocation={setLocation}
               className={classes.InputBox}
-              handleLatLongChange={handleLatLongChange}
-              location={location}
+              setLatLong={setLatLong}
             />
           </div>
 
