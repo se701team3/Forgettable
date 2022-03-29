@@ -197,6 +197,8 @@ export const updatePersonWithId = async (
       return res.status(httpStatus.UNAUTHORIZED).end();
     }
     const newPersonData: PersonModel = req.body;
+    // update time_updated to the present time
+    newPersonData.time_updated = new Date(Date.now());
     let updatedPerson: any;
     // If the person belongs to this user, find it and update
     if (user.persons.includes(new mongoose.Types.ObjectId(req.params.id))) {
@@ -208,5 +210,34 @@ export const updatePersonWithId = async (
     return res.sendStatus(updatedPerson ? httpStatus.NO_CONTENT : httpStatus.NOT_FOUND).end();
   } catch (error) {
     next(error);
+  }
+};
+
+export const getPeopleWithUpcomingBirthday = async (
+  req: Request,
+  expressRes: Response,
+  next: NextFunction,
+): Promise<any> => {
+  logger.info('GET /birthdays request from frontend');
+
+  const res = expressRes as PaginateableResponse;
+  const authId = req.headers.authorization?.['user_id'];
+  const user = await userService.getUserByAuthId(authId);
+
+  try {
+    if (!user) {
+      res.status(httpStatus.UNAUTHORIZED).end();
+    } else {
+      let today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      let threeMonthFromToday = new Date();
+      threeMonthFromToday.setMonth(threeMonthFromToday.getMonth() + 3);
+      threeMonthFromToday.setHours(0, 0, 0, 0);
+      const foundUserPersons = await personService.getPersonWithBirthdayRange(user.persons, today, threeMonthFromToday);
+      res.status(httpStatus.OK).json(foundUserPersons).end();
+    }
+  } catch (e) {
+    next(e);
   }
 };

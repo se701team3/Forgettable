@@ -1,0 +1,14 @@
+@import '../../colours.css';
+
+/* The Google Maps Autocomplete is incompatible with the MUI TextField used by the other components, so this styling emulates that. */
+.InputBox{
+    width: 100%;
+    background-color: white;
+    color: rgba(0, 0, 0, 0.87);
+    border-radius: 4px;
+    padding: 8.5px;
+    font-size: 16px;
+    height: 23px;
+    border: 1px solid var(--bord);
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif
+}

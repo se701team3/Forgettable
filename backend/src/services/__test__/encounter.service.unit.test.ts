@@ -3,6 +3,7 @@ import databaseOperations from '../../utils/test/db-handler';
 import encounterService from '../encounter.service';
 import Encounter, { EncounterModel } from '../../models/encounter.model';
 import Person, {PersonModel} from '../../models/person.model';
+import {Importance} from "../../enums/importance";
 
 beforeAll(async () => {databaseOperations.connectDatabase()});
 afterEach(async () => databaseOperations.clearDatabase());
@@ -15,6 +16,7 @@ const person1Data: PersonModel = {
     interests: ['video games', 'hockey'],
     organisation: 'helloc',
     time_updated: new Date('2022-01-01'),
+    importance_level: Importance.Very_Important,
     how_we_met: 'Hockey club',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
