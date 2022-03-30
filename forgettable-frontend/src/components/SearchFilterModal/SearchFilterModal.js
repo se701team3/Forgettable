@@ -4,7 +4,7 @@ import classes from './SearchFilterModal.module.css';
 import CustomButton from '../CustomButton/CustomButton';
 import {Box} from '@mui/system';
 
-const SearchFilterPanel = ({filterType}) => {
+const SearchFilterModal = ({filterType}) => {
   /*
     The filters should be the properties of the model object.
     */
@@ -71,4 +71,4 @@ const SearchFilterPanel = ({filterType}) => {
   }
 };
 
-export default SearchFilterPanel;
+export default SearchFilterModal;
