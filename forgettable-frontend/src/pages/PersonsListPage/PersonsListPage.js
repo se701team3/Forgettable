@@ -115,7 +115,7 @@ export default function PersonsListPage(props) {
   };
 
   const exportSearchString = async (searchString) => {
-    const searchResult = await searchPersons(searchString);
+    const searchResult = await searchPersons(searchString, selectedFilter);
     setPersonList(searchResult);
   };
 

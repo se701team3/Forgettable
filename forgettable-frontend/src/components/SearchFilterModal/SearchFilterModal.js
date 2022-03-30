@@ -17,41 +17,31 @@ const SearchFilterModal = ({filterType, open, selectedFilter, setSelectedFilter}
           <h3>Filters</h3>
           <div className={classes.filterSelectionPanel}>
             <CustomButton btnText="Title"
-              className={selectedFilter == 'Title' ?
+              className={selectedFilter == 'title' ?
                 classes.selectedButton : null}
               onClick={() => {
-                if (selectedFilter != 'Title') {
-                  setSelectedFilter('Title');
-                } else {
-                  setSelectedFilter('');
-                }
-              }} />
-            <CustomButton btnText="Date"
-              className={selectedFilter == 'Date' ?
-              classes.selectedButton : null}
-              onClick={() => {
-                if (selectedFilter != 'Date') {
-                  setSelectedFilter('Date');
+                if (selectedFilter != 'title') {
+                  setSelectedFilter('title');
                 } else {
                   setSelectedFilter('');
                 }
               }} />
             <CustomButton btnText="Location"
-              className={selectedFilter == 'EncounterLocation' ?
+              className={selectedFilter == 'location' ?
               classes.selectedButton : null}
               onClick={() => {
-                if (selectedFilter != 'EncounterLocation') {
-                  setSelectedFilter('EncounterLocation');
+                if (selectedFilter != 'location') {
+                  setSelectedFilter('location');
                 } else {
                   setSelectedFilter('');
                 }
               }} />
             <CustomButton btnText="Description"
-              className={selectedFilter == 'Description' ?
+              className={selectedFilter == 'description' ?
               classes.selectedButton : null}
               onClick={() => {
-                if (selectedFilter != 'Description') {
-                  setSelectedFilter('Description');
+                if (selectedFilter != 'description') {
+                  setSelectedFilter('description');
                 } else {
                   setSelectedFilter('');
                 }
@@ -69,72 +59,62 @@ const SearchFilterModal = ({filterType, open, selectedFilter, setSelectedFilter}
         <Box className={classes.searchFilterBox}>
           <h3>Filters</h3>
           <div className={classes.filterSelectionPanel}>
-            <CustomButton btnText="Name"
-              className={selectedFilter == 'Name' ?
+            <CustomButton btnText="First name"
+              className={selectedFilter == 'first_name' ?
               classes.selectedButton : null}
               onClick={() => {
-                if (selectedFilter != 'Name') {
-                  setSelectedFilter('Name');
+                if (selectedFilter != 'first_name') {
+                  setSelectedFilter('first_name');
                 } else {
                   setSelectedFilter('');
                 }
               }}/>
-            <CustomButton btnText="Birthday"
-              className={selectedFilter == 'Birthday' ?
+            <CustomButton btnText="Last name"
+              className={selectedFilter == 'last_name' ?
               classes.selectedButton : null}
               onClick={() => {
-                if (selectedFilter != 'Birthday') {
-                  setSelectedFilter('Birthday');
+                if (selectedFilter != 'last_name') {
+                  setSelectedFilter('last_name');
                 } else {
                   setSelectedFilter('');
                 }
               }}/>
             <CustomButton btnText="Gender"
-              className={selectedFilter == 'Gender' ?
+              className={selectedFilter == 'gender' ?
                classes.selectedButton : null}
               onClick={() => {
-                if (selectedFilter != 'Gender') {
-                  setSelectedFilter('Gender');
+                if (selectedFilter != 'gender') {
+                  setSelectedFilter('gender');
                 } else {
                   setSelectedFilter('');
                 }
               }}/>
             <CustomButton btnText="Location"
-              className={selectedFilter == 'PersonLocation' ?
+              className={selectedFilter == 'location' ?
               classes.selectedButton : null}
               onClick={() => {
-                if (selectedFilter != 'PersonLocation') {
-                  setSelectedFilter('PersonLocation');
+                if (selectedFilter != 'location') {
+                  setSelectedFilter('location');
                 } else {
                   setSelectedFilter('');
                 }
               }}/>
-            <CustomButton btnText="Importance"
-              className={selectedFilter == 'Importance' ?
+            <CustomButton btnText="How we met"
+              className={selectedFilter == 'how_we_met' ?
               classes.selectedButton : null}
               onClick={() => {
-                if (selectedFilter != 'Importance') {
-                  setSelectedFilter('Importance');
+                if (selectedFilter != 'how_we_met') {
+                  setSelectedFilter('how_we_met');
                 } else {
                   setSelectedFilter('');
                 }
               }}/>
-            <CustomButton btnText="Interests"
-              className={selectedFilter == 'Interests' ?
-              classes.selectedButton : null}
-              onClick={() => {
-                if (selectedFilter != 'Interests') {
-                  setSelectedFilter('Interests');
-                } else {
-                  setSelectedFilter('');
-                }
-              }} />
             <CustomButton btnText="Organisation"
-              className={selectedFilter == 'Organisation' ?
+              className={selectedFilter == 'organisation' ?
               classes.selectedButton : null}
               onClick={() => {
-                if (selectedFilter != 'Organisation') {
-                  setSelectedFilter('Organisation');
+                if (selectedFilter != 'organisation') {
+                  setSelectedFilter('organisation');
                 } else {
                   setSelectedFilter('');
                 }
@@ -153,116 +133,97 @@ const SearchFilterModal = ({filterType, open, selectedFilter, setSelectedFilter}
             <h3>Encounter Filters</h3>
             <div className={classes.filterSelectionPanel}>
               <CustomButton btnText="Title"
-                className={selectedFilter == 'Title' ?
+                className={selectedFilter == 'title' ?
                 classes.selectedButton : null}
                 onClick={() => {
-                  if (selectedFilter != 'Title') {
-                    setSelectedFilter('Title');
-                  } else {
-                    setSelectedFilter('');
-                  }
-                }} />
-              <CustomButton btnText="Date"
-                className={selectedFilter == 'Date' ?
-              classes.selectedButton : null}
-                onClick={() => {
-                  if (selectedFilter != 'Date') {
-                    setSelectedFilter('Date');
+                  if (selectedFilter != 'title') {
+                    setSelectedFilter('title');
                   } else {
                     setSelectedFilter('');
                   }
                 }} />
               <CustomButton btnText="Location"
-                className={selectedFilter == 'EncounterLocation' ?
+                className={selectedFilter == 'location' ?
               classes.selectedButton : null}
                 onClick={() => {
-                  if (selectedFilter != 'EncounterLocation') {
-                    setSelectedFilter('EncounterLocation');
+                  if (selectedFilter != 'location') {
+                    setSelectedFilter('location');
                   } else {
                     setSelectedFilter('');
                   }
                 }} />
               <CustomButton btnText="Description"
-                className={selectedFilter == 'Description' ?
+                className={selectedFilter == 'description' ?
               classes.selectedButton : null}
                 onClick={() => {
-                  if (selectedFilter != 'Description') {
-                    setSelectedFilter('Description');
+                  if (selectedFilter != 'description') {
+                    setSelectedFilter('description');
                   } else {
                     setSelectedFilter('');
                   }
-                }}/></div>
+                }}/>
+            </div>
 
           </div>
           <div>
             <h3>Person Filters</h3>
             <div className={classes.filterSelectionPanel}>
-              <CustomButton btnText="Name"
-                className={selectedFilter == 'Name' ?
+              <CustomButton btnText="First name"
+                className={selectedFilter == 'first_name' ?
               classes.selectedButton : null}
                 onClick={() => {
-                  if (selectedFilter != 'Name') {
-                    setSelectedFilter('Name');
+                  if (selectedFilter != 'first_name') {
+                    setSelectedFilter('first_name');
                   } else {
                     setSelectedFilter('');
                   }
                 }}/>
-              <CustomButton btnText="Birthday"
-                className={selectedFilter == 'Birthday' ?
+              <CustomButton btnText="Last name"
+                className={selectedFilter == 'last_name' ?
               classes.selectedButton : null}
                 onClick={() => {
-                  if (selectedFilter != 'Birthday') {
-                    setSelectedFilter('Birthday');
+                  if (selectedFilter != 'last_name') {
+                    setSelectedFilter('last_name');
                   } else {
                     setSelectedFilter('');
                   }
                 }}/>
               <CustomButton btnText="Gender"
-                className={selectedFilter == 'Gender' ?
+                className={selectedFilter == 'gender' ?
                classes.selectedButton : null}
                 onClick={() => {
-                  if (selectedFilter != 'Gender') {
-                    setSelectedFilter('Gender');
+                  if (selectedFilter != 'gender') {
+                    setSelectedFilter('gender');
                   } else {
                     setSelectedFilter('');
                   }
                 }}/>
               <CustomButton btnText="Location"
-                className={selectedFilter == 'PersonLocation' ?
+                className={selectedFilter == 'location' ?
               classes.selectedButton : null}
                 onClick={() => {
-                  if (selectedFilter != 'PersonLocation') {
-                    setSelectedFilter('PersonLocation');
+                  if (selectedFilter != 'location') {
+                    setSelectedFilter('location');
                   } else {
                     setSelectedFilter('');
                   }
                 }}/>
-              <CustomButton btnText="Importance"
-                className={selectedFilter == 'Importance' ?
+              <CustomButton btnText="How we met"
+                className={selectedFilter == 'how_we_met' ?
               classes.selectedButton : null}
                 onClick={() => {
-                  if (selectedFilter != 'Importance') {
-                    setSelectedFilter('Importance');
+                  if (selectedFilter != 'how_we_met') {
+                    setSelectedFilter('how_we_met');
                   } else {
                     setSelectedFilter('');
                   }
                 }}/>
-              <CustomButton btnText="Interests"
-                className={selectedFilter == 'Interests' ?
-              classes.selectedButton : null}
-                onClick={() => {
-                  if (selectedFilter != 'Interests') {
-                    setSelectedFilter('Interests');
-                  } else {
-                    setSelectedFilter('');
-                  }
-                }} />
               <CustomButton btnText="Organisation"
-                className={selectedFilter == 'Organisation' ?
+                className={selectedFilter == 'organisation' ?
               classes.selectedButton : null}
                 onClick={() => {
-                  if (selectedFilter != 'Organisation') {
-                    setSelectedFilter('Organisation');
+                  if (selectedFilter != 'organisation') {
+                    setSelectedFilter('organisation');
                   } else {
                     setSelectedFilter('');
                   }

@@ -134,7 +134,7 @@ export default function EncountersListPage() {
   };
 
   const exportSearchString = async (searchString) => {
-    const searchResult = await searchEncounter(searchString);
+    const searchResult = await searchEncounter(searchString, selectedFilter);
     setEncounterList(searchResult);
   };
 
@@ -178,14 +178,17 @@ export default function EncountersListPage() {
             Encounters
         </div>
         <div className={classes.Utilities}>
-          <SearchBar hasAutocomplete={false} exportSearchString={exportSearchString} placeholder={'Search'} toggleFilters={toggleFilters} />
+          <SearchBar hasAutocomplete={false}
+            exportSearchString={exportSearchString}
+            placeholder={'Search'} toggleFilters={toggleFilters} />
           <div className={classes.Button}>
             <Link to={{
               pathname: `/encounters/create`,
             }}
             style={{textDecoration: 'none'}}
             >
-              <IconButton btnText="New Encounter" onClick={() => {}} includeIcon={true} />
+              <IconButton btnText="New Encounter"
+                onClick={() => {}} includeIcon={true} />
             </Link>
           </div>
         </div>
@@ -205,7 +208,9 @@ export default function EncountersListPage() {
           >
             {encounterList.map((encounter, index) => {
               return (
-                <div key={`${index}-container`} onMouseOver={() => handleOnMouseOver(index)} onMouseOut={handleOnMouseOut}>
+                <div key={`${index}-container`}
+                  onMouseOver={() => handleOnMouseOver(index)}
+                  onMouseOut={handleOnMouseOut}>
                   <EncounterCard
                     key={encounter._id}
                     title={encounter.title}
