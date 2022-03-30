@@ -83,3 +83,11 @@
     margin-left: 10px;
 }
 
+.filterButton {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.filterButtonEnabled {
+    background-color: var(--prmry);
+}

@@ -3,8 +3,8 @@
 .searchFilterBox {
     display: flex;
     flex-direction: column;
-    background-color: var(--bkgd);
-    border-style: solid;
+    background-color: var(--card);
+    border-radius: 8px;
     width: fit-content;
     position: relative;
     padding-left: 12px;
@@ -14,6 +14,11 @@
 
 .selectedButton {
     background-color: var(--prmry);
+    margin-right: 10px;
+}
+
+.deselectedButton {
+    margin-right: 10px;
 }
 
 .filterSelectionPanel {

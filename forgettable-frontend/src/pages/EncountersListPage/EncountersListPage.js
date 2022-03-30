@@ -180,7 +180,9 @@ export default function EncountersListPage() {
         <div className={classes.Utilities}>
           <SearchBar hasAutocomplete={false}
             exportSearchString={exportSearchString}
-            placeholder={'Search'} toggleFilters={toggleFilters} />
+            placeholder={'Search'}
+            filterEnabled={searchFilterModalOpen}
+            toggleFilters={toggleFilters} />
           <div className={classes.Button}>
             <Link to={{
               pathname: `/encounters/create`,

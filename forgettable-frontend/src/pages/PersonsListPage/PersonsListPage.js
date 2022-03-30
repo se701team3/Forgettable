@@ -174,6 +174,7 @@ export default function PersonsListPage(props) {
             placeholder={'Search'}
             exportSearchString={exportSearchString}
             hasAutocomplete={false}
+            filterEnabled={searchFilterModalOpen}
             toggleFilters={toggleFilters}
           />
           <div className={classes.Button}>
