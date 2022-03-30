@@ -187,6 +187,8 @@ export default function EncountersListPage() {
             </Link>
           </div>
         </div>
+        <SearchFilterModal open={searchFilterModalOpen}
+          filterType="encounter" />
         {isLoading ? <h4>Loading...</h4> : (
         <div className={classes.List}>
           {encounterList.length > 0 ? <InfiniteScroll
@@ -218,8 +220,6 @@ export default function EncountersListPage() {
             })}
           </InfiniteScroll> : <div><h3>No Encounters Found :(</h3></div>}
         </div>)}
-        <SearchFilterModal open={searchFilterModalOpen}
-          filterType="encounter" />
       </div>
       <ToastContainer
         position="bottom-center"

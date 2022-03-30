@@ -11,7 +11,8 @@ const SearchFilterModal = ({filterType, open, onClose}) => {
   if (filterType === 'encounter') {
     return (
       <div
-        className={`${classes.encounterPosition} ${open ? null : classes.hiddenPanel}` }>
+        className={`${classes.encounterFilter} 
+        ${open ? null : classes.hiddenPanel}` }>
         <Box className={classes.searchFilterBox}>
           <h3>Filters</h3>
           <div className={classes.filterSelectionPanel}>
@@ -27,7 +28,8 @@ const SearchFilterModal = ({filterType, open, onClose}) => {
   } else if (filterType === 'person') {
     return (
       <div
-        className={`${classes.personPosition} ${open ? null : classes.hiddenPanel}` }>
+        className={`${classes.personFilter} 
+        ${open ? null : classes.hiddenPanel}` }>
         <Box className={classes.searchFilterBox}>
           <h3>Filters</h3>
           <div className={classes.filterSelectionPanel}>
@@ -45,7 +47,8 @@ const SearchFilterModal = ({filterType, open, onClose}) => {
   } else {
     return (
       <div
-        className={`${classes.homePosition} ${open ? null : classes.hiddenPanel}` }>
+        className={`${classes.homeFilter} 
+        ${open ? null : classes.hiddenPanel}` }>
         <Box className={classes.searchFilterBox}>
           <div>
             <h3>Encounter Filters</h3>

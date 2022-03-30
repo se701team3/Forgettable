@@ -12,21 +12,6 @@
     padding-bottom: 12px;
 }
 
-.homePosition {
-    position: relative;
-    bottom: 20px;
-}
-
-.personPosition {
-    position: relative;
-    bottom: 90px;
-}
-
-.encounterPosition {
-    position: relative;
-    bottom: 120px;
-}
-
 .filterSelectionPanel {
     display: flex;
     flex-direction: row;
@@ -34,5 +19,20 @@
 }
 
 .hiddenPanel {
-    visibility: hidden;
+    display: none;
+}
+
+.homeFilter {
+    position: relative;
+    bottom: 20px;
+}
+
+.personFilter {
+    position: relative;
+    bottom: 20px;
+}
+
+.encounterFilter {
+    position: relative;
+    bottom: 20px;
 }

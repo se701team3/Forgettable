@@ -179,6 +179,7 @@ export default function PersonsListPage(props) {
             <IconButton btnText="New Entry" onClick={onClickNewEntry} includeIcon={true} />
           </div>
         </div>
+        <SearchFilterModal open={searchFilterModalOpen} filterType="person" />
         <div className={classes.List}>
           <InfiniteScroll
             dataLength={personList.length}
@@ -214,7 +215,6 @@ export default function PersonsListPage(props) {
               );
             })}
           </InfiniteScroll>
-          <SearchFilterModal open={searchFilterModalOpen} filterType="person" />
         </div>
       </div>
       <ToastContainer
