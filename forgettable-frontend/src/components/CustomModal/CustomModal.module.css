@@ -31,3 +31,8 @@
     position: absolute;
     bottom: 30px;
   }
+
+  .warning {
+    background-color: var(--warn);
+    color: white;
+  }

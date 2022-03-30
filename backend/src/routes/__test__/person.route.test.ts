@@ -9,6 +9,8 @@ import app from '../../server';
 import "dotenv/config";
 import testUtils from '../../utils/test/test-utils';
 import {Importance} from "../../enums/importance";
+import Company, { CompanyModel } from 'src/models/company.model';
+import companyService from '../../services/company.service';
 
 const supertest = require('supertest');
 
@@ -28,6 +30,7 @@ const user1Data : UserModel = {
   last_name: 'Bong',
   encounters: [] as any,
   persons: [] as any,
+  companies: [] as any
 }
 
 const person1Data: PersonModel = {
@@ -40,6 +43,7 @@ const person1Data: PersonModel = {
   how_we_met: 'Hockey club',
   birthday: new Date('2002-12-12'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: new Date('2022-01-01'),
   gender: "male",
   location: "Auckland",
@@ -57,6 +61,7 @@ const person2Data: PersonModel = {
   how_we_met: 'Skype',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: null as any,
   gender: "male",
   image: null as any,
@@ -74,6 +79,7 @@ const person3Data: PersonModel = {
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: null as any,
   gender: "male",
   image: null as any,
@@ -91,6 +97,7 @@ const person4Data: PersonModel = {
   how_we_met: 'Bar',
   birthday: new Date('2002-12-12'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: new Date('2022-01-01'),
   gender: "other",
   image: null as any,
@@ -103,7 +110,8 @@ const userData: UserModel = {
   first_name: 'Ping',
   last_name: 'Pengy',
   encounters: [] as any,
-    persons: [] as any
+  persons: [] as any,
+  companies: [] as any
 }
 const person5Data = {
   last_name: 'John',
@@ -114,6 +122,7 @@ const person5Data = {
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: null as any,
   gender: "male",
   image: null as any,
@@ -129,6 +138,7 @@ const person6Data = {
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: null as any,
   gender: "male",
   image: null as any,
@@ -199,6 +209,15 @@ const person9Data = {
   social_media: null as any
 }
 
+
+const companyData: CompanyModel = {
+  name: "A Company",
+  location: "Somewhere",
+  description: "Important stuff",
+  date_founded: new Date('2000-01-20'),
+  time_updated: new Date(Date.now()),
+  persons: [] as any,
+}
 
 describe('POST persons/', () => {
   it ('Can be created and stored in the user when all information is provided', async () => {
@@ -544,6 +563,75 @@ describe('GET persons/:id', () => {
 
     expect(retrievedPerson.encounters[0].title).toEqual(encounter1Data.title)
   })
+});
+
+describe('GET persons/companies/:id', () => {
+  it ('Returns "Unauthorized" if the user does not have a valid auth_id', async () => {
+
+    await supertest(app).get(`/api/persons/companies/FAKE_COMPANY_ID`)
+      .set('Accept', 'application/json')
+      .set('Authorization', 'FAKE_AUTH_ID')
+      .expect(httpStatus.UNAUTHORIZED);
+    
+  });
+
+  it ('Returns "Not Found" if company not in user', async () => {
+    // Create a new user
+    await supertest(app).post('/api/users')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .send(user1Data);
+
+    const person = await personService.createPerson(person1Data);
+    companyData.persons = [person._id];
+    const company = await companyService.createCompany(companyData);
+
+    await supertest(app).get(`/api/persons/companies/${company._id}`)
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .expect(httpStatus.NOT_FOUND);
+    
+    companyData.persons = [];
+  });
+
+  it ('Can be retrieved by id', async () => {
+    // Create a new user
+    await supertest(app).post('/api/users')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .send(user1Data);
+
+    // Create new people 
+    const { body: personOne } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person1Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);
+    const { body: personTwo } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person1Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);
+
+    companyData.persons = [personOne._id, personTwo._id];
+    // Create a new company
+    const { body: company } = await supertest(app).post('/api/companies')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(companyData)
+            .expect(httpStatus.CREATED);
+    
+    const { body: persons } = await supertest(app).get(`/api/persons/companies/${company._id}`)
+    .set('Accept', 'application/json')
+    .set('Authorization', token)
+
+    expect(persons.length).toEqual(2)
+    expect(persons[0]).toHaveProperty('_id', personOne._id.toString());
+    expect(persons[1]).toHaveProperty('_id', personTwo._id.toString());
+    
+    companyData.persons = [];
+  });
+
 });
 
 describe('GET /persons', () => {

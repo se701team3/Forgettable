@@ -297,9 +297,10 @@ export default function EditPerson() {
         onConfirm={() => onDeleteConfirmed(id)}
       >
         <div className={classes.DeleteModal}>
-          <h1 >Warning</h1>
+          <h1>Warning</h1>
           <p >
-          Are you sure you want to delete this encounter?
+          Are you sure you want to delete this person?
+          All single-person encounters with this person will be deleted!
           You cannot undo this action.
           </p>
         </div>

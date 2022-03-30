@@ -30,6 +30,7 @@ const user1Data = {
     last_name: 'Bong',
     encounters: [] as any,
     persons: [] as any,
+    companies: [] as any
 }
 
 const user2Data: UserModel = {
@@ -37,7 +38,8 @@ const user2Data: UserModel = {
     first_name: 'Adam',
     last_name: 'Weng',
     encounters: [] as any,
-    persons: [] as any
+    persons: [] as any,
+    companies: [] as any
 }
 
 const person1Data: PersonModel = {
@@ -50,6 +52,7 @@ const person1Data: PersonModel = {
     how_we_met: 'Hockey club',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
+    companies: [] as any,
     first_met: new Date('2022-01-01'),
     gender: "male",
     location: "Auckland",
@@ -67,6 +70,7 @@ const person2Data: PersonModel = {
     how_we_met: 'Skype',
     birthday: new Date('2001-07-16'),
     encounters: [] as any,
+    companies: [] as any,
     first_met: null as any,
     gender: "male",
     image: null as any,
