@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './index.css';
-import {
-  BrowserRouter, useNavigate,
-} from 'react-router-dom';
+import {BrowserRouter, useNavigate} from 'react-router-dom';
 import NavBar from './components/NavBar/NavBar';
 import PageRouter from './hoc/PageRouter/PageRouter';
 import {AuthContext} from './context/AuthContext';
@@ -11,7 +9,8 @@ import firebase from 'firebase/compat/app';
 import {tryCreateUser} from './functions/tryCreateUser';
 import {useLocation} from 'react-router-dom';
 import {ToastContainer} from 'react-toastify';
-
+import {LoadScript} from '@react-google-maps/api';
+import {libraries} from './google-api-config';
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -80,8 +79,13 @@ function App() {
       value={{isLoggedIn, isLoggingIn, user, login, logout}}
     >
       {isLoggedIn && !isLoggingIn && <NavBar />}
-      <PageRouter/>
-      <ToastContainer/>
+      <LoadScript
+        googleMapsApiKey={process.env.REACT_APP_MAPS_API_KEY}
+        libraries={libraries}
+      >
+        <PageRouter />
+      </LoadScript>
+      <ToastContainer />
     </AuthContext.Provider>
   );
 }

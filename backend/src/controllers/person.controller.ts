@@ -15,6 +15,7 @@ import getPersonDetails from './utils/controller-utils';
 
 import logger from '../utils/logger';
 import { POST } from './controller.types';
+import companyService from '../services/company.service';
 
 export const createPerson: POST = async (
   req: Request,
@@ -125,6 +126,43 @@ export const getAllPeople = async (
   }
 };
 
+export const getPersonsByCompany = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+
+  logger.info('GET /persons/companies/:id request from frontend');
+
+  const authId = req.headers.authorization?.['user_id'];
+  const user = await userService.getUserByAuthId(authId);
+
+  try {
+    let company: any;
+    let companyPeople: any;
+    if (!user) {
+      res.status(httpStatus.UNAUTHORIZED).end();
+    } else {
+      // check if company belongs to user
+      if (user.companies.includes(new mongoose.Types.ObjectId(req.params.id))) {
+        company = await companyService.getCompany(req.params.id);
+        // get each person from the company
+        companyPeople = await Promise.all(company.persons.map(
+          async (personsId: any) => (await getPersonDetails(personsId)),
+        ));
+      }
+      
+      if (!company) {
+        res.status(httpStatus.NOT_FOUND).end();
+      } else {
+        res.status(httpStatus.OK).json(companyPeople).end();
+      }
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
 export const deletePersons = async (
   req: Request,
   res: Response,
@@ -210,5 +248,34 @@ export const updatePersonWithId = async (
     return res.sendStatus(updatedPerson ? httpStatus.NO_CONTENT : httpStatus.NOT_FOUND).end();
   } catch (error) {
     next(error);
+  }
+};
+
+export const getPeopleWithUpcomingBirthday = async (
+  req: Request,
+  expressRes: Response,
+  next: NextFunction,
+): Promise<any> => {
+  logger.info('GET /birthdays request from frontend');
+
+  const res = expressRes as PaginateableResponse;
+  const authId = req.headers.authorization?.['user_id'];
+  const user = await userService.getUserByAuthId(authId);
+
+  try {
+    if (!user) {
+      res.status(httpStatus.UNAUTHORIZED).end();
+    } else {
+      let today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      let threeMonthFromToday = new Date();
+      threeMonthFromToday.setMonth(threeMonthFromToday.getMonth() + 3);
+      threeMonthFromToday.setHours(0, 0, 0, 0);
+      const foundUserPersons = await personService.getPersonWithBirthdayRange(user.persons, today, threeMonthFromToday);
+      res.status(httpStatus.OK).json(foundUserPersons).end();
+    }
+  } catch (e) {
+    next(e);
   }
 };

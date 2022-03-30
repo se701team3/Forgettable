@@ -7,6 +7,7 @@ export interface UserModel {
   persons: mongoose.Types.ObjectId[]
   encounters: mongoose.Types.ObjectId[]
   goals: mongoose.Types.ObjectId[]
+  companies: mongoose.Types.ObjectId[]
 }
 
 const schema = new Schema<UserModel>({
@@ -16,6 +17,7 @@ const schema = new Schema<UserModel>({
   persons: { type: [mongoose.Types.ObjectId] },
   encounters: { type: [mongoose.Types.ObjectId] },
   goals: { type: [mongoose.Types.ObjectId] },
+  companies: { type: [mongoose.Types.ObjectId] },
 });
 
 export default model<UserModel>('User', schema);

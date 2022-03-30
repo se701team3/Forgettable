@@ -16,8 +16,10 @@ function CustomModal(props) {
       <div className={classnames(classes.Container, className)}>
         <div>{props.children}</div>
         <div className={classes.Footer}>
-          {hasCancel && <CustomButton btnText={'Cancel'} onClick={onClose}/>}
-          {hasConfirm && <CustomButton btnText={'Confirm'} onClick={onConfirm}/>}
+          {hasCancel &&
+          <CustomButton btnText={'Cancel'} onClick={onClose}/>}
+          {hasConfirm &&
+          <CustomButton btnText={'Confirm'} onClick={onConfirm} className={classes.warning} warning={classes.warning}/>}
         </div>
       </div>
     </Modal>);

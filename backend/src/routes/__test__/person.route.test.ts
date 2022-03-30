@@ -9,6 +9,8 @@ import app from '../../server';
 import "dotenv/config";
 import testUtils from '../../utils/test/test-utils';
 import {Importance} from "../../enums/importance";
+import Company, { CompanyModel } from 'src/models/company.model';
+import companyService from '../../services/company.service';
 
 const supertest = require('supertest');
 
@@ -28,7 +30,8 @@ const user1Data : UserModel = {
   last_name: 'Bong',
   encounters: [] as any,
   persons: [] as any,
-  goals: [] as any
+  goals: [] as any,
+  companies: [] as any
 }
 
 const person1Data: PersonModel = {
@@ -41,6 +44,7 @@ const person1Data: PersonModel = {
   how_we_met: 'Hockey club',
   birthday: new Date('2002-12-12'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: new Date('2022-01-01'),
   gender: "male",
   location: "Auckland",
@@ -58,6 +62,7 @@ const person2Data: PersonModel = {
   how_we_met: 'Skype',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: null as any,
   gender: "male",
   image: null as any,
@@ -75,6 +80,7 @@ const person3Data: PersonModel = {
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: null as any,
   gender: "male",
   image: null as any,
@@ -92,6 +98,7 @@ const person4Data: PersonModel = {
   how_we_met: 'Bar',
   birthday: new Date('2002-12-12'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: new Date('2022-01-01'),
   gender: "other",
   image: null as any,
@@ -105,7 +112,8 @@ const userData: UserModel = {
   last_name: 'Pengy',
   encounters: [] as any,
   persons: [] as any,
-  goals: [] as any
+  goals: [] as any,
+  companies: [] as any
 }
 const person5Data = {
   last_name: 'John',
@@ -116,6 +124,7 @@ const person5Data = {
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: null as any,
   gender: "male",
   image: null as any,
@@ -131,6 +140,7 @@ const person6Data = {
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
   encounters: [] as any,
+  companies: [] as any,
   first_met: null as any,
   gender: "male",
   image: null as any,
@@ -144,6 +154,7 @@ const encounter1Data: EncounterModel = {
   time_updated: new Date(Date.now()),
   description: 'Met at a cafe',
   location: 'Auckland',
+  latLong: [200, 200],
   persons: [] as any
 }
 
@@ -153,7 +164,63 @@ const encounter2Data: EncounterModel = {
   time_updated: new Date(Date.now()),
   description: 'Had lunch together',
   location: 'Auckland',
+  latLong: [200, 200],
   persons: [] as any
+}
+
+const person7Data = {
+  first_name: 'Yesterday',
+  last_name: 'Birthday',
+  interests: ['surfing', 'cooking'],
+  organisation: 'an organisation',
+  how_we_met: 'At the park',
+  birthday: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
+  encounters: [] as any,
+  first_met: null as any,
+  gender: "male",
+  image: null as any,
+  location: null as any,
+  social_media: null as any
+}
+
+const person8Data = {
+  first_name: 'Tomorrow',
+  last_name: 'Birthday',
+  interests: ['surfing', 'cooking'],
+  organisation: 'an organisation',
+  how_we_met: 'At the park',
+  birthday: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+  encounters: [] as any,
+  first_met: null as any,
+  gender: "male",
+  image: null as any,
+  location: null as any,
+  social_media: null as any
+}
+
+const person9Data = {
+  first_name: 'NextMonth',
+  last_name: 'Birthday',
+  interests: ['surfing', 'cooking'],
+  organisation: 'an organisation',
+  how_we_met: 'At the park',
+  birthday: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 30),
+  encounters: [] as any,
+  first_met: null as any,
+  gender: "male",
+  image: null as any,
+  location: null as any,
+  social_media: null as any
+}
+
+
+const companyData: CompanyModel = {
+  name: "A Company",
+  location: "Somewhere",
+  description: "Important stuff",
+  date_founded: new Date('2000-01-20'),
+  time_updated: new Date(Date.now()),
+  persons: [] as any,
 }
 
 describe('POST persons/', () => {
@@ -502,6 +569,75 @@ describe('GET persons/:id', () => {
   })
 });
 
+describe('GET persons/companies/:id', () => {
+  it ('Returns "Unauthorized" if the user does not have a valid auth_id', async () => {
+
+    await supertest(app).get(`/api/persons/companies/FAKE_COMPANY_ID`)
+      .set('Accept', 'application/json')
+      .set('Authorization', 'FAKE_AUTH_ID')
+      .expect(httpStatus.UNAUTHORIZED);
+    
+  });
+
+  it ('Returns "Not Found" if company not in user', async () => {
+    // Create a new user
+    await supertest(app).post('/api/users')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .send(user1Data);
+
+    const person = await personService.createPerson(person1Data);
+    companyData.persons = [person._id];
+    const company = await companyService.createCompany(companyData);
+
+    await supertest(app).get(`/api/persons/companies/${company._id}`)
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .expect(httpStatus.NOT_FOUND);
+    
+    companyData.persons = [];
+  });
+
+  it ('Can be retrieved by id', async () => {
+    // Create a new user
+    await supertest(app).post('/api/users')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .send(user1Data);
+
+    // Create new people 
+    const { body: personOne } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person1Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);
+    const { body: personTwo } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person1Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);
+
+    companyData.persons = [personOne._id, personTwo._id];
+    // Create a new company
+    const { body: company } = await supertest(app).post('/api/companies')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(companyData)
+            .expect(httpStatus.CREATED);
+    
+    const { body: persons } = await supertest(app).get(`/api/persons/companies/${company._id}`)
+    .set('Accept', 'application/json')
+    .set('Authorization', token)
+
+    expect(persons.length).toEqual(2)
+    expect(persons[0]).toHaveProperty('_id', personOne._id.toString());
+    expect(persons[1]).toHaveProperty('_id', personTwo._id.toString());
+    
+    companyData.persons = [];
+  });
+
+});
+
 describe('GET /persons', () => {
 
   async function populateDbWithUsersPersons() {
@@ -847,3 +983,52 @@ describe('DELETE /person/:id', () => {
   })
 })
 
+describe('GET /birthdays', () => {
+
+  async function populateDbWithUsersPersons() {
+    const person1 = new Person(person7Data);
+    const person2 = new Person(person8Data);
+    const person3 = new Person(person9Data);    
+    
+    await person1.save();
+    await person2.save();
+    await person3.save();
+    
+    userData.auth_id = await testUtils.getAuthIdFromToken(token);
+    const user = new User(userData);
+    user.persons.push(person1._id, person2._id, person3._id);
+    await user.save();
+  
+    const storedPersonIds = [person1._id, person2._id, person3._id];
+  
+    return storedPersonIds;
+  }
+
+  it('Returns correct number of entries', async () => {
+    await populateDbWithUsersPersons();
+    const { body: people }  = await supertest(app).get('/api/birthdays')
+      .set('Accept', 'application/json')
+      .set('Authorization', token);
+
+    expect(people.length).toEqual(2);
+  });
+
+  it('Returns the correct page of entries', async () => {
+    const storedPersonIds = await populateDbWithUsersPersons();
+
+    const { body: people }   = await supertest(app).get('/api/birthdays')
+      .set('Accept', 'application/json')
+      .set('Authorization', token);
+
+    expect(people[0]).toHaveProperty('_id', storedPersonIds[1]._id.toString());
+    expect(people[1]).toHaveProperty('_id', storedPersonIds[2]._id.toString());
+  });
+
+  it('Empty array is returned when no-one has a birthdays in a given data-range', async () => {
+    const { body: people } = await supertest(app).get('/api/birthdays')
+      .set('Accept', 'application/json')
+      .set('Authorization', token);
+
+    expect(people).toEqual({});
+  });
+});

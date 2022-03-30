@@ -25,18 +25,14 @@ const PageRouter = (props) => {
   const authContext = useContext(AuthContext);
 
   if (authContext.isLoggingIn) {
-    return (
-      <Loading text="Signing you in..."/>
-    );
+    return <Loading text="Signing you in..." />;
   }
 
   if (!authContext.isLoggedIn) {
     return (
       <Routes>
-        <Route path="/signin" element={<LogInPage/>} />
-        <Route
-          path="*"
-          element={<Navigate to="/signin" replace />}/>
+        <Route path="/signin" element={<LogInPage />} />
+        <Route path="*" element={<Navigate to="/signin" replace />} />
       </Routes>
     );
   }
@@ -44,18 +40,17 @@ const PageRouter = (props) => {
   return (
     <div className="page-wrapper">
       <Routes>
-
-        <Route path="/" element={<Home/>} />
-        <Route path="settings" element={<SettingsPage/>} />
-        <Route path="people" element={<PersonsListPage/>} />
-        <Route path="person/create" element={<EditPerson/>} />
-        <Route path="person/:id/edit" element={<EditPerson/>} />
-        <Route path="encounters" element={<EncountersListPage/>} />
-        <Route path="person/:id" element={<PersonPage/>} />
-        <Route path="encounters/create" element={<CreateEncounterPage/>} />
-        <Route path="/signin" element={<Navigate replace to="/"/>} />
-        <Route path="*" element={<NotFound/>} />
-
+        <Route path="/" element={<Home />} />
+        <Route path="settings" element={<SettingsPage />} />
+        <Route path="people" element={<PersonsListPage />} />
+        <Route path="person/create" element={<EditPerson />} />
+        <Route path="person/:id/edit" element={<EditPerson />} />
+        <Route path="encounters" element={<EncountersListPage />} />
+        <Route path="encounters/:id" element={<EncountersListPage />} />
+        <Route path="person/:id" element={<PersonPage />} />
+        <Route path="encounters/create" element={<CreateEncounterPage />} />
+        <Route path="/signin" element={<Navigate replace to="/" />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
