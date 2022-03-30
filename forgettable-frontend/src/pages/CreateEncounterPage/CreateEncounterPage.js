@@ -21,13 +21,16 @@ export default function CreateEncountersPage() {
   const [optionsList, setOptionsList] = React.useState([]);
   const [encounter, setEncounter] = React.useState({
     title: '',
+    latLong: [],
     date: currentDateString,
-    location: '',
     description: '',
     persons: [],
   });
   const [isSubmittable, setIsSubmittable] = React.useState(false);
   const [showWarning, setShowWarning] = React.useState(false);
+  const [location, setLocation] = useState('');
+  const [latLong, setLatLong] = useState([]);
+
   const [loading, setLoading] = useState(false);
 
   async function getData() {
@@ -51,23 +54,27 @@ export default function CreateEncountersPage() {
     }
   }, []);
 
-  const handlePersonChange=(event, value)=>{
+  const handlePersonChange = (event, value) => {
     if (encounter.title != '' && value.length != 0) {
       setIsSubmittable(true);
       setShowWarning(false);
     }
     const personArr = [];
-    value.forEach((person)=>{
+    value.forEach((person) => {
       personArr.push(person.id);
     });
     setEncounter({...encounter, persons: personArr});
   };
 
-  const handleDateChange=(event)=>{
+  const handleDateChange = (event) => {
     setEncounter({...encounter, date: event.target.value});
   };
 
-  const handleTitleChange=(event)=>{
+  const handleLatLongChange = (latLong) => {
+    setEncounter({...encounter, latLong});
+  };
+
+  const handleTitleChange = (event) => {
     if (event.target.value != '' && encounter.persons.length != 0) {
       setIsSubmittable(true);
       setShowWarning(false);
@@ -75,12 +82,7 @@ export default function CreateEncountersPage() {
     setEncounter({...encounter, title: event.target.value});
   };
 
-  // Doesn't use an event as it's called by passing in as a prop to AutocompleteLocationInput
-  const handleLocationChange=(placename)=>{
-    setEncounter({...encounter, location: placename});
-  };
-
-  const handleDescriptionChange=(event)=>{
+  const handleDescriptionChange = (event) => {
     setEncounter({...encounter, description: event.target.value});
   };
 
@@ -93,8 +95,8 @@ export default function CreateEncountersPage() {
     } else {
       setShowWarning(false);
       setEncounter({...encounter, time_updated: Date()});
-      await saveEncounter(encounter);
-    };
+      await saveEncounter({...encounter, location, latLong});
+    }
   };
 
   const handleShowWarning = (event) => {
@@ -106,11 +108,10 @@ export default function CreateEncountersPage() {
     setTimeout(() => {
       setLoading(false);
     }, 5000);
-
     const result = await createEncounter(encounterToPost);
     if (result) {
       toastGenerator('success', 'Encounter Created!', 2000);
-      setTimeout(()=> {
+      setTimeout(() => {
         navigate('/encounters', {state: {person: result}});
       }, 1000);
     } else {
@@ -118,9 +119,9 @@ export default function CreateEncountersPage() {
       setLoading(false);
     }
   }
-
-  return (
-    loading ? <Loading /> :
+  return loading ? (
+    <Loading />
+  ) : (
     <div className={classes.Card}>
       <Card sx={{borderRadius: 0, boxShadow: 0}}>
         <div className={classes.CardContent}>
@@ -130,8 +131,10 @@ export default function CreateEncountersPage() {
             <div className={classes.InputBox}>
               <TextField
                 size='small'
-                id="fullWidth"
-                sx={{width: 1/1}} /* setting width to 100% so it can be scaled in css */
+                id='fullWidth'
+                sx={{
+                  width: 1 / 1,
+                }} /* setting width to 100% so it can be scaled in css */
                 color='info'
                 value={encounter.title}
                 onChange={handleTitleChange}
@@ -140,33 +143,29 @@ export default function CreateEncountersPage() {
             </div>
           </div>
 
-
           <div className={classes.TextField}>
             <div className={classes.Text}>You Encountered:</div>
             <div className={classes.InputBox}>
               <Autocomplete
                 multiple
-                id="tags-outlined"
+                id='tags-outlined'
                 size='small'
                 options={optionsList}
                 getOptionLabel={(option) => option.label}
                 defaultValue={[]}
                 filterSelectedOptions={true}
                 renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    placeholder="People"
-                  />
+                  <TextField {...params} placeholder='People' />
                 )}
                 onChange={handlePersonChange}
               />
             </div>
           </div>
 
-
           <div className={classes.TextField}>
             <div className={classes.Text}>Date we met:</div>
-            <input className={classes.DateInput}
+            <input
+              className={classes.DateInput}
               type='date'
               max={currentDateString}
               name='date_met'
@@ -175,10 +174,13 @@ export default function CreateEncountersPage() {
             />
           </div>
 
-
           <div className={classes.TextField}>
             <div className={classes.Text}>Where we met:</div>
-            <AutocompleteLocationInput handleChange={handleLocationChange} className={classes.InputBox}/>
+            <AutocompleteLocationInput
+              setLocation={setLocation}
+              className={classes.InputBox}
+              setLatLong={setLatLong}
+            />
           </div>
 
           <div>
@@ -186,7 +188,7 @@ export default function CreateEncountersPage() {
             <div className={classes.InputBox}>
               <TextField
                 fullWidth
-                id="fullWidth"
+                id='fullWidth'
                 multiline
                 color='info'
                 rows={7}
@@ -196,25 +198,36 @@ export default function CreateEncountersPage() {
             </div>
           </div>
 
-
           <div className={classes.Buttons}>
-            <CustomButton btnText='Cancel' className='Button' onClick={()=>{
-              navigate('/people');
-            }}/>
-            {isSubmittable ?
-              <CustomButton btnText='Save' className='Button' onClick={handleSaveClick} /> :
-            <CustomButton btnText='Save' className='Button' onClick={handleShowWarning}/>
-            }
+            <CustomButton
+              btnText='Cancel'
+              className='Button'
+              onClick={() => {
+                navigate('/people');
+              }}
+            />
+            {isSubmittable ? (
+              <CustomButton
+                btnText='Save'
+                className='Button'
+                onClick={handleSaveClick}
+              />
+            ) : (
+              <CustomButton
+                btnText='Save'
+                className='Button'
+                onClick={handleShowWarning}
+              />
+            )}
           </div>
 
           <div className={classes.WarningText}>
             {showWarning && 'Encounters must have a title, a description, at least one person and must not take place in the future'}
           </div>
-
         </div>
       </Card>
       <ToastContainer
-        position="bottom-center"
+        position='bottom-center'
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}

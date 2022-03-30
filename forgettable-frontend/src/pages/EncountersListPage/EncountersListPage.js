@@ -19,6 +19,7 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
 import {unmarshalEncounters} from '../../functions/dataUnmarshaller';
+import EncountersMap from '../../components/EncountersMap/EncountersMap';
 
 /*
  * This page lists out all the Encounters the user created.
@@ -62,9 +63,20 @@ export default function EncountersListPage() {
     },
   ]);
 
+  // This is a list of latitude and longitude coordinates for the map markers
+  const [markers, setMarkers] = useState([]);
+
   useEffect(async () => {
     const result = await getEncountersByPage(pageNum, PAGE_SIZE);
     setEncounterList(result.map((encounter) => unmarshalEncounters(encounter)));
+    setMarkers(result.map((encounter) => {
+      return {
+        lat: encounter.latLong[0],
+        lng: encounter.latLong[1],
+        name: encounter.title,
+        id: encounter._id,
+      };
+    }));
     setIsLoading(false);
   }, []);
 
@@ -256,6 +268,11 @@ export default function EncountersListPage() {
         draggable
         pauseOnHover
       />
+      <div className={classes.Container}>
+        <div className={classes.Header}>Map of Encounters</div>
+        <div className={classes.Map}>
+          <EncountersMap markers={markers}/></div>
+      </div>
     </div>
   );
 }
