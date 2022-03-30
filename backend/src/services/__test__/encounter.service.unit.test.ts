@@ -20,6 +20,7 @@ const person1Data: PersonModel = {
     how_we_met: 'Hockey club',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
+    companies: [] as any,
     first_met: new Date('2022-01-01'),
     gender: "male",
     location: "Auckland",
@@ -136,21 +137,21 @@ describe('Encounter creation service', () => {
         expect(encounter3.toJSON()).toEqual(storedEncounter3?.toJSON());
     })
 
-    it('Failed to store user without title', async () => {
+    it('Failed to store encounter without title', async () => {
         await expect(encounterService.createEncounter(encounter4Data)).rejects.toThrow('Encounter validation failed: title: Path `title` is required.');
     })
 
-    it('Failed to create new user without description', async () => {
+    it('Failed to create new encounter without description', async () => {
         await expect(encounterService.createEncounter(encounter5Data)).rejects.toThrow('Encounter validation failed: description: Path `description` is required.');
 
     })
 
-    it('Failed to create new user without persons', async () => {
+    it('Failed to create new encounter without persons', async () => {
         await expect(encounterService.createEncounter(encounter6Data)).rejects.toThrow('Encounter validation failed: persons: Path `persons` is required.');
 
     })
 
-    it('Failed to create new user with empty persons', async () => {
+    it('Failed to create new encounter with empty persons', async () => {
         await expect(encounterService.createEncounter(encounter7Data)).rejects.toThrow('Persons can\'t be empty');
     })
 })
