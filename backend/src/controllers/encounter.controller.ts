@@ -20,6 +20,7 @@ const getEncounterFromReqBody = (body: any) => {
     date: body.date,
     time_updated: body.time_updated,
     location: body.location,
+    latLong: body.latLong,
     description: body.description,
     persons: body.persons,
   };
