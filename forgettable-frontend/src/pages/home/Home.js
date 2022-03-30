@@ -11,6 +11,7 @@ import IconButton from '../../components/IconButton/IconButton';
 import EncounterCardSummary from '../../components/EncounterCardSummary/EncounterCardSummary';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import CustomModal from '../../components/CustomModal/CustomModal';
+import GoalSummary from '../../components/GoalSummary/GoalSummary';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
 import { getAllEncounters, getAllPersons } from '../../services';
@@ -157,11 +158,22 @@ function Home() {
 
         <div className={classes.body_container}>
           <div className={classes.home_subtitleContainer}>
+            <div className={classes.home_subtitle}>Current Goal</div>
+          </div>
+          <div className={classes.home_cardGridContainer}>
+            <h2>
+              <GoalSummary encounters = {5} encountered={5}/>
+            </h2>
+          </div>
+
+
+          <div className={classes.home_subtitleContainer}>
             <div className={classes.home_subtitle}>Recently Updated</div>
             <Link to="/people" style={{ textDecoration: 'none' }}>
               <CustomButton btnText="View All" />
             </Link>
-          </div>
+          </div >
+
 
           <div
             className={
