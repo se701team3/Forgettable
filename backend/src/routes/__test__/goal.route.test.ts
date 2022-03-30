@@ -34,19 +34,11 @@ const user1Data = {
     goals: [] as any
 }
 
-const user2Data: UserModel = {
-    auth_id: null as any,
-    first_name: 'Adam',
-    last_name: 'Weng',
-    encounters: [] as any,
-    persons: [] as any,
-    goals: [] as any
-}
-
 const goal1Data: GoalModel = {
     date_start: new Date("2022-03-29"),
     date_end: new Date("2022-04-12"),
     duration: "14",
+    encounter_goal: 7,
     recurring: true
 
 };
@@ -55,13 +47,15 @@ const goal2Data: GoalModel = {
     date_start: new Date("2022-03-29"),
     date_end: new Date("2022-04-12"),
     duration: null as any,
+    encounter_goal: 7,
     recurring: true
 }
 
 const goal3Data: GoalModel = {
     date_start: null as any,
     date_end: new Date("2022-04-12"),
-    duration: "14",
+    duration: null as any,
+    encounter_goal: 7,
     recurring: true
 }
 
@@ -69,6 +63,7 @@ const goal4Data: GoalModel = {
     date_start: new Date("2022-03-29"),
     date_end: null as any,
     duration: "14",
+    encounter_goal: null as any,
     recurring: true
 }
 
@@ -76,6 +71,7 @@ const goal5Data: GoalModel = {
     date_start: new Date("2022-03-29"),
     date_end: new Date("2022-04-12"),
     duration: "14",
+    encounter_goal: 7,
     recurring: null as any
 }
 
@@ -83,6 +79,7 @@ const goal6Data: GoalModel = {
     date_start: new Date("2022-03-29"),
     date_end: new Date("2022-04-12"),
     duration: "14",
+    encounter_goal: 7,
     recurring: false
 }
 
@@ -102,7 +99,7 @@ describe('POST /goal', () => {
         user1Data.goals = [];
     })
 
-    it('Failed to create an goal with empty date_start field', async () => {
+    it('Failed to create an goal with empty duration field', async () => {
         await supertest(app).post('/api/users')
             .set('Accept', 'application/json')
             .set('Authorization', token)
@@ -115,7 +112,7 @@ describe('POST /goal', () => {
             .expect(httpStatus.BAD_REQUEST);
     })
 
-    it('Failed to create an goal with empty date_end field', async () => {
+    it('Failed to create an goal with empty encounter_goal field', async () => {
         await supertest(app).post('/api/users')
             .set('Accept', 'application/json')
             .set('Authorization', token)

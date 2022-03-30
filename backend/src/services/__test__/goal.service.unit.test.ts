@@ -12,6 +12,7 @@ const goal1Data: GoalModel = {
     date_start: new Date("2022-03-29"),
     date_end: new Date("2022-04-12"),
     duration: "14",
+    encounter_goal: 7,
     recurring: true
 
 };
@@ -20,13 +21,15 @@ const goal2Data: GoalModel = {
     date_start: new Date("2022-03-29"),
     date_end: new Date("2022-04-12"),
     duration: null as any,
+    encounter_goal: 7,
     recurring: true
 }
 
 const goal3Data: GoalModel = {
     date_start: null as any,
     date_end: new Date("2022-04-12"),
-    duration: "14",
+    duration: null as any,
+    encounter_goal: 7,
     recurring: true
 }
 
@@ -34,6 +37,7 @@ const goal4Data: GoalModel = {
     date_start: new Date("2022-03-29"),
     date_end: null as any,
     duration: "14",
+    encounter_goal: null as any,
     recurring: true
 }
 
@@ -41,6 +45,7 @@ const goal5Data: GoalModel = {
     date_start: new Date("2022-03-29"),
     date_end: new Date("2022-04-12"),
     duration: "14",
+    encounter_goal: 7,
     recurring: null as any
 }
 
@@ -48,6 +53,7 @@ const goal6Data: GoalModel = {
     date_start: new Date("2022-03-29"),
     date_end: new Date("2022-04-12"),
     duration: "14",
+    encounter_goal: 7,
     recurring: false
 }
 
@@ -65,12 +71,12 @@ describe('Goal creation service', () => {
         expect(goal1.toJSON()).toEqual(storedGoal1?.toJSON());
     })
 
-    it('Failed to store user without date_start', async () => {
-        await expect(goalService.createGoal(goal3Data)).rejects.toThrow('Goal validation failed: date_start: Path `date_start` is required.');
+    it('Failed to store user without duration', async () => {
+        await expect(goalService.createGoal(goal3Data)).rejects.toThrow('Goal validation failed: duration: Path `duration` is required.');
     })
 
-    it('Failed to create new user without date_end', async () => {
-        await expect(goalService.createGoal(goal4Data)).rejects.toThrow('Goal validation failed: date_end: Path `date_end` is required.');
+    it('Failed to create new user without encounter_goal', async () => {
+        await expect(goalService.createGoal(goal4Data)).rejects.toThrow('Goal validation failed: encounter_goal: Path `encounter_goal` is required.');
 
     })
 

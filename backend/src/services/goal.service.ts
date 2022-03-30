@@ -2,10 +2,14 @@ import Goal, { GoalModel } from '../models/goal.model';
 
 const createGoal = async (goalDetails: GoalModel) => {
   const goal = new Goal(goalDetails);
+  goal.date_start = new Date(Date.now());
+  goal.date_end = new Date();
+  goal.date_end.setDate(goal.date_start.getDate() + parseInt(goal.duration));
+  goal.encounter_goal = goalDetails.encounter_goal;
 
   await goal.save();
 
-  if (goal.date_start === null || goal.date_end === null || goal.duration === null || goal.recurring === null) {
+  if (goal.duration === null || goal.encounter_goal === null || goal.encounter_goal === 0 || goal.recurring === null) {
     await Goal.deleteOne({ _id: goal._id }).exec();
     const e = new Error('Goal fields can\'t be empty');
     e.name = 'ValidationError';

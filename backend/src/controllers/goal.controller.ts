@@ -21,6 +21,7 @@ const getGoalFromReqBody = (body: any) => {
     date_start: body.date_start,
     date_end: body.date_end,
     duration: body.duration,
+    encounter_goal: body.encounter_goal,
     recurring: body.recurring,
   };
 
@@ -61,8 +62,29 @@ export const getGoal = async (
     if (stringGoal?.includes(goalId)) {
       // Find goal from database
       const goal = await goalService.getGoal(goalId);
+
       // Notify frontend that the operation was successful
       let goalDTO = JSON.parse(JSON.stringify(goal));
+      const time_now = new Date(Date.now());
+      const new_date_end = new Date();
+      if (goalDTO.date_start > time_now && goalDTO.recurring) {
+        goalDTO.date_start = time_now;
+        goalDTO.date_end = new_date_end.setDate(time_now + goalDTO.duration);
+        const updatedGoal = await goalService.updateGoal(
+          goalId,
+          goalDTO,
+        );
+        res.status(httpStatus.OK).json(updatedGoal).end();
+      } else if (goalDTO.date_start > time_now && !goalDTO.recurring) {
+        const deleteGoalResult = await goalService.deleteGoal(goalId);
+        const deleteUserGoalResult = await userService.deleteUserGoal(goalId);
+        // Notify frontend that the operation was successful
+        if (deleteGoalResult && deleteUserGoalResult) {
+          res.sendStatus(httpStatus.NO_CONTENT).end();
+        } else {
+          res.sendStatus(httpStatus.CONFLICT).end();
+        }
+      }
       res.status(httpStatus.OK).json(goalDTO).end();
     } else {
       res.sendStatus(httpStatus.NOT_FOUND).end();
@@ -122,8 +144,14 @@ export const updateGoal = async (
       return res.status(httpStatus.NOT_FOUND).end();
     }
 
-    // update encounter
-    const newGoalData = getGoalFromReqBody(req.body);
+    // update goal
+    const goal = await goalService.getGoal(goalIdToUpdate);
+    let newGoalData = JSON.parse(JSON.stringify(goal));
+    const reqGoal = getGoalFromReqBody(req.body);
+    newGoalData.encounter_goal = reqGoal.encounter_goal;
+    newGoalData.duration = reqGoal.duration;
+    newGoalData.recurring = reqGoal.recurring;
+
     const updatedGoal = await goalService.updateGoal(
       goalIdToUpdate,
       newGoalData,
