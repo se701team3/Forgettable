@@ -24,12 +24,13 @@ beforeAll(async () => {
 afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => await databaseOperations.closeDatabase());
 
-const user1Data = {
+const user1Data: UserModel = {
     auth_id: null as any,
     first_name: 'Bing',
     last_name: 'Bong',
     encounters: [] as any,
     persons: [] as any,
+    goals: [] as any
 }
 
 const user2Data: UserModel = {
@@ -37,7 +38,8 @@ const user2Data: UserModel = {
     first_name: 'Adam',
     last_name: 'Weng',
     encounters: [] as any,
-    persons: [] as any
+    persons: [] as any,
+    goals: [] as any,
 }
 
 const person1Data: PersonModel = {

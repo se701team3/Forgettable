@@ -28,6 +28,7 @@ const user1Data : UserModel = {
   last_name: 'Bong',
   encounters: [] as any,
   persons: [] as any,
+  goals: [] as any
 }
 
 const person1Data: PersonModel = {
@@ -103,7 +104,8 @@ const userData: UserModel = {
   first_name: 'Ping',
   last_name: 'Pengy',
   encounters: [] as any,
-    persons: [] as any
+  persons: [] as any,
+  goals: [] as any
 }
 const person5Data = {
   last_name: 'John',

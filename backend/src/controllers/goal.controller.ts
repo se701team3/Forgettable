@@ -44,29 +44,31 @@ export const getGoal = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  logger.info('GET /goal request from frontend');
-  const authId = req.headers.authorization?.['user_id'];
-  const user = await userService.getUserByAuthId(authId);
+  logger.info('GET /goal/:id request from frontend');
+  try {
+    const authId = req.headers.authorization?.['user_id'];
 
-  if (!user) {
-    res.status(httpStatus.NOT_FOUND).end();
-  } else {
-    const { goals } = user;
-    if (!goals) {
-      res.status(httpStatus.NO_CONTENT).end();
-    } else {
-      const userDTO = JSON.parse(JSON.stringify(user));
-      const date = userDTO.goals.date_start;
-      const date_now = new Date(Date.now());
-      if (date > date_now && userDTO.goals.recurring) {
-        userDTO.goals.date_start = date_now;
-        userDTO.goals.date_end = date_now.setDate(date_now.getDate() + 14);
-        res.status(httpStatus.OK).json(userDTO).end();
-      } else if (date > date_now && !userDTO.goals.recurring) {
-        userDTO.goals = null;
-        res.status(httpStatus.NO_CONTENT).json(userDTO).end();
-      }
+    const userCurrent = await userService.getUserByAuthId(authId);
+    const goalId = req.params.id.toString();
+    const userGoal = userCurrent?.goals;
+
+    if (userGoal === undefined) {
+      res.sendStatus(httpStatus.NOT_FOUND).end();
+    } else if (userGoal.length === 0) {
+      res.sendStatus(httpStatus.NO_CONTENT).end();
     }
+    const stringGoal = userGoal?.map((x) => x.toString());
+    if (stringGoal?.includes(goalId)) {
+      // Find goal from database
+      const goal = await goalService.getGoal(goalId);
+      // Notify frontend that the operation was successful
+      let goalDTO = JSON.parse(JSON.stringify(goal));
+      res.status(httpStatus.OK).json(goalDTO).end();
+    } else {
+      res.sendStatus(httpStatus.NOT_FOUND).end();
+    }
+  } catch (e) {
+    next(e);
   }
 };
 

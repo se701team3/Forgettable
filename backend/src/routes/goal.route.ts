@@ -9,7 +9,7 @@ import {
 const routes = Router();
 
 routes.get('/:id', getGoal)
-  .post('/:id', createGoal)
+  .post('/', createGoal)
   .put('/:id', updateGoal)
   .delete('/:id', deleteGoal);
 

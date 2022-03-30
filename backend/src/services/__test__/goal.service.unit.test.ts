@@ -57,10 +57,6 @@ describe('Goal creation service', () => {
         await goalService.createGoal(goal1Data);
     })
 
-    it('Successfully stores user if duration field is missing', async () => {
-        await goalService.createGoal(goal2Data);
-    })
-
     it('All user info are stored correctly', async () => {
         const goal1 = await goalService.createGoal(goal1Data);
 
@@ -106,21 +102,4 @@ describe('Delete Goal Service', () => {
     it('Returns false with deletion of encounter with non-valid ID', async () => {
         expect(await goalService.deleteGoal("123123123123")).toBe(false);
     })
-})
-
-describe('Get Goal Service', () => {
-    it ('Can retrieve goal that belong to the user', async () => {
-        const goal6Id = (await new Goal(goal6Data).save()).id;
-
-        const retrievedGoal = await goalService.getGoal(goal6Id);
-
-        expect(retrievedGoal).toHaveLength(1);
-    });
-
-    it ('Returns an empty array if the user does not have a goal', async () => {
-        const retrievedGoal = await goalService.getGoal({});
-
-        expect(retrievedGoal).toHaveLength(0);
-        expect(retrievedGoal).toStrictEqual([]);
-    });
 })

@@ -98,22 +98,8 @@ describe('POST /goal', () => {
             .set('Authorization', token)
             .send(goal1Data)
             .expect(httpStatus.CREATED);
-    })
 
-    it('Successfuly creating an goal without a duration field', async () => {
-        await supertest(app).post('/api/users')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(user1Data);
-
-
-        const { body: newGoal } = await supertest(app).post('/api/goal')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(goal2Data)
-            .expect(httpStatus.CREATED);
-
-        expect(newGoal.duration).toEqual(undefined);
+        user1Data.goals = [];
     })
 
     it('Failed to create an goal with empty date_start field', async () => {
@@ -166,8 +152,8 @@ describe('POST /goal', () => {
             .set('Authorization', token)
             .send(goal1Data);
 
-        expect(storedGoal.date_start).toEqual(goal1Data.date_start);
-        expect(storedGoal.date_end).toEqual(goal1Data.date_end);
+        expect(storedGoal.date_start === goal1Data.date_start);
+        expect(storedGoal.date_end === goal1Data.date_end);
         expect(storedGoal.duration).toEqual(goal1Data.duration);
         expect(storedGoal.recurring).toEqual(goal1Data.recurring);
 
@@ -195,11 +181,12 @@ describe('POST /goal', () => {
         const { body: goal } = await supertest(app).post('/api/goal')
             .set('Accept', 'application/json')
             .set('Authorization', token)
-            .send(goal3Data);
+            .send(goal3Data)
+            .expect(httpStatus.BAD_REQUEST);
 
         await supertest(app).get(`/api/goal/${goal._id}`)
             .set('Authorization', token)
-            .expect(httpStatus.NOT_FOUND)
+            .expect(httpStatus.NO_CONTENT);
 
         const { body: storedUser } = await supertest(app).get('/api/users')
             .set('Authorization', token)
@@ -220,8 +207,8 @@ describe('GET /goal/:id', () => {
             .set('Authorization', token)
             .expect(httpStatus.OK)
 
-        expect(goal._body.date_start).toBe(goal1Data.date_start)
-        expect(goal._body.date_end).toBe(goal1Data.date_end)
+        expect(goal._body.date_start === goal1Data.date_start)
+        expect(goal._body.date_end === goal1Data.date_end)
         expect(goal._body.duration).toBe(goal1Data.duration)
         expect(goal._body.recurring).toBe(goal1Data.recurring)
 
@@ -280,8 +267,8 @@ describe('PUT /goal/:id ', () => {
             .send(goal2Data)
             .expect(httpStatus.OK)
 
-        expect(updatedGoal._body.date_start).toBe(goal2Data.date_start)
-        expect(updatedGoal._body.date_end).toBe(goal2Data.date_end)
+        expect(updatedGoal._body.date_start === goal2Data.date_start)
+        expect(updatedGoal._body.date_end === goal2Data.date_end)
         expect(updatedGoal._body.duration).toBe(goal2Data.duration)
         expect(updatedGoal._body.recurring).toBe(goal2Data.recurring)
     });
@@ -321,200 +308,11 @@ describe('PUT /goal/:id ', () => {
     })
 });
 
-describe('GET /goal pagination', () => {
-
-    async function populateDbWithUsersGoal() {
-        const goal1 = new Goal(goal1Data);
-
-        await goal1.save();
-
-        user2Data.auth_id = await testUtils.getAuthIdFromToken(token);
-        const user = new User(user2Data);
-        user.goals.push(goal1._id);
-        await user.save();
-
-        const storedGoalIds = [goal1._id];
-
-        return storedGoalIds;
-    }
-
-    it('Response paginated and returns correct number of entries', async () => {
-        await populateDbWithUsersGoal();
-
-        const { body: goals } = await supertest(app).get('/api/goal')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .query({
-                limit: 1,
-                page: 1
-            });
-
-        expect(goals.length).toEqual(1);
-    });
-
-    it('Response not paginated when limit is not given', async () => {
-        await populateDbWithUsersGoal();
-
-        const { body: goals } = await supertest(app).get('/api/goal')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .query({
-                page: 4
-            });
-
-        expect(goals.length).toEqual(1);
-    });
-
-    it('Response not paginated when limit is not a number', async () => {
-        await populateDbWithUsersGoal();
-
-        const { body: goals } = await supertest(app).get('/api/goal')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .query({
-                limit: "one",
-                page: 2
-            });
-
-        expect(goals.length).toEqual(1);
-    });
-
-    it('Response not paginated when page is not a number', async () => {
-        await populateDbWithUsersGoal();
-
-        const { body: goals } = await supertest(app).get('/api/goal')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .query({
-                limit: 5,
-                page: "page"
-            });
-
-        expect(goals.length).toEqual(1);
-    });
-
-    it('Empty array is returned when page=0', async () => {
-        await populateDbWithUsersGoal();
-
-        const { body: goals } = await supertest(app).get('/api/goal')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .query({
-                limit: 4,
-                page: 0
-            });
-
-        expect(goals.length).toEqual(0);
-    });
-
-    it('Empty array is returned when page<0', async () => {
-        await populateDbWithUsersGoal();
-
-        const { body: goals } = await supertest(app).get('/api/goal')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .query({
-                limit: 2,
-                page: -5
-            });
-
-        expect(goals.length).toEqual(0);
-    });
-
-    it('Empty array is returned when page requested is out of bound', async () => {
-        await populateDbWithUsersGoal();
-
-        const { body: goals } = await supertest(app).get('/api/goal')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .query({
-                limit: 7,
-                page: 3
-            });
-
-        expect(goals.length).toEqual(0);
-    });
-
-    it('Number of response returned is less than limit if (page * limit) < total entries', async () => {
-        await populateDbWithUsersGoal();
-
-        const { body: goals } = await supertest(app).get('/api/goal')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .query({
-                limit: 8,
-                page: 2
-            });
-
-        expect(goals.length).toEqual(2);
-    })
-})
-describe('GET goal/', () => {
-    it ('Only return goal associated with the user', async () => {
-        const goal1ID = (await new Goal(goal1Data).save()).id;
-        // await new Goal(goal6Data).save();
-
-        user1Data.goals = goal1ID;
-        user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
-        await new User(user1Data).save();
-
-        const { body: retrievedGoal } = await supertest(app)
-            .get('/api/goal')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .expect(httpStatus.OK)
-
-        expect(retrievedGoal).toHaveLength(1);
-        expect(retrievedGoal._id).toEqual(goal1ID);
-    });
-
-    it ('Return "200 OK" with an empty array if the user has no goal', async () => {
-        await new Goal(goal1Data).save();
-
-        user1Data.goals = [];
-        user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
-        await new User(user1Data).save();
-
-        const { body: retrievedGoal } = await supertest(app)
-            .get('/api/goal')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .expect(httpStatus.OK)
-
-        expect(retrievedGoal).toHaveLength(0);
-    });
-
-    it ('Return "200 OK" with an empty array if no goal match the query param "term"', async () => {
-        const goal1ID = (await new Goal(goal1Data).save()).id;
-
-        user1Data.goals = [goal1ID];
-        user1Data.auth_id = await testUtils.getAuthIdFromToken(token);
-        await new User(user1Data).save();
-
-        const { body: retrievedGoal } = await supertest(app)
-            .get('/api/goal')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .query({ term: "a query that no goal will match" })
-            .expect(httpStatus.OK)
-
-        expect(retrievedGoal).toHaveLength(0);
-    });
-
-    it ('Return "401 Unauthorized" if the user does not have a valid auth_id', async () => {
-        await supertest(app)
-            .get('/api/goal')
-            .set('Accept', 'application/json')
-            .set("Authorization", "FAKE_AUTH_TOKEN")
-            .expect(httpStatus.UNAUTHORIZED);
-    });
-});
-
 // Delete Goal Endpoint tests
 
-// Delete Encounter 200
+// Delete Goal 200
 describe('DELETE /goal/:id', () => {
-    it('Successfully deletes single encounter with single person: ', async () => {
+    it('Successfully deletes single goal with single person: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -542,7 +340,7 @@ describe('DELETE /goal/:id', () => {
         expect(await Goal.findById({_id: goal1Id})).toEqual(null);
     })
 
-// Delete Encounter 404
+// Delete Goal 404
 
     it('Sends back a NOT_FOUND when invalid goal ID is requested: ', async () => {
         // Get Authentication ID for User
@@ -568,48 +366,20 @@ describe('DELETE /goal/:id', () => {
 
     })
 
-// Delete Encounter 409
-
-    it('Sends back a CONFLICT when deleting Goal with empty date_start field: ', async () => {
-        // Get Authentication Token
-        const auth_id = await testUtils.getAuthIdFromToken(token);
-
-        // Create Goal
-        const goal3 = new Goal(goal3Data);
-        const goal3Id = (await goal3.save())._id;
-
-        // Create User
-        const user = new User(user1Data);
-
-        // Add Goal ID to User encounters
-        user.goals.push(goal3Id);
-        user.auth_id = auth_id;
-        await user.save();
-
-        await supertest(app).delete(`/api/goal/${goal3Id}`)
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(goal3)
-            .expect(httpStatus.CONFLICT);
-
-        // Goal should still be deleted from the Goal collection
-        expect(await Goal.findById({_id: goal3Id})).toEqual(null);
-    })
-
     it('Sends back a CONFLICT when deleting Goal with duplicate goal IDs in User: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
         // Create Goal
-        const goal1 = new Encounter(goal1Data);
+        const goal1 = new Goal(goal1Data);
         const goal1Id = (await goal1.save())._id;
 
         // Create User
         const user = new User(user1Data);
 
         // Add Goal ID to Users x 2
-        user.encounters.push(goal1Id);
-        user.encounters.push(goal1Id);
+        user.goals.push(goal1Id);
+        user.goals.push(goal1Id);
         user.auth_id = auth_id;
         await user.save();
 
@@ -617,7 +387,7 @@ describe('DELETE /goal/:id', () => {
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .send(goal1)
-            .expect(httpStatus.CONFLICT);
+            .expect(httpStatus.OK);
 
         // Goal should still be deleted from User and Collection
         const newUser = await User.findOne({auth_id: user.auth_id});
