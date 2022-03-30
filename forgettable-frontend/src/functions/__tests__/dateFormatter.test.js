@@ -3,6 +3,8 @@ import {
   getLongDateStringWithSpaces,
   calculateAge,
   getLongDateStringWithSlashes,
+  getMonthAndDay,
+  getDayOfWeek,
 } from '../dateFormatter';
 
 test(
@@ -81,5 +83,43 @@ test('getLongDateStringWithSlashes: should return a string representing "Unknown
         const formattedString = getLongDateStringWithSpaces(null);
 
         expect(formattedString).toBe('Unknown');
+      };
+    });
+
+test('getDayOfWeek: should return a string representing "Unknown" given a null Date object',
+    () => {
+      () => {
+        const formattedString = getDayOfWeek(null);
+
+        expect(formattedString).toBe('Unknown');
+      };
+    });
+
+test('getDayOfWeek: should format date into day of the week',
+    () => {
+      () => {
+        const date = new Date('30-03-2022');
+        const formattedString = getDayOfWeek(date);
+
+        expect(formattedString).toBe('Wednesday');
+      };
+    });
+
+test('getMonthAndDay: should return a string representing "Unknown" given a null Date object',
+    () => {
+      () => {
+        const formattedString = getMonthAndDay(null);
+
+        expect(formattedString).toBe('Unknown');
+      };
+    });
+
+test('getMonthAndDay: should format date into day of the week',
+    () => {
+      () => {
+        const date = new Date('30-03-2022');
+        const formattedString = getMonthAndDay(date);
+
+        expect(formattedString).toBe('30 March');
       };
     });
