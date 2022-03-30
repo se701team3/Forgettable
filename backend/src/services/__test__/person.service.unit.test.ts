@@ -19,6 +19,7 @@ const person1Data:PersonModel = {
     how_we_met: 'testmet',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
+    companies: [] as any,
     first_met: new Date('2022-01-01'),
     gender: "other",
     image: null as any,
@@ -36,6 +37,7 @@ const person1Data:PersonModel = {
     how_we_met: 'Over there',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
+    companies: [] as any,
     first_met: new Date('2022-01-01'),
     gender: "male",
     image: null as any,
@@ -53,6 +55,7 @@ const person1Data:PersonModel = {
     how_we_met: 'Over there',
     birthday: new Date('2002-12-12'),
     encounters: ["62330cf64ec3986f4d1ab01a"] as any,
+    companies: ["6242407cc5e9863fb6f8ea00"] as any,
     first_met: new Date('2022-01-01'),
     gender: "male",
     image: null as any,
@@ -70,6 +73,7 @@ const person1Data:PersonModel = {
     how_we_met: 'testmet',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
+    companies: [] as any,
     first_met: new Date('2022-01-01'),
     gender: "other",
     image: null as any,
@@ -87,6 +91,7 @@ const person1Data:PersonModel = {
     how_we_met: 'testmet',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
+    companies: [] as any,
     first_met: new Date('2022-01-01'),
     gender: "other",
     image: null as any,
@@ -165,6 +170,46 @@ const person1Data:PersonModel = {
     })
 })
 
+describe('Add company to person', () => {
+  it ('Successfully add an company to a Person', async () => {
+      const person1 = await personService.createPerson(person1Data);
+      const person2 = await personService.createPerson(person2Data);
+
+      const personIds = [person1._id, person2._id];
+
+      const companyId = "6242407cc5e9863fb6f8ea00";
+      expect(await personService.addCompanyToPersons(personIds, companyId)).toEqual(true);
+  })
+
+  it ('Company id stored correctly', async () => {
+      const person1 = await personService.createPerson(person1Data);
+      const person2 = await personService.createPerson(person2Data);
+
+      const personIds = [person1._id, person2._id];
+
+      let companyId = "6242407cc5e9863fb6f8ea00";
+      await personService.addEncounterToPersons(personIds, companyId);
+
+      const storedPerson1 = await Person.findOne({ _id: person1._id }).exec();
+      const storedPerson2 = await Person.findOne({ _id: person2._id }).exec();
+
+      expect(storedPerson1?.encounters.includes(companyId as any)).toEqual(true);
+      expect(storedPerson2?.encounters.includes(companyId as any)).toEqual(true);
+  })
+
+  it ('Fails to add company to not existing Person', async () => {
+      const person1 = await personService.createPerson(person1Data);
+      const person2 = await personService.createPerson(person2Data);
+
+      const personIds = [person1._id, person2._id];
+
+      await Person.deleteOne({ _id: person2._id }).exec();
+
+      const companyId = "6242407cc5e9863fb6f8ea00";
+      expect(await personService.addEncounterToPersons(personIds, companyId)).toEqual(false);
+  })
+})
+
 // Delete Person service
 
 describe('Delete Person Service', () => {
@@ -199,6 +244,26 @@ describe('Delete Person Encounter Service', () => {
     const personOne = new Person(person3Data);
 
    const result = await personService.deletePersonEncounters("00000cf64ec3986f4d1a0000");
+   expect(!result);
+ })
+})
+
+// Delete Person Company
+
+describe('Delete Person Company Service', () => {
+  it ('Successfully deletes person company', async () => {
+     // Create Person
+     const personOne = new Person(person3Data);
+
+    const result = await personService.deletePersonCompanies("6242407cc5e9863fb6f8ea00");
+    expect(result);
+  })
+
+  it ('Returns false if encounter ID does not exist', async () => {
+    // Create Person
+    const personOne = new Person(person3Data);
+
+   const result = await personService.deletePersonCompanies("00000cf64ec3986f4d1a0000");
    expect(!result);
  })
 })

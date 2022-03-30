@@ -19,6 +19,12 @@ export const addEncounterToUser = async (authId, encounterId) => {
   return result.modifiedCount === 1;
 };
 
+export const addCompanyToUser = async (authId, companyId) => {
+  const result = await User.updateOne({ auth_id: authId }, { $push: { companies: companyId } });
+
+  return result.modifiedCount === 1;
+};
+
 export const getUserByAuthId = async (uid) => {
   const user = await User.findOne({ auth_id: uid });
   return user;
@@ -44,6 +50,16 @@ export const deleteUserEncounter = async (encounterID: String) => {
   }
 };
 
+export const deleteUserCompany = async (companyID: String) => {
+  const result = await User.updateMany({ }, { $pullAll: { companies: [{ _id: companyID }] } });
+
+  if (result.modifiedCount == 1) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export const addPersonId = async (uid, pid) => {
   const updatedUser = await User.findOneAndUpdate(
     { auth_id: uid },
@@ -60,6 +76,8 @@ const userService = {
   deleteUserPerson,
   deleteUserEncounter,
   addEncounterToUser,
+  addCompanyToUser,
+  deleteUserCompany
 };
 
 export default userService;
