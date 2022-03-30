@@ -34,6 +34,7 @@ const encounter1Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any
 }
 
@@ -41,6 +42,7 @@ const encounter2Data: EncounterModel= {
     title: "Encounter4",
     description: 'Play badminton together',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
     time_updated: new Date(Date.now()),
     date: null as any
@@ -52,7 +54,8 @@ const encounter3Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Played badminton together',
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
-    location: null as any
+    location: null as any,
+    latLong: [200, 200],
 }
 
 const encounter4Data: EncounterModel = {
@@ -61,6 +64,7 @@ const encounter4Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Shopping',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
 }
 
@@ -69,6 +73,7 @@ const encounter5Data: EncounterModel = {
     date: new Date('2022-05-25'),
     time_updated: new Date(Date.now()),
     location: 'Auckland',
+    latLong: [200, 200],
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
     description: null as any
 }
@@ -79,6 +84,7 @@ const encounter6Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     location: 'Auckland',
     persons: null as any,
+    latLong: [200, 200],
     description: "This is encounter 8" as any
 }
 
@@ -87,6 +93,7 @@ const encounter7Data: EncounterModel = {
     date: new Date('2022-05-25'),
     time_updated: new Date(Date.now()),
     location: 'Auckland',
+    latLong: [200, 200],
     persons: [] as any,
     description: "This is encounter 9" as any
 }
@@ -97,6 +104,7 @@ const encounter8Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: ["656e636f756e746572314964"] as any
 }
 
@@ -106,6 +114,7 @@ const encounter9Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any
 }
 

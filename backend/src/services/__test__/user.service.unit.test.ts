@@ -13,6 +13,7 @@ const user1Data:UserModel = {
     last_name: 'Bong',
     encounters: [] as any,
     persons: [] as any,
+    goals: [] as any,
     companies: [] as any
 }
 
@@ -22,6 +23,7 @@ const user2Data:UserModel = {
     last_name: 'Mong',
     encounters: [] as any,
     persons: [] as any,
+    goals: [] as any,
     companies: [] as any
 }
 
@@ -31,6 +33,7 @@ const user3Data:UserModel = {
     last_name: null as any,
     encounters: [] as any,
     persons: [] as any,
+    goals: [] as any,
     companies: [] as any
 }
 
@@ -40,6 +43,7 @@ const user4Data:UserModel = {
     last_name: 'Tangy',
     persons: null as any,
     encounters: [] as any,
+    goals: [] as any,
     companies: [] as any
 }
 
@@ -49,6 +53,7 @@ const user5Data:UserModel = {
     last_name: 'Tangy',
     persons: [] as any,
     encounters: null as any,
+    goals: [] as any,
     companies: [] as any
 }
 
@@ -58,6 +63,7 @@ const user6Data:UserModel = {
     last_name: 'Ray',
     encounters: null as any,
     persons: [] as any,
+    goals: [] as any,
     companies: [] as any
 }
 
@@ -67,6 +73,7 @@ const user7Data:UserModel = {
     last_name: 'Ray',
     encounters: ["62330cf64ec3986f4d1ab01a"] as any,
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
+    goals: [] as any,
     companies: ["6242407cc5e9863fb6f8ea00"] as any
 }
 

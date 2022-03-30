@@ -24,12 +24,13 @@ beforeAll(async () => {
 afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => await databaseOperations.closeDatabase());
 
-const user1Data = {
+const user1Data: UserModel = {
     auth_id: null as any,
     first_name: 'Bing',
     last_name: 'Bong',
     encounters: [] as any,
     persons: [] as any,
+    goals: [] as any,
     companies: [] as any
 }
 
@@ -39,6 +40,7 @@ const user2Data: UserModel = {
     last_name: 'Weng',
     encounters: [] as any,
     persons: [] as any,
+    goals: [] as any,
     companies: [] as any
 }
 
@@ -84,6 +86,7 @@ const encounter1Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: [] as any
 }
 
@@ -93,6 +96,7 @@ const encounter2Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Had lunch together',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: [] as any
 }
 
@@ -142,6 +146,7 @@ const encounter8Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: '',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: [] as any
 }
 
@@ -150,6 +155,7 @@ const encounterData: EncounterModel = {
     date: new Date("2022-12-02"),
     time_updated: new Date(Date.now()),
     location: "here",
+    latLong: [200, 200],
     description: "we did this and that",
     persons: [] as any,
 }
