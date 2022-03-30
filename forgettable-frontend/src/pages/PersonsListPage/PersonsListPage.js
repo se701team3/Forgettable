@@ -12,7 +12,6 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
 import {unmarshalPerson} from '../../functions/dataUnmarshaller';
-import SearchFilterPanel from '../../components/SearchFilterPanel/SearchFilterPanel';
 
 const PAGE_SIZE = 10;
 
@@ -173,7 +172,6 @@ export default function PersonsListPage(props) {
             <IconButton btnText="New Entry" onClick={onClickNewEntry} includeIcon={true} />
           </div>
         </div>
-        <SearchFilterPanel filterType="person" />
         <div className={classes.List}>
           <InfiniteScroll
             dataLength={personList.length}

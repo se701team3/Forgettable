@@ -4,6 +4,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import classes from './SearchBar.module.css';
 import {useNavigate} from 'react-router-dom';
+import {Button, IconButton} from '@mui/material';
+import CustomButton from '../CustomButton/CustomButton';
 
 function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
   const [filteredData, setFilteredData] = useState([]);
@@ -65,6 +67,7 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
               />
             )}
           </div>
+          <CustomButton btnText="Filters" />
         </div>
         {filteredData.length !== 0 && (
           <div className={classes.DataResult}>
@@ -125,6 +128,7 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
               />
             )}
           </div>
+          <CustomButton btnText="Filters" />
         </div>
       </div>
     );
