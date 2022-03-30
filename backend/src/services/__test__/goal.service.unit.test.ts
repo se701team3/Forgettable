@@ -20,7 +20,7 @@ const goal1Data: GoalModel = {
 const goal2Data: GoalModel = {
     date_start: new Date("2022-03-29"),
     date_end: new Date("2022-04-12"),
-    duration: null as any,
+    duration: "7",
     encounter_goal: 7,
     recurring: true
 }
@@ -59,7 +59,7 @@ const goal6Data: GoalModel = {
 
 describe('Goal creation service', () => {
 
-    it('Successfully stores encounter if all required fields are given',  async () => {
+    it('Successfully stores goal if all required fields are given',  async () => {
         await goalService.createGoal(goal1Data);
     })
 
@@ -105,7 +105,7 @@ describe('Delete Goal Service', () => {
     })
 
 
-    it('Returns false with deletion of encounter with non-valid ID', async () => {
+    it('Returns false with deletion of goal with non-valid ID', async () => {
         expect(await goalService.deleteGoal("123123123123")).toBe(false);
     })
 })

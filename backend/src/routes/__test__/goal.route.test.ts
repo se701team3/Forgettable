@@ -1,16 +1,10 @@
 import databaseOperations from '../../utils/test/db-handler';
 import User, { UserModel } from '../../models/user.model';
-import Person, { PersonModel } from '../../models/person.model';
-import Encounter, { EncounterModel } from '../../models/encounter.model';
 import Goal, { GoalModel } from '../../models/goal.model';
 import app from '../../server';
 import httpStatus from "http-status";
 import testUtils from '../../utils/test/test-utils';
 import 'dotenv/config';
-import encounterService from '../../services/encounter.service';
-import personService from 'src/services/person.service';
-import { UserRecord } from 'firebase-admin/lib/auth/user-record';
-import {Importance} from "../../enums/importance";
 
 const supertest = require('supertest');
 
@@ -46,7 +40,7 @@ const goal1Data: GoalModel = {
 const goal2Data: GoalModel = {
     date_start: new Date("2022-03-29"),
     date_end: new Date("2022-04-12"),
-    duration: null as any,
+    duration: "7",
     encounter_goal: 7,
     recurring: true
 }
@@ -162,7 +156,7 @@ describe('POST /goal', () => {
             .set('Authorization', token)
             .send(user1Data);
 
-        await supertest(app).post('/api/encounters')
+        await supertest(app).post('/api/goal')
             .set('Accept', 'application/json')
             .send(goal1Data)
             .expect(httpStatus.UNAUTHORIZED);
@@ -248,12 +242,12 @@ describe('PUT /goal/:id ', () => {
     it('Successfully updates an goal with a given json', async () => {
         const newGoalId = await createUserGoal(token);
 
-        // update a goal with 'goal2Data'
+        // update a goal with 'goal3Data'
         await supertest(app)
             .put(`/api/goal/${newGoalId}`)
             .set('Accept', 'application/json')
             .set('Authorization', token)
-            .send(goal2Data)
+            .send(goal3Data)
             .expect(httpStatus.NO_CONTENT) // since it's no content, need to get this goal to check updated fields
 
         // retrieve the updated goal and compare
@@ -261,13 +255,13 @@ describe('PUT /goal/:id ', () => {
             .get(`/api/goal/${newGoalId}`)
             .set('Accept', 'application/json')
             .set('Authorization', token)
-            .send(goal2Data)
+            .send(goal3Data)
             .expect(httpStatus.OK)
 
-        expect(updatedGoal._body.date_start === goal2Data.date_start)
-        expect(updatedGoal._body.date_end === goal2Data.date_end)
-        expect(updatedGoal._body.duration).toBe(goal2Data.duration)
-        expect(updatedGoal._body.recurring).toBe(goal2Data.recurring)
+        expect(updatedGoal._body.date_start === goal3Data.date_start)
+        expect(updatedGoal._body.date_end === goal3Data.date_end)
+        expect(updatedGoal._body.duration).toBe(goal3Data.duration)
+        expect(updatedGoal._body.recurring).toBe(goal3Data.recurring)
     });
 
     it('Fails when called with invalid goal object ID', async () => {
@@ -282,7 +276,7 @@ describe('PUT /goal/:id ', () => {
     });
 
     it('Fails when goal object ID that does not exist', async () => {
-        // update an encounter of id that does not exist
+        // update an goal of id that does not exist
         await supertest(app)
             .put(`/api/goal/622b36166bb3a4e3a1ef62f1`)
             .set('Accept', 'application/json')
@@ -309,7 +303,7 @@ describe('PUT /goal/:id ', () => {
 
 // Delete Goal 200
 describe('DELETE /goal/:id', () => {
-    it('Successfully deletes single goal with single person: ', async () => {
+    it('Successfully deletes single goal: ', async () => {
         // Get Authentication ID for User
         const auth_id = await testUtils.getAuthIdFromToken(token);
 
@@ -399,11 +393,11 @@ describe('DELETE /goal/:id', () => {
  ****************************************************************/
 
 /**
- * Creates user and creates person to that user, then an encounter with that person
- * Something like: user -> person -> encounter
- * returns id of the encounter
+ * Creates user, then a goal
+ * Something like: user -> goal
+ * returns id of the goal
  * @param token
- * @return id of created encounter
+ * @return id of created goal
  */
 const createUserGoal = async (token): Promise<any>=>{
     // create user

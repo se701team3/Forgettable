@@ -4,16 +4,10 @@
 
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { PaginateableResponse } from 'src/utils/paginateable.response';
-import mongoose from 'mongoose';
-import encounterService from '../services/encounter.service';
 import logger from '../utils/logger';
 import { GoalModel } from '../models/goal.model';
 import userService, { getUserByAuthId } from '../services/user.service';
 import goalService from '../services/goal.service';
-import getPersonDetails from './utils/controller-utils';
-import personService from '../services/person.service';
-import { EncounterModel } from '../models/encounter.model';
 
 // Util function that won't be needed regularly
 const getGoalFromReqBody = (body: any) => {
@@ -29,9 +23,9 @@ const getGoalFromReqBody = (body: any) => {
 };
 
 /**
- * searches for encounter in user by goal id
+ * searches for goal in user by goal id
  * @param user user which goal should be found from
- * @param encounterId id of the goal to be searched from the user
+ * @param goalId id of the goal to be searched from the user
  */
 const isGoalExistsInUser = (user, goalId: string): boolean => {
   const findGoal = user.goals.filter(
@@ -63,10 +57,11 @@ export const getGoal = async (
       // Find goal from database
       const goal = await goalService.getGoal(goalId);
 
-      // Notify frontend that the operation was successful
       let goalDTO = JSON.parse(JSON.stringify(goal));
       const time_now = new Date(Date.now());
       const new_date_end = new Date();
+
+      // If the date is surpassed and it is a recurring goal, update the current start/end dates accordingly
       if (goalDTO.date_start > time_now && goalDTO.recurring) {
         goalDTO.date_start = time_now;
         goalDTO.date_end = new_date_end.setDate(time_now + goalDTO.duration);
@@ -76,6 +71,7 @@ export const getGoal = async (
         );
         res.status(httpStatus.OK).json(updatedGoal).end();
       } else if (goalDTO.date_start > time_now && !goalDTO.recurring) {
+        // If the date is surpassed and it isn't a recurring goal, remove the goal and return no content
         const deleteGoalResult = await goalService.deleteGoal(goalId);
         const deleteUserGoalResult = await userService.deleteUserGoal(goalId);
         // Notify frontend that the operation was successful
@@ -138,7 +134,7 @@ export const updateGoal = async (
     const goalIdToUpdate = req.params.id;
     const firebaseAuthId = req.headers.authorization['user_id'];
 
-    // check user exists with the firebase auth_id, and the user specified encounter actually exists
+    // check user exists with the firebase auth_id, and the user specified goal actually exists
     const userByAuthId = await getUserByAuthId(firebaseAuthId);
     if (!userByAuthId || !isGoalExistsInUser(userByAuthId, goalIdToUpdate)) {
       return res.status(httpStatus.NOT_FOUND).end();
@@ -148,6 +144,8 @@ export const updateGoal = async (
     const goal = await goalService.getGoal(goalIdToUpdate);
     let newGoalData = JSON.parse(JSON.stringify(goal));
     const reqGoal = getGoalFromReqBody(req.body);
+
+    // Updates goal with request body parameters
     newGoalData.encounter_goal = reqGoal.encounter_goal;
     newGoalData.duration = reqGoal.duration;
     newGoalData.recurring = reqGoal.recurring;
@@ -186,7 +184,7 @@ export const deleteGoal = async (
 
   if (stringGoal?.includes(id.toString())) {
     try {
-      // Delete encounter from Encounter and Person collection
+      // Delete goal from Goal collection
       const deleteGoalResult = await goalService.deleteGoal(id);
       const deleteUserGoalResult = await userService.deleteUserGoal(id);
 
