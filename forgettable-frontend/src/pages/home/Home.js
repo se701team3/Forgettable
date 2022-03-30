@@ -138,7 +138,7 @@ function Home() {
         </div>
 
         <div className={classes.home_searchArea}>
-          <SearchBar placeholder={'Search'} data={searchBarData} hasAutocomplete={true} toggleFilters={toggleFilters} />
+          <SearchBar placeholder={'Search'} data={searchBarData} hasAutocomplete={true} toggleFilters={toggleFilters} datatype={selectedFilter} />
           <div className={classes.home_newEntryBtn}>
             <IconButton btnText="New Entry" onClick={handleNewEntryClick} includeIcon={true} />
           </div>

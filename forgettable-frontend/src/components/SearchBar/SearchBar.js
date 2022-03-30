@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom';
 import {Button, IconButton} from '@mui/material';
 import CustomButton from '../CustomButton/CustomButton';
 
-function SearchBar({placeholder, data, exportSearchString, hasAutocomplete, toggleFilters}) {
+function SearchBar({placeholder, data, exportSearchString, hasAutocomplete, toggleFilters, datatype}) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState('');
   const [resultURL, setResultURL] = useState('');
@@ -21,7 +21,13 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete, togg
     setWordEntered(searchWord);
     if (hasAutocomplete === true) {
       const newFilter = data.filter((value) => {
-        return value.title.toLowerCase().includes(searchWord.toLowerCase());
+        if (datatype) {
+          if (value.type == datatype) {
+            return value.title.toLowerCase().includes(searchWord.toLowerCase());
+          }
+        } else {
+          return value.title.toLowerCase().includes(searchWord.toLowerCase());
+        }
       });
       if (searchWord === '') {
         setFilteredData([]);
@@ -34,7 +40,7 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete, togg
   const clearInput = () => {
     setFilteredData([]);
     setWordEntered('');
-    exportSearchString('');
+    exportSearchString('', '');
   };
 
   const handleKeyDown = (event) => {
