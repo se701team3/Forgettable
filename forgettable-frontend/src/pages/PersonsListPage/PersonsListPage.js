@@ -34,6 +34,7 @@ export default function PersonsListPage(props) {
   const [personList, setPersonList] = useState( [] );
   const [currentPage, setCurrentPage] = useState(1);
   const [searchFilterModalOpen, setSearchFilterModalOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState('');
 
   useEffect(async () => {
     const result = await getAllPersons(currentPage, PAGE_SIZE);
@@ -176,10 +177,14 @@ export default function PersonsListPage(props) {
             toggleFilters={toggleFilters}
           />
           <div className={classes.Button}>
-            <IconButton btnText="New Entry" onClick={onClickNewEntry} includeIcon={true} />
+            <IconButton btnText="New Entry" onClick={onClickNewEntry}
+              includeIcon={true} />
           </div>
         </div>
-        <SearchFilterModal open={searchFilterModalOpen} filterType="person" />
+        <SearchFilterModal open={searchFilterModalOpen}
+          filterType="person"
+          selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter} />
         <div className={classes.List}>
           <InfiniteScroll
             dataLength={personList.length}

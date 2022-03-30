@@ -34,6 +34,7 @@ function Home() {
   const userName = JSON.parse(localStorage.getItem('user')).userName;
 
   const [searchFilterModalOpen, setSearchFilterModalOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState('');
 
   async function getData() {
     const peopleResult = await getAllPersons();
@@ -195,7 +196,7 @@ function Home() {
             })}
           </div>
         </div>
-        <SearchFilterModal open={searchFilterModalOpen} />
+        <SearchFilterModal open={searchFilterModalOpen} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />
       </div>
     </>
   );

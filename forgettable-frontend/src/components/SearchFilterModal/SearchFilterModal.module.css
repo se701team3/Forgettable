@@ -3,13 +3,17 @@
 .searchFilterBox {
     display: flex;
     flex-direction: column;
-    background-color: white;
+    background-color: var(--bkgd);
     border-style: solid;
     width: fit-content;
     position: relative;
     padding-left: 12px;
     padding-right: 12px;
     padding-bottom: 12px;
+}
+
+.selectedButton {
+    background-color: var(--prmry);
 }
 
 .filterSelectionPanel {

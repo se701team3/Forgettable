@@ -42,6 +42,8 @@ export default function EncountersListPage() {
 
   const [searchFilterModalOpen, setSearchFilterModalOpen] = useState(false);
 
+  const [selectedFilter, setSelectedFilter] = useState('');
+
   const [encounterList, setEncounterList] = useState([
     {
       _id: '',
@@ -188,7 +190,8 @@ export default function EncountersListPage() {
           </div>
         </div>
         <SearchFilterModal open={searchFilterModalOpen}
-          filterType="encounter" />
+          filterType="encounter" selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter} />
         {isLoading ? <h4>Loading...</h4> : (
         <div className={classes.List}>
           {encounterList.length > 0 ? <InfiniteScroll
