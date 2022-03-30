@@ -13,6 +13,7 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
 import {unmarshalEncounters} from '../../functions/dataUnmarshaller';
+import SearchFilterModal from '../../components/SearchFilterModal/SearchFilterModal';
 
 /*
  * This page lists out all the Encounters the user created.
@@ -38,6 +39,8 @@ export default function EncountersListPage() {
   const [encounterModalOpen, setEncounterModalOpen] = useState(false);
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  const [searchFilterModalOpen, setSearchFilterModalOpen] = useState(false);
 
   const [encounterList, setEncounterList] = useState([
     {
@@ -79,6 +82,10 @@ export default function EncountersListPage() {
 
   const handleModalClose = () => {
     setEncounterModalOpen(false);
+  };
+
+  const toggleFilters = () => {
+    setSearchFilterModalOpen(!searchFilterModalOpen);
   };
 
   const onDelete = (encounterId) => {
@@ -169,7 +176,7 @@ export default function EncountersListPage() {
             Encounters
         </div>
         <div className={classes.Utilities}>
-          <SearchBar hasAutocomplete={false} exportSearchString={exportSearchString} placeholder={'Search'}/>
+          <SearchBar hasAutocomplete={false} exportSearchString={exportSearchString} placeholder={'Search'} toggleFilters={toggleFilters} />
           <div className={classes.Button}>
             <Link to={{
               pathname: `/encounters/create`,
@@ -211,6 +218,8 @@ export default function EncountersListPage() {
             })}
           </InfiniteScroll> : <div><h3>No Encounters Found :(</h3></div>}
         </div>)}
+        <SearchFilterModal open={searchFilterModalOpen}
+          filterType="encounter" />
       </div>
       <ToastContainer
         position="bottom-center"

@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom';
 import {Button, IconButton} from '@mui/material';
 import CustomButton from '../CustomButton/CustomButton';
 
-function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
+function SearchBar({placeholder, data, exportSearchString, hasAutocomplete, toggleFilters}) {
   const [filteredData, setFilteredData] = useState([]);
   const [wordEntered, setWordEntered] = useState('');
   const [resultURL, setResultURL] = useState('');
@@ -67,7 +67,7 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
               />
             )}
           </div>
-          <CustomButton btnText="Filters" />
+          <CustomButton btnText="Filters" onClick={toggleFilters} />
         </div>
         {filteredData.length !== 0 && (
           <div className={classes.DataResult}>
@@ -128,7 +128,7 @@ function SearchBar({placeholder, data, exportSearchString, hasAutocomplete}) {
               />
             )}
           </div>
-          <CustomButton btnText="Filters" />
+          <CustomButton btnText="Filters" onClick={toggleFilters} />
         </div>
       </div>
     );

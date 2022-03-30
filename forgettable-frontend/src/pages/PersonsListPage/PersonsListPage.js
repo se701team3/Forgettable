@@ -12,6 +12,7 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
 import {unmarshalPerson} from '../../functions/dataUnmarshaller';
+import SearchFilterModal from '../../components/SearchFilterModal/SearchFilterModal';
 
 const PAGE_SIZE = 10;
 
@@ -32,6 +33,7 @@ export default function PersonsListPage(props) {
   const [personToDelete, setPersonToDelete] = useState();
   const [personList, setPersonList] = useState( [] );
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchFilterModalOpen, setSearchFilterModalOpen] = useState(false);
 
   useEffect(async () => {
     const result = await getAllPersons(currentPage, PAGE_SIZE);
@@ -125,6 +127,10 @@ export default function PersonsListPage(props) {
     setIsHover(false);
   };
 
+  const toggleFilters = () => {
+    setSearchFilterModalOpen(!searchFilterModalOpen);
+  };
+
   return (
     <>
       {isHover &&
@@ -167,6 +173,7 @@ export default function PersonsListPage(props) {
             placeholder={'Search'}
             exportSearchString={exportSearchString}
             hasAutocomplete={false}
+            toggleFilters={toggleFilters}
           />
           <div className={classes.Button}>
             <IconButton btnText="New Entry" onClick={onClickNewEntry} includeIcon={true} />
@@ -207,6 +214,7 @@ export default function PersonsListPage(props) {
               );
             })}
           </InfiniteScroll>
+          <SearchFilterModal open={searchFilterModalOpen} filterType="person" />
         </div>
       </div>
       <ToastContainer
