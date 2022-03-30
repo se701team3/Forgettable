@@ -16,6 +16,7 @@ const getGoalFromReqBody = (body: any) => {
     date_end: body.date_end,
     duration: body.duration,
     encounter_goal: body.encounter_goal,
+    progress: body.progress,
     recurring: body.recurring,
   };
 

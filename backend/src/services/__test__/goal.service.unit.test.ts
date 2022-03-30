@@ -13,6 +13,7 @@ const goal1Data: GoalModel = {
     date_end: new Date("2022-04-12"),
     duration: "14",
     encounter_goal: 7,
+    progress: 1,
     recurring: true
 
 };
@@ -22,6 +23,7 @@ const goal2Data: GoalModel = {
     date_end: new Date("2022-04-12"),
     duration: "7",
     encounter_goal: 7,
+    progress: 1,
     recurring: true
 }
 
@@ -30,6 +32,7 @@ const goal3Data: GoalModel = {
     date_end: new Date("2022-04-12"),
     duration: null as any,
     encounter_goal: 7,
+    progress: 1,
     recurring: true
 }
 
@@ -38,6 +41,7 @@ const goal4Data: GoalModel = {
     date_end: null as any,
     duration: "14",
     encounter_goal: null as any,
+    progress: null as any,
     recurring: true
 }
 
@@ -46,6 +50,7 @@ const goal5Data: GoalModel = {
     date_end: new Date("2022-04-12"),
     duration: "14",
     encounter_goal: 7,
+    progress: 1,
     recurring: null as any
 }
 
@@ -54,6 +59,7 @@ const goal6Data: GoalModel = {
     date_end: new Date("2022-04-12"),
     duration: "14",
     encounter_goal: 7,
+    progress: 1,
     recurring: false
 }
 
