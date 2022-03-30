@@ -56,6 +56,12 @@ export const deleteUserEncounter = async (encounterID: String) => {
 
 export const deleteUserGoal = async (goalID: String) => {
   const result = await User.updateMany({}, { $pullAll: { goals: [{ _id: goalID }] } });
+
+  if (result.modifiedCount == 1) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 export const deleteUserCompany = async (companyID: String) => {

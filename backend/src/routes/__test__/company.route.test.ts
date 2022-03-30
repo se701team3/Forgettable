@@ -38,6 +38,7 @@ const user2Data: UserModel = {
     first_name: 'Adam',
     last_name: 'Weng',
     encounters: [] as any,
+    goals: [] as any,
     persons: [] as any,
     companies: [] as any
 }

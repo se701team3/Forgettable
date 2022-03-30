@@ -109,7 +109,7 @@ export const createGoal = async (
 
     const updateUser = await userService.addGoalToUser(user.auth_id, createdGoal._id);
 
-    if (!updateUser) {
+    if (updateUser !== undefined) {
       goalService.deleteGoal(`${createdGoal._id}`);
       res.status(httpStatus.CONFLICT).send('Failed to add goal').end();
     }
