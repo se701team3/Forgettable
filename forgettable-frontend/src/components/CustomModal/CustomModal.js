@@ -19,6 +19,7 @@ function CustomModal(props) {
           {hasCancel &&
           <CustomButton btnText={'Cancel'} onClick={onClose}/>}
           {hasConfirm &&
+          // eslint-disable-next-line max-len
           <CustomButton btnText={'Confirm'} onClick={onConfirm} className={classes.warning} warning={classes.warning}/>}
         </div>
       </div>
