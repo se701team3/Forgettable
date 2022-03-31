@@ -88,7 +88,7 @@ const deleteEncounter = async (encounterID: String) => {
  * Service used for pruning encounters
  * Users can specify a date where they want all encounters that haven't been modified before that date to be deleted
  * @param userEncounters List of encounters belonging to the signed in user
- * @param pruneDateString Prune date in string form
+ * @param pruneDateString Prune date in string form, e.g. 2021-10-30T00:51:11.707Z
  * @returns List of encounters after pruning
  */
 const pruneEncounters = async (userEncounters: mongoose.Types.ObjectId[], pruneDateString: string) => {

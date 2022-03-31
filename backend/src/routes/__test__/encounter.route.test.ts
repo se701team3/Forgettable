@@ -150,6 +150,24 @@ const encounterData: EncounterModel = {
     persons: [] as any,
 }
 
+const encounterPruneData: EncounterModel = {
+    title: "PruneEncounter",
+    date: new Date("2021-10-01T00:51:11.707Z"),
+    time_updated: new Date("2021-10-01T00:51:11.707Z"),
+    description: "To be pruned",
+    persons: [] as any,
+    location: ''
+}
+
+const encounterDontPruneData: EncounterModel = {
+    title: "DontPruneEncounter",
+    date: new Date("2021-01-01T00:51:11.707Z"),
+    time_updated: new Date("2021-01-01T00:51:11.707Z"),
+    description: "Should not be pruend",
+    persons: [] as any,
+    location: ''
+}
+
 describe('POST /encounter', () => {
     it('Successfully creates an encounter with all info given', async () => {
         await supertest(app).post('/api/users')
@@ -1078,6 +1096,58 @@ describe('DELETE /encounter/:id', () => {
         expect(await Encounter.findById({_id: encounterOneId})).toEqual(null);
     })
 });
+
+// Prune Encounter 200
+describe('DELETE /encounter/prune/:pruneDate', () => {
+    it('Successfully prunes entries before a given date: ', async () => {
+        // Get Authentication ID for User
+        const auth_id = await testUtils.getAuthIdFromToken(token);
+
+        // Create Person
+        const personOne = new Person(person1Data);
+        const personOneId = (await personOne.save())._id;
+
+        // Create Encounter that needs to be pruned - 2021-10-1
+        const encounterPrune = new Encounter(encounterPruneData);
+        const encounterPruneId = (await encounterPrune.save())._id;
+
+        // Create Encounter that should not be pruned - 2022-1-1
+        const encounterDontPrune = new Encounter(encounterDontPruneData);
+        const encounterDontPruneId = (await encounterDontPrune.save())._id;
+
+        // Create User
+        const user = new User(user1Data);
+
+        // Add Encounters and Person ID to User encounters
+        user.persons.push(personOneId);
+        user.encounters.push(encounterPruneId);
+        user.encounters.push(encounterDontPruneId);
+        user.auth_id = auth_id;
+        await user.save();
+
+        // Add Encounter IDs and Person ID to each other
+        personOne.encounters.push(encounterPruneId);
+        encounterPrune.persons.push(personOneId);
+        personOne.encounters.push(encounterDontPruneId);
+        encounterDontPrune.persons.push(personOneId);
+        await personOne.save();
+        await encounterPrune.save();
+        await encounterDontPrune.save();
+
+        await supertest(app).prune(`/api/encounters/prune/2021-12-30T00:51:11.707Z`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .expect(httpStatus.OK);
+        
+        // Check that encounterPrune has been removed
+        const newUser = await User.findOne({auth_id: user.auth_id});
+        expect(newUser?.encounters).not.toContain(encounterPruneId);
+
+        const newPerson = await Person.findOne({_id: personOne._id});
+        expect(newPerson?.encounters).not.toContain(encounterPruneId);
+
+        expect(await Encounter.findById({_id: encounterPruneId})).toEqual(null);
+    })})
 
 /*****************************************************************
  * Utility functions
