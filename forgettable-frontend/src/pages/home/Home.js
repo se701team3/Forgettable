@@ -13,11 +13,11 @@ import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
-import { getAllEncounters, getAllPersons } from '../../services';
+import { getAllEncounters, getAllPersons, getPeopleWithUpcomingBirthday } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
-import { getImageSrcFromBuffer } from '../../functions/getImageSrcFromBuffer';
 import { useNavigate } from 'react-router-dom';
 import { unmarshalPerson, unmarshalEncounters } from '../../functions/dataUnmarshaller';
+import UpcomingBirthdaySummary from '../../components/UpcomingBirthdaySummary/UpcomingBirthdaySummary';
 import SearchFilterModal from '../../components/SearchFilterModal/SearchFilterModal';
 
 function Home() {
@@ -30,6 +30,7 @@ function Home() {
   const [peopleList, setPeopleList] = React.useState([]);
   const [encountersList, setEncountersList] = React.useState([]);
   const [searchBarData, setSearchBarData] = React.useState([]);
+  const [upcomingBirthdayList, setUpcomingBirthdayList] = React.useState([]);
 
   const userName = JSON.parse(localStorage.getItem('user')).userName;
 
@@ -59,6 +60,10 @@ function Home() {
     );
 
     setSearchBarData(searchDataResult);
+
+    const upcomingBirthdays = await getPeopleWithUpcomingBirthday();
+
+    setUpcomingBirthdayList(upcomingBirthdays);
   }
 
   useEffect(() => {
@@ -231,6 +236,26 @@ function Home() {
                   />
                 </div>
               );
+            })}
+          </div>
+          <div className={classes.home_subtitleContainer}>
+            <div className={classes.home_subtitle}>Upcoming Birthdays</div>
+          </div>
+
+          <div className={classes.home_cardGridContainer + ' ' + classes.home_encounterGridContainer}>
+            {upcomingBirthdayList.map((birthdayPerson, index) => {
+              return (
+                // Uses same hover handler as person card summary as per specification
+                <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handlePersonHover(event, index)} onMouseOut={handleOnMouseOut}>
+                  <Link to={`/person/${birthdayPerson._id}`} style={{textDecoration: 'none'}}>
+                    <UpcomingBirthdaySummary
+                      firstName={birthdayPerson.first_name}
+                      birthday={birthdayPerson.birthday}
+                      img={birthdayPerson.image}
+                      onClick={() => { }}
+                    />
+                  </Link>
+                </div>);
             })}
           </div>
         </div>
