@@ -30,6 +30,7 @@ const user1Data : UserModel = {
   last_name: 'Bong',
   encounters: [] as any,
   persons: [] as any,
+  goals: [] as any,
   companies: [] as any
 }
 
@@ -111,6 +112,7 @@ const userData: UserModel = {
   last_name: 'Pengy',
   encounters: [] as any,
   persons: [] as any,
+  goals: [] as any,
   companies: [] as any
 }
 const person5Data = {
@@ -152,6 +154,7 @@ const encounter1Data: EncounterModel = {
   time_updated: new Date(Date.now()),
   description: 'Met at a cafe',
   location: 'Auckland',
+  latLong: [200, 200],
   persons: [] as any
 }
 
@@ -161,6 +164,7 @@ const encounter2Data: EncounterModel = {
   time_updated: new Date(Date.now()),
   description: 'Had lunch together',
   location: 'Auckland',
+  latLong: [200, 200],
   persons: [] as any
 }
 
