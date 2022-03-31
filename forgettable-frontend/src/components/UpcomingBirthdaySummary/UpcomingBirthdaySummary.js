@@ -30,10 +30,10 @@ const UpcomingBirthdaySummary = (props) => {
               width: '70px',
               marginRight: '14px',
               backgroundColor:
-                  getComputedStyle(document.body).getPropertyValue('--prmry'),
+                getComputedStyle(document.body).getPropertyValue('--prmry'),
               fontSize:
-                  getComputedStyle(document.body)
-                      .getPropertyValue('--text-xxlarge'),
+                getComputedStyle(document.body)
+                    .getPropertyValue('--text-xxlarge'),
             }}
           />
           <div className={classes.IdentityInfoConatiner}>
@@ -44,10 +44,10 @@ const UpcomingBirthdaySummary = (props) => {
           <p>
             {'Birthday: '}
             {props.birthday ?
-           <span data-testid="birthdate-element">
-             {getBirthdayDate(props.birthday)}
-           </span> :
-           <UnknownDetail/>}
+              <span data-testid="birthdate-element">
+                {getBirthdayDate(props.birthday)}
+              </span> :
+              <UnknownDetail />}
           </p>
         </div>
       </div>

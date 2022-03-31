@@ -15,7 +15,6 @@ import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
 import { getAllEncounters, getAllPersons, getPeopleWithUpcomingBirthday } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
-import { getImageSrcFromBuffer } from '../../functions/getImageSrcFromBuffer';
 import { useNavigate } from 'react-router-dom';
 import { unmarshalPerson, unmarshalEncounters } from '../../functions/dataUnmarshaller';
 import UpcomingBirthdaySummary from '../../components/UpcomingBirthdaySummary/UpcomingBirthdaySummary';
@@ -83,14 +82,6 @@ function Home() {
     setSelectedInfo({
       type: 'encounter',
       info: encountersList[index],
-    });
-    setIsHover(true);
-  };
-
-  const handleBirthdayHover = (event, index) => {
-    setSelectedInfo({
-      type: 'person',
-      info: peopleList[index],
     });
     setIsHover(true);
   };
@@ -250,7 +241,8 @@ function Home() {
           <div className={classes.home_cardGridContainer + ' ' + classes.home_encounterGridContainer}>
             {upcomingBirthdayList.map((birthdayPerson, index) => {
               return (
-                <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handleBirthdayHover(event, index)} onMouseOut={handleOnMouseOut}>
+                // Uses same hover handler as person card summary as per specification
+                <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handlePersonHover(event, index)} onMouseOut={handleOnMouseOut}>
                   <Link to={`/person/${birthdayPerson._id}`} style={{textDecoration: 'none'}}>
                     <UpcomingBirthdaySummary
                       firstName={birthdayPerson.first_name}
