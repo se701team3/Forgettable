@@ -60,8 +60,7 @@ it('Create person page does not display delete button', () => {
 
 it('Displays correct data from database', async () => {
   const personData = {
-    first_name: 'newf',
-    last_name: 'Namef Last',
+    name: 'newfullName',
     birthday: '2012-03-04',
     gender: 'male',
     location: 'here',
@@ -84,7 +83,7 @@ it('Displays correct data from database', async () => {
         <EditPerson/>
       </MemoryRouter>);
 
-      expect(screen.getByText('newf')).toBeInTheDocument();
+      expect(screen.getByText('newfullName')).toBeInTheDocument();
     }
   });
 });

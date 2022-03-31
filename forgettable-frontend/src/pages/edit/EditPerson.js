@@ -29,8 +29,7 @@ export default function EditPerson() {
   const {id} = (!create) && useParams();
 
   const [personData, setPersonData] = useState({
-    first_name: '',
-    last_name: '',
+    name: '',
     birthday: '',
     gender: '',
     location: '',
@@ -47,8 +46,7 @@ export default function EditPerson() {
   (!create) && (useEffect(async () => {
     const result = await apiCalls.getPerson(id);
     setPersonData({
-      first_name: result.first_name,
-      last_name: result.last_name || '',
+      name: result.name,
       birthday: getInputDateFormatString(result.birthday),
       first_met: getInputDateFormatString(result.first_met),
       gender: result.gender || '',
@@ -213,7 +211,7 @@ export default function EditPerson() {
 
         <div className={classes.row}>
           <div className={classes.column}>
-            <InputField inputID='first_name' placeholder={'E.g. John'} inputLabel='First Name' inputType='primary' inputStateValue={personData.first_name} autoFocusState={true} requiredState/>
+            <InputField inputID='name' placeholder={'E.g. John Smith'} inputLabel='Full Name' inputType='primary' inputStateValue={personData.name} autoFocusState={true} requiredState/>
             <InputField inputID='gender' placeholder={'E.g. Female'} inputLabel='Gender' inputType='primary' inputStateValue={personData.gender}/>
             <InputField inputID='first_met' inputLabel='Date First Met' inputType='primary' dataType='date' inputStateValue={personData.first_met}/>
             <InputField inputID='interests' placeholder={'E.g. music, photography, art'} inputLabel='Interests' inputType='primary' inputStateValue={personData.interests.toString()}/>
@@ -228,11 +226,11 @@ export default function EditPerson() {
             </div>
           </div>
           <div className={classes.column}>
-            <InputField inputID='last_name'
+            {/* <InputField inputID='last_name'
               placeholder={'E.g. Smith'}
               inputLabel='Last Name'
               inputType='primary'
-              inputStateValue={personData.last_name}/>
+              inputStateValue={personData.last_name}/> */}
             <InputField inputID='birthday'
               inputLabel='Birthday'
               inputType='primary'

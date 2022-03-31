@@ -9,12 +9,12 @@ import {
 } from '@testing-library/dom';
 import EncounterCardSummary from '../EncounterCardSummary';
 
-const FIRST_NAME = 'Mercury';
+const FULL_NAME = 'Mercury Element';
 
 it('renders EncounterCardSummary UI with correct hierarchy', () => {
   const renderer = new ShallowRenderer();
   renderer.render(<EncounterCardSummary
-    firstName={FIRST_NAME}
+    name={FULL_NAME}
     description="I met her at a mall"
     onClick={jest.fn()}
   />);
@@ -28,14 +28,14 @@ afterEach(cleanup);
 it('Name prop passed in is displayed correctly', () => {
   const {getByTestId} = render(
       <EncounterCardSummary
-        firstName={FIRST_NAME}
+        name={FULL_NAME}
         description="I met her at a mall"
         onClick={jest.fn()}
       />);
 
   const {getByText} = within(getByTestId('name-element'));
 
-  expect(getByText(FIRST_NAME)).toBeInTheDocument();
+  expect(getByText(FULL_NAME)).toBeInTheDocument();
 });
 
 it('displays the correct format for firstMet for an existing location', () => {
@@ -43,7 +43,7 @@ it('displays the correct format for firstMet for an existing location', () => {
 
   const {getByTestId} = render(
       <EncounterCardSummary
-        firstName={FIRST_NAME}
+        name={FULL_NAME}
         description="I met her at a mall"
         onClick={jest.fn()}
         location={location}
@@ -61,7 +61,7 @@ it('displays the date met in the correct format', () => {
 
   const {getByTestId} = render(
       <EncounterCardSummary
-        firstName={FIRST_NAME}
+        name={FULL_NAME}
         description="I met her at a mall"
         onClick={jest.fn()}
         dateMet={date}
@@ -79,7 +79,7 @@ it('displays the description when passed in as a prop', () => {
 
   const {getByTestId} = render(
       <EncounterCardSummary
-        firstName={FIRST_NAME}
+        name={FULL_NAME}
         description="I met her at a mall"
         onClick={jest.fn()}
       />);
@@ -97,7 +97,7 @@ it('successfully fires event when card is clicked', () => {
 
   const {getByTestId} = render(
       <EncounterCardSummary
-        firstName={FIRST_NAME}
+        name={FULL_NAME}
         description="I met her at a mall"
         onClick={handleClick}
       />);

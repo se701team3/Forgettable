@@ -59,17 +59,17 @@ const SearchFilterModal = ({filterType, open, selectedFilter, setSelectedFilter}
         <Box className={classes.searchFilterBox}>
           <h3>Filters</h3>
           <div className={classes.filterSelectionPanel}>
-            <CustomButton btnText="First name"
-              className={selectedFilter == 'first_name' ?
+            <CustomButton btnText="Full Name"
+              className={selectedFilter == 'name' ?
               classes.selectedButton : classes.deselectedButton}
               onClick={() => {
-                if (selectedFilter != 'first_name') {
-                  setSelectedFilter('first_name');
+                if (selectedFilter != 'name') {
+                  setSelectedFilter('name');
                 } else {
                   setSelectedFilter('');
                 }
               }}/>
-            <CustomButton btnText="Last name"
+            {/* <CustomButton btnText="Last name"
               className={selectedFilter == 'last_name' ?
               classes.selectedButton : classes.deselectedButton}
               onClick={() => {
@@ -78,7 +78,7 @@ const SearchFilterModal = ({filterType, open, selectedFilter, setSelectedFilter}
                 } else {
                   setSelectedFilter('');
                 }
-              }}/>
+              }}/> */}
             <CustomButton btnText="Gender"
               className={selectedFilter == 'gender' ?
                classes.selectedButton : classes.deselectedButton}

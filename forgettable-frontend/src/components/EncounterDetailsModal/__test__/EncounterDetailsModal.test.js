@@ -11,9 +11,8 @@ const handleModalClose = () => {
 
 const persons = [
   {
-    first_name: 'Kent',
+    name: 'Kent Dodds',
     img: 'https://images.unsplash.com/photo-1646936218155-caedb4ed9bf7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80',
-    last_name: 'Dodds',
   },
 ];
 

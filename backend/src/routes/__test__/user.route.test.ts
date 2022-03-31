@@ -21,44 +21,40 @@ afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => await databaseOperations.closeDatabase());
 
 const user1Data = {
-  first_name: "Bing",
-  last_name: "Bong",
+  name: "Bing Bong",
   encounters: [] as any,
   persons: [] as any,
   companies: [] as any
 };
 
 const user2Data = {
-  last_name: "Mong",
+  name: null as any,
   encounters: [] as any,
   persons: [] as any,
   companies: [] as any
 };
 
 const user3Data = {
-  first_name: "Tingy",
+  name: "Tingy",
   encounters: [] as any,
   persons: [] as any,
   companies: [] as any
 };
 
 const user4Data = {
-  first_name: "Tingy",
-  last_name: "Tangy",
+  name: "Tingy Tangy",
   encounters: [] as any,
   companies: [] as any
 };
 
 const user5Data = {
-  first_name: "Tingy",
-  last_name: "Tangy",
+  name: "Tingy Tangy",
   persons: [] as any,
   companies: [] as any
 };
 
 const person1Data: PersonModel = {
-  first_name: "Ray",
-  last_name: "Ping",
+  name: "Ray Ping",
   interests: ["video games", "hockey"],
   organisation: "helloc",
   time_updated: new Date("2022-01-01"),
@@ -75,8 +71,7 @@ const person1Data: PersonModel = {
 };
 
 const person2Data: PersonModel = {
-  first_name: "Adam",
-  last_name: "Bong",
+  name: "Adam Bong",
   interests: ["badminton", "golf"],
   organisation: "helloc",
   time_updated: new Date("2022-02-23"),
@@ -132,8 +127,7 @@ describe("POST /users", () => {
       .set("Authorization", token);
 
     expect(user.auth_id).toBeUndefined();
-    expect(user.first_name).toEqual(user1Data.first_name);
-    expect(user.last_name).toEqual(user1Data.last_name);
+    expect(user.name).toEqual(user1Data.name);
     expect(user.encounters).toEqual(user1Data.encounters);
     expect(user.persons).toEqual(user1Data.persons);
   });
@@ -146,20 +140,11 @@ describe("POST /users", () => {
       .expect(httpStatus.UNAUTHORIZED);
   });
 
-  it("Failed to create new user without first name", async () => {
+  it("Failed to create new user without the name", async () => {
     await supertest(app)
       .post("/api/users")
       .set("Accept", "application/json")
       .send(user2Data)
-      .set("Authorization", token)
-      .expect(httpStatus.BAD_REQUEST);
-  });
-
-  it("Failed to create new user without last name", async () => {
-    await supertest(app)
-      .post("/api/users")
-      .set("Accept", "application/json")
-      .send(user3Data)
       .set("Authorization", token)
       .expect(httpStatus.BAD_REQUEST);
   });
@@ -208,7 +193,7 @@ describe("POST /users", () => {
     await supertest(app)
       .post("/api/users")
       .set("Accept", "application/json")
-      .send(user2Data)
+      .send(user4Data)
       .set("Authorization", token)
       .expect(httpStatus.CONFLICT);
 
@@ -235,8 +220,7 @@ describe("GET /users", () => {
     .expect(httpStatus.OK);
 
     expect(user.auth_id).toBeUndefined();
-    expect(user.first_name).toEqual(user1Data.first_name);
-    expect(user.last_name).toEqual(user1Data.last_name);
+    expect(user.name).toEqual(user1Data.name);
     expect(user.encounters).toEqual(user1Data.encounters);
     expect(user.persons).toEqual(user1Data.persons);
   })

@@ -142,3 +142,11 @@ export const searchEncounter = async (searchString, field) => {
 export const searchPersons = async (searchString, field) => {
   return await getData('persons/?term=' + searchString + '&field=' + field);
 };
+
+/**
+ * Searches persons with upcoming birthdays on your list
+ * @return {Promise}
+ */
+export const getPeopleWithUpcomingBirthday = async () => {
+  return await getData('birthdays');
+};

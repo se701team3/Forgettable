@@ -62,7 +62,7 @@ export default function EncountersListPage() {
       persons: [
         {
           _id: '',
-          first_name: '',
+          name: '',
           img: '',
         },
       ],

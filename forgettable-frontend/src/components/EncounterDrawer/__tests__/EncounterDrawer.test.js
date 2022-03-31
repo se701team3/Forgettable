@@ -14,19 +14,19 @@ const PERSONS = [
   {
 
     id: '1',
-    first_name: 'John Doe',
+    name: 'John Doe',
     img: 'https://www.w3schools.com/w3css/img_lights.jpg',
   },
   {
 
     id: '2',
-    first_name: 'Mercury Lin',
+    name: 'Mercury Lin',
     img: 'https://user-images.githubusercontent.com/62003343/158133392-b606b9d2-b05a-49dc-a4e8-9d6aed696d6b.gif',
   },
   {
 
     id: '3',
-    first_name: 'Raina Song',
+    name: 'Raina Song',
     img: 'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
   },
 ];

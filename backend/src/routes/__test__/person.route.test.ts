@@ -26,8 +26,7 @@ afterAll(async () => await databaseOperations.closeDatabase());
 
 const user1Data : UserModel = {
   auth_id: null as any,
-  first_name: 'Bing',
-  last_name: 'Bong',
+  name: 'Bing Bong',
   encounters: [] as any,
   persons: [] as any,
   goals: [] as any,
@@ -35,8 +34,7 @@ const user1Data : UserModel = {
 }
 
 const person1Data: PersonModel = {
-  first_name: 'Ping',
-  last_name: 'Pong',
+  name: 'Ping Pong',
   interests: ['video games', 'hockey'],
   organisation: 'helloc',
   time_updated: new Date('2022-01-01'),
@@ -53,8 +51,7 @@ const person1Data: PersonModel = {
 };
 
 const person2Data: PersonModel = {
-  first_name: 'Adam',
-  last_name: 'Bong',
+  name: 'Adam Bong',
   interests: ['badminton', 'golf'],
   organisation: 'helloc',
   time_updated: new Date('2022-02-23'),
@@ -71,8 +68,7 @@ const person2Data: PersonModel = {
 }
 
 const person3Data: PersonModel = {
-  first_name: 'Billy',
-  last_name: 'John',
+  name: 'Billy John',
   interests: ['surfing', 'cooking'],
   organisation: 'an organisation',
   time_updated: new Date('2022-02-23'),
@@ -89,8 +85,7 @@ const person3Data: PersonModel = {
 }
 
 const person4Data: PersonModel = {
-  first_name: 'Kelvin',
-  last_name: 'Kong',
+  name: 'Kelvin Kong',
   interests: ['Studying', 'Winning'],
   organisation: 'Winnie',
   time_updated: new Date('2022-01-01'),
@@ -108,15 +103,14 @@ const person4Data: PersonModel = {
 
 const userData: UserModel = {
   auth_id: null as any,
-  first_name: 'Ping',
-  last_name: 'Pengy',
+  name: 'Ping Pengy',
   encounters: [] as any,
   persons: [] as any,
   goals: [] as any,
   companies: [] as any
 }
 const person5Data = {
-  last_name: 'John',
+  name: 'John',
   interests: ['surfing', 'cooking'],
   organisation: 'an organisation',
   time_updated: new Date('2022-02-23'),
@@ -133,8 +127,7 @@ const person5Data = {
 }
 
 const person6Data = {
-  first_name: 'Billy',
-  last_name: 'John',
+  name: 'Billy John',
   interests: ['surfing', 'cooking'],
   organisation: 'an organisation',
   how_we_met: 'At the park',
@@ -169,8 +162,7 @@ const encounter2Data: EncounterModel = {
 }
 
 const person7Data = {
-  first_name: 'Yesterday',
-  last_name: 'Birthday',
+  name: 'Yesterday Birthday',
   interests: ['surfing', 'cooking'],
   organisation: 'an organisation',
   how_we_met: 'At the park',
@@ -184,8 +176,7 @@ const person7Data = {
 }
 
 const person8Data = {
-  first_name: 'Tomorrow',
-  last_name: 'Birthday',
+  name: 'Tomorrow Birthday',
   interests: ['surfing', 'cooking'],
   organisation: 'an organisation',
   how_we_met: 'At the park',
@@ -199,8 +190,7 @@ const person8Data = {
 }
 
 const person9Data = {
-  first_name: 'NextMonth',
-  last_name: 'Birthday',
+  name: 'NextMonth Birthday',
   interests: ['surfing', 'cooking'],
   organisation: 'an organisation',
   how_we_met: 'At the park',
@@ -270,7 +260,7 @@ describe('POST persons/', () => {
     expect(user.persons).toEqual([createdPerson._id]);
   });
 
-  it ('Cannot be created if a first name is not provided', async ()=> {
+  it ('Cannot be created if the name is not provided', async ()=> {
     // Create a new user
     await supertest(app).post('/api/users')
       .set('Accept', 'application/json')
@@ -351,11 +341,11 @@ describe('GET persons/', () => {
   });
 
   it ('Correctly filters persons by the "term" query param', async () => {
-    person1Data.first_name = "Bing"
+    person1Data.name = "Bing Bong"
     const person1ID = (await new Person(person1Data).save()).id;
-    person2Data.first_name = "Billy"
+    person2Data.name = "Billy John"
     const person2ID = (await new Person(person2Data).save()).id;
-    person3Data.first_name = "John"
+    person3Data.name = "John"
     const person3ID = (await new Person(person3Data).save()).id;
 
     user1Data.persons = [person1ID, person2ID, person3ID];
@@ -370,8 +360,8 @@ describe('GET persons/', () => {
       .expect(httpStatus.OK)
 
     expect(retrievedPersons).toHaveLength(2);
-    expect(retrievedPersons[0].first_name).toBe("Bing");
-    expect(retrievedPersons[1].first_name).toBe("Billy");
+    expect(retrievedPersons[0].name).toBe("Bing Bong");
+    expect(retrievedPersons[1].name).toBe("Billy John");
   });
 
   it ('Returns all persons if the "term" query param is empty', async () => {
@@ -394,7 +384,7 @@ describe('GET persons/', () => {
   });
 
   it ('Does not return duplicates if all persons match the "term" query', async () => {
-    person1Data.first_name = "A test name";
+    person1Data.name = "A test name";
     const person1ID = (await new Person(person1Data).save()).id;
     const person2ID = (await new Person(person1Data).save()).id;
     const person3ID = (await new Person(person1Data).save()).id;

@@ -23,18 +23,18 @@ exports[`renders PersonPage UI with correct hierarchy 1`] = `
     </div>
   </CustomModal>
   <PersonDrawer
-    birthday={1970-01-01T00:00:00.000Z}
+    birthday={null}
     data-testid="drawer-component"
     firstMet={null}
     gender=""
     img=""
     interests={Array []}
     location=""
-    name=" "
+    name=""
     onEdit={[Function]}
     open={true}
     organisation=""
-    socialMedias={Array []}
+    socialMedia={Array []}
     staticDrawer={true}
   />
   <div
@@ -70,13 +70,12 @@ exports[`renders PersonPage UI with correct hierarchy 1`] = `
                   "birthday": null,
                   "encounters": Array [],
                   "firstMet": null,
-                  "firstName": "",
                   "gender": "",
                   "howWeMet": "",
                   "image": "",
                   "interests": Array [],
-                  "lastName": "",
                   "location": "",
+                  "name": "",
                   "organisation": "",
                   "socialMedia": Array [],
                   "timeUpdated": null,

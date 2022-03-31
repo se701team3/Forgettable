@@ -16,9 +16,8 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
           "pathname": "/person/undefined",
           "state": Object {
             "person": Object {
-              "first_name": "Kent",
               "img": "https://images.unsplash.com/photo-1646936218155-caedb4ed9bf7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80",
-              "last_name": "Dodds",
+              "name": "Kent Dodds",
             },
           },
         }
@@ -40,7 +39,7 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
     <p
       data-testid="name-element"
     >
-      Kent
+      Kent Dodds
     </p>
   </div>
   <div
@@ -57,9 +56,8 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
           "pathname": "/person/undefined",
           "state": Object {
             "person": Object {
-              "first_name": "Jed",
               "img": "https://images.unsplash.com/photo-1600010437709-10176a56ea45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80",
-              "last_name": "Watson",
+              "name": "Jed Watson",
             },
           },
         }
@@ -81,7 +79,7 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
     <p
       data-testid="name-element"
     >
-      Jed
+      Jed Watson
     </p>
   </div>
   <div
@@ -98,9 +96,8 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
           "pathname": "/person/undefined",
           "state": Object {
             "person": Object {
-              "first_name": "Marley",
               "img": "https://images.unsplash.com/photo-1646936218590-91d949706cb5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-              "last_name": "George",
+              "name": "Marley George",
             },
           },
         }
@@ -122,7 +119,7 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
     <p
       data-testid="name-element"
     >
-      Marley
+      Marley George
     </p>
   </div>
   <div
@@ -139,8 +136,7 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
           "pathname": "/person/undefined",
           "state": Object {
             "person": Object {
-              "first_name": "Jack",
-              "last_name": "Winston",
+              "name": "Jack Winston",
             },
           },
         }
@@ -162,7 +158,7 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
     <p
       data-testid="name-element"
     >
-      Jack
+      Jack Winston
     </p>
   </div>
   <div
@@ -179,8 +175,7 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
           "pathname": "/person/undefined",
           "state": Object {
             "person": Object {
-              "first_name": "John",
-              "last_name": "Doe",
+              "name": "John Doe",
             },
           },
         }
@@ -202,7 +197,7 @@ exports[`renders CustomAvatarCollection UI to test correct hierarchy 1`] = `
     <p
       data-testid="name-element"
     >
-      John
+      John Doe
     </p>
   </div>
 </React.Fragment>

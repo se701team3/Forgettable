@@ -9,8 +9,7 @@ afterAll(async () => databaseOperations.closeDatabase());
 
 const user1Data:UserModel = {
     auth_id: "0000",
-    first_name: 'Bing',
-    last_name: 'Bong',
+    name: 'Bing Bong',
     encounters: [] as any,
     persons: [] as any,
     goals: [] as any,
@@ -19,8 +18,7 @@ const user1Data:UserModel = {
 
 const user2Data:UserModel = {
     auth_id: "0002",
-    first_name: null as any,
-    last_name: 'Mong',
+    name: null as any,
     encounters: [] as any,
     persons: [] as any,
     goals: [] as any,
@@ -29,8 +27,7 @@ const user2Data:UserModel = {
 
 const user3Data:UserModel = {
     auth_id: "0003",
-    first_name: 'Tingy',
-    last_name: null as any,
+    name: 'Tingy',
     encounters: [] as any,
     persons: [] as any,
     goals: [] as any,
@@ -39,8 +36,7 @@ const user3Data:UserModel = {
 
 const user4Data:UserModel = {
     auth_id: "0004",
-    first_name: 'Tingy',
-    last_name: 'Tangy',
+    name: 'Tingy Tangy',
     persons: null as any,
     encounters: [] as any,
     goals: [] as any,
@@ -49,8 +45,7 @@ const user4Data:UserModel = {
 
 const user5Data:UserModel = {
     auth_id: "0005",
-    first_name: 'Tingy',
-    last_name: 'Tangy',
+    name: 'Tingy Tangy',
     persons: [] as any,
     encounters: null as any,
     goals: [] as any,
@@ -59,8 +54,7 @@ const user5Data:UserModel = {
 
 const user6Data:UserModel = {
     auth_id: "0000",
-    first_name: 'Sting',
-    last_name: 'Ray',
+    name: 'Sting Ray',
     encounters: null as any,
     persons: [] as any,
     goals: [] as any,
@@ -69,8 +63,7 @@ const user6Data:UserModel = {
 
 const user7Data:UserModel = {
     auth_id: "0000",
-    first_name: 'Sting',
-    last_name: 'Ray',
+    name: 'Sting Ray',
     encounters: ["62330cf64ec3986f4d1ab01a"] as any,
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
     goals: [] as any,
@@ -106,14 +99,14 @@ describe('User creation service', () => {
 
     })
 
-    it('Failed to store user without first name', async () => {
-        await expect(createUser(user2Data)).rejects.toThrow('User validation failed: first_name: Path `first_name` is required.');
+    it('Failed to store user without name', async () => {
+        await expect(createUser(user2Data)).rejects.toThrow('User validation failed: name: Path `name` is required.');
     })
 
-    it('Failed to create new user without last name', async () => {
-        await expect(createUser(user3Data)).rejects.toThrow('User validation failed: last_name: Path `last_name` is required.');
+    // it('Failed to create new user without last name', async () => {
+    //     await expect(createUser(user3Data)).rejects.toThrow('User validation failed: last_name: Path `last_name` is required.');
 
-    })
+    // })
 
     it('Users with same id cannot be stored more than once', async () => {        
         await createUser(user1Data);

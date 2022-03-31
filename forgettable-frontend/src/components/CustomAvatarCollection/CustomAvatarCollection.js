@@ -27,9 +27,9 @@ function CustomAvatarCollection(props) {
             style={{textDecoration: 'none'}}
             >
               <Avatar
-                alt={`${person.first_name} ${person.last_name}`}
+                alt={`${person.name}`}
                 {...!person.image &&
-                stringAvatar(`${person.first_name} ${person.last_name || ''}`)}
+                stringAvatar(`${person.name}`)}
                 src={getImageSrcFromBuffer(person.image)}
                 sx={{
                   'width': '30px',
@@ -37,7 +37,7 @@ function CustomAvatarCollection(props) {
                 }}
               />
             </Link>
-            <p data-testid="name-element">{person.first_name}</p>
+            <p data-testid="name-element">{person.name}</p>
           </div>);
       })}
     </>
@@ -46,8 +46,7 @@ function CustomAvatarCollection(props) {
 
 CustomAvatarCollection.propTypes = {
   persons: PropTypes.arrayOf(PropTypes.shape({
-    first_name: PropTypes.string.isRequired,
-    last_name: PropTypes.string,
+    name: PropTypes.string.isRequired,
     image: PropTypes.string,
   })),
 };

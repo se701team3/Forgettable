@@ -10,8 +10,7 @@ afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
 const person1Data:PersonModel = {
-    first_name: 'testlname',
-    last_name: 'testllastName',
+    name: 'testlname',
     interests: ['a', 'b'],
     organisation: 'testorg',
     time_updated: new Date('2022-01-01'),
@@ -28,8 +27,7 @@ const person1Data:PersonModel = {
   };
 
   const person2Data:PersonModel = {
-    first_name: 'test2name',
-    last_name: 'test2lastName',
+    name: 'test2name',
     interests: ['c', 'd'],
     organisation: 'anotherOrg',
     time_updated: new Date('2022-01-01'),
@@ -46,8 +44,7 @@ const person1Data:PersonModel = {
   };
 
   const person3Data:PersonModel = {
-    first_name: 'test3name',
-    last_name: 'test3lastName',
+    name: 'test3name',
     interests: ['c', 'd'],
     organisation: 'anotherOrg',
     time_updated: new Date('2022-01-01'),
@@ -64,8 +61,7 @@ const person1Data:PersonModel = {
   };
 
   const person4Data:PersonModel = {
-    first_name: null as any,
-    last_name: 'testllastName',
+    name: null as any,
     interests: ['a', 'b'],
     organisation: 'testorg',
     time_updated: new Date('2022-01-01'),
@@ -82,8 +78,7 @@ const person1Data:PersonModel = {
   };
 
   const person5Data:PersonModel = {
-    first_name: 'testfirstname',
-    last_name: 'testllastName',
+    name: 'testfirstname',
     interests: ['a', 'b'],
     organisation: 'testorg',
     time_updated: null as any,
@@ -107,8 +102,8 @@ const person1Data:PersonModel = {
       expect(createdPerson.toJSON()).toEqual(storedPerson?.toJSON())
     });
 
-    it ('Cannot create a person if first name is missing', async () => {
-      await expect(personService.createPerson(person4Data)).rejects.toThrow('Person validation failed: first_name: Path `first_name` is required.');
+    it ('Cannot create a person if name is missing', async () => {
+      await expect(personService.createPerson(person4Data)).rejects.toThrow('Person validation failed: name: Path `name` is required.');
     });
 
     it ('Cannot create a person if time_updated is missing', async () => {

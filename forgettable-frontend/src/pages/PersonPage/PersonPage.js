@@ -32,8 +32,7 @@ const PersonPage = (props) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const [person, setPerson] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     birthday: null,
     gender: '',
     location: '',
@@ -132,7 +131,7 @@ const PersonPage = (props) => {
         open={true}
         img={person.image}
         staticDrawer={true}
-        name={`${person.firstName} ${person.lastName || ''}`}
+        name={`${person.name}`}
         firstMet={person.firstMet}
         interests={person.interests}
         organisation={person.organisation}
@@ -148,7 +147,7 @@ const PersonPage = (props) => {
           <h1 className={classes.Title}>
             You encountered
             <br/>
-            {person.firstName} {person.encounters.length} times
+            {person.name} {person.encounters.length} times
           </h1>
           <div className={classes.ButtonContainer}>
             <Link to={{

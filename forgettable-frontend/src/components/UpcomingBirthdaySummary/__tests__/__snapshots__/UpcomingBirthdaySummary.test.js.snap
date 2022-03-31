@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders EncounterCardSummary UI with correct hierarchy 1`] = `
+exports[`renders UpcomingBirthdaySummary UI with correct hierarchy 1`] = `
 <div
-  className="EncounterCardSummary"
+  className="UpcomingBirthdaySummary"
   data-testid="container-card"
-  onClick={[MockFunction]}
+  onClick={[Function]}
 >
   <div
     className="ContentContainer"
@@ -13,7 +13,7 @@ exports[`renders EncounterCardSummary UI with correct hierarchy 1`] = `
       className="HeaderContainer"
     >
       <ForwardRef(Avatar)
-        alt="Mercury Element"
+        alt="Bob"
         src={null}
         sx={
           Object {
@@ -31,28 +31,16 @@ exports[`renders EncounterCardSummary UI with correct hierarchy 1`] = `
         <h3
           data-testid="name-element"
         >
-          Mercury Element
+          Bob
         </h3>
-        <p
-          data-testid="location-element"
-        >
-          Met at: 
-          some cool place
-        </p>
       </div>
     </div>
     <div
       className="DetailsContainer"
     >
       <p>
-        Date you met: 
+        Birthday: 
         <UnknownDetail />
-      </p>
-      <p
-        className="DescriptionText"
-        data-testid="description-element"
-      >
-        I met her at a mall
       </p>
     </div>
   </div>
