@@ -10,12 +10,30 @@ export const getPerson = async (id) => {
 };
 
 /**
+ * Fetches data of a single Company, given the Company's id
+ * @param {string} id id of the Company to retrieve
+ * @return {Promise} data of the company with the id
+ */
+export const getCompany = async (id) => {
+  return await getCompany('company/' + id);
+};
+
+/**
  * Fetches data of all Persons
  * @return {Promise} data of all persons
  */
 export const getAllPersons = async (page, limit) => {
   if (!page || !limit) return await getData('persons');
   return await getData(`persons?page=${page}&limit=${limit}`);
+};
+
+/**
+ * Fetches data of all Companies
+ * @return {Promise} data of all companies
+ */
+export const getAllCompanies = async (page, limit) => {
+  if (!page || !limit) return await getData('company');
+  return await getData(`company?page=${page}&limit=${limit}`);
 };
 
 /**
@@ -47,6 +65,16 @@ export const createPerson = async (person) => {
 };
 
 /**
+ * Creates a Company in the database given the Company's data
+ * @param {Object} company data of the Company to create.
+ * Must include a name property.
+ * @return {Promise} data entry of the new Company created
+ */
+export const createCompany = async (company) => {
+  return await postData('company', company);
+};
+
+/**
  * Updates a Person in the database given the Person's new data.
  * New data will overwrite all old data.
  * @param {string} id id of the Person to update
@@ -58,12 +86,32 @@ export const updatePerson = async (id, person) => {
 };
 
 /**
+ * Updates a Company in the database given the Company's new data.
+ * New data will overwrite all old data.
+ * @param {string} id id of the Company to update
+ * @param {Object} company data of the Company to update.
+ * @return {Promise} data entry of the updated Company
+ */
+export const updateCompany = async (id, company) => {
+  return await putData('company/' + id, company);
+};
+
+/**
  * Deletes a Person from the database given the Person's id
  * @param {string} id id of the Person to delete
  * @return {Promise}
  */
 export const deletePerson = async (id) => {
   return await deleteData('persons/' + id);
+};
+
+/**
+ * Deletes a Company from the database given the Company's id
+ * @param {string} id id of the Company to delete
+ * @return {Promise}
+ */
+export const deleteCompany = async (id) => {
+  return await deleteData('company/' + id);
 };
 
 /**
@@ -149,4 +197,13 @@ export const searchPersons = async (searchString, field) => {
  */
 export const getPeopleWithUpcomingBirthday = async () => {
   return await getData('birthdays');
+};
+
+/**
+ * Searches Company from the database given a search string
+ * @param {string} searchString string to search
+ * @return {Promise}
+ */
+export const searchCompany = async (string) => {
+  return await getData('company/?term=' + string);
 };

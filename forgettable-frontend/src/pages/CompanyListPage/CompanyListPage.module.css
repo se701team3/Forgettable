@@ -1,0 +1,82 @@
+@import '../../colours.css';
+
+.Container{
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-left: 35px;
+    margin-top: 70px;
+    margin-bottom: 70px;
+    margin-right: 490px;
+    min-width: 675px;
+    max-width: 934px;
+}
+
+.Left{
+    height: 100%;
+    padding: 70px;
+    width: 85%;
+    min-width: 800px;
+}
+
+.Right{
+    top: 0;
+    position: sticky;
+    padding: 70px;
+    width: 15%;
+    min-width: 150px;
+    height: auto;
+}
+
+.Header{
+    font-size: var(--text-xxlarge);
+    font-weight: var(--font-semibold);
+}
+
+.Utilities{
+    width: 101%;
+    display: flex;
+    flex-direction: row;
+    gap: 26px;
+    justify-content: space-between;
+}
+
+.Button{
+    flex-shrink: 0;
+    height: auto;
+}
+
+.List{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.PersonCard{
+    margin-bottom: 40px;
+}
+
+.DeleteModal {
+    width: 400px;
+    display: flex;
+    flex-direction: column ;
+    align-items: center;
+}
+
+.DeleteModal > h1 {
+    color: #E05A33;
+    font-size: var(--text-xxlarge);
+    text-align: center;
+    font-weight: var(--font-semibold);
+}
+
+.DeleteModal > p {
+    text-align: center;
+    font-size: var(--text-large);
+}
+
+@media only screen and (max-width: 1440px)  {
+    .Container{
+        max-width: 780px;
+    }
+}
