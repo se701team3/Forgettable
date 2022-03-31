@@ -17,10 +17,8 @@ import { getAllEncounters, getAllPersons } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
 import { getImageSrcFromBuffer } from '../../functions/getImageSrcFromBuffer';
 import { useNavigate } from 'react-router-dom';
-import {
-  unmarshalPerson,
-  unmarshalEncounters,
-} from '../../functions/dataUnmarshaller';
+import { unmarshalPerson, unmarshalEncounters } from '../../functions/dataUnmarshaller';
+import SearchFilterModal from '../../components/SearchFilterModal/SearchFilterModal';
 
 function Home() {
   const [isHover, setIsHover] = useState(false);
@@ -34,6 +32,9 @@ function Home() {
   const [searchBarData, setSearchBarData] = React.useState([]);
 
   const userName = JSON.parse(localStorage.getItem('user')).userName;
+
+  const [searchFilterModalOpen, setSearchFilterModalOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState('');
 
   async function getData() {
     const peopleResult = await getAllPersons();
@@ -104,6 +105,10 @@ function Home() {
     });
   };
 
+  const toggleFilters = () => {
+    setSearchFilterModalOpen(!searchFilterModalOpen);
+  };
+
   return (
     <>
       {isHover && <SummaryDrawer summaryInfo={selectedInfo} />}
@@ -141,11 +146,7 @@ function Home() {
         </div>
 
         <div className={classes.home_searchArea}>
-          <SearchBar
-            placeholder={'Search'}
-            data={searchBarData}
-            hasAutocomplete={true}
-          />
+          <SearchBar placeholder={'Search'} data={searchBarData} hasAutocomplete={true} toggleFilters={toggleFilters} filterEnabled={searchFilterModalOpen} datatype={selectedFilter} />
           <div className={classes.home_newEntryBtn}>
             <IconButton
               btnText="New Entry"
@@ -233,6 +234,7 @@ function Home() {
             })}
           </div>
         </div>
+        <SearchFilterModal open={searchFilterModalOpen} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />
       </div>
     </>
   );

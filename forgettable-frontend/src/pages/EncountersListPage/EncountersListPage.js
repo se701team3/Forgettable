@@ -19,7 +19,9 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
 import {unmarshalEncounters} from '../../functions/dataUnmarshaller';
+import SearchFilterModal from '../../components/SearchFilterModal/SearchFilterModal';
 import EncountersMap from '../../components/EncountersMap/EncountersMap';
+
 
 /*
  * This page lists out all the Encounters the user created.
@@ -45,6 +47,10 @@ export default function EncountersListPage() {
   const [encounterModalOpen, setEncounterModalOpen] = useState(false);
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  const [searchFilterModalOpen, setSearchFilterModalOpen] = useState(false);
+
+  const [selectedFilter, setSelectedFilter] = useState('');
 
   const [encounterList, setEncounterList] = useState([
     {
@@ -101,6 +107,10 @@ export default function EncountersListPage() {
     setEncounterModalOpen(false);
   };
 
+  const toggleFilters = () => {
+    setSearchFilterModalOpen(!searchFilterModalOpen);
+  };
+
   const onDelete = (encounterId) => {
     setSelectedEncounterId(encounterId);
     setDeleteModalOpen(true);
@@ -145,7 +155,7 @@ export default function EncountersListPage() {
   };
 
   const exportSearchString = async (searchString) => {
-    const searchResult = await searchEncounter(searchString);
+    const searchResult = await searchEncounter(searchString, selectedFilter);
     setEncounterList(searchResult);
   };
 
@@ -188,11 +198,11 @@ export default function EncountersListPage() {
       <div className={classes.Container}>
         <div className={classes.Header}>Encounters</div>
         <div className={classes.Utilities}>
-          <SearchBar
-            hasAutocomplete={false}
+          <SearchBar hasAutocomplete={false}
             exportSearchString={exportSearchString}
             placeholder={'Search'}
-          />
+            filterEnabled={searchFilterModalOpen}
+            toggleFilters={toggleFilters} />
           <div className={classes.Button}>
             <Link
               to={{
@@ -208,6 +218,9 @@ export default function EncountersListPage() {
             </Link>
           </div>
         </div>
+        <SearchFilterModal open={searchFilterModalOpen}
+          filterType="encounter" selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter} />
         {isLoading ? (
           <h4>Loading...</h4>
         ) : (
