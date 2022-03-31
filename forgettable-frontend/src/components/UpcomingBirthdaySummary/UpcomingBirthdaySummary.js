@@ -59,7 +59,7 @@ UpcomingBirthdaySummary.propTypes = {
   id: PropTypes.string,
   firstName: PropTypes.string.isRequired,
   img: PropTypes.string,
-  birthday: PropTypes.instanceOf(Date).isRequired,
+  birthday: PropTypes.instanceOf(Date),
   onClick: PropTypes.func.isRequired,
 };
 

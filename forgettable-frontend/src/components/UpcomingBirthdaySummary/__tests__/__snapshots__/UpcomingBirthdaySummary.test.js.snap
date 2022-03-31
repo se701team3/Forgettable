@@ -40,11 +40,7 @@ exports[`renders UpcomingBirthdaySummary UI with correct hierarchy 1`] = `
     >
       <p>
         Birthday: 
-        <span
-          data-testid="birthdate-element"
-        >
-          Wednesday
-        </span>
+        <UnknownDetail />
       </p>
     </div>
   </div>
