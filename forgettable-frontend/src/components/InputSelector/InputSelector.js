@@ -3,26 +3,15 @@ import {useState} from 'react';
 import styles from './InputSelector.module.css';
 
 /**
- * React input selector component used for text entry
+ * React input selector component used for entry of data.
  *
- * The styling of the component is based on that of the InputField component ("primary")
- *
- * Function Arguments:
- * @param inputLabel refers to the label associated with the text input component.
- * @param inputType refers to the "inputType" parameter as mentioned above.
- * @param placeholder refers to the placeholder text in the component.
- * @param dataType refers to the data format allowed as input.
- * @param inputID refers to the ID for the data associated with the input.
- * @param inputStateValue refers to the pre-filled value when the input is rendered.
- * @param autoFocusState refers to the autoFocus attribute, parameter is a Boolean.
- * @param requiredState refers to the required attribute, parameter is a Boolean.
- * @param options refers to an array of the options to be displayed in the dropdown.
+ * The styling of the component is based on that of the "primary" InputField component.
  *
  * @author Bill Song
  */
 
-export default function InputField({inputLabel, placeholder,
-  dataType, inputID, inputStateValue, autoFocusState, requiredState, options}) {
+export default function InputField({inputLabel, placeholder, inputID,
+  dataType, inputStateValue, autoFocusState, requiredState, options}) {
   /**
      * Retrieve state of input component to be rendered in a responsive manner.
      */
