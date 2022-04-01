@@ -9,6 +9,7 @@ import imageToBase64 from 'image-to-base64/browser';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import * as apiCalls from '../../services/index';
 import InputField from '../../components/InputField/InputField';
+import InputSelector from '../../components/InputSelector/InputSelector';
 import {convertSocialMedia} from '../../functions/convertSocialMediaFormat';
 import {getInputDateFormatString, getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import {ToastContainer, toast} from 'react-toastify';
@@ -214,7 +215,7 @@ export default function EditPerson() {
         <div className={classes.row}>
           <div className={classes.column}>
             <InputField inputID='first_name' placeholder={'E.g. John'} inputLabel='First Name' inputType='primary' inputStateValue={personData.first_name} autoFocusState={true} requiredState/>
-            <InputField inputID='gender' placeholder={'E.g. Female'} inputLabel='Gender' inputType='primary' inputStateValue={personData.gender}/>
+            <InputSelector inputID='gender' placeholder={'E.g. Female'} inputLabel='Gender' inputStateValue={personData.gender} options={['Male', 'Female', 'Prefer not to say', 'Unlisted']}/>
             <InputField inputID='first_met' inputLabel='Date First Met' inputType='primary' dataType='date' inputStateValue={personData.first_met}/>
             <InputField inputID='interests' placeholder={'E.g. music, photography, art'} inputLabel='Interests' inputType='primary' inputStateValue={personData.interests.toString()}/>
             <label className={classes.socialMediaDivLabel}>Social Media</label>
