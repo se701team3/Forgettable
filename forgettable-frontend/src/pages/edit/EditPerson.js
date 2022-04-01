@@ -19,6 +19,8 @@ import Loading from '../Loading/Loading';
 
 const MAX_IMAGE_SIZE = 16000000;
 
+const GENDER_OPTIONS = ['Male', 'Female', 'Prefer not to say', 'Unlisted'];
+
 export default function EditPerson() {
   const location = useLocation();
 
@@ -193,7 +195,6 @@ export default function EditPerson() {
     }
   };
 
-
   return ( loading ? <Loading/> :
     <div className={classes.editPerson}>
       <div className={classes.title}>{create ? 'Create' : 'Edit'} Person </div>
@@ -215,7 +216,7 @@ export default function EditPerson() {
         <div className={classes.row}>
           <div className={classes.column}>
             <InputField inputID='first_name' placeholder={'E.g. John'} inputLabel='First Name' inputType='primary' inputStateValue={personData.first_name} autoFocusState={true} requiredState/>
-            <InputSelector inputID='gender' placeholder={'E.g. Female'} inputLabel='Gender' inputStateValue={personData.gender} options={['Male', 'Female', 'Prefer not to say', 'Unlisted']}/>
+            <InputSelector inputID='gender' placeholder={'E.g. Female'} inputLabel='Gender' inputStateValue={personData.gender} options={GENDER_OPTIONS}/>
             <InputField inputID='first_met' inputLabel='Date First Met' inputType='primary' dataType='date' inputStateValue={personData.first_met}/>
             <InputField inputID='interests' placeholder={'E.g. music, photography, art'} inputLabel='Interests' inputType='primary' inputStateValue={personData.interests.toString()}/>
             <label className={classes.socialMediaDivLabel}>Social Media</label>
