@@ -28,3 +28,14 @@ export const unmarshalEncounters = (encounter) => {
     }
   );
 };
+
+export const unmarshalGoal = (goal) => {
+  return (
+    {
+      ...goal,
+      endDate: goal.date_end ? new Date(person.first_met) : null,
+      goal: goal.encounter_goal,
+      encontered: goal.progress,
+    }
+  );
+};

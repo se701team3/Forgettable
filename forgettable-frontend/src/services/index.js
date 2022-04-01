@@ -140,3 +140,13 @@ export const searchEncounter = async (searchString) => {
 export const searchPersons = async (str) => {
   return await getData('persons/?term=' + str);
 };
+
+export const getGoal = async () => {
+  const user = await getUser();
+  console.log(user);
+  return await getData('goal/'+ user.goal);
+};
+
+export const createGoal = async (goal) => {
+  return await postData('goal', goal);
+};

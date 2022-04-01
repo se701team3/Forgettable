@@ -14,7 +14,7 @@ import CustomModal from '../../components/CustomModal/CustomModal';
 import GoalSummary from '../../components/GoalSummary/GoalSummary';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
-import { getAllEncounters, getAllPersons } from '../../services';
+import { getAllEncounters, getAllPersons, getGoal } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
 import { getImageSrcFromBuffer } from '../../functions/getImageSrcFromBuffer';
 import { useNavigate } from 'react-router-dom';
@@ -33,6 +33,7 @@ function Home() {
   const [peopleList, setPeopleList] = React.useState([]);
   const [encountersList, setEncountersList] = React.useState([]);
   const [searchBarData, setSearchBarData] = React.useState([]);
+  const [currentGoal, setCurrentGoal] = React.useState([]);
 
   const userName = JSON.parse(localStorage.getItem('user')).userName;
 
@@ -57,6 +58,12 @@ function Home() {
         peopleResult,
         encountersResult,
     );
+
+    console.log('Getting Goals');
+    const goalResult = await getGoal();
+    const unmarshalledGoal = unmarshalGoal(goalResult);
+    setCurrentGoal(unmarshalledGoal);
+    console.log(unmarshalledGoal);
 
     setSearchBarData(searchDataResult);
   }
@@ -104,6 +111,7 @@ function Home() {
       },
     });
   };
+
 
   return (
     <>
@@ -161,9 +169,8 @@ function Home() {
             <div className={classes.home_subtitle}>Current Goal</div>
           </div>
           <div className={classes.home_cardGridContainer}>
-            <h2>
-              <GoalSummary encounters = {5} encountered={5}/>
-            </h2>
+            {/* <GoalSummary goal={currentGoal.goal} encountered={currentGoal.encountered} endDate={currentGoal.endDate}/> */}
+            <GoalSummary goal={10} encountered={5} endDate={currentGoal.endDate}/>
           </div>
 
 
