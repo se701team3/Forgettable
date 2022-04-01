@@ -34,12 +34,18 @@ const getAllEncounters = async (queryParams: any, userEncounters: mongoose.Types
 
     // If no relevant fields in an Encounter match 'termValue', remove them from the array
     foundUserEncounters = foundUserEncounters.filter((encounter) => {
-      for (let i = 0; i < queryKeys.length; i++) {
-        // Make sure person has a value for current queryKey
-        if (encounter[queryKeys[i]]) {
-          const encounterValue = (encounter[queryKeys[i]] as string).toLowerCase();
-          if (encounterValue.includes(termValue)) {
-            return true;
+      if (queryParams.field) {
+        if (encounter[queryParams.field].toLowerCase().includes(termValue)) {
+          return true;
+        }
+      } else {
+        for (let i = 0; i < queryKeys.length; i++) {
+          // Make sure person has a value for current queryKey
+          if (encounter[queryKeys[i]]) {
+            const encounterValue = (encounter[queryKeys[i]] as string).toLowerCase();
+            if (encounterValue.includes(termValue)) {
+              return true;
+            }
           }
         }
       }
