@@ -21,6 +21,7 @@ const getCompanyFromReqBody = (body: any) => {
     time_updated: body.time_updated,
     location: body.location,
     description: body.description,
+    image: body.image,
     persons: body.persons,
   };
  
@@ -58,19 +59,18 @@ export const createCompany = async (
  
     const createdCompany = await companyService.createCompany(req.body);
     logger.info(`${createdCompany._id}`);
- 
-    createdCompany.persons.forEach((personInCompany) => {
-      if (!user.persons.includes(personInCompany)) {
-        companyService.deleteCompany(`${createdCompany._id}`);
-        res.status(httpStatus.FORBIDDEN).send('Person does not exist for this User').end();
-      }
-    });
+    if (createdCompany.persons) {
+      createdCompany.persons.forEach((personInCompany) => {
+        if (!user.persons.includes(personInCompany)) {
+          companyService.deleteCompany(`${createdCompany._id}`);
+          res.status(httpStatus.FORBIDDEN).send('Person does not exist for this User').end();
+        }
+      });
+    }
  
     const updateUser = await userService.addCompanyToUser(user.auth_id, createdCompany._id);
-    const updatePerson = await personService
-      .addCompanyToPersons(createdCompany.persons, createdCompany._id);
  
-    if (!updateUser || !updatePerson) {
+    if (!updateUser) {
       companyService.deleteCompany(`${createdCompany._id}`);
       res.status(httpStatus.CONFLICT).send('Failed to add company').end();
     }
@@ -108,6 +108,12 @@ export const updateCompany = async (
       companyIdToUpdate,
       newCompanyData,
     );
+    // updating persons list
+    if (updatedCompany && updatedCompany.persons) {
+      const updatePerson = await personService
+        .addCompanyToPersons(updatedCompany.persons, updatedCompany._id);
+    }
+
     return res
       .sendStatus(
         updatedCompany ? httpStatus.NO_CONTENT : httpStatus.NOT_FOUND,

@@ -229,6 +229,7 @@ const companyData: CompanyModel = {
   description: "Important stuff",
   date_founded: new Date('2000-01-20'),
   time_updated: new Date(Date.now()),
+  image: null as any,
   persons: [] as any,
 }
 
