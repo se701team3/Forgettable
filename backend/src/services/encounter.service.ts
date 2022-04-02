@@ -90,6 +90,30 @@ const deleteEncounter = async (encounterID: String) => {
   return false;
 };
 
+/**
+ * Service used for pruning encounters
+ * Users can specify a date where they want all encounters that haven't been modified before that date to be deleted
+ * @param userEncounters List of encounters belonging to the signed in user
+ * @param pruneDateString Prune date in string form, e.g. 2021-10-30T00:51:11.707Z
+ * @returns List of encounters after pruning
+ */
+const pruneEncounters = async (userEncounters: mongoose.Types.ObjectId[], pruneDateString: string) => {
+  let foundUserEncounters = await Encounter.find({ _id: { $in: userEncounters } });
+  let pruneDate = new Date(pruneDateString);
+
+  foundUserEncounters = foundUserEncounters.filter(async (encounter) => {
+    let currentEncounter = await getEncounter(encounter);
+    if (currentEncounter?.time_updated) {
+      let encounterDate = new Date(currentEncounter.time_updated);
+      // Delete all encounters whose last time_updated precedes pruneDate
+      if (encounterDate.getTime() <= pruneDate.getTime()) {
+        deleteEncounter(currentEncounter._id.toString());
+      }
+    }
+  });
+  return foundUserEncounters;
+};
+
 const encounterService = {
   createEncounter,
   updateEncounter,
@@ -97,6 +121,7 @@ const encounterService = {
   getAllEncounters,
   deleteEncounter,
   deleteEncounterPerson,
+  pruneEncounters,
 };
 
 export default encounterService;
