@@ -14,6 +14,12 @@ const CompanyPage = (props) => {
     image: '',
   });
 
+  useEffect(async () => {
+    const result = await getCompany(id);
+
+    setCompany(result);
+  }, [id]);
+
   return (
     <div className={classes.SettingsPage}>
       <h1>{company.name}</h1>
