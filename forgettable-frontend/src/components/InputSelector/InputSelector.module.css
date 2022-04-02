@@ -1,0 +1,24 @@
+@import '../../colours.css';
+
+.inputLabelPrimary {
+    font-size: var(--text-medium);
+    font-weight: var(--font-medium);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputFieldPrimary{
+    font-size: var(--text-normal);
+    background-color: var(--bkgd);
+    color: var(--txt2);
+    width: 370px;
+    height: 57px;
+    border-radius: var(--radius-btn);
+    border: 1.5px solid var(--bord);
+    box-shadow: none;
+    margin-top: 8px;
+    padding: 10px;
+    padding-left: 18px;
+    font-family: 'Poppins', sans-serif;
+}

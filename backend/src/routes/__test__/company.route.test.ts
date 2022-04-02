@@ -47,6 +47,7 @@ const person1Data: PersonModel = {
     first_name: 'Ping',
     last_name: 'Pong',
     interests: ['video games', 'hockey'],
+    labels: ['Devop'],
     organisation: 'helloc',
     time_updated: new Date('2022-01-01'),
     importance_level: Importance.Very_Important,
@@ -65,6 +66,7 @@ const person2Data: PersonModel = {
     first_name: 'Adam',
     last_name: 'Bong',
     interests: ['badminton', 'golf'],
+    labels: ['Devop'],
     organisation: 'helloc',
     time_updated: new Date('2022-02-23'),
     importance_level: Importance.Should_Remember,
@@ -85,6 +87,7 @@ const companyData: CompanyModel = {
     description: "Important stuff",
     date_founded: new Date('2000-01-20'),
     time_updated: new Date(Date.now()),
+    image: null as any,
     persons: [] as any,
   }
 
@@ -94,6 +97,7 @@ const company1Data: CompanyModel = {
     description: "The Organisation sees everything",
     date_founded: new Date('1990-01-20'),
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: [] as any,
   }
 
@@ -103,6 +107,7 @@ const company1Data: CompanyModel = {
     description: "Mystery",
     date_founded: null as any,
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: [] as any,
   }
 
@@ -111,6 +116,7 @@ const company1Data: CompanyModel = {
     description: "Big Brother is watching you",
     date_founded: new Date('1984-01-01'),
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: [] as any,
   }
 
@@ -119,6 +125,7 @@ const company1Data: CompanyModel = {
     location: "Mars",
     date_founded: new Date('1980-10-20'),
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: [] as any,
   }
 
@@ -128,25 +135,27 @@ const company1Data: CompanyModel = {
     description: "Unnamed company",
     date_founded: new Date('1030-8-20'),
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: [] as any,
   }
 
-  const company6Data: CompanyModel = {
+  const company6Data = {
     name: "Random Company",
     location: "To be confirmed",
     description: "Not much is known yet",
     date_founded: new Date('2022-02-03'),
     time_updated: new Date(Date.now()),
-    persons: null as any,
+    persons: [] as any,
   }
 
-  const company7Data: CompanyModel = {
+  const company7Data = {
     name: "Seven Seven Seven",
     location: "Sevens",
     description: "Seven",
     date_founded: new Date('777-07-07'),
     time_updated: new Date(Date.now()),
-    persons: [] as any,
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
+    persons: null as any,
   }
 
 describe('POST /companies', () => {
@@ -246,6 +255,60 @@ describe('POST /companies', () => {
         company4Data.persons = [];
     })
 
+    it('Successfully creating a company without an image field', async () => {
+        await supertest(app).post('/api/users')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(user1Data);
+
+        const { body: person } = await supertest(app).post('/api/persons')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(person1Data)
+
+        company6Data.persons.push(person._id);
+
+        const { body: newcompany } = await supertest(app).post('/api/companies')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(company6Data)
+            .expect(httpStatus.CREATED);
+
+        expect(newcompany.image).toEqual(undefined);
+
+        company6Data.persons = [];
+    })
+
+    it('Successfully creating a company with empty persons field', async () => {
+        await supertest(app).post('/api/users')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(user1Data);
+
+        const { body: newcompany } = await supertest(app).post('/api/companies')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(company6Data)
+            .expect(httpStatus.CREATED);
+
+        expect(newcompany.persons).toEqual([])
+    })
+
+    it('Successfully creating a company with a null persons field', async () => {
+        await supertest(app).post('/api/users')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(user1Data);
+
+        const { body: newcompany } = await supertest(app).post('/api/companies')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(company7Data)
+            .expect(httpStatus.CREATED);
+
+        expect(newcompany.persons).toEqual(null)
+    })
+
     it('Successful company creation return correct company data', async () => {
         await supertest(app).post('/api/users')
             .set('Accept', 'application/json')
@@ -276,43 +339,6 @@ describe('POST /companies', () => {
         company1Data.persons = [];
     })
 
-    it('Failed to create a company without a persons field', async () => {
-        await supertest(app).post('/api/users')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(user1Data);
-
-        await supertest(app).post('/api/persons')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(person1Data);
-
-        await supertest(app).post('/api/companies')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(company6Data)
-            .expect(httpStatus.BAD_REQUEST);
-
-    })
-
-    it('Failed to create a company with empty persons field', async () => {
-        await supertest(app).post('/api/users')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(user1Data);
-
-        const { body: person } = await supertest(app).post('/api/persons')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(person1Data)
-
-        await supertest(app).post('/api/companies')
-            .set('Accept', 'application/json')
-            .set('Authorization', token)
-            .send(company7Data)
-            .expect(httpStatus.BAD_REQUEST);
-    })
-
     it('Failed to create an company without a name', async () => {
         await supertest(app).post('/api/users')
             .set('Accept', 'application/json')
@@ -324,7 +350,7 @@ describe('POST /companies', () => {
             .set('Authorization', token)
             .send(person1Data);
 
-        company7Data.persons.push(person._id);
+        company5Data.persons.push(person._id);
 
         await supertest(app).post('/api/companies')
             .set('Authorization', token)
@@ -332,7 +358,7 @@ describe('POST /companies', () => {
             .send(company5Data)
             .expect(httpStatus.BAD_REQUEST);
 
-        company7Data.persons = [];
+        company5Data.persons = [];
     })
 
     it('Failed to create without an auth token', async () => {
@@ -463,6 +489,54 @@ describe('PUT /companies/:id ', () => {
 
         expect(updatedcompany._body.description).toBe(company2Data.description)
         expect(updatedcompany._body.location).toEqual(company2Data.location)
+    });
+
+    it('Successfully add people to a company', async () => {
+        await supertest(app).post('/api/users')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(user1Data);
+
+        const { body: newcompany } = await supertest(app).post('/api/companies')
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(company1Data)
+            .expect(httpStatus.CREATED);
+
+        // create people to add
+        const person = await supertest(app)
+        .post('/api/persons')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .send(person1Data)
+
+        const secondPerson = await supertest(app)
+        .post('/api/persons')
+        .set('Accept', 'application/json')
+        .set('Authorization', token)
+        .send(person2Data)
+
+        company1Data.persons = [person._body._id, secondPerson._body._id];
+
+        await supertest(app)
+            .put(`/api/companies/${newcompany._id}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(company1Data)
+            .expect(httpStatus.NO_CONTENT) // since it's no content, need to get this company to check updated fields
+
+        // retrieve the updated company and compare
+        const { body: updatedcompany } = await supertest(app)
+            .get(`/api/companies/${newcompany._id}`)
+            .set('Accept', 'application/json')
+            .set('Authorization', token)
+            .send(company1Data)
+            .expect(httpStatus.OK)
+
+        expect(updatedcompany.persons.length).toBe(2)
+        expect(updatedcompany.persons[0]._id).toEqual(company1Data.persons[0])
+        expect(updatedcompany.persons[1]._id).toEqual(company1Data.persons[1])
+        company1Data.persons = [];
     });
 
     it('Fails when called with invalid company object ID', async () => {
