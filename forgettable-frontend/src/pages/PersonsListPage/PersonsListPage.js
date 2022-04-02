@@ -216,6 +216,7 @@ export default function PersonsListPage(props) {
                     onDelete={(e) => onDeletePersonCardClicked(e, person._id)}
                     firstMet= {person.first_met}
                     image={person.image}
+                    labels={person.labels}
                   />
                 </div>
               );
