@@ -19,6 +19,7 @@
 
 .DateLabel {
     font-size: medium ;
+    color: var(--txt2);
 }
 
 .NewGoalMsg {
@@ -88,4 +89,8 @@
 .confirmButton {
     background-color: var(--prmry);
     margin: 10px;
+}
+
+.editIcon {
+    cursor: pointer;
 }
