@@ -37,6 +37,14 @@ export const createPerson: POST = async (
       if (!createdPerson) {
         res.status(httpStatus.BAD_REQUEST).end();
       } else {
+        await Promise.all(createdPerson.companies.map(async (companyId: any) => {
+          const company = await companyService.getCompany(companyId);
+          // add the person id to all its companies
+          if (company) {
+            company.persons.push(createdPerson._id);
+          }
+        }));
+
         // Add a reference to the created person to the user
         user = await userService.addPersonId(user.auth_id, createdPerson._id);
         // If user doesn't contain reference to new person
