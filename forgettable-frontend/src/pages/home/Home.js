@@ -249,7 +249,11 @@ function Home() {
                 <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handlePersonHover(event, index)} onMouseOut={handleOnMouseOut}>
                   <Link to={`/person/${birthdayPerson._id}`} style={{textDecoration: 'none'}}>
                     <UpcomingBirthdaySummary
+<<<<<<< HEAD
                       firstName={birthdayPerson.name}
+=======
+                      firstName={birthdayPerson.first_name}
+>>>>>>> 032f914974408b1a7dd5cb7910b4e231deabc3c5
                       birthday={birthdayPerson.birthday}
                       img={birthdayPerson.image}
                       onClick={() => { }}

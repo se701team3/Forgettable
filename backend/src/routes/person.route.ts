@@ -3,12 +3,13 @@
  */
 import { Router } from 'express';
 import {
-  createPerson, getAllPeople, getPersonWithId, updatePersonWithId, deletePersons, getPersonsByCompany,
+  createPerson, getAllPeople, getPersonWithId, updatePersonWithId, deletePersons, getPersonsByCompany, getPersonsByLabel,
 } from '../controllers/person.controller';
 
 const routes = Router();
 
 routes.post('/', createPerson)
+  .get('/label', getPersonsByLabel)
   .get('/:id', getPersonWithId)
   .get('/', getAllPeople)
   .get('/companies/:id', getPersonsByCompany)
