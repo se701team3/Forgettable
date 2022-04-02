@@ -1,5 +1,5 @@
 import {Avatar, AvatarGroup, StyledEngineProvider, SvgIcon} from '@mui/material';
-import React from 'react';
+import { useState. useEffect } from 'react';
 import classes from './CompanyCard.module.css';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -18,7 +18,7 @@ import {getImageSrcFromBuffer} from '../../functions/getImageSrcFromBuffer';
  * Author: Andy Kweon (skwe902)
  */
 const CompanyCard = (props) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
