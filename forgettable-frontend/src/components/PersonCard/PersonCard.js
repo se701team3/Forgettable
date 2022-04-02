@@ -135,6 +135,7 @@ const PersonCard = (props) => {
                 )}
               </Menu>
             </div>
+            {props.label &&
             <div>
               <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
                 {props.labels.map((label) => {
@@ -143,7 +144,7 @@ const PersonCard = (props) => {
                   );
                 })}
               </Box>
-            </div>
+            </div>}
             <div className={classes.SupplementaryInformationContainer}>
               <p className={classes.Encounters}
                 data-testid="encounters-element"
