@@ -1134,7 +1134,7 @@ describe('DELETE /encounter/prune/:pruneDate', () => {
         await encounterPrune.save();
         await encounterDontPrune.save();
 
-        await supertest(app).prune(`/api/encounters/prune/2021-12-30T00:51:11.707Z`)
+        await supertest(app).delete(`/api/encounters/prune/2021-12-30T00:51:11.707Z`)
             .set('Accept', 'application/json')
             .set('Authorization', token)
             .expect(httpStatus.OK);
