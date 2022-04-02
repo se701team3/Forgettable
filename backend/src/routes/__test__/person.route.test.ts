@@ -36,6 +36,7 @@ const user1Data : UserModel = {
 const person1Data: PersonModel = {
   name: 'Ping Pong',
   interests: ['video games', 'hockey'],
+  labels: ['Devop'],
   organisation: 'helloc',
   time_updated: new Date('2022-01-01'),
   importance_level: Importance.Very_Important,
@@ -53,6 +54,7 @@ const person1Data: PersonModel = {
 const person2Data: PersonModel = {
   name: 'Adam Bong',
   interests: ['badminton', 'golf'],
+  labels: ['Devop'],
   organisation: 'helloc',
   time_updated: new Date('2022-02-23'),
   importance_level: Importance.Should_Remember,
@@ -70,6 +72,7 @@ const person2Data: PersonModel = {
 const person3Data: PersonModel = {
   name: 'Billy John',
   interests: ['surfing', 'cooking'],
+  labels: ['Devop'],
   organisation: 'an organisation',
   time_updated: new Date('2022-02-23'),
   importance_level: Importance.Casual_Contact,
@@ -87,6 +90,7 @@ const person3Data: PersonModel = {
 const person4Data: PersonModel = {
   name: 'Kelvin Kong',
   interests: ['Studying', 'Winning'],
+  labels: ['Devop'],
   organisation: 'Winnie',
   time_updated: new Date('2022-01-01'),
   importance_level: Importance.Very_Important,
@@ -112,6 +116,7 @@ const userData: UserModel = {
 const person5Data = {
   name: 'John',
   interests: ['surfing', 'cooking'],
+  labels: ['Devop'],
   organisation: 'an organisation',
   time_updated: new Date('2022-02-23'),
   importance_level: Importance.Casual_Contact,
@@ -129,6 +134,7 @@ const person5Data = {
 const person6Data = {
   name: 'Billy John',
   interests: ['surfing', 'cooking'],
+  labels: ['Devop'],
   organisation: 'an organisation',
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
@@ -164,6 +170,7 @@ const encounter2Data: EncounterModel = {
 const person7Data = {
   name: 'Yesterday Birthday',
   interests: ['surfing', 'cooking'],
+  labels: [],
   organisation: 'an organisation',
   how_we_met: 'At the park',
   birthday: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
@@ -178,6 +185,7 @@ const person7Data = {
 const person8Data = {
   name: 'Tomorrow Birthday',
   interests: ['surfing', 'cooking'],
+  labels: ['Devop'],
   organisation: 'an organisation',
   how_we_met: 'At the park',
   birthday: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
@@ -192,6 +200,7 @@ const person8Data = {
 const person9Data = {
   name: 'NextMonth Birthday',
   interests: ['surfing', 'cooking'],
+  labels: ['Backend'],
   organisation: 'an organisation',
   how_we_met: 'At the park',
   birthday: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 30),
@@ -1016,6 +1025,45 @@ describe('GET /birthdays', () => {
 
   it('Empty array is returned when no-one has a birthdays in a given data-range', async () => {
     const { body: people } = await supertest(app).get('/api/birthdays')
+      .set('Accept', 'application/json')
+      .set('Authorization', token);
+
+    expect(people).toEqual({});
+  });
+});
+
+describe('GET /label', () => {
+
+  async function populateDbWithUsersPersons() {
+    const person1 = new Person(person7Data);
+    const person2 = new Person(person8Data);
+    const person3 = new Person(person9Data);    
+    
+    await person1.save();
+    await person2.save();
+    await person3.save();
+    
+    userData.auth_id = await testUtils.getAuthIdFromToken(token);
+    const user = new User(userData);
+    user.persons.push(person1._id, person2._id, person3._id);
+    await user.save();
+  
+    const storedPersonIds = [person1._id, person2._id, person3._id];
+  
+    return storedPersonIds;
+  }
+
+  it('Returns correct number of entries', async () => {
+    await populateDbWithUsersPersons();
+    const { body: people }  = await supertest(app).get('/api/persons/label?label=Devop')
+      .set('Accept', 'application/json')
+      .set('Authorization', token);
+
+    expect(people.length).toEqual(1);
+  });
+
+  it('Empty array is returned when there is none with the label', async () => {
+    const { body: people } = await supertest(app).get('/api/persons/label?label=frontend')
       .set('Accept', 'application/json')
       .set('Authorization', token);
 

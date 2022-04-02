@@ -41,6 +41,7 @@ export default function EditPerson() {
     image: '',
     encounters: [],
     time_updated: '',
+    labels: [],
   });
 
   (!create) && (useEffect(async () => {
@@ -58,6 +59,7 @@ export default function EditPerson() {
       img: result.image,
       encounters: result.encounters || [],
       time_updated: result.time_updated,
+      labels: result.labels || [],
     });
   }, [id]));
 
@@ -158,6 +160,7 @@ export default function EditPerson() {
     const data = {
       ...formData,
       interests: formData.interests.split(/[-_,\s.|]+/),
+      labels: formData.labels.split(/[-_,\s.|]+/),
       image: profilePic,
       social_media: Object.fromEntries(socialMedias),
     };
@@ -215,6 +218,7 @@ export default function EditPerson() {
             <InputField inputID='gender' placeholder={'E.g. Female'} inputLabel='Gender' inputType='primary' inputStateValue={personData.gender}/>
             <InputField inputID='first_met' inputLabel='Date First Met' inputType='primary' dataType='date' inputStateValue={personData.first_met}/>
             <InputField inputID='interests' placeholder={'E.g. music, photography, art'} inputLabel='Interests' inputType='primary' inputStateValue={personData.interests.toString()}/>
+            <InputField inputID='labels' placeholder={'E.g. student, tennis'} inputLabel='Labels' inputType='primary' inputStateValue={personData.labels.toString()}/>
             <label className={classes.socialMediaDivLabel}>Social Media</label>
             <div className={classes.socialMediaDiv} data-testid='social-media-div'>
               {handleDisplaySocialMedia()}

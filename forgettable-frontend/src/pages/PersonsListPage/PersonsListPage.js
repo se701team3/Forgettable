@@ -147,6 +147,7 @@ export default function PersonsListPage(props) {
           firstMet={selectedInfo.firstMet}
           location={selectedInfo.location}
           interests={selectedInfo.interests}
+          labels={selectedInfo.labels}
         />
       }
       <CustomModal
@@ -216,6 +217,7 @@ export default function PersonsListPage(props) {
                     onDelete={(e) => onDeletePersonCardClicked(e, person._id)}
                     firstMet= {person.first_met}
                     image={person.image}
+                    labels={person.labels}
                   />
                 </div>
               );

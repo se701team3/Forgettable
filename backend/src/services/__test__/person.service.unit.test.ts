@@ -12,6 +12,7 @@ afterAll(async () => databaseOperations.closeDatabase());
 const person1Data:PersonModel = {
     name: 'testlname',
     interests: ['a', 'b'],
+    labels: ['Devop'],
     organisation: 'testorg',
     time_updated: new Date('2022-01-01'),
     importance_level: Importance.Very_Important,
@@ -29,6 +30,7 @@ const person1Data:PersonModel = {
   const person2Data:PersonModel = {
     name: 'test2name',
     interests: ['c', 'd'],
+    labels: ['Devop'],
     organisation: 'anotherOrg',
     time_updated: new Date('2022-01-01'),
     importance_level: Importance.Should_Remember,
@@ -46,6 +48,7 @@ const person1Data:PersonModel = {
   const person3Data:PersonModel = {
     name: 'test3name',
     interests: ['c', 'd'],
+    labels: ['Devop'],
     organisation: 'anotherOrg',
     time_updated: new Date('2022-01-01'),
     importance_level: Importance.Casual_Contact,
@@ -63,6 +66,7 @@ const person1Data:PersonModel = {
   const person4Data:PersonModel = {
     name: null as any,
     interests: ['a', 'b'],
+    labels: ['Devop'],
     organisation: 'testorg',
     time_updated: new Date('2022-01-01'),
     importance_level: Importance.Very_Important,
@@ -80,6 +84,7 @@ const person1Data:PersonModel = {
   const person5Data:PersonModel = {
     name: 'testfirstname',
     interests: ['a', 'b'],
+    labels: ['Devop'],
     organisation: 'testorg',
     time_updated: null as any,
     importance_level: Importance.Casual_Contact,

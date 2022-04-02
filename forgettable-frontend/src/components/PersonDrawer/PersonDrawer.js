@@ -10,6 +10,8 @@ import {
 import {capitalise} from '../../functions/stringFormatter';
 import convertSocialMediaNamesToIcons,
 {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
+import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
 import {IconButton} from '@mui/material';
 import {getLongDateStringWithSpaces} from '../../functions/dateFormatter';
 import CustomButton from '../CustomButton/CustomButton';
@@ -160,6 +162,14 @@ const PersonDrawer = (props) => {
                    );
                  })}
                </span> :<UnknownDetail/>}
+            </p>
+            <p>
+              {'Labels: '}
+              {props.labels && props.labels.length > 0 ?
+               <span className={classes.KnownText}>
+                 {props.labels.join(', ')}
+               </span> :
+               <UnknownDetail/>}
             </p>
             {props.staticDrawer &&
             <CustomButton

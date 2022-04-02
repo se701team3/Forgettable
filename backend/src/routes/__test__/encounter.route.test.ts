@@ -45,6 +45,7 @@ const user2Data: UserModel = {
 const person1Data: PersonModel = {
     name: 'Ping Pong',
     interests: ['video games', 'hockey'],
+    labels: ['Devop'],
     organisation: 'helloc',
     time_updated: new Date('2022-01-01'),
     importance_level: Importance.Very_Important,
@@ -62,6 +63,7 @@ const person1Data: PersonModel = {
 const person2Data: PersonModel = {
     name: 'Adam Bong',
     interests: ['badminton', 'golf'],
+    labels: ['Devop'],
     organisation: 'helloc',
     time_updated: new Date('2022-02-23'),
     importance_level: Importance.Should_Remember,

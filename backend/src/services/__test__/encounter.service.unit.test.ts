@@ -13,6 +13,7 @@ afterAll(async () => databaseOperations.closeDatabase());
 const person1Data: PersonModel = {
     name: 'Ping Pong',
     interests: ['video games', 'hockey'],
+    labels: ['Devop'],
     organisation: 'helloc',
     time_updated: new Date('2022-01-01'),
     importance_level: Importance.Very_Important,
