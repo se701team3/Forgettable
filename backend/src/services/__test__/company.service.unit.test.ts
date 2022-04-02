@@ -19,6 +19,7 @@ const personOne: PersonModel = {
     first_met: new Date('2012-12-21'),
     how_we_met: "Life",
     interests: ['things'],
+    labels: ['Devop'],
     organisation: "World",
     social_media: null as any,
     image: null as any,
