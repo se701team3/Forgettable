@@ -24,12 +24,14 @@ beforeAll(async () => {
 afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => await databaseOperations.closeDatabase());
 
-const user1Data = {
+const user1Data: UserModel = {
     auth_id: null as any,
     first_name: 'Bing',
     last_name: 'Bong',
     encounters: [] as any,
     persons: [] as any,
+    goals: [] as any,
+    companies: [] as any
 }
 
 const user2Data: UserModel = {
@@ -37,19 +39,23 @@ const user2Data: UserModel = {
     first_name: 'Adam',
     last_name: 'Weng',
     encounters: [] as any,
-    persons: [] as any
+    persons: [] as any,
+    goals: [] as any,
+    companies: [] as any
 }
 
 const person1Data: PersonModel = {
     first_name: 'Ping',
     last_name: 'Pong',
     interests: ['video games', 'hockey'],
+    labels: ['Devop'],
     organisation: 'helloc',
     time_updated: new Date('2022-01-01'),
     importance_level: Importance.Very_Important,
     how_we_met: 'Hockey club',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
+    companies: [] as any,
     first_met: new Date('2022-01-01'),
     gender: "male",
     location: "Auckland",
@@ -61,12 +67,14 @@ const person2Data: PersonModel = {
     first_name: 'Adam',
     last_name: 'Bong',
     interests: ['badminton', 'golf'],
+    labels: ['Devop'],
     organisation: 'helloc',
     time_updated: new Date('2022-02-23'),
     importance_level: Importance.Should_Remember,
     how_we_met: 'Skype',
     birthday: new Date('2001-07-16'),
     encounters: [] as any,
+    companies: [] as any,
     first_met: null as any,
     gender: "male",
     image: null as any,
@@ -80,6 +88,7 @@ const encounter1Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: [] as any
 }
 
@@ -89,6 +98,7 @@ const encounter2Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Had lunch together',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: [] as any
 }
 
@@ -138,6 +148,7 @@ const encounter8Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: '',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: [] as any
 }
 
@@ -146,6 +157,7 @@ const encounterData: EncounterModel = {
     date: new Date("2022-12-02"),
     time_updated: new Date(Date.now()),
     location: "here",
+    latLong: [200, 200],
     description: "we did this and that",
     persons: [] as any,
 }

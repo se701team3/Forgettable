@@ -1,0 +1,47 @@
+@import "../../colours.css";
+
+.searchFilterBox {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card);
+    border-radius: 8px;
+    width: fit-content;
+    position: relative;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+}
+
+.selectedButton {
+    background-color: var(--prmry);
+    margin-right: 10px;
+}
+
+.deselectedButton {
+    margin-right: 10px;
+}
+
+.filterSelectionPanel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.hiddenPanel {
+    display: none;
+}
+
+.homeFilter {
+    position: relative;
+    bottom: 20px;
+}
+
+.personFilter {
+    position: relative;
+    bottom: 20px;
+}
+
+.encounterFilter {
+    position: relative;
+    bottom: 20px;
+}

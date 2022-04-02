@@ -15,6 +15,7 @@ import getPersonDetails from './utils/controller-utils';
 
 import logger from '../utils/logger';
 import { POST } from './controller.types';
+import companyService from '../services/company.service';
 
 export const createPerson: POST = async (
   req: Request,
@@ -119,6 +120,76 @@ export const getAllPeople = async (
       const foundUserPersons = await personService.getPeople(req.query, user.persons);
 
       res.status(httpStatus.OK).paginate(foundUserPersons);
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const getPersonsByCompany = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  logger.info('GET /persons/companies/:id request from frontend');
+
+  const authId = req.headers.authorization?.['user_id'];
+  const user = await userService.getUserByAuthId(authId);
+
+  try {
+    let company: any;
+    let companyPeople: any;
+    if (!user) {
+      res.status(httpStatus.UNAUTHORIZED).end();
+    } else {
+      // check if company belongs to user
+      if (user.companies.includes(new mongoose.Types.ObjectId(req.params.id))) {
+        company = await companyService.getCompany(req.params.id);
+        // get each person from the company
+        companyPeople = await Promise.all(company.persons.map(
+          async (personsId: any) => (await getPersonDetails(personsId)),
+        ));
+      }
+
+      if (!company) {
+        res.status(httpStatus.NOT_FOUND).end();
+      } else {
+        res.status(httpStatus.OK).json(companyPeople).end();
+      }
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const getPersonsByLabel = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  logger.info('GET /persons/label request from frontend');
+
+  const authId = req.headers.authorization?.['user_id'];
+  const user = await userService.getUserByAuthId(authId);
+  const reqLabel = req.query.label?.toString();
+
+  try {
+    if (!user) {
+      res.status(httpStatus.UNAUTHORIZED).end();
+    } else {
+      // get all the persons for this user
+      let people: any = await Promise.all(user.persons.map(
+        async (personsId: any) => (await personService.getPersonWithId(personsId)),
+      ));
+
+      // filter, getting all people that have this label ( case insensitive )
+      let peopleWithLabel: any = people.filter((person) => person?.labels.some((label) => label.toLowerCase() === reqLabel?.toLowerCase()));
+
+      if (!peopleWithLabel) {
+        res.status(httpStatus.NOT_FOUND).end();
+      } else {
+        res.status(httpStatus.OK).json(peopleWithLabel).end();
+      }
     }
   } catch (e) {
     next(e);

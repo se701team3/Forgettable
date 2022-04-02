@@ -1,6 +1,6 @@
 import databaseOperations from '../../utils/test/db-handler';
 
-import { addEncounterToUser, createUser, deleteUserPerson, deleteUserEncounter } from '../user.service';
+import { addEncounterToUser, createUser, deleteUserPerson, deleteUserEncounter, deleteUserCompany } from '../user.service';
 import User, { UserModel } from '../../models/user.model';
 
 beforeAll(async () => {databaseOperations.connectDatabase()});
@@ -13,6 +13,8 @@ const user1Data:UserModel = {
     last_name: 'Bong',
     encounters: [] as any,
     persons: [] as any,
+    goals: [] as any,
+    companies: [] as any
 }
 
 const user2Data:UserModel = {
@@ -20,7 +22,9 @@ const user2Data:UserModel = {
     first_name: null as any,
     last_name: 'Mong',
     encounters: [] as any,
-    persons: [] as any
+    persons: [] as any,
+    goals: [] as any,
+    companies: [] as any
 }
 
 const user3Data:UserModel = {
@@ -28,7 +32,9 @@ const user3Data:UserModel = {
     first_name: 'Tingy',
     last_name: null as any,
     encounters: [] as any,
-    persons: [] as any
+    persons: [] as any,
+    goals: [] as any,
+    companies: [] as any
 }
 
 const user4Data:UserModel = {
@@ -37,6 +43,8 @@ const user4Data:UserModel = {
     last_name: 'Tangy',
     persons: null as any,
     encounters: [] as any,
+    goals: [] as any,
+    companies: [] as any
 }
 
 const user5Data:UserModel = {
@@ -44,7 +52,9 @@ const user5Data:UserModel = {
     first_name: 'Tingy',
     last_name: 'Tangy',
     persons: [] as any,
-    encounters: null as any
+    encounters: null as any,
+    goals: [] as any,
+    companies: [] as any
 }
 
 const user6Data:UserModel = {
@@ -53,6 +63,8 @@ const user6Data:UserModel = {
     last_name: 'Ray',
     encounters: null as any,
     persons: [] as any,
+    goals: [] as any,
+    companies: [] as any
 }
 
 const user7Data:UserModel = {
@@ -61,6 +73,8 @@ const user7Data:UserModel = {
     last_name: 'Ray',
     encounters: ["62330cf64ec3986f4d1ab01a"] as any,
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
+    goals: [] as any,
+    companies: ["6242407cc5e9863fb6f8ea00"] as any
 }
 
 describe('User creation service', () => {
@@ -199,4 +213,25 @@ describe('Delete User Encounter Service', () => {
     })
 });
 
+// Delete User Company Service
 
+describe('Delete User Company Service', () => {
+
+    it('Successfully deletes company if company ID exists',  async () => {
+
+        // Create User
+        const user = new User(user7Data);
+
+        const result = await deleteUserCompany("6242407cc5e9863fb6f8ea00");
+        expect(result);
+    })
+
+    it('Returns FALSE if company ID does not exist in user',  async () => {
+
+        // Create User
+        const user = new User(user7Data);
+
+        const result = await deleteUserCompany("0000636f756e746572310000");
+        expect(!result);
+    })
+});

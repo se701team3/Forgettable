@@ -8,8 +8,8 @@ import moment from 'moment';
  */
 export const getFirstMetTimeString = (date) => {
   return date ?
-                  moment(date).fromNow() :
-                  'once upon a time';
+    moment(date).fromNow() :
+    'once upon a time';
 };
 
 /**
@@ -20,8 +20,8 @@ export const getFirstMetTimeString = (date) => {
  */
 export const getLongDateStringWithSpaces = (date) => {
   return date ?
-                  moment(date).format('DD MMM YYYY') :
-                  'Unknown';
+    moment(date).format('DD MMM YYYY') :
+    'Unknown';
 };
 
 /**
@@ -32,8 +32,8 @@ export const getLongDateStringWithSpaces = (date) => {
  */
 export const calculateAge = (date) => {
   return date ?
-                  moment().diff(moment(date), 'years') :
-                  'Unknown';
+    moment().diff(moment(date), 'years') :
+    'Unknown';
 };
 
 /**
@@ -43,12 +43,55 @@ export const calculateAge = (date) => {
  */
 export const getLongDateStringWithSlashes = (date) => {
   return date ?
-          moment(date).format('DD/MM/YYYY') :
-          'Unknown';
+    moment(date).format('DD/MM/YYYY') :
+    'Unknown';
 };
+
+/**
+ * Formats a date string into the day of the week
+ * @param {Date} date  a date object to be formatted
+ * @return {String} formatted long date string
+ */
+export const getDayOfWeek = (date) => {
+  return date ?
+    moment(date).format('dddd') :
+    'Unknown';
+};
+
+
+/**
+ * Formats a date string into the day (in a number) and the month (name)
+ * @param {Date} date  a date object to be formatted
+ * @return {String} formatted long date string
+ */
+export const getMonthAndDay = (date) => {
+  return date ?
+    moment(date).format('D MMMM') :
+    'Unknown';
+};
+
 
 export const getInputDateFormatString = (date) => {
   return date ?
-          moment(date).format('yyyy-MM-DD') :
-          '';
+    moment(date).format('yyyy-MM-DD') :
+    '';
+};
+
+/**
+ * Formats a date string into the day (in a number) and the month (name)
+ * or the day of the week if the date is this week
+ * Logic for checking if date is in current week retrieve from:
+ * https://stackoverflow.com/questions/36787908/how-to-check-if-date-is-in-this-week-in-javascript
+ * @param {Date} date  a date object to be formatted
+ * @return {String} formatted long date string
+ */
+export const getBirthdayDate = (date) => {
+  const today = moment();
+  const inputDate = moment(date);
+  const isThisWeek = (today.isoWeek() == inputDate.isoWeek());
+  if (isThisWeek) {
+    return getDayOfWeek(date);
+  } else {
+    return getMonthAndDay(date);
+  }
 };

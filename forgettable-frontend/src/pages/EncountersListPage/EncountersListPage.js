@@ -19,6 +19,9 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
 import {unmarshalEncounters} from '../../functions/dataUnmarshaller';
+import SearchFilterModal from '../../components/SearchFilterModal/SearchFilterModal';
+import EncountersMap from '../../components/EncountersMap/EncountersMap';
+
 
 /*
  * This page lists out all the Encounters the user created.
@@ -45,6 +48,10 @@ export default function EncountersListPage() {
 
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
+  const [searchFilterModalOpen, setSearchFilterModalOpen] = useState(false);
+
+  const [selectedFilter, setSelectedFilter] = useState('');
+
   const [encounterList, setEncounterList] = useState([
     {
       _id: '',
@@ -62,9 +69,20 @@ export default function EncountersListPage() {
     },
   ]);
 
+  // This is a list of latitude and longitude coordinates for the map markers
+  const [markers, setMarkers] = useState([]);
+
   useEffect(async () => {
     const result = await getEncountersByPage(pageNum, PAGE_SIZE);
     setEncounterList(result.map((encounter) => unmarshalEncounters(encounter)));
+    setMarkers(result.map((encounter) => {
+      return {
+        lat: encounter.latLong[0],
+        lng: encounter.latLong[1],
+        name: encounter.title,
+        id: encounter._id,
+      };
+    }));
     setIsLoading(false);
   }, []);
 
@@ -87,6 +105,10 @@ export default function EncountersListPage() {
 
   const handleModalClose = () => {
     setEncounterModalOpen(false);
+  };
+
+  const toggleFilters = () => {
+    setSearchFilterModalOpen(!searchFilterModalOpen);
   };
 
   const onDelete = (encounterId) => {
@@ -133,7 +155,7 @@ export default function EncountersListPage() {
   };
 
   const exportSearchString = async (searchString) => {
-    const searchResult = await searchEncounter(searchString);
+    const searchResult = await searchEncounter(searchString, selectedFilter);
     setEncounterList(searchResult);
   };
 
@@ -176,11 +198,11 @@ export default function EncountersListPage() {
       <div className={classes.Container}>
         <div className={classes.Header}>Encounters</div>
         <div className={classes.Utilities}>
-          <SearchBar
-            hasAutocomplete={false}
+          <SearchBar hasAutocomplete={false}
             exportSearchString={exportSearchString}
             placeholder={'Search'}
-          />
+            filterEnabled={searchFilterModalOpen}
+            toggleFilters={toggleFilters} />
           <div className={classes.Button}>
             <Link
               to={{
@@ -196,6 +218,9 @@ export default function EncountersListPage() {
             </Link>
           </div>
         </div>
+        <SearchFilterModal open={searchFilterModalOpen}
+          filterType="encounter" selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter} />
         {isLoading ? (
           <h4>Loading...</h4>
         ) : (
@@ -256,6 +281,11 @@ export default function EncountersListPage() {
         draggable
         pauseOnHover
       />
+      <div className={classes.Container}>
+        <div className={classes.Header}>Map of Encounters</div>
+        <div className={classes.Map}>
+          <EncountersMap markers={markers}/></div>
+      </div>
     </div>
   );
 }

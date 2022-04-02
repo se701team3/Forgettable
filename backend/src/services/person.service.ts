@@ -38,15 +38,21 @@ const getPeople = async (queryParams: any, userPersons: mongoose.Types.ObjectId[
 
     // If no relevant fields in a Person match 'termValue', remove them from the array
     foundUserPersons = foundUserPersons.filter((person) => {
-      for (let i = 0; i < queryKeys.length; i++) {
-        // Make sure person has a value for current queryKey
-        if (person[queryKeys[i]]) {
-          const personValue = (person[queryKeys[i]] as string).toLowerCase();
-          if (personValue.includes(termValue)) {
-            return true;
+      if (queryParams.field) {
+        if (person[queryParams.field].toLowerCase().includes(termValue)) {
+          return true;
+        }
+      } else {
+        for (let i = 0; i < queryKeys.length; i++) {
+          // Make sure person has a value for current queryKey
+          if (person[queryKeys[i]]) {
+            const personValue = (person[queryKeys[i]] as string).toLowerCase();
+            if (personValue.includes(termValue)) {
+              return true;
+            }
           }
         }
-      }
+      } 
       return false;
     });
   }
@@ -58,6 +64,16 @@ const deletePersonEncounters = async (encounterID: string) => {
   const result = await Person.updateMany({ }, { $pullAll: { encounters: [{ _id: encounterID }] } });
 
   // Check that Persons with the respective encounters has been updated
+  if (result.modifiedCount > 0) {
+    return true;
+  }
+  return false;
+};
+
+const deletePersonCompanies = async (companyID: string) => {
+  const result = await Person.updateMany({ }, { $pullAll: { companies: [{ _id: companyID }] } });
+
+  // Check that Persons with the respective companies has been updated
   if (result.modifiedCount > 0) {
     return true;
   }
@@ -129,6 +145,23 @@ const getPersonWithBirthdayRange = async (userPersons: mongoose.Types.ObjectId[]
   return peopleWithUpcomingBday;
 };
 
+const addCompanyToPersons = async (personIds, companyId) => {
+  for (let i = 0; i < personIds.length; i++) {
+    const result = await Person
+      .updateOne({ _id: personIds[i] }, { $push: { companies: companyId } });
+
+    // Revert all updates if any update fails
+    if (result.modifiedCount !== 1) {
+      for (let j = i - 1; j >= 0; j--) {
+        await Person.updateOne({ _id: personIds[i] }, { $pop: { companies: 1 } });
+      }
+      return false;
+    }
+  }
+
+  return true;
+};
+
 const personService = {
   createPerson,
   getPersonWithId,
@@ -138,6 +171,8 @@ const personService = {
   addEncounterToPersons,
   updatePersonWithId,
   getPersonWithBirthdayRange,
+  deletePersonCompanies,
+  addCompanyToPersons,
 };
 
 export default personService;

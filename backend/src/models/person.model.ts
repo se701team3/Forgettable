@@ -14,10 +14,12 @@ export interface PersonModel {
   first_met: Date,
   how_we_met: string,
   interests: string[],
+  labels: string[],
   organisation: string,
   social_media: Map<string, string>,
   image: Buffer,
   encounters: mongoose.Types.ObjectId[],
+  companies: mongoose.Types.ObjectId[],
   time_updated: Date,
 }
 
@@ -31,10 +33,12 @@ const schema = new Schema<PersonModel>({
   first_met: { type: Date, required: false },
   how_we_met: { type: String, required: false },
   interests: { type: [String], required: false },
+  labels: { type: [String], required: false },
   organisation: { type: String, required: false },
   social_media: { type: Map, of: String, required: false },
   image: { type: Buffer, required: false },
   encounters: { type: [mongoose.Types.ObjectId], required: false },
+  companies: { type: [mongoose.Types.ObjectId], required: false },
   time_updated: { type: Date, default: new Date(Date.now()), required: true },
 });
 

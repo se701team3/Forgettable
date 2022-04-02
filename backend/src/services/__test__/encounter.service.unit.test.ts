@@ -14,12 +14,14 @@ const person1Data: PersonModel = {
     first_name: 'Ping',
     last_name: 'Pong',
     interests: ['video games', 'hockey'],
+    labels: ['Devop'],
     organisation: 'helloc',
     time_updated: new Date('2022-01-01'),
     importance_level: Importance.Very_Important,
     how_we_met: 'Hockey club',
     birthday: new Date('2002-12-12'),
     encounters: [] as any,
+    companies: [] as any,
     first_met: new Date('2022-01-01'),
     gender: "male",
     location: "Auckland",
@@ -33,6 +35,7 @@ const encounter1Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any
 }
 
@@ -40,6 +43,7 @@ const encounter2Data: EncounterModel= {
     title: "Encounter4",
     description: 'Play badminton together',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
     time_updated: new Date(Date.now()),
     date: null as any
@@ -51,7 +55,8 @@ const encounter3Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Played badminton together',
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
-    location: null as any
+    location: null as any,
+    latLong: [200, 200],
 }
 
 const encounter4Data: EncounterModel = {
@@ -60,6 +65,7 @@ const encounter4Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Shopping',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
 }
 
@@ -68,6 +74,7 @@ const encounter5Data: EncounterModel = {
     date: new Date('2022-05-25'),
     time_updated: new Date(Date.now()),
     location: 'Auckland',
+    latLong: [200, 200],
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
     description: null as any
 }
@@ -78,6 +85,7 @@ const encounter6Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     location: 'Auckland',
     persons: null as any,
+    latLong: [200, 200],
     description: "This is encounter 8" as any
 }
 
@@ -86,6 +94,7 @@ const encounter7Data: EncounterModel = {
     date: new Date('2022-05-25'),
     time_updated: new Date(Date.now()),
     location: 'Auckland',
+    latLong: [200, 200],
     persons: [] as any,
     description: "This is encounter 9" as any
 }
@@ -96,6 +105,7 @@ const encounter8Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: ["656e636f756e746572314964"] as any
 }
 
@@ -105,6 +115,7 @@ const encounter9Data: EncounterModel = {
     time_updated: new Date(Date.now()),
     description: 'Met at a cafe',
     location: 'Auckland',
+    latLong: [200, 200],
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any
 }
 
@@ -136,21 +147,21 @@ describe('Encounter creation service', () => {
         expect(encounter3.toJSON()).toEqual(storedEncounter3?.toJSON());
     })
 
-    it('Failed to store user without title', async () => {
+    it('Failed to store encounter without title', async () => {
         await expect(encounterService.createEncounter(encounter4Data)).rejects.toThrow('Encounter validation failed: title: Path `title` is required.');
     })
 
-    it('Failed to create new user without description', async () => {
+    it('Failed to create new encounter without description', async () => {
         await expect(encounterService.createEncounter(encounter5Data)).rejects.toThrow('Encounter validation failed: description: Path `description` is required.');
 
     })
 
-    it('Failed to create new user without persons', async () => {
+    it('Failed to create new encounter without persons', async () => {
         await expect(encounterService.createEncounter(encounter6Data)).rejects.toThrow('Encounter validation failed: persons: Path `persons` is required.');
 
     })
 
-    it('Failed to create new user with empty persons', async () => {
+    it('Failed to create new encounter with empty persons', async () => {
         await expect(encounterService.createEncounter(encounter7Data)).rejects.toThrow('Persons can\'t be empty');
     })
 })
