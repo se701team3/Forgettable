@@ -90,10 +90,6 @@ export default function EditCompany() {
 
       if (result) {
         toastGenerator('success', 'Company Created!', 2000);
-
-        setTimeout(()=> {
-          navigate('/encounters/create', {state: {person: result}});
-        }, 1000);
       } else {
         toastGenerator('error', 'Something went wrong... :(', 2000);
         setLoading(false);
