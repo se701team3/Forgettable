@@ -1,5 +1,5 @@
 import {Avatar, AvatarGroup, StyledEngineProvider, SvgIcon} from '@mui/material';
-import { useState. useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import classes from './CompanyCard.module.css';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
