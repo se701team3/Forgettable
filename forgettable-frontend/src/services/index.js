@@ -15,7 +15,7 @@ export const getPerson = async (id) => {
  * @return {Promise} data of the company with the id
  */
 export const getCompany = async (id) => {
-  return await getCompany('company/' + id);
+  return await getData('company/' + id);
 };
 
 /**
