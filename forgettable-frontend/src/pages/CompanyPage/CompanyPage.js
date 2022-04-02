@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import classes from './CompanyPage.module.css';
 import {getCompany} from '../../services';
 import {Link, Navigate, useParams} from 'react-router-dom';
+import {unmarshalCompany} from '../../functions/dataUnmarshaller';
 
 const CompanyPage = (props) => {
   const {id} = useParams();
@@ -17,7 +18,7 @@ const CompanyPage = (props) => {
   useEffect(async () => {
     const result = await getCompany(id);
 
-    setCompany(result);
+    setCompany(unmarshalCompany(result));
   }, [id]);
 
   return (
