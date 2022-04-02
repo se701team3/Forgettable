@@ -12,9 +12,10 @@ import {
   Checkbox,
 } from '@mui/material';
 import CustomModal from '../../components/CustomModal/CustomModal';
-import {createGoal} from '../../services';
+import {createGoal, deleteGoal} from '../../services';
 import {toastGenerator} from '../../functions/helper';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import EditIcon from '@mui/icons-material/Edit';
 
 /*
  * Component for displaying information of goal details.
@@ -31,21 +32,10 @@ const GoalSummary = (props) => {
   const [modalOpen, setModalOpen] = React.useState(false);
   const [recurring, setRecurring] = React.useState(false);
   const [newGoal, setNewGoal] = React.useState({
-    encounter_goal: '',
-    duration: '',
+    encounter_goal: 0,
     recurring: false,
+    duration: '',
   });
-
-  const handleInputDateChange = (event) => {
-    handleDateLabelChange(event);
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + event.target.value);
-    setNewGoal({...newGoal, duration: endDate.toISOString().split('T')[0]});
-  };
-
-  const handleDateLabelChange = (e) => {
-    setInputEndDate(e.target.value);
-  };
 
   const handleNewGoalClick = () => {
     setModalOpen(true);
@@ -56,26 +46,39 @@ const GoalSummary = (props) => {
   };
 
   const handleNewEncountersChange = (e) => {
-    setNewGoal({...newGoal, encounter_goal: e.target.value});
+    setNewGoal({...newGoal, encounter_goal: Number(e.target.value)});
   };
 
-  const handleCreateGoal = async () => {
-    console.log(newGoal);
-    // uncomment below when endpoints are fixed
-    // await saveGoal(newGoal);
-    if (newGoal.encounter_goal == '' || newGoal.duration == '') {
-      toastGenerator('error',
-          'Please make sure to enter a goal and end date', 2000);
-    } else {
-      setNewGoal({...newGoal, encounter_goal: '', recurring: false});
-      setModalOpen(false);
-      setRecurring(false);
-    }
+  const handleInputDateChange = (event) => {
+    handleDateLabelChange(event);
+    setNewGoal({...newGoal, duration: event.target.value.toString()});
+  };
+
+  const handleDateLabelChange = (e) => {
+    setInputEndDate(e.target.value);
   };
 
   const handleCheckBox = (e) => {
     setRecurring(recurring ? false : true);
     setNewGoal({...newGoal, recurring: e.target.checked});
+  };
+
+
+  const handleCreateGoal = async () => {
+    console.log(newGoal);
+
+    if (newGoal.encounter_goal == 0 || isNaN(newGoal.encounter_goal)||
+          newGoal.duration == '') {
+      toastGenerator('error',
+          'Please make sure to enter a number for "Encounters"' +
+            ' and a duration', 2000);
+    } else {
+      // uncomment below when endpoints are fixed
+      // await saveGoal(newGoal);
+      setNewGoal({...newGoal, encounter_goal: '', recurring: false});
+      setModalOpen(false);
+      setRecurring(false);
+    }
   };
 
   async function saveGoal(goalToPost) {
@@ -89,9 +92,37 @@ const GoalSummary = (props) => {
   }
 
   const handleEdit = () => {
+    if (newGoal.encounter_goal == 0 || isNaN(newGoal.encounter_goal)||
+          newGoal.duration == '') {
+      toastGenerator('error',
+          'Please make sure to enter a number for "Encounters"' +
+            ' and a duration', 2000);
+    } else {
+      editGoal(newGoal);
+      setNewGoal({...newGoal, encounter_goal: '', recurring: false});
+      setModalOpen(false);
+      setRecurring(false);
+    }
     setModalOpen(false);
   };
-  const handleDelete = () => {
+
+  async function editGoal(goalToPost) {
+    const result = await updateGoal(goalToPost);
+    if (result) {
+      toastGenerator('success', 'Goal Updated!', 2000);
+      setNewGoal({...newGoal, recurring: false});
+    } else {
+      toastGenerator('error', 'Something went wrong... :(', 2000);
+    }
+  }
+
+  const handleDelete = async () => {
+    const result = await deleteGoal();
+    if (result) {
+      toastGenerator('success', 'Goal Deleted!', 2000);
+    } else {
+      toastGenerator('error', 'Something went wrong... :(', 2000);
+    }
     setModalOpen(false);
   };
 
@@ -114,9 +145,9 @@ const GoalSummary = (props) => {
               </div>
 
               <div className={classes.input_card}>
-                <label style={{marginRight: '31px'}}>End Date:</label>
-                <FormControl style={{minWidth: 220}}>
-                  <InputLabel id="end-date-select-label">End Date</InputLabel>
+                <label style={{marginRight: '34px'}}>Duration:</label>
+                <FormControl style={{minWidth: 225}}>
+                  <InputLabel id="end-date-select-label">Duration</InputLabel>
                   <Select
                     labelId="end-date-select-label"
                     id="end-date-select"
@@ -201,8 +232,9 @@ const GoalSummary = (props) => {
           </Box>
           <div>
             <div className={classes.GoalLabel}>{goal - encountered} to go!</div>
-            <div className={classes.DateLabel}>TODO Date</div>
-            <CustomButton btnText="Edit" onClick={handleNewGoalClick} />
+            <div className={classes.DateLabel}>Time Left</div>
+            <EditIcon className={classes.editIcon}
+              onClick={handleNewGoalClick}/>
           </div>
         </div>
       </>
@@ -225,9 +257,9 @@ const GoalSummary = (props) => {
             </div>
 
             <div className={classes.input_card}>
-              <label style={{marginRight: '31px'}}>End Date:</label>
-              <FormControl style={{minWidth: 220}}>
-                <InputLabel id="end-date-select-label">End Date</InputLabel>
+              <label style={{marginRight: '34px'}}>Duration:</label>
+              <FormControl style={{minWidth: 225}}>
+                <InputLabel id="end-date-select-label">Duration</InputLabel>
                 <Select
                   labelId="end-date-select-label"
                   id="end-date-select"
