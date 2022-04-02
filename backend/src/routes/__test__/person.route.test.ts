@@ -219,6 +219,7 @@ const companyData: CompanyModel = {
   description: "Important stuff",
   date_founded: new Date('2000-01-20'),
   time_updated: new Date(Date.now()),
+  image: null as any,
   persons: [] as any,
 }
 
@@ -244,6 +245,40 @@ describe('POST persons/', () => {
       .expect(httpStatus.OK);
 
     expect(user.persons).toEqual([createdPerson._id]);
+  });
+
+  it ('Can be created containing an id from an existing company', async () => {
+    // Create a new user
+    await supertest(app).post('/api/users')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .send(user1Data);
+
+    const { body: company } = await supertest(app).post('/api/companies')
+    .set('Accept', 'application/json')
+    .set('Authorization', token)
+    .send(companyData)
+    .expect(httpStatus.CREATED);
+
+    person1Data.companies.push(company._id);
+
+    // Create a new person who is already employed to the company
+    const { body: createdPerson } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person1Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);
+
+    // Ensure user contains reference to the new person
+    const { body: user } = await supertest(app).get("/api/users")
+      .set("Accept", "application/json")
+      .set("Authorization", token)
+      .expect(httpStatus.OK);
+
+    expect(user.persons).toEqual([createdPerson._id]);
+    expect(createdPerson.companies[0]).toEqual(company._id);
+
+    person1Data.companies = [];
   });
 
   it ('Can be created if "time_updated" is not provided', async() => {
