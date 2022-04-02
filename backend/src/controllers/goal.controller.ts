@@ -8,6 +8,7 @@ import logger from '../utils/logger';
 import { GoalModel } from '../models/goal.model';
 import userService, { getUserByAuthId } from '../services/user.service';
 import goalService from '../services/goal.service';
+import encounterService from "../services/encounter.service";
 
 // Util function that won't be needed regularly
 const getGoalFromReqBody = (body: any) => {
@@ -80,7 +81,8 @@ export const getGoal = async (
           res.sendStatus(httpStatus.CONFLICT).end();
         }
       }
-      const userEncounters = JSON.parse(JSON.stringify(userCurrent?.encounters));
+      const userEncounterIds = userCurrent?.encounters ?? [];
+      const userEncounters = await encounterService.getAllEncounters({}, userEncounterIds);
       let progress_count = 0;
       userEncounters.forEach((encounter) => {
         if (encounter.date > goalDTO.date_start && encounter.date < goalDTO.date_end) {
