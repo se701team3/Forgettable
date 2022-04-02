@@ -28,11 +28,14 @@ function Streaks(encounter) {
       console.log(err);
     }
   }, [encounter]);
+  // count the occurrences of the date
   const occurrences = dates.reduce(function(acc, curr) {
     return acc[curr] ? ++acc[curr] : acc[curr] = 1, acc;
   }, {});
+  // set useful Array
   const resultDate = Object.keys(occurrences);
   const resultCount = Object.values(occurrences);
+  // use for the values props of the CalendarHeatmap
   const data = getRange(resultCount.length).map((d) => (
     {
       date: resultDate[d],
@@ -61,7 +64,6 @@ function Streaks(encounter) {
       <div>
         <ReactTooltip/>
         <CalendarHeatmap
-
           startDate={shiftDate(today, -150)}
           endDate={today}
           values={data}
@@ -91,12 +93,12 @@ function Streaks(encounter) {
     </div>
   );
 }
+// use for the startDate props of the CalendarHeatmap
 function shiftDate(date, numDays) {
   const newDate = new Date(date);
   newDate.setDate(newDate.getDate() + numDays);
   return newDate;
 }
-
 function getRange(count) {
   return Array.from({length: count}, (_, i) => i);
 }

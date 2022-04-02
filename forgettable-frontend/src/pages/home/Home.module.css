@@ -16,9 +16,6 @@
 .streaks_container {
     display: flex;
     flex-direction: column;
-    /* position: absolute;
-    bottom: 0px; */
-    /* gap: 32px; */
     margin-left: 35px;
     margin-top: flex;
     margin-bottom: 20px;
