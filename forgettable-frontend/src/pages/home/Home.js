@@ -169,8 +169,8 @@ function Home() {
             <div className={classes.home_subtitle}>Current Goal</div>
           </div>
           <div className={classes.home_cardGridContainer}>
-            {/* <GoalSummary goal={currentGoal.goal} encountered={currentGoal.encountered} endDate={currentGoal.endDate}/> */}
-            <GoalSummary goal={10} encountered={5} endDate={currentGoal.endDate}/>
+            <GoalSummary goal={currentGoal.goal} encountered={currentGoal.encountered} endDate={currentGoal.endDate}/>
+            {/* <GoalSummary goal={10} encountered={5} endDate={currentGoal.endDate}/> */}
           </div>
 
 

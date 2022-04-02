@@ -141,12 +141,38 @@ export const searchPersons = async (str) => {
   return await getData('persons/?term=' + str);
 };
 
+/**
+ * @return {Promise}
+ */
 export const getGoal = async () => {
   const user = await getUser();
-  console.log(user);
   return await getData('goal/'+ user.goal);
 };
 
+/**
+ * Creates a new Goal to the database
+ * @param {Object} goal goal data too create goal with
+ * @return {Promise}
+ */
 export const createGoal = async (goal) => {
   return await postData('goal', goal);
+};
+
+/**
+ * Updates a goal in the database given the goal's new data.
+ * @param {Object} goal data to update goal
+ * @return {Promise}
+ */
+export const updateGoal = async (goal) => {
+  return await putData('goal', goal);
+};
+
+/**
+ * Deletes a goal from the database
+ * @return {Promise}
+ */
+export const deleteGoal = async () => {
+  const user = await getUser();
+  console.log(user);
+  return await deleteData('goal/' + user.goal);
 };
