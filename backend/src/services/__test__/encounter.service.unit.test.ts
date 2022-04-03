@@ -245,6 +245,18 @@ describe('Get Encounters Service', () => {
       expect(retrievedEncounters[1].title).toBe("Encounter5");
     });
 
+    it ('Correctly encounters filters based on the filter field', async () => {
+        const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+        const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+        const encounter3ID = (await new Encounter(encounter3Data).save()).id;
+
+        const retrievedEncounters = await encounterService.getAllEncounters({term: "play", field: "description"}, [encounter1ID, encounter2ID, encounter3ID]);
+        
+        expect(retrievedEncounters).toHaveLength(2);
+        expect(retrievedEncounters[0].title).toBe("Encounter4");
+        expect(retrievedEncounters[1].title).toBe("Encounter5");
+    });
+
     it ('Returns an empty array if no encounters match the query param', async () => {
       const encounter1ID = (await new Encounter(encounter1Data).save()).id;
       const encounter2ID = (await new Encounter(encounter2Data).save()).id;
@@ -255,4 +267,15 @@ describe('Get Encounters Service', () => {
       expect(retrievedEncounters).toHaveLength(0);
       expect(retrievedEncounters).toStrictEqual([]);
     });
+
+    it ('Returns an empty array if the encounters filter field does not match', async () => {
+        const encounter1ID = (await new Encounter(encounter1Data).save()).id;
+        const encounter2ID = (await new Encounter(encounter2Data).save()).id;
+        const encounter3ID = (await new Encounter(encounter3Data).save()).id;
+
+        const retrievedEncounters = await encounterService.getAllEncounters({term: "play", field: "title"}, [encounter1ID, encounter2ID, encounter3ID]);
+        
+        expect(retrievedEncounters).toHaveLength(0);
+        expect(retrievedEncounters).toStrictEqual([]);
+    })
   })

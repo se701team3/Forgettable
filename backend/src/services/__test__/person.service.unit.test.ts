@@ -133,6 +133,55 @@ const person1Data:PersonModel = {
       const retrievedPerson = await personService.getPersonWithId('some_fake_id');
       expect(retrievedPerson).toBeNull();
     });
+
+    it ('Correctly filters the list of people by the query param', async () => {
+      const person1ID = (await new Person(person1Data).save()).id;
+      const person2ID = (await new Person(person2Data).save()).id;
+      const person3ID = (await new Person(person3Data).save()).id;
+    
+      const retrievedPeople = await personService.getPeople({term: "test"}, [person1ID, person2ID, person3ID]);
+      
+      expect(retrievedPeople ).toHaveLength(3);
+      expect(retrievedPeople[0].first_name).toBe("testlname");
+      expect(retrievedPeople[1].first_name).toBe("test2name");
+      expect(retrievedPeople[2].first_name).toBe("test3name");
+    });
+
+    it ('Correctly filters based on the filter field', async () => {
+      const person1ID = (await new Person(person1Data).save()).id;
+      const person2ID = (await new Person(person2Data).save()).id;
+      const person3ID = (await new Person(person3Data).save()).id;
+    
+      const retrievedPeople = await personService.getPeople({term: "test", field: "first_name"}, [person1ID, person2ID, person3ID]);
+      
+      expect(retrievedPeople ).toHaveLength(3);
+      expect(retrievedPeople[0].first_name).toBe("testlname");
+      expect(retrievedPeople[1].first_name).toBe("test2name");
+      expect(retrievedPeople[2].first_name).toBe("test3name");
+        
+    });
+
+    it ('Returns an empty array if no encounters match the query param', async () => {
+      const person1ID = (await new Person(person1Data).save()).id;
+      const person2ID = (await new Person(person2Data).save()).id;
+      const person3ID = (await new Person(person3Data).save()).id;
+    
+      const retrievedPeople = await personService.getPeople({term: "no_search_results_please"}, [person1ID, person2ID, person3ID]);
+      
+      expect(retrievedPeople ).toHaveLength(0);
+      expect(retrievedPeople ).toStrictEqual([]);
+    });
+
+    it ('Returns an empty array if the filter field does not match', async () => {
+      const person1ID = (await new Person(person1Data).save()).id;
+      const person2ID = (await new Person(person2Data).save()).id;
+      const person3ID = (await new Person(person3Data).save()).id;
+    
+      const retrievedPeople = await personService.getPeople({term: "test", field: "gender"}, [person1ID, person2ID, person3ID]);
+      
+      expect(retrievedPeople ).toHaveLength(0);
+      expect(retrievedPeople ).toStrictEqual([]);
+    })
   })
 
   describe('Add encounter to person', () => {

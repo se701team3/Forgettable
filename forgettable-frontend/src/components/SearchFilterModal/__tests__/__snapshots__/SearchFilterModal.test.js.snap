@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders SearchFilterModal with correct hierarchy 1`] = `
+<div
+  className="homeFilter 
+        null"
+>
+  <ForwardRef(Box)
+    className="searchFilterBox"
+  >
+    <div>
+      <h3>
+        Filters
+      </h3>
+      <div
+        className="filterSelectionPanel"
+      >
+        <CustomButton
+          btnText="Encounters"
+          className="deselectedButton"
+          onClick={[Function]}
+        />
+        <CustomButton
+          btnText="People"
+          className="deselectedButton"
+          onClick={[Function]}
+        />
+      </div>
+    </div>
+  </ForwardRef(Box)>
+</div>
+`;
+
+exports[`snapshot with no content matches 1`] = `
+<div
+  className="homeFilter 
+        null"
+>
+  <ForwardRef(Box)
+    className="searchFilterBox"
+  >
+    <div>
+      <h3>
+        Filters
+      </h3>
+      <div
+        className="filterSelectionPanel"
+      >
+        <CustomButton
+          btnText="Encounters"
+          className="deselectedButton"
+          onClick={[Function]}
+        />
+        <CustomButton
+          btnText="People"
+          className="deselectedButton"
+          onClick={[Function]}
+        />
+      </div>
+    </div>
+  </ForwardRef(Box)>
+</div>
+`;
