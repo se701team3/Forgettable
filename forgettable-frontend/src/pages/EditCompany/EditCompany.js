@@ -130,7 +130,7 @@ export default function EditCompany() {
 
         <div className={classes.row}>
           <div className={classes.column}>
-            <InputField inputID='company_name' placeholder={'E.g. Apple'} inputLabel='Company Name' inputType='primary' inputStateValue={companyData.name} autoFocusState={true} requiredState/>
+            <InputField inputID='name' placeholder={'E.g. Apple'} inputLabel='Company Name' inputType='primary' inputStateValue={companyData.name} autoFocusState={true} requiredState/>
             <InputField inputID='description' placeholder={'E.g. About the company'} inputLabel='Description' inputType='primary' inputStateValue={companyData.description}/>
           </div>
           <div className={classes.column}>

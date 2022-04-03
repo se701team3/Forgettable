@@ -38,7 +38,7 @@ const CompanyPage = (props) => {
         </div>
         <div className={classes.DetailSet}>
           <h4>Date Founded</h4>
-          <p>{company.dateFounded}</p>
+          <p>{company.date_founded}</p>
         </div>
       </div>
     </div>

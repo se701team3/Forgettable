@@ -15,7 +15,7 @@ const schema = new Schema<CompanyModel>({
   description: { type: String, required: false },
   date_founded: { type: Date, required: false },
   time_updated: { type: Date, default: new Date(Date.now()), required: true },
-  persons: { type: [mongoose.Types.ObjectId], required: true }
+  persons: { type: [mongoose.Types.ObjectId], required: false },
 });
 
 export default model<CompanyModel>('Company', schema);

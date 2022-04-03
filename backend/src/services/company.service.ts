@@ -10,13 +10,6 @@ const createCompany = async (companyDetails: CompanyModel) => {
 
   await company.save();
 
-  if (company.persons.length === 0) {
-    await Company.deleteOne({ _id: company._id }).exec();
-    const e = new Error('Persons can\'t be empty');
-    e.name = 'ValidationError';
-    throw e;
-  }
-
   return company;
 };
 

@@ -6,53 +6,54 @@ import {createMemoryHistory} from 'history';
 import {MemoryRouter, Router} from 'react-router-dom';
 import axios from 'axios';
 import firebase from 'firebase/compat/app';
+import EditCompany from '../EditCompany';
 
 afterEach(cleanup);
 
 jest.mock('axios');
 
-it('renders Create person page correctly', () => {
+it('renders Create company page correctly', () => {
   const history = createMemoryHistory();
-  history.push('/person/create');
-  const rendered = renderer.create(<MemoryRouter initialEntries={[{pathname: '/person/create'}]}>
-    <EditPerson/>
+  history.push('/company/create');
+  const rendered = renderer.create(<MemoryRouter initialEntries={[{pathname: '/company/create'}]}>
+    <EditCompany/>
   </MemoryRouter>).toJSON();
   expect(rendered).toMatchSnapshot();
 });
 
-it('Create Person heading displays when navigating to /person/create', () => {
+it('Create Company heading displays when navigating to /company/create', () => {
   const history = createMemoryHistory();
-  history.push('/person/create');
+  history.push('/company/create');
   render(
-      <MemoryRouter initialEntries={[{pathname: '/person/create'}]}>
-        <EditPerson/>
+      <MemoryRouter initialEntries={[{pathname: '/company/create'}]}>
+        <EditCompany/>
       </MemoryRouter>);
 
-  expect(screen.getByText('Create Person')).toBeInTheDocument();
+  expect(screen.getByText('Create company')).toBeInTheDocument();
 });
 
-it('Edit person heading displays when navigating to /person/:id', () => {
+it('Edit company heading displays when navigating to /company/:id', () => {
   render(
-      <MemoryRouter initialEntries={[{pathname: '/person/1/edit'}]}>
-        <EditPerson/>
+      <MemoryRouter initialEntries={[{pathname: '/company/1/edit'}]}>
+        <EditCompany/>
       </MemoryRouter>);
 
-  expect(screen.getByText('Edit Person')).toBeInTheDocument();
+  expect(screen.getByText('Edit Company')).toBeInTheDocument();
 });
 
-it('Edit person page displays delete button', () => {
+it('Edit company page displays delete button', () => {
   render(
-      <MemoryRouter initialEntries={[{pathname: '/person/1/edit'}]}>
-        <EditPerson/>
+      <MemoryRouter initialEntries={[{pathname: '/company/1/edit'}]}>
+        <EditCompany/>
       </MemoryRouter>);
 
   expect(screen.getByText('Delete')).toBeInTheDocument();
 });
 
-it('Create person page does not display delete button', () => {
+it('Create Company page does not display delete button', () => {
   render(
-      <MemoryRouter initialEntries={[{pathname: '/person/create'}]}>
-        <EditPerson/>
+      <MemoryRouter initialEntries={[{pathname: '/company/create'}]}>
+        <EditCompany/>
       </MemoryRouter>);
 
   expect(screen.queryByText('Delete')).not.toBeInTheDocument();
@@ -79,9 +80,9 @@ it('Displays correct data from database', async () => {
   axios.get.mockResolvedValue({data: personData});
   firebase.auth().onAuthStateChanged(async (u) => {
     if (u) {
-      await apiCalls.getPerson('1');
+      await apiCalls.getCompany('1');
       render(<MemoryRouter initialEntries={[{pathname: '/person/1/edit'}]}>
-        <EditPerson/>
+        <EditCompany/>
       </MemoryRouter>);
 
       expect(screen.getByText('newf')).toBeInTheDocument();

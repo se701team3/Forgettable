@@ -3,13 +3,14 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import classes from './CompanyListPage.module.css';
 import IconButton from '../../components/IconButton/IconButton';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import {searchCompany, deleteCompany, getAllCompanies} from '../../services';
+import {searchCompany, deleteCompany, getAllCompanies, getAllPersons, getEncounter} from '../../services';
 import {useNavigate} from 'react-router-dom';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
 import CompanyCard from '../../components/CompanyCard/CompanyCard';
+import {unmarshalCompany, unmarshalPerson} from '../../functions/dataUnmarshaller';
 
 const PAGE_SIZE = 10;
 
@@ -17,8 +18,6 @@ const PAGE_SIZE = 10;
  * This page lists out all the Companies the user created.
  * Results are paginated, the number of items per pull is
  * determined by the PAGE_SIZE constant.
- *
- * Author: Andy Kweon (skwe902)
  */
 export default function CompanyListPage(props) {
   const navigate = useNavigate();
@@ -29,6 +28,21 @@ export default function CompanyListPage(props) {
   const [companyToDelete, setCompanyToDelete] = useState();
   const [companyList, setCompanyList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(async () => {
+    const result = await getAllCompanies(currentPage, PAGE_SIZE);
+
+    if (result) {
+      const unmarshalledCompanyList =
+          await Promise.all(
+              result.map(async (company) =>{
+                return {
+                  ...unmarshalPerson(company),
+                };
+              }));
+      setCompanyList(unmarshalledCompanyList);
+    }
+  }, []);
 
   const onClickNewEntry = () => {
     navigate(`/company/create`);

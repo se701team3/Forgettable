@@ -15,7 +15,7 @@ export const getPerson = async (id) => {
  * @return {Promise} data of the company with the id
  */
 export const getCompany = async (id) => {
-  return await getData('company/' + id);
+  return await getData('companies/' + id);
 };
 
 /**
@@ -32,8 +32,8 @@ export const getAllPersons = async (page, limit) => {
  * @return {Promise} data of all companies
  */
 export const getAllCompanies = async (page, limit) => {
-  if (!page || !limit) return await getData('company');
-  return await getData(`company?page=${page}&limit=${limit}`);
+  if (!page || !limit) return await getData('companies');
+  return await getData(`companies?page=${page}&limit=${limit}`);
 };
 
 /**
@@ -71,7 +71,7 @@ export const createPerson = async (person) => {
  * @return {Promise} data entry of the new Company created
  */
 export const createCompany = async (company) => {
-  return await postData('company', company);
+  return await postData('companies', company);
 };
 
 /**
@@ -93,7 +93,7 @@ export const updatePerson = async (id, person) => {
  * @return {Promise} data entry of the updated Company
  */
 export const updateCompany = async (id, company) => {
-  return await putData('company/' + id, company);
+  return await putData('companies/' + id, company);
 };
 
 /**
@@ -111,7 +111,7 @@ export const deletePerson = async (id) => {
  * @return {Promise}
  */
 export const deleteCompany = async (id) => {
-  return await deleteData('company/' + id);
+  return await deleteData('companies/' + id);
 };
 
 /**
@@ -205,5 +205,5 @@ export const getPeopleWithUpcomingBirthday = async () => {
  * @return {Promise}
  */
 export const searchCompany = async (string) => {
-  return await getData('company/?term=' + string);
+  return await getData('companies/?term=' + string);
 };
