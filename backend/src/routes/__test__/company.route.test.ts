@@ -29,6 +29,7 @@ const user1Data = {
     name: 'Bing Bong',
     encounters: [] as any,
     persons: [] as any,
+    goals: [] as any,
     companies: [] as any
 }
 

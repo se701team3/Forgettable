@@ -4,9 +4,11 @@ const createGoal = async (goalDetails: GoalModel) => {
   const goal = new Goal(goalDetails);
 
   // Uses the duration string and the current date to compute the start/end date of the goal
-  goal.date_start = new Date(Date.now());
+  goal.date_start = new Date();
+  goal.date_start.setUTCHours(0, 0, 0, 0);
   goal.date_end = new Date();
   goal.date_end.setDate(goal.date_start.getDate() + parseInt(goal.duration));
+  goal.date_end.setUTCHours(0, 0, 0, 0);
   goal.encounter_goal = goalDetails.encounter_goal;
 
   await goal.save();
