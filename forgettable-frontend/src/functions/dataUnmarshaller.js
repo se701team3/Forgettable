@@ -17,6 +17,20 @@ export const unmarshalPerson = (person) => {
   );
 };
 
+export const unmarshalCompany = (company) => {
+  return (
+    {
+      ...company,
+      name: company.name,
+      location: company.location,
+      description: company.description,
+      date_founded: company.date_founded,
+      id: company._id,
+    }
+  );
+};
+
+
 export const unmarshalEncounters = (encounter) => {
   return (
     {
