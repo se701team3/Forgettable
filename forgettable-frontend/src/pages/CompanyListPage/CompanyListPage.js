@@ -60,7 +60,7 @@ export default function CompanyListPage(props) {
   };
 
   const onConfirmDeleteCompany = async (id) => {
-    const result = await deleteCompany(id);
+    const result = deleteCompany(id);
 
     if (result) {
       const newCompanyList = companyList.filter((p) => p._id !== id);
