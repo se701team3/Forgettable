@@ -8,7 +8,7 @@ const createGoal = async (goalDetails: GoalModel) => {
   goal.date_start.setUTCHours(0, 0, 0, 0);
   goal.date_end = new Date();
   goal.date_end.setDate(goal.date_start.getDate() + parseInt(goal.duration));
-  goal.date_start.setUTCHours(0, 0, 0, 0);
+  goal.date_end.setUTCHours(0, 0, 0, 0);
   goal.encounter_goal = goalDetails.encounter_goal;
 
   await goal.save();

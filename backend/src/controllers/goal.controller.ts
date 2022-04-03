@@ -61,13 +61,15 @@ export const getGoal = async (
         res.sendStatus(httpStatus.NOT_FOUND).end();
         return;
       }
-      const time_now = new Date(Date.now());
+      const time_now = new Date();
       time_now.setUTCHours(0, 0, 0, 0);
 
       // If the date is surpassed and it is a recurring goal, update the current start/end dates accordingly
       if (goal.date_end < time_now && goal.recurring) {
         goal.date_start = time_now;
-        goal.date_end = new Date(time_now.getTime() + parseInt(goal.duration));
+        goal.date_end = new Date();
+        goal.date_end.setDate(goal.date_start.getDate() + parseInt(goal.duration));
+        goal.date_end.setUTCHours(0, 0, 0, 0);
         const updatedGoal = await goalService.updateGoal(
           goalId,
           goal,
@@ -88,7 +90,7 @@ export const getGoal = async (
       const userEncounters = await encounterService.getAllEncounters({}, userEncounterIds);
       let progress_count = 0;
       userEncounters.forEach((encounter) => {
-        if (encounter.date > goal.date_start && encounter.date < goal.date_end) {
+        if (encounter.date >= goal.date_start && encounter.date <= goal.date_end) {
           progress_count++;
         }
         return progress_count;
