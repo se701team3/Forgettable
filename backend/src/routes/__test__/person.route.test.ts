@@ -38,6 +38,7 @@ const person1Data: PersonModel = {
   first_name: 'Ping',
   last_name: 'Pong',
   interests: ['video games', 'hockey'],
+  labels: ['Devop'],
   organisation: 'helloc',
   time_updated: new Date('2022-01-01'),
   importance_level: Importance.Very_Important,
@@ -56,6 +57,7 @@ const person2Data: PersonModel = {
   first_name: 'Adam',
   last_name: 'Bong',
   interests: ['badminton', 'golf'],
+  labels: ['Devop'],
   organisation: 'helloc',
   time_updated: new Date('2022-02-23'),
   importance_level: Importance.Should_Remember,
@@ -74,6 +76,7 @@ const person3Data: PersonModel = {
   first_name: 'Billy',
   last_name: 'John',
   interests: ['surfing', 'cooking'],
+  labels: ['Devop'],
   organisation: 'an organisation',
   time_updated: new Date('2022-02-23'),
   importance_level: Importance.Casual_Contact,
@@ -92,6 +95,7 @@ const person4Data: PersonModel = {
   first_name: 'Kelvin',
   last_name: 'Kong',
   interests: ['Studying', 'Winning'],
+  labels: ['Devop'],
   organisation: 'Winnie',
   time_updated: new Date('2022-01-01'),
   importance_level: Importance.Very_Important,
@@ -118,6 +122,7 @@ const userData: UserModel = {
 const person5Data = {
   last_name: 'John',
   interests: ['surfing', 'cooking'],
+  labels: ['Devop'],
   organisation: 'an organisation',
   time_updated: new Date('2022-02-23'),
   importance_level: Importance.Casual_Contact,
@@ -136,6 +141,7 @@ const person6Data = {
   first_name: 'Billy',
   last_name: 'John',
   interests: ['surfing', 'cooking'],
+  labels: ['Devop'],
   organisation: 'an organisation',
   how_we_met: 'At the park',
   birthday: new Date('2001-07-16'),
@@ -172,6 +178,7 @@ const person7Data = {
   first_name: 'Yesterday',
   last_name: 'Birthday',
   interests: ['surfing', 'cooking'],
+  labels: [],
   organisation: 'an organisation',
   how_we_met: 'At the park',
   birthday: new Date(new Date().getTime() - 24 * 60 * 60 * 1000),
@@ -187,6 +194,7 @@ const person8Data = {
   first_name: 'Tomorrow',
   last_name: 'Birthday',
   interests: ['surfing', 'cooking'],
+  labels: ['Devop'],
   organisation: 'an organisation',
   how_we_met: 'At the park',
   birthday: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
@@ -202,6 +210,7 @@ const person9Data = {
   first_name: 'NextMonth',
   last_name: 'Birthday',
   interests: ['surfing', 'cooking'],
+  labels: ['Backend'],
   organisation: 'an organisation',
   how_we_met: 'At the park',
   birthday: new Date(new Date().getTime() + 24 * 60 * 60 * 1000 * 30),
@@ -220,6 +229,7 @@ const companyData: CompanyModel = {
   description: "Important stuff",
   date_founded: new Date('2000-01-20'),
   time_updated: new Date(Date.now()),
+  image: null as any,
   persons: [] as any,
 }
 
@@ -245,6 +255,40 @@ describe('POST persons/', () => {
       .expect(httpStatus.OK);
 
     expect(user.persons).toEqual([createdPerson._id]);
+  });
+
+  it ('Can be created containing an id from an existing company', async () => {
+    // Create a new user
+    await supertest(app).post('/api/users')
+      .set('Accept', 'application/json')
+      .set('Authorization', token)
+      .send(user1Data);
+
+    const { body: company } = await supertest(app).post('/api/companies')
+    .set('Accept', 'application/json')
+    .set('Authorization', token)
+    .send(companyData)
+    .expect(httpStatus.CREATED);
+
+    person1Data.companies.push(company._id);
+
+    // Create a new person who is already employed to the company
+    const { body: createdPerson } = await supertest(app).post('/api/persons')
+      .set('Accept', 'application/json')
+      .send(person1Data)
+      .set("Authorization", token)
+      .expect(httpStatus.CREATED);
+
+    // Ensure user contains reference to the new person
+    const { body: user } = await supertest(app).get("/api/users")
+      .set("Accept", "application/json")
+      .set("Authorization", token)
+      .expect(httpStatus.OK);
+
+    expect(user.persons).toEqual([createdPerson._id]);
+    expect(createdPerson.companies[0]).toEqual(company._id);
+
+    person1Data.companies = [];
   });
 
   it ('Can be created if "time_updated" is not provided', async() => {
@@ -1026,6 +1070,45 @@ describe('GET /birthdays', () => {
 
   it('Empty array is returned when no-one has a birthdays in a given data-range', async () => {
     const { body: people } = await supertest(app).get('/api/birthdays')
+      .set('Accept', 'application/json')
+      .set('Authorization', token);
+
+    expect(people).toEqual({});
+  });
+});
+
+describe('GET /label', () => {
+
+  async function populateDbWithUsersPersons() {
+    const person1 = new Person(person7Data);
+    const person2 = new Person(person8Data);
+    const person3 = new Person(person9Data);    
+    
+    await person1.save();
+    await person2.save();
+    await person3.save();
+    
+    userData.auth_id = await testUtils.getAuthIdFromToken(token);
+    const user = new User(userData);
+    user.persons.push(person1._id, person2._id, person3._id);
+    await user.save();
+  
+    const storedPersonIds = [person1._id, person2._id, person3._id];
+  
+    return storedPersonIds;
+  }
+
+  it('Returns correct number of entries', async () => {
+    await populateDbWithUsersPersons();
+    const { body: people }  = await supertest(app).get('/api/persons/label?label=Devop')
+      .set('Accept', 'application/json')
+      .set('Authorization', token);
+
+    expect(people.length).toEqual(1);
+  });
+
+  it('Empty array is returned when there is none with the label', async () => {
+    const { body: people } = await supertest(app).get('/api/persons/label?label=frontend')
       .set('Accept', 'application/json')
       .set('Authorization', token);
 

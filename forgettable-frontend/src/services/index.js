@@ -206,4 +206,39 @@ export const getPeopleWithUpcomingBirthday = async () => {
  */
 export const searchCompany = async (string) => {
   return await getData('companies/?term=' + string);
+  
+ * Searches Goal for from database given ID
+ * @param {string} goalId id of the Goal to search
+ * @return {Promise}
+ */
+export const getGoal = async (goalId) => {
+  return await getData('goal/'+ goalId);
+};
+
+/**
+ * Creates a new Goal to the database
+ * @param {Object} goal goal data too create goal with
+ * @return {Promise}
+ */
+export const createGoal = async (goal) => {
+  return await postData('goal', goal);
+};
+
+/**
+ * Updates a goal in the database given the goal's new data.
+ * @param {string} goalId id of the goal to update
+ * @param {Object} goal data to update goal
+ * @return {Promise}
+ */
+export const updateGoal = async (goalId, goal) => {
+  return await putData('goal/' + goalId, goal);
+};
+
+/**
+ * Deletes a goal from the database
+ * @param {string} goalId id of the goal to update
+ * @return {Promise}
+ */
+export const deleteGoal = async (goalId) => {
+  return await deleteData('goal/' + goalId);
 };

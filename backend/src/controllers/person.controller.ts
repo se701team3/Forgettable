@@ -37,6 +37,14 @@ export const createPerson: POST = async (
       if (!createdPerson) {
         res.status(httpStatus.BAD_REQUEST).end();
       } else {
+        await Promise.all(createdPerson.companies.map(async (companyId: any) => {
+          const company = await companyService.getCompany(companyId);
+          // add the person id to all its companies
+          if (company) {
+            company.persons.push(createdPerson._id);
+          }
+        }));
+
         // Add a reference to the created person to the user
         user = await userService.addPersonId(user.auth_id, createdPerson._id);
         // If user doesn't contain reference to new person
@@ -131,7 +139,6 @@ export const getPersonsByCompany = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-
   logger.info('GET /persons/companies/:id request from frontend');
 
   const authId = req.headers.authorization?.['user_id'];
@@ -151,11 +158,45 @@ export const getPersonsByCompany = async (
           async (personsId: any) => (await getPersonDetails(personsId)),
         ));
       }
-      
+
       if (!company) {
         res.status(httpStatus.NOT_FOUND).end();
       } else {
         res.status(httpStatus.OK).json(companyPeople).end();
+      }
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const getPersonsByLabel = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  logger.info('GET /persons/label request from frontend');
+
+  const authId = req.headers.authorization?.['user_id'];
+  const user = await userService.getUserByAuthId(authId);
+  const reqLabel = req.query.label?.toString();
+
+  try {
+    if (!user) {
+      res.status(httpStatus.UNAUTHORIZED).end();
+    } else {
+      // get all the persons for this user
+      let people: any = await Promise.all(user.persons.map(
+        async (personsId: any) => (await personService.getPersonWithId(personsId)),
+      ));
+
+      // filter, getting all people that have this label ( case insensitive )
+      let peopleWithLabel: any = people.filter((person) => person?.labels.some((label) => label.toLowerCase() === reqLabel?.toLowerCase()));
+
+      if (!peopleWithLabel) {
+        res.status(httpStatus.NOT_FOUND).end();
+      } else {
+        res.status(httpStatus.OK).json(peopleWithLabel).end();
       }
     }
   } catch (e) {

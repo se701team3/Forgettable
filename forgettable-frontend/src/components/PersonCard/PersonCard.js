@@ -5,6 +5,8 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
 import {convertSocialMediaToIcon} from '../../functions/socialMediaIconConverter';
 import PropTypes from 'prop-types';
 import {getFirstMetTimeString, getLongDateStringWithSlashes} from '../../functions/dateFormatter';
@@ -133,6 +135,16 @@ const PersonCard = (props) => {
                 )}
               </Menu>
             </div>
+            {props.label &&
+            <div>
+              <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
+                {props.labels.map((label) => {
+                  return (
+                    <Chip key={label} label={label} />
+                  );
+                })}
+              </Box>
+            </div>}
             <div className={classes.SupplementaryInformationContainer}>
               <p className={classes.Encounters}
                 data-testid="encounters-element"

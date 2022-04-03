@@ -25,6 +25,7 @@ const user1Data = {
   last_name: "Bong",
   encounters: [] as any,
   persons: [] as any,
+  goals: [] as any,
   companies: [] as any
 };
 
@@ -32,6 +33,7 @@ const user2Data = {
   last_name: "Mong",
   encounters: [] as any,
   persons: [] as any,
+  goals: [] as any,
   companies: [] as any
 };
 
@@ -39,6 +41,7 @@ const user3Data = {
   first_name: "Tingy",
   encounters: [] as any,
   persons: [] as any,
+  goals: [] as any,
   companies: [] as any
 };
 
@@ -46,6 +49,7 @@ const user4Data = {
   first_name: "Tingy",
   last_name: "Tangy",
   encounters: [] as any,
+  goals: [] as any,
   companies: [] as any
 };
 
@@ -53,6 +57,7 @@ const user5Data = {
   first_name: "Tingy",
   last_name: "Tangy",
   persons: [] as any,
+  goals: [] as any,
   companies: [] as any
 };
 
@@ -60,6 +65,7 @@ const person1Data: PersonModel = {
   first_name: "Ray",
   last_name: "Ping",
   interests: ["video games", "hockey"],
+  labels: ['Devop'],
   organisation: "helloc",
   time_updated: new Date("2022-01-01"),
   importance_level: null as any,
@@ -78,6 +84,7 @@ const person2Data: PersonModel = {
   first_name: "Adam",
   last_name: "Bong",
   interests: ["badminton", "golf"],
+  labels: ['Devop'],
   organisation: "helloc",
   time_updated: new Date("2022-02-23"),
   importance_level: Importance.Should_Remember,

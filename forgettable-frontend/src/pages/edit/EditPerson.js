@@ -9,6 +9,7 @@ import imageToBase64 from 'image-to-base64/browser';
 import CustomModal from '../../components/CustomModal/CustomModal';
 import * as apiCalls from '../../services/index';
 import InputField from '../../components/InputField/InputField';
+import InputSelector from '../../components/InputSelector/InputSelector';
 import {convertSocialMedia} from '../../functions/convertSocialMediaFormat';
 import {getInputDateFormatString, getLongDateStringWithSlashes} from '../../functions/dateFormatter';
 import {ToastContainer, toast} from 'react-toastify';
@@ -17,6 +18,8 @@ import {toastGenerator} from '../../functions/helper';
 import Loading from '../Loading/Loading';
 
 const MAX_IMAGE_SIZE = 16000000;
+
+const GENDER_OPTIONS = ['Male', 'Female', 'Prefer not to say', 'Unlisted'];
 
 export default function EditPerson() {
   const location = useLocation();
@@ -42,6 +45,7 @@ export default function EditPerson() {
     image: '',
     encounters: [],
     time_updated: '',
+    labels: [],
   });
 
   (!create) && (useEffect(async () => {
@@ -60,6 +64,7 @@ export default function EditPerson() {
       img: result.image,
       encounters: result.encounters || [],
       time_updated: result.time_updated,
+      labels: result.labels || [],
     });
   }, [id]));
 
@@ -160,6 +165,7 @@ export default function EditPerson() {
     const data = {
       ...formData,
       interests: formData.interests.split(/[-_,\s.|]+/),
+      labels: formData.labels.split(/[-_,\s.|]+/),
       image: profilePic,
       social_media: Object.fromEntries(socialMedias),
     };
@@ -192,7 +198,6 @@ export default function EditPerson() {
     }
   };
 
-
   return ( loading ? <Loading/> :
     <div className={classes.editPerson}>
       <div className={classes.title}>{create ? 'Create' : 'Edit'} Person </div>
@@ -214,9 +219,10 @@ export default function EditPerson() {
         <div className={classes.row}>
           <div className={classes.column}>
             <InputField inputID='first_name' placeholder={'E.g. John'} inputLabel='First Name' inputType='primary' inputStateValue={personData.first_name} autoFocusState={true} requiredState/>
-            <InputField inputID='gender' placeholder={'E.g. Female'} inputLabel='Gender' inputType='primary' inputStateValue={personData.gender}/>
+            <InputSelector inputID='gender' placeholder={'E.g. Female'} inputLabel='Gender' inputStateValue={personData.gender} options={GENDER_OPTIONS}/>
             <InputField inputID='first_met' inputLabel='Date First Met' inputType='primary' dataType='date' inputStateValue={personData.first_met}/>
             <InputField inputID='interests' placeholder={'E.g. music, photography, art'} inputLabel='Interests' inputType='primary' inputStateValue={personData.interests.toString()}/>
+            <InputField inputID='labels' placeholder={'E.g. student, tennis'} inputLabel='Labels' inputType='primary' inputStateValue={personData.labels.toString()}/>
             <label className={classes.socialMediaDivLabel}>Social Media</label>
             <div className={classes.socialMediaDiv} data-testid='social-media-div'>
               {handleDisplaySocialMedia()}
