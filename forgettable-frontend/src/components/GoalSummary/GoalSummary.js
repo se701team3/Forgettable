@@ -53,23 +53,19 @@ const GoalSummary = ({goal, update}) => {
   const hoursLeft = Math.floor((secondsLeft % (60 * 60 * 24)) / (60 * 60));
 
   useEffect(() => {
-    if (goalDetails.encountered > goalDetails.goal) {
+    if (goalDetails.encountered >= goalDetails.goal) {
       setProgress(100);
+      setGoalLabel('Well done!');
     } else {
       setProgress((goalDetails.encountered / goalDetails.goal) * 100);
+      const difference = goalDetails.goal-goalDetails.encountered;
+      setGoalLabel(difference.toString() + ' to go!');
     };
 
     if (-1*daysLeft < 1) {
       setTimeLeft('Ends in '+ (-1*hoursLeft).toString() + ' hours');
     } else {
       setTimeLeft('Ends in '+ (Math.floor(-1*daysLeft)).toString() + ' days');
-    }
-
-    if (progress == 100) {
-      setGoalLabel('Well done!');
-    } else {
-      const difference = goalDetails.goal-goalDetails.encountered;
-      setGoalLabel(difference.toString() + ' to go!');
     }
   }, [goalDetails]);
 
