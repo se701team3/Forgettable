@@ -30,6 +30,7 @@ const user1Data = {
     last_name: 'Bong',
     encounters: [] as any,
     persons: [] as any,
+    goals: [] as any,
     companies: [] as any
 }
 
