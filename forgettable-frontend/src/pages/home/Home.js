@@ -14,10 +14,10 @@ import CustomModal from '../../components/CustomModal/CustomModal';
 import GoalSummary from '../../components/GoalSummary/GoalSummary';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
-import { getAllEncounters, getAllPersons, getPeopleWithUpcomingBirthday, getGoal } from '../../services';
+import { getAllEncounters, getAllPersons, getPeopleWithUpcomingBirthday, getGoal, getUser } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
 import { useNavigate } from 'react-router-dom';
-import { unmarshalPerson, unmarshalEncounters } from '../../functions/dataUnmarshaller';
+import { unmarshalPerson, unmarshalEncounters, unmarshalGoal } from '../../functions/dataUnmarshaller';
 import UpcomingBirthdaySummary from '../../components/UpcomingBirthdaySummary/UpcomingBirthdaySummary';
 import SearchFilterModal from '../../components/SearchFilterModal/SearchFilterModal';
 
@@ -60,11 +60,10 @@ function Home() {
         encountersResult,
     );
 
-    console.log('Getting Goals');
-    const goalResult = await getGoal();
+    const user = await getUser();
+    const goalResult = await getGoal(user.goals[0]);
     const unmarshalledGoal = unmarshalGoal(goalResult);
     setCurrentGoal(unmarshalledGoal);
-    console.log(unmarshalledGoal);
 
     setSearchBarData(searchDataResult);
 
@@ -174,7 +173,6 @@ function Home() {
           </div>
           <div className={classes.home_cardGridContainer}>
             <GoalSummary goal={currentGoal.goal} encountered={currentGoal.encountered} endDate={currentGoal.endDate}/>
-            {/* <GoalSummary goal={10} encountered={5} endDate={currentGoal.endDate}/> */}
           </div>
 
 

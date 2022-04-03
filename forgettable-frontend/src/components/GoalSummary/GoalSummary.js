@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import classes from './GoalSummary.module.css';
 import {
   CircularProgress,
@@ -12,7 +12,7 @@ import {
   Checkbox,
 } from '@mui/material';
 import CustomModal from '../../components/CustomModal/CustomModal';
-import {createGoal, deleteGoal} from '../../services';
+import {createGoal, deleteGoal, getUser, updateGoal} from '../../services';
 import {toastGenerator} from '../../functions/helper';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import EditIcon from '@mui/icons-material/Edit';
@@ -20,22 +20,62 @@ import EditIcon from '@mui/icons-material/Edit';
 /*
  * Component for displaying information of goal details.
  * Includes modals for creating and editing goal details.
- * Includes full card for displaying goal details.
+ * Includes full card for displaying goal details or prompt
+ * for creating a new goal if no goal details are found.
  *
  * Author: Bruce Zeng
  */
 const GoalSummary = (props) => {
   const {goal, encountered, endDate} = props;
-  const progress = (encountered / goal) * 100;
 
-  const [inputEndDate, setInputEndDate] = React.useState('');
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const [recurring, setRecurring] = React.useState(false);
-  const [newGoal, setNewGoal] = React.useState({
+  let userGoalId ='';
+  const getGoalId = async () => {
+    const user = await getUser();
+    userGoalId = user.goals[0];
+  };
+  getGoalId();
+
+  let progress = 0;
+  if (encountered > goal) {
+    progress = 100;
+  } else {
+    progress = (encountered / goal) * 100;
+  };
+
+
+  const currentDate = new Date();
+  const endDateDate = new Date(endDate);
+  const secondsLeft = (currentDate.getTime() - endDateDate.getTime())/1000;
+  const daysLeft = (secondsLeft / (60 * 60 * 24));
+  const hoursLeft = Math.floor((secondsLeft % (60 * 60 * 24)) / (60 * 60));
+
+  let timeLeft = '';
+  if (-1*daysLeft < 1) {
+    timeLeft = 'Ends in '+ (-1*hoursLeft).toString() + ' hours';
+  } else {
+    timeLeft = 'Ends in '+ (Math.floor(-1*daysLeft)).toString() + ' days';
+  }
+
+  let goalLabel = '';
+
+  if (progress == 100) {
+    goalLabel = 'Well done!';
+  } else {
+    goalLabel = (goal-encountered).toString() + ' to go!';
+  }
+
+  const [inputEndDate, setInputEndDate] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [recurring, setRecurring] = useState(false);
+  const [newGoal, setNewGoal] = useState({
     encounter_goal: 0,
     recurring: false,
     duration: '',
   });
+
+  const refresh = () => {
+    window.location.reload();
+  };
 
   const handleNewGoalClick = () => {
     setModalOpen(true);
@@ -65,16 +105,13 @@ const GoalSummary = (props) => {
 
 
   const handleCreateGoal = async () => {
-    console.log(newGoal);
-
-    if (newGoal.encounter_goal == 0 || isNaN(newGoal.encounter_goal)||
+    if (newGoal.encounter_goal <= 0 || isNaN(newGoal.encounter_goal)||
           newGoal.duration == '') {
       toastGenerator('error',
-          'Please make sure to enter a number for "Encounters"' +
-            ' and a duration', 2000);
+          'Please make sure to enter a postive number for "Encounters"' +
+            ' and a duration.', 5000);
     } else {
-      // uncomment below when endpoints are fixed
-      // await saveGoal(newGoal);
+      await saveGoal(newGoal);
       setNewGoal({...newGoal, encounter_goal: '', recurring: false});
       setModalOpen(false);
       setRecurring(false);
@@ -84,49 +121,43 @@ const GoalSummary = (props) => {
   async function saveGoal(goalToPost) {
     const result = await createGoal(goalToPost);
     if (result) {
-      toastGenerator('success', 'Goal Created!', 2000);
       setNewGoal({...newGoal, recurring: false});
+      refresh();
     } else {
       toastGenerator('error', 'Something went wrong... :(', 2000);
     }
   }
 
   const handleEdit = () => {
-    if (newGoal.encounter_goal == 0 || isNaN(newGoal.encounter_goal)||
+    if (newGoal.encounter_goal <= 0 || isNaN(newGoal.encounter_goal)||
           newGoal.duration == '') {
       toastGenerator('error',
-          'Please make sure to enter a number for "Encounters"' +
-            ' and a duration', 2000);
+          'Please make sure to enter a postive number for "Encounters"' +
+            ' and a duration.', 5000);
     } else {
       editGoal(newGoal);
-      setNewGoal({...newGoal, encounter_goal: '', recurring: false});
-      setModalOpen(false);
-      setRecurring(false);
     }
-    setModalOpen(false);
   };
 
-  async function editGoal(goalToPost) {
-    const result = await updateGoal(goalToPost);
-    if (result) {
-      toastGenerator('success', 'Goal Updated!', 2000);
-      setNewGoal({...newGoal, recurring: false});
-    } else {
-      toastGenerator('error', 'Something went wrong... :(', 2000);
-    }
-  }
+  const editGoal = async (goalToPost) => {
+    await updateGoal(userGoalId, goalToPost);
+    setNewGoal({...newGoal, encounter_goal: '', recurring: false});
+    setModalOpen(false);
+    setRecurring(false);
+    refresh();
+  };
 
   const handleDelete = async () => {
-    const result = await deleteGoal();
+    const result = await deleteGoal(userGoalId);
     if (result) {
-      toastGenerator('success', 'Goal Deleted!', 2000);
+      refresh();
     } else {
       toastGenerator('error', 'Something went wrong... :(', 2000);
     }
     setModalOpen(false);
   };
 
-  if (progress != 100 && goal != null) {
+  if (goal != null) {
     return (
       <>
         <CustomModal open={modalOpen}>
@@ -230,9 +261,9 @@ const GoalSummary = (props) => {
               </Typography>
             </Box>
           </Box>
-          <div>
-            <div className={classes.GoalLabel}>{goal - encountered} to go!</div>
-            <div className={classes.DateLabel}>Time Left</div>
+          <div className={classes.goalLabelContainer}>
+            <div className={classes.GoalLabel}>{goalLabel}</div>
+            <div className={classes.DateLabel}>{timeLeft}</div>
             <EditIcon className={classes.editIcon}
               onClick={handleNewGoalClick}/>
           </div>

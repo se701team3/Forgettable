@@ -33,9 +33,9 @@ export const unmarshalGoal = (goal) => {
   return (
     {
       ...goal,
-      endDate: goal.date_end ? new Date(person.first_met) : null,
+      endDate: goal.date_end,
       goal: goal.encounter_goal,
-      encontered: goal.progress,
+      encountered: goal.progress,
     }
   );
 };
