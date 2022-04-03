@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { unmarshalPerson, unmarshalEncounters } from '../../functions/dataUnmarshaller';
 import UpcomingBirthdaySummary from '../../components/UpcomingBirthdaySummary/UpcomingBirthdaySummary';
 import SearchFilterModal from '../../components/SearchFilterModal/SearchFilterModal';
+import Streaks from '../../components/Streaks/Streaks';
 
 function Home() {
   const [isHover, setIsHover] = useState(false);
@@ -162,6 +163,9 @@ function Home() {
         </div>
 
         <div className={classes.body_container}>
+          <div className={classes.streaks_container}>
+            <Streaks encounter={encountersList}/>
+          </div>
           <div className={classes.home_subtitleContainer}>
             <div className={classes.home_subtitle}>Recently Updated</div>
             <Link to="/people" style={{ textDecoration: 'none' }}>
