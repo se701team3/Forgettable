@@ -13,7 +13,16 @@
     font-size: var(--text-xxlarge);
     font-weight: var(--font-semibold);
 }
-
+.streaks_container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 35px;
+    margin-top: flex;
+    margin-bottom: 20px;
+    margin-right: 490px; /* accounts for summary panel + margin */
+    min-width: 805px;
+    max-width: 1565px;
+}
 .home_searchArea {
     width: 100%;
     display: flex;

@@ -28,7 +28,8 @@ export const createUser = async (
       name: createdUser.name,
       persons: createdUser.persons,
       encounters: createdUser.encounters,
-      companies: createdUser.companies
+      goals: createdUser.goals,
+      companies: createdUser.companies,
     });
   } catch (e) {
     if (e.name === 'Conflict') {
@@ -56,7 +57,8 @@ export const getUser = async (
         name: user.name,
         persons: user.persons,
         encounters: user.encounters,
-        companies: user.companies
+        goals: user.goals,
+        companies: user.companies,
       });
     }
   } catch (e) {

@@ -24,6 +24,7 @@ const user1Data = {
   name: "Bing Bong",
   encounters: [] as any,
   persons: [] as any,
+  goals: [] as any,
   companies: [] as any
 };
 
@@ -31,6 +32,7 @@ const user2Data = {
   name: null as any,
   encounters: [] as any,
   persons: [] as any,
+  goals: [] as any,
   companies: [] as any
 };
 
@@ -38,18 +40,21 @@ const user3Data = {
   name: "Tingy",
   encounters: [] as any,
   persons: [] as any,
+  goals: [] as any,
   companies: [] as any
 };
 
 const user4Data = {
   name: "Tingy Tangy",
   encounters: [] as any,
+  goals: [] as any,
   companies: [] as any
 };
 
 const user5Data = {
   name: "Tingy Tangy",
   persons: [] as any,
+  goals: [] as any,
   companies: [] as any
 };
 
