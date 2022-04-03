@@ -1,0 +1,74 @@
+.SettingsPage {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 70px 35px;
+    max-width: 800px;
+    min-width: 400px;
+  }
+  
+  .ContentContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .SettingsPage > h1 {
+    margin: 0;
+    font-weight: var(--font-semibold);
+    font-size: var(--text-xxlarge);
+  }
+  
+  .ContentContainer > h2 {
+    font-size: var(--text-large);
+    font-weight: var(--font-medium);
+    border-bottom: solid 1px var(--bord);
+    padding-bottom: 10px;
+    width: 100%;
+    padding-top: 25px;
+  }
+  
+  .DetailSet {
+  
+  }
+  
+  
+  .DetailSet > h4 {
+    font-size: var(--text-normal);
+    font-weight: var(--font-regular);
+    margin: 0;
+    margin-top: 20px;
+  }
+  
+  
+  .DetailSet > p {
+    font-size: var(--text-small);
+    color: var(--txt2);
+    margin: 0;
+    margin-top: 3px
+  }
+  
+  .Button {
+    margin-top: 40px;
+    font-size: var(--text-small);
+    height: 40px;
+  }
+  
+  .DarkModeContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .DarkModeContainer > p {
+    font-weight: var(--font-regular);
+    font-size: var(--text-normal);
+    margin-right: 50px;
+  }
+  
+  .TogglerContainer {
+    margin-top: 5px;
+  }
+  
