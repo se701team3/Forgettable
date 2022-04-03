@@ -152,11 +152,12 @@ export const getPeopleWithUpcomingBirthday = async () => {
 };
 
 /**
+ * Searches Goal for from database given ID
+ * @param {string} goalId id of the Goal to search
  * @return {Promise}
  */
-export const getGoal = async () => {
-  const user = await getUser();
-  return await getData('goal/'+ user.goal);
+export const getGoal = async (goalId) => {
+  return await getData('goal/'+ goalId);
 };
 
 /**
@@ -170,19 +171,19 @@ export const createGoal = async (goal) => {
 
 /**
  * Updates a goal in the database given the goal's new data.
+ * @param {string} goalId id of the goal to update
  * @param {Object} goal data to update goal
  * @return {Promise}
  */
-export const updateGoal = async (goal) => {
-  return await putData('goal', goal);
+export const updateGoal = async (goalId, goal) => {
+  return await putData('goal/' + goalId, goal);
 };
 
 /**
  * Deletes a goal from the database
+ * @param {string} goalId id of the goal to update
  * @return {Promise}
  */
-export const deleteGoal = async () => {
-  const user = await getUser();
-  console.log(user);
-  return await deleteData('goal/' + user.goal);
+export const deleteGoal = async (goalId) => {
+  return await deleteData('goal/' + goalId);
 };
