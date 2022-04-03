@@ -33,10 +33,6 @@ const CompanyCard = (props) => {
 
   const menuItems = [
     {
-      label: 'Edit',
-      action: props.onEdit,
-    },
-    {
       label: 'Delete',
       action: props.onDelete,
     },

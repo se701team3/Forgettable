@@ -206,7 +206,8 @@ export const getPeopleWithUpcomingBirthday = async () => {
  */
 export const searchCompany = async (string) => {
   return await getData('companies/?term=' + string);
-  
+};
+/**
  * Searches Goal for from database given ID
  * @param {string} goalId id of the Goal to search
  * @return {Promise}

@@ -25,7 +25,7 @@ export const unmarshalCompany = (company) => {
       location: company.location,
       description: company.description,
       date_founded: company.date_founded,
-      persons: company.persons,
+      id: company._id,
     }
   );
 };

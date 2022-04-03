@@ -10,7 +10,7 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
 import CompanyCard from '../../components/CompanyCard/CompanyCard';
-import {unmarshalCompany, unmarshalPerson} from '../../functions/dataUnmarshaller';
+import {unmarshalCompany} from '../../functions/dataUnmarshaller';
 
 const PAGE_SIZE = 10;
 
@@ -37,7 +37,7 @@ export default function CompanyListPage(props) {
           await Promise.all(
               result.map(async (company) =>{
                 return {
-                  ...unmarshalPerson(company),
+                  ...unmarshalCompany(company),
                 };
               }));
       setCompanyList(unmarshalledCompanyList);
@@ -56,11 +56,7 @@ export default function CompanyListPage(props) {
     event.stopPropagation();
     setDeleteModalOpen(true);
     setCompanyToDelete(id);
-  };
-
-  const onEditCompanyCardClicked = (event, id) => {
-    event.stopPropagation();
-    navigate(`/company/${id}/edit`);
+    console.log(id);
   };
 
   const onConfirmDeleteCompany = async (id) => {
@@ -166,7 +162,6 @@ export default function CompanyListPage(props) {
                     location = {company.location}
                     description = {company.description}
                     onClick={() => onClickCompanyCard(company.id)}
-                    onEdit={(e) => onEditCompanyCardClicked(e, company.id)}
                     onDelete={(e) => onDeleteCompanyCardClicked(e, company.id)}
                     dateFounded= {company.date_founded}
                     image={company.image}

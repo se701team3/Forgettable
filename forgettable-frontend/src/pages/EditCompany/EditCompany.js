@@ -36,6 +36,16 @@ export default function EditCompany() {
     // persons: '',
   });
 
+  (!create) && (useEffect(async () => {
+    const result = await apiCalls.getCompany(id);
+    setCompanyData({
+      name: result.name || '',
+      location: result.location || '',
+      description: result.description || '',
+      date_founded: result.date_founded || '',
+    });
+  }, [id]));
+
 
   let initialProfilePic = '';
   let initialProfilePicPreview = '';
@@ -90,6 +100,10 @@ export default function EditCompany() {
 
       if (result) {
         toastGenerator('success', 'Company Created!', 2000);
+
+        setTimeout(()=> {
+          navigate('/company', {state: {company: result}});
+        }, 1000);
       } else {
         toastGenerator('error', 'Something went wrong... :(', 2000);
         setLoading(false);
