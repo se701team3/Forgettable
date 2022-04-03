@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+.editCompany {
+    width: fit-content;
+    flex-direction: column;
+    gap: 32px;
+    margin-left: 35px;
+    margin-top: 70px;
+}
+
+.title {
+    font-size: var(--text-xxlarge);
+    font-weight: var(--font-semibold);
+}
+
+.form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.column {
+    padding-right: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.row {
+    display: flex;
+    margin-top: 20px;
+}
+
+.avatarDiv {
+    display: flex;
+    align-items: center;
+}
+
+.avatarButton {
+    margin-left: 40px;
+}
+
+.avatar {
+    width: 120px !important;
+    height: 120px !important;
+    border: 1.5px solid var(--bord);
+}
+
+.profilePicUpload {
+    display: none !important;
+}
+
+.socialMediaDiv {
+    display: flex;
+    flex-wrap: wrap;
+    width: inherit;
+    gap: 3px;
+    margin-bottom: 20px;
+}
+
+.socialMediaDivLabel {
+    font-size: var(--text-medium);
+    font-weight: var(--font-medium);
+}
+
+.addSocialMediaIcon {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: xx-large;
+    background-color: var(--bkgd);
+    border: 1.5px solid var(--btnb);
+    color: var(--btnb);
+    border-style: solid;
+    cursor: pointer;
+}
+
+.socialMediaIcon {
+    margin-right: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.socialMediaModalTitle {
+    font-size: var(--text-xxlarge);
+    font-weight: var(--font-semibold);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.socialMediaModalFieldsDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-end;
+}
+
+.delteModalTitle {
+    font-size: var(--text-xxlarge);
+    font-weight: var(--font-semibold);
+    color: var(--warn);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.deleteModalMessageDiv {
+    font-size: var(--text-large);
+    font-weight: var(--font-regular);
+    width: 525px;
+    text-align: center;
+}
+
+.hiddenSubmit {
+    display: none;
+}
+
+.formButtonsDiv {
+    display: flex;
+    float: right;
+    margin-top: 10px;
+    align-self: flex-end;
+    padding-right: 40px;
+}
+
+.formsButton {
+    margin-right: 20px;
+}
+
+.changeImgButton {
+    color: transparent;
+    width: 0px;
+    visibility: hidden;
+}
+
+.changeImgButtonWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border:2px solid var(--btnb);
+    border-radius: var(--radius-btn);
+    padding: 3px 12px 3px 12px;
+    box-sizing: border-box;
+    width: fit-content;
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: var(--text-normal);
+    user-select: none;
+    background-color: var(--bkgd);
+}
+
+.changeImgButtonWrapper:hover{
+    background-color: var(--hilit);
+}
+
+.DeleteModal {
+    width: 400px;
+    display: flex;
+    flex-direction: column ;
+    align-items: center;
+}
+
+.DeleteModal > h1 {
+    color: #E05A33;
+    font-size: var(--text-xxlarge);
+    text-align: center;
+    font-weight: var(--font-semibold);
+}
+
+.DeleteModal > p {
+    text-align: center;
+    font-size: var(--text-large);
+}

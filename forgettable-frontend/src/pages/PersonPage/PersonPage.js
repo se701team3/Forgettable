@@ -142,6 +142,7 @@ const PersonPage = (props) => {
         socialMedia={person.socialMedia}
         data-testid="drawer-component"
         onEdit={() => navigate(`/person/${id}/edit`)}
+        labels={person.labels}
       />
       <div className={classes.ContentContainer}>
         <div className={classes.TitleContainer} >

@@ -17,6 +17,20 @@ export const unmarshalPerson = (person) => {
   );
 };
 
+export const unmarshalCompany = (company) => {
+  return (
+    {
+      ...company,
+      name: company.name,
+      location: company.location,
+      description: company.description,
+      date_founded: company.date_founded,
+      id: company._id,
+    }
+  );
+};
+
+
 export const unmarshalEncounters = (encounter) => {
   return (
     {
@@ -25,6 +39,17 @@ export const unmarshalEncounters = (encounter) => {
       timeUpdated: encounter.time_updated ?
       new Date(encounter.time_updated) : null,
       date: encounter.date ? new Date(encounter.date) : null,
+    }
+  );
+};
+
+export const unmarshalGoal = (goal) => {
+  return (
+    {
+      ...goal,
+      endDate: goal.date_end,
+      goal: goal.encounter_goal,
+      encountered: goal.progress,
     }
   );
 };

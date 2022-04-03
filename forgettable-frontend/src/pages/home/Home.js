@@ -11,16 +11,16 @@ import IconButton from '../../components/IconButton/IconButton';
 import EncounterCardSummary from '../../components/EncounterCardSummary/EncounterCardSummary';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import CustomModal from '../../components/CustomModal/CustomModal';
+import GoalSummary from '../../components/GoalSummary/GoalSummary';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
-import { getAllEncounters, getAllPersons } from '../../services';
+import { getAllEncounters, getAllPersons, getPeopleWithUpcomingBirthday, getGoal, getUser } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
-import { getImageSrcFromBuffer } from '../../functions/getImageSrcFromBuffer';
 import { useNavigate } from 'react-router-dom';
-import {
-  unmarshalPerson,
-  unmarshalEncounters,
-} from '../../functions/dataUnmarshaller';
+import { unmarshalPerson, unmarshalEncounters, unmarshalGoal } from '../../functions/dataUnmarshaller';
+import UpcomingBirthdaySummary from '../../components/UpcomingBirthdaySummary/UpcomingBirthdaySummary';
+import SearchFilterModal from '../../components/SearchFilterModal/SearchFilterModal';
+import Streaks from '../../components/Streaks/Streaks';
 
 function Home() {
   const [isHover, setIsHover] = useState(false);
@@ -32,8 +32,12 @@ function Home() {
   const [peopleList, setPeopleList] = React.useState([]);
   const [encountersList, setEncountersList] = React.useState([]);
   const [searchBarData, setSearchBarData] = React.useState([]);
-
+  const [currentGoal, setCurrentGoal] = React.useState();
+  const [upcomingBirthdayList, setUpcomingBirthdayList] = React.useState([]);
   const userName = JSON.parse(localStorage.getItem('user')).userName;
+
+  const [searchFilterModalOpen, setSearchFilterModalOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState('');
 
   async function getData() {
     const peopleResult = await getAllPersons();
@@ -57,8 +61,25 @@ function Home() {
         encountersResult,
     );
 
+    await updateGoal();
+
     setSearchBarData(searchDataResult);
+
+    const upcomingBirthdays = await getPeopleWithUpcomingBirthday();
+
+    setUpcomingBirthdayList(upcomingBirthdays);
   }
+
+  const updateGoal = async () => {
+    const user = await getUser();
+    const goalResult = await getGoal(user.goals[0]);
+    const unmarshalledGoal = unmarshalGoal(goalResult);
+    if (!unmarshalledGoal.encountered) {
+      setCurrentGoal(null);
+    } else {
+      setCurrentGoal(unmarshalledGoal);
+    }
+  };
 
   useEffect(() => {
     try {
@@ -104,6 +125,10 @@ function Home() {
     });
   };
 
+  const toggleFilters = () => {
+    setSearchFilterModalOpen(!searchFilterModalOpen);
+  };
+
   return (
     <>
       {isHover && <SummaryDrawer summaryInfo={selectedInfo} />}
@@ -141,11 +166,7 @@ function Home() {
         </div>
 
         <div className={classes.home_searchArea}>
-          <SearchBar
-            placeholder={'Search'}
-            data={searchBarData}
-            hasAutocomplete={true}
-          />
+          <SearchBar placeholder={'Search'} data={searchBarData} hasAutocomplete={true} toggleFilters={toggleFilters} filterEnabled={searchFilterModalOpen} datatype={selectedFilter} />
           <div className={classes.home_newEntryBtn}>
             <IconButton
               btnText="New Entry"
@@ -156,12 +177,24 @@ function Home() {
         </div>
 
         <div className={classes.body_container}>
+          <div className={classes.streaks_container}>
+            <Streaks encounter={encountersList}/>
+          </div>
+          <div className={classes.home_subtitleContainer}>
+            <div className={classes.home_subtitle}>Current Goal</div>
+          </div>
+          <div className={classes.home_cardGridContainer}>
+            <GoalSummary goal={currentGoal} update={updateGoal} />
+          </div>
+
+
           <div className={classes.home_subtitleContainer}>
             <div className={classes.home_subtitle}>Recently Updated</div>
             <Link to="/people" style={{ textDecoration: 'none' }}>
               <CustomButton btnText="View All" />
             </Link>
-          </div>
+          </div >
+
 
           <div
             className={
@@ -232,7 +265,28 @@ function Home() {
               );
             })}
           </div>
+          <div className={classes.home_subtitleContainer}>
+            <div className={classes.home_subtitle}>Upcoming Birthdays</div>
+          </div>
+
+          <div className={classes.home_cardGridContainer + ' ' + classes.home_encounterGridContainer}>
+            {upcomingBirthdayList.map((birthdayPerson, index) => {
+              return (
+                // Uses same hover handler as person card summary as per specification
+                <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handlePersonHover(event, index)} onMouseOut={handleOnMouseOut}>
+                  <Link to={`/person/${birthdayPerson._id}`} style={{textDecoration: 'none'}}>
+                    <UpcomingBirthdaySummary
+                      firstName={birthdayPerson.first_name}
+                      birthday={birthdayPerson.birthday}
+                      img={birthdayPerson.image}
+                      onClick={() => { }}
+                    />
+                  </Link>
+                </div>);
+            })}
+          </div>
         </div>
+        <SearchFilterModal open={searchFilterModalOpen} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />
       </div>
     </>
   );

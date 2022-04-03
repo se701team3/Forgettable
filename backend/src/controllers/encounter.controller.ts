@@ -220,3 +220,30 @@ export const getAllEncounters = async (
     res.status(httpStatus.INTERNAL_SERVER_ERROR).end();
   }
 };
+
+export const pruneEncounters = async (
+  req: Request,
+  expressRes: Response,
+  next: NextFunction,
+): Promise<void> => {
+  const res = expressRes as PaginateableResponse;
+  logger.info('DELETE /encounters/:pruneLength request from frontend');
+
+  const authId = req.headers.authorization?.['user_id'];
+  const user = await userService.getUserByAuthId(authId);
+  const { pruneDate } = req.params;
+
+  try {
+    if (!user) {
+      res.status(httpStatus.NOT_FOUND).end();
+    } else {
+      // The stringify-parse combo removes typing allowing alteration of the persons field in each encounter
+      // Calls pruneEncounters with inputs of list of all signed in user's encounters and the date they want pruned before
+      const foundUserEncounters = JSON.parse(JSON.stringify(await encounterService.pruneEncounters(user.encounters, pruneDate)));
+      res.status(httpStatus.OK).paginate(foundUserEncounters);
+    }
+  } catch (e) {
+    next(e);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).end();
+  }
+};

@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders UpcomingBirthdaySummary UI with correct hierarchy 1`] = `
+<div
+  className="UpcomingBirthdaySummary"
+  data-testid="container-card"
+  onClick={[Function]}
+>
+  <div
+    className="ContentContainer"
+  >
+    <div
+      className="HeaderContainer"
+    >
+      <ForwardRef(Avatar)
+        alt="Bob"
+        src={null}
+        sx={
+          Object {
+            "backgroundColor": "",
+            "fontSize": "",
+            "height": "70px",
+            "marginRight": "14px",
+            "width": "70px",
+          }
+        }
+      />
+      <div
+        className="IdentityInfoConatiner"
+      >
+        <h3
+          data-testid="name-element"
+        >
+          Bob
+        </h3>
+      </div>
+    </div>
+    <div
+      className="DetailsContainer"
+    >
+      <p>
+        Birthday: 
+        <UnknownDetail />
+      </p>
+    </div>
+  </div>
+</div>
+`;

@@ -13,6 +13,9 @@ import LogInPage from '../../pages/LogInPage/LogInPage';
 import CreateEncounterPage from '../../pages/CreateEncounterPage/CreateEncounterPage';
 import Loading from '../../pages/Loading/Loading';
 import NotFound from '../../pages/NotFound/NotFound';
+import CompanyPage from '../../pages/CompanyPage/CompanyPage';
+import CompanyListPage from '../../pages/CompanyListPage/CompanyListPage';
+import EditCompany from '../../pages/EditCompany/EditCompany';
 
 /*
  * Component for all routing logic. Conditionally renders
@@ -41,6 +44,10 @@ const PageRouter = (props) => {
     <div className="page-wrapper">
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="company" element={<CompanyListPage/>} />
+        <Route path="company/create" element={<EditCompany/>} />
+        <Route path="company/:id/edit" element={<EditCompany/>} />
+        <Route path="company/:id" element={<CompanyPage/>} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="people" element={<PersonsListPage />} />
         <Route path="person/create" element={<EditPerson />} />

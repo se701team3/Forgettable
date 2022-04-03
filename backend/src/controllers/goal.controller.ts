@@ -8,6 +8,7 @@ import logger from '../utils/logger';
 import { GoalModel } from '../models/goal.model';
 import userService, { getUserByAuthId } from '../services/user.service';
 import goalService from '../services/goal.service';
+import encounterService from "../services/encounter.service";
 
 // Util function that won't be needed regularly
 const getGoalFromReqBody = (body: any) => {
@@ -16,7 +17,6 @@ const getGoalFromReqBody = (body: any) => {
     date_end: body.date_end,
     duration: body.duration,
     encounter_goal: body.encounter_goal,
-    progress: body.progress,
     recurring: body.recurring,
   };
 
@@ -57,21 +57,25 @@ export const getGoal = async (
     if (stringGoal?.includes(goalId)) {
       // Find goal from database
       const goal = await goalService.getGoal(goalId);
-
-      let goalDTO = JSON.parse(JSON.stringify(goal));
-      const time_now = new Date(Date.now());
-      const new_date_end = new Date();
+      if (!goal) {
+        res.sendStatus(httpStatus.NOT_FOUND).end();
+        return;
+      }
+      const time_now = new Date();
+      time_now.setUTCHours(0, 0, 0, 0);
 
       // If the date is surpassed and it is a recurring goal, update the current start/end dates accordingly
-      if (goalDTO.date_start > time_now && goalDTO.recurring) {
-        goalDTO.date_start = time_now;
-        goalDTO.date_end = new_date_end.setDate(time_now + goalDTO.duration);
+      if (goal.date_end < time_now && goal.recurring) {
+        goal.date_start = time_now;
+        goal.date_end = new Date();
+        goal.date_end.setDate(goal.date_start.getDate() + parseInt(goal.duration));
+        goal.date_end.setUTCHours(0, 0, 0, 0);
         const updatedGoal = await goalService.updateGoal(
           goalId,
-          goalDTO,
+          goal,
         );
         res.status(httpStatus.OK).json(updatedGoal).end();
-      } else if (goalDTO.date_start > time_now && !goalDTO.recurring) {
+      } else if (goal.date_end < time_now && !goal.recurring) {
         // If the date is surpassed and it isn't a recurring goal, remove the goal and return no content
         const deleteGoalResult = await goalService.deleteGoal(goalId);
         const deleteUserGoalResult = await userService.deleteUserGoal(goalId);
@@ -82,7 +86,18 @@ export const getGoal = async (
           res.sendStatus(httpStatus.CONFLICT).end();
         }
       }
-      res.status(httpStatus.OK).json(goalDTO).end();
+      const userEncounterIds = userCurrent?.encounters ?? [];
+      const userEncounters = await encounterService.getAllEncounters({}, userEncounterIds);
+      let progress_count = 0;
+      userEncounters.forEach((encounter) => {
+        if (encounter.date >= goal.date_start && encounter.date <= goal.date_end) {
+          progress_count++;
+        }
+        return progress_count;
+      });
+      let goalProgressDTO = JSON.parse(JSON.stringify(goal));
+      goalProgressDTO.progress = progress_count;
+      res.status(httpStatus.OK).json(goalProgressDTO).end();
     } else {
       res.sendStatus(httpStatus.NOT_FOUND).end();
     }

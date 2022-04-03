@@ -7,6 +7,7 @@ import {Link, useLocation} from 'react-router-dom';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import HomePageLogo from '../../assets/icons/navbar/homepage.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
+import CompanyLogo from '../../assets/icons/navbar/company.svg';
 import SettingsLogo from '../../assets/icons/navbar/settings.svg';
 import LightThemeLogo from '../../assets/logos/logo-short-black.svg';
 import DarkThemeLogo from '../../assets/logos/logo-short-white.svg';
@@ -34,6 +35,10 @@ export default function NavBar() {
     src: EncountersLogo,
     alt: 'Encounters Page',
     path: '/encounters',
+  }, {
+    src: CompanyLogo,
+    alt: 'Company Page',
+    path: '/company',
   }, {
     src: SettingsLogo,
     alt: 'Settings Page',
