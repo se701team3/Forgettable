@@ -31,7 +31,7 @@ function Home() {
   const [peopleList, setPeopleList] = React.useState([]);
   const [encountersList, setEncountersList] = React.useState([]);
   const [searchBarData, setSearchBarData] = React.useState([]);
-  const [currentGoal, setCurrentGoal] = React.useState([]);
+  const [currentGoal, setCurrentGoal] = React.useState();
   const [upcomingBirthdayList, setUpcomingBirthdayList] = React.useState([]);
   const userName = JSON.parse(localStorage.getItem('user')).userName;
 
@@ -60,10 +60,7 @@ function Home() {
         encountersResult,
     );
 
-    const user = await getUser();
-    const goalResult = await getGoal(user.goals[0]);
-    const unmarshalledGoal = unmarshalGoal(goalResult);
-    setCurrentGoal(unmarshalledGoal);
+    await updateGoal();
 
     setSearchBarData(searchDataResult);
 
@@ -71,6 +68,17 @@ function Home() {
 
     setUpcomingBirthdayList(upcomingBirthdays);
   }
+
+  const updateGoal = async () => {
+    const user = await getUser();
+    const goalResult = await getGoal(user.goals[0]);
+    const unmarshalledGoal = unmarshalGoal(goalResult);
+    if (!unmarshalledGoal.encountered) {
+      setCurrentGoal(null);
+    } else {
+      setCurrentGoal(unmarshalledGoal);
+    }
+  };
 
   useEffect(() => {
     try {
@@ -172,7 +180,7 @@ function Home() {
             <div className={classes.home_subtitle}>Current Goal</div>
           </div>
           <div className={classes.home_cardGridContainer}>
-            <GoalSummary goal={currentGoal.goal} encountered={currentGoal.encountered} endDate={currentGoal.endDate}/>
+            <GoalSummary goal={currentGoal} update={updateGoal} />
           </div>
 
 

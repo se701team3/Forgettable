@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import classes from './GoalSummary.module.css';
 import {
   CircularProgress,
@@ -25,45 +25,18 @@ import EditIcon from '@mui/icons-material/Edit';
  *
  * Author: Bruce Zeng
  */
-const GoalSummary = (props) => {
-  const {goal, encountered, endDate} = props;
+const GoalSummary = ({goal, update}) => {
+  const [goalDetails, setGoalDetails] = useState({
+    endDate: new Date(),
+    encountered: 0,
+    goal: 0,
+    recurring: false,
+    _id: '',
+  });
 
-  let userGoalId ='';
-  const getGoalId = async () => {
-    const user = await getUser();
-    userGoalId = user.goals[0];
-  };
-  getGoalId();
-
-  let progress = 0;
-  if (encountered > goal) {
-    progress = 100;
-  } else {
-    progress = (encountered / goal) * 100;
-  };
-
-
-  const currentDate = new Date();
-  const endDateDate = new Date(endDate);
-  const secondsLeft = (currentDate.getTime() - endDateDate.getTime())/1000;
-  const daysLeft = (secondsLeft / (60 * 60 * 24));
-  const hoursLeft = Math.floor((secondsLeft % (60 * 60 * 24)) / (60 * 60));
-
-  let timeLeft = '';
-  if (-1*daysLeft < 1) {
-    timeLeft = 'Ends in '+ (-1*hoursLeft).toString() + ' hours';
-  } else {
-    timeLeft = 'Ends in '+ (Math.floor(-1*daysLeft)).toString() + ' days';
-  }
-
-  let goalLabel = '';
-
-  if (progress == 100) {
-    goalLabel = 'Well done!';
-  } else {
-    goalLabel = (goal-encountered).toString() + ' to go!';
-  }
-
+  const [progress, setProgress] = useState(0);
+  const [timeLeft, setTimeLeft] = useState('');
+  const [goalLabel, setGoalLabel] = useState('');
   const [inputEndDate, setInputEndDate] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [recurring, setRecurring] = useState(false);
@@ -73,9 +46,38 @@ const GoalSummary = (props) => {
     duration: '',
   });
 
-  const refresh = () => {
-    window.location.reload();
-  };
+  const currentDate = new Date();
+  const endDateDate = new Date(goalDetails.endDate);
+  const secondsLeft = (currentDate.getTime() - endDateDate.getTime())/1000;
+  const daysLeft = (secondsLeft / (60 * 60 * 24));
+  const hoursLeft = Math.floor((secondsLeft % (60 * 60 * 24)) / (60 * 60));
+
+  useEffect(() => {
+    if (goalDetails.encountered > goalDetails.goal) {
+      setProgress(100);
+    } else {
+      setProgress((goalDetails.encountered / goalDetails.goal) * 100);
+    };
+
+    if (-1*daysLeft < 1) {
+      setTimeLeft('Ends in '+ (-1*hoursLeft).toString() + ' hours');
+    } else {
+      setTimeLeft('Ends in '+ (Math.floor(-1*daysLeft)).toString() + ' days');
+    }
+
+    if (progress == 100) {
+      setGoalLabel('Well done!');
+    } else {
+      const difference = goalDetails.goal-goalDetails.encountered;
+      setGoalLabel(difference.toString() + ' to go!');
+    }
+  }, [goalDetails]);
+
+  useEffect(() => {
+    if (goal) {
+      setGoalDetails(goal);
+    }
+  }, [goal]);
 
   const handleNewGoalClick = () => {
     setModalOpen(true);
@@ -122,7 +124,7 @@ const GoalSummary = (props) => {
     const result = await createGoal(goalToPost);
     if (result) {
       setNewGoal({...newGoal, recurring: false});
-      refresh();
+      update();
     } else {
       toastGenerator('error', 'Something went wrong... :(', 2000);
     }
@@ -140,24 +142,24 @@ const GoalSummary = (props) => {
   };
 
   const editGoal = async (goalToPost) => {
-    await updateGoal(userGoalId, goalToPost);
+    await updateGoal(goalDetails._id, goalToPost);
     setNewGoal({...newGoal, encounter_goal: '', recurring: false});
     setModalOpen(false);
     setRecurring(false);
-    refresh();
+    update();
   };
 
   const handleDelete = async () => {
-    const result = await deleteGoal(userGoalId);
+    const result = await deleteGoal(goalDetails._id);
     if (result) {
-      refresh();
+      update();
     } else {
       toastGenerator('error', 'Something went wrong... :(', 2000);
     }
     setModalOpen(false);
   };
 
-  if (goal != null) {
+  if (goal) {
     return (
       <>
         <CustomModal open={modalOpen}>
@@ -257,7 +259,7 @@ const GoalSummary = (props) => {
                   justifyContent: 'center',
                 }}
               >
-                {`${encountered}/${goal}`}
+                {`${goalDetails.encountered}/${goalDetails.goal}`}
               </Typography>
             </Box>
           </Box>
