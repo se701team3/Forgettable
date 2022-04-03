@@ -135,7 +135,6 @@ it('displays the correct organisation', () => {
   ).toBeInTheDocument();
 });
 
-
 it('displays the correct date first met in detailed fields', () => {
   const date = new Date('01/01/2000');
 
@@ -152,7 +151,6 @@ it('displays the correct date first met in detailed fields', () => {
       getByText('01/01/2000'),
   ).toBeInTheDocument();
 });
-
 
 it('displays the correct list of interests in correct format', () => {
   const interests = ['food', 'sleep'];
