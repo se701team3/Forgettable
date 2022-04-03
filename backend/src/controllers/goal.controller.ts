@@ -57,20 +57,23 @@ export const getGoal = async (
     if (stringGoal?.includes(goalId)) {
       // Find goal from database
       const goal = await goalService.getGoal(goalId);
-      let goalDTO = JSON.parse(JSON.stringify(goal));
+      if (!goal) {
+        res.sendStatus(httpStatus.NOT_FOUND).end();
+        return;
+      }
       const time_now = new Date(Date.now());
-      const new_date_end = new Date();
+      time_now.setUTCHours(0, 0, 0, 0);
 
       // If the date is surpassed and it is a recurring goal, update the current start/end dates accordingly
-      if (goalDTO.date_end > time_now && goalDTO.recurring) {
-        goalDTO.date_start = time_now;
-        goalDTO.date_end = new_date_end.setDate(time_now + goalDTO.duration);
+      if (goal.date_end < time_now && goal.recurring) {
+        goal.date_start = time_now;
+        goal.date_end = new Date(time_now.getTime() + parseInt(goal.duration));
         const updatedGoal = await goalService.updateGoal(
           goalId,
-          goalDTO,
+          goal,
         );
         res.status(httpStatus.OK).json(updatedGoal).end();
-      } else if (goalDTO.date_end > time_now && !goalDTO.recurring) {
+      } else if (goal.date_end < time_now && !goal.recurring) {
         // If the date is surpassed and it isn't a recurring goal, remove the goal and return no content
         const deleteGoalResult = await goalService.deleteGoal(goalId);
         const deleteUserGoalResult = await userService.deleteUserGoal(goalId);
@@ -85,13 +88,14 @@ export const getGoal = async (
       const userEncounters = await encounterService.getAllEncounters({}, userEncounterIds);
       let progress_count = 0;
       userEncounters.forEach((encounter) => {
-        if (encounter.date > goalDTO.date_start && encounter.date < goalDTO.date_end) {
+        if (encounter.date > goal.date_start && encounter.date < goal.date_end) {
           progress_count++;
         }
         return progress_count;
       });
-      goalDTO.progress = progress_count;
-      res.status(httpStatus.OK).json(goalDTO).end();
+      let goalProgressDTO = JSON.parse(JSON.stringify(goal));
+      goalProgressDTO.progress = progress_count;
+      res.status(httpStatus.OK).json(goalProgressDTO).end();
     } else {
       res.sendStatus(httpStatus.NOT_FOUND).end();
     }
