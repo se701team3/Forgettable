@@ -5,7 +5,6 @@ export interface GoalModel{
     date_end: Date,
     duration: string,
     encounter_goal: number,
-    progress: number,
     recurring: boolean
 }
 
@@ -14,7 +13,6 @@ const schema = new Schema<GoalModel>({
   date_end: { type: Date },
   duration: { type: String, required: true },
   encounter_goal: { type: Number, required: true },
-  progress: { type: Number },
   recurring: { type: Boolean, required: true },
 });
 

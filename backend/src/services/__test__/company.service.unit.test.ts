@@ -19,6 +19,7 @@ const personOne: PersonModel = {
     first_met: new Date('2012-12-21'),
     how_we_met: "Life",
     interests: ['things'],
+    labels: ['Devop'],
     organisation: "World",
     social_media: null as any,
     image: null as any,
@@ -33,6 +34,7 @@ const personOne: PersonModel = {
     description: "The Organisation sees everything",
     date_founded: new Date('1990-01-20'),
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
   }
 
@@ -42,6 +44,7 @@ const personOne: PersonModel = {
     description: "Mystery",
     date_founded: null as any,
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
   }
 
@@ -51,6 +54,7 @@ const personOne: PersonModel = {
     description: "Big Brother is watching you",
     date_founded: new Date('1984-01-01'),
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
   }
 
@@ -60,6 +64,7 @@ const personOne: PersonModel = {
     description: null as any,
     date_founded: new Date('1980-10-20'),
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
   }
 
@@ -69,6 +74,7 @@ const personOne: PersonModel = {
     description: "Unnamed company",
     date_founded: new Date('1030-8-20'),
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
   }
 
@@ -78,6 +84,7 @@ const personOne: PersonModel = {
     description: "Not much is known yet",
     date_founded: new Date('2022-02-03'),
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: null as any,
   }
 
@@ -87,6 +94,7 @@ const personOne: PersonModel = {
     description: "Seven",
     date_founded: new Date('777-07-07'),
     time_updated: new Date(Date.now()),
+    image: null as any,
     persons: [] as any,
   }
 
@@ -96,6 +104,7 @@ const personOne: PersonModel = {
     description: "The Organisation sees everything",
     date_founded: new Date('1990-01-20'),
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: ["656e636f756e746572314964"] as any,
   }
 
@@ -105,6 +114,7 @@ const personOne: PersonModel = {
     description: "The Organisation sees everything",
     date_founded: new Date('1990-01-20'),
     time_updated: new Date(Date.now()),
+    image: Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]),
     persons: ["656e636f756e746572314964", "656e636f756e746572317893"] as any,
   }
 
@@ -127,35 +137,42 @@ const personOne: PersonModel = {
 
     })
 
+    it('Successfully stores company with null persons field', async () => {
+      await companyService.createCompany(companySix)
+
+    })
+
+    it('Successfully stores company with null image field', async () => {
+      await companyService.createCompany(companySeven)
+    })
+
     it('All company info are stored correctly', async () => {
         const company1 = await companyService.createCompany(companyOne);
         const company2 = await companyService.createCompany(companyTwo);
         const company3 = await companyService.createCompany(companyThree);
         const company4 = await companyService.createCompany(companyFour);
+        const company6 = await companyService.createCompany(companySix);
+        const company7 = await companyService.createCompany(companySeven);
 
         const storedCompany1 = await Company.findOne({_id: company1._id}).exec();
         const storedCompany2 = await Company.findOne({_id: company2._id}).exec();
         const storedCompany3 = await Company.findOne({_id: company3._id}).exec();
         const storedCompany4 = await Company.findOne({_id: company4._id}).exec();
+        const storedCompany6 = await Company.findOne({_id: company6._id}).exec();
+        const storedCompany7 = await Company.findOne({_id: company7._id}).exec();
 
         expect(company1.toJSON()).toEqual(storedCompany1?.toJSON());
         expect(company2.toJSON()).toEqual(storedCompany2?.toJSON());
         expect(company3.toJSON()).toEqual(storedCompany3?.toJSON());
         expect(company4.toJSON()).toEqual(storedCompany4?.toJSON());
+        expect(company6.toJSON()).toEqual(storedCompany6?.toJSON());
+        expect(company7.toJSON()).toEqual(storedCompany7?.toJSON());
     })
 
     it('Failed to store company without name', async () => {
         await expect(companyService.createCompany(companyFive)).rejects.toThrow('Company validation failed: name: Path `name` is required.');
     })
 
-    it('Failed to create new company with null persons', async () => {
-        await expect(companyService.createCompany(companySix)).rejects.toThrow('Company validation failed: persons: Path `persons` is required.');
-
-    })
-
-    it('Failed to create new company with empty persons', async () => {
-        await expect(companyService.createCompany(companySeven)).rejects.toThrow('Persons can\'t be empty');
-    })
 })
 
 

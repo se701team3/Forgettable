@@ -28,6 +28,7 @@ yarn-error.log*
 
 # Firebase Config
 /src/firebase-config.js
+forgettable_service_account.json
 
 # dotenv environment variable files
 .env

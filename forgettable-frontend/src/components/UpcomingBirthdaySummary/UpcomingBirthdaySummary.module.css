@@ -1,0 +1,95 @@
+@import  '../../colours.css';
+
+.UpcomingBirthdaySummary{
+    height: 150px;
+    width:240px;
+    cursor: pointer;
+    border-radius: var(--radius-card);
+    background-color: var(--card);
+    transition: 0.3s;
+    display: flex;
+    padding: 20px 22px;
+    box-sizing: border-box;
+}
+
+.UpcomingBirthdaySummary:hover {
+    background-color: var(--hilit);
+}
+
+.ContentContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.HeaderContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.IdentityInfoConatiner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.IdentityInfoConatiner > h3 {
+    font-size: var(--text-medium);
+    color: var(--txt1);
+    font-weight: var(--font-semibold);
+    margin: 0;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+            line-clamp: 1; 
+    -webkit-box-orient: vertical;
+}
+
+.IdentityInfoConatiner > p {
+    font-size: var(--text-card-body-normal);
+    margin: 0;
+    color: var(--txt2);
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+            line-clamp: 2; 
+    -webkit-box-orient: vertical;
+}
+
+.DetailsContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.DetailsContainer > p {
+    color: var(--txt2);
+    font-size: var(--text-xsmall);
+}
+
+.DescriptionText {
+    margin-top: -2px;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* number of lines to show */
+            line-clamp: 3; 
+    -webkit-box-orient: vertical;
+}
+
+.IdentityInfoConatiner > h3 {
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 110px;
+}

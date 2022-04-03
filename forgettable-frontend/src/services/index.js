@@ -126,19 +126,29 @@ export const deleteEncounter = async (id) => {
 /**
  * Searches Encounters from the database given a search string
  * @param {string} searchString string to search
+ * @param {string} field the field that is going to be search
  * @return {Promise}
  */
-export const searchEncounter = async (searchString) => {
-  return await getData('encounters/?term=' + searchString);
+export const searchEncounter = async (searchString, field) => {
+  return await getData('encounters/?term=' + searchString + '&field=' + field);
 };
 
 /**
  * Searches Persons from the database given a search string
  * @param {string} searchString string to search
+ * @param {string} field the field that is going to be search
  * @return {Promise}
  */
-export const searchPersons = async (str) => {
-  return await getData('persons/?term=' + str);
+export const searchPersons = async (searchString, field) => {
+  return await getData('persons/?term=' + searchString + '&field=' + field);
+};
+
+/**
+ * Searches persons with upcoming birthdays on your list
+ * @return {Promise}
+ */
+export const getPeopleWithUpcomingBirthday = async () => {
+  return await getData('birthdays');
 };
 
 /**
