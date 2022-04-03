@@ -135,7 +135,7 @@ const PersonCard = (props) => {
                 )}
               </Menu>
             </div>
-            {props.labels &&
+            {props.labels && props.labels.length > 1 &&
             <div>
               <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>
                 {props.labels.map((label) => {
