@@ -84,6 +84,16 @@ export const getAllEncounters = async () => {
 };
 
 /**
+ * Deletes all Encounters for the logged in user where the
+ * time_updated field precedes pruneDate
+ * @param {*} pruneDate Prune all encounters last modified before this date
+ * @return {Promise}
+ */
+export const pruneEncounters = async (pruneDate) => {
+  return await deleteData('encounters/prune/' + pruneDate);
+};
+
+/**
  * Fetches Encounters entries with pagination
  * @param {string} page starting page (starting index = 1)
  * @param {string} limit how many entries on one page

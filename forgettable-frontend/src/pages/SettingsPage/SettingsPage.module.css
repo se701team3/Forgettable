@@ -55,6 +55,12 @@
   height: 40px;
 }
 
+.PruneButton {
+  margin-top: 10px;
+  font-size: var(--text-small);
+  height: 40px;
+}
+
 .DarkModeContainer {
   display: flex;
   flex-direction: row;
