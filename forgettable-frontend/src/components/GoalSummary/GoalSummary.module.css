@@ -1,0 +1,101 @@
+@import '../../colours.css';
+
+
+.GoalContainer {
+    height: 120px;
+    width: 240px;
+    border-radius: var(--radius-card);
+    background-color: var(--card);
+    transition: 0.3s;
+    display: flex;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.goalLabelContainer {
+    padding-left: 15px;
+}
+
+.GoalLabel {
+    font-size: medium;
+    font-weight: bold;
+}
+
+.DateLabel {
+    font-size: small ;
+    color: var(--txt2);
+}
+
+.NewGoalMsg {
+    font-size: large;
+}
+
+.goal_modalTitle {
+    font-weight: var(--font-semibold);
+    font-size: var(--text-xxlarge);
+    text-align: center;
+    padding-bottom: 20px;
+
+}
+
+.button_link {
+    background:none; 
+    border:none; 
+    font-size: large;
+    cursor: pointer;
+    color: rgb(0, 153, 255);
+    font-weight: bold;
+}
+
+.button_link:hover {
+    color:rgba(0, 255, 255, 0.877);
+}
+
+.inputBlock{
+    display:grid;
+    grid-gap:5px;
+}
+
+.input_card {
+    text-align:left; 
+    padding-bottom: 10px;
+}
+
+.input_card > label {
+    font-size: large;
+    font-weight: var(--font-semibold);
+
+}
+
+
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.cancelButton {
+    margin: 10px;
+}
+
+.deleteButton {
+    background-color:var(--warn);
+    margin: 10px;
+   
+}
+.deleteButton:hover{
+    background-color:#fa6e43;
+}
+.deleteButton > p {
+    color:white;
+}
+
+.confirmButton {
+    background-color: var(--prmry);
+    margin: 10px;
+}
+
+.editIcon {
+    cursor: pointer;
+}
+

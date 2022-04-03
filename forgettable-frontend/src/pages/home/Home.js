@@ -11,12 +11,13 @@ import IconButton from '../../components/IconButton/IconButton';
 import EncounterCardSummary from '../../components/EncounterCardSummary/EncounterCardSummary';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import CustomModal from '../../components/CustomModal/CustomModal';
+import GoalSummary from '../../components/GoalSummary/GoalSummary';
 import EncountersLogo from '../../assets/icons/navbar/encounters.svg';
 import PeopleLogo from '../../assets/icons/navbar/persons.svg';
-import { getAllEncounters, getAllPersons, getPeopleWithUpcomingBirthday } from '../../services';
+import { getAllEncounters, getAllPersons, getPeopleWithUpcomingBirthday, getGoal, getUser } from '../../services';
 import { searchBarDataFormatter } from '../../functions/searchBarDataFormatter';
 import { useNavigate } from 'react-router-dom';
-import { unmarshalPerson, unmarshalEncounters } from '../../functions/dataUnmarshaller';
+import { unmarshalPerson, unmarshalEncounters, unmarshalGoal } from '../../functions/dataUnmarshaller';
 import UpcomingBirthdaySummary from '../../components/UpcomingBirthdaySummary/UpcomingBirthdaySummary';
 import SearchFilterModal from '../../components/SearchFilterModal/SearchFilterModal';
 import Streaks from '../../components/Streaks/Streaks';
@@ -31,8 +32,8 @@ function Home() {
   const [peopleList, setPeopleList] = React.useState([]);
   const [encountersList, setEncountersList] = React.useState([]);
   const [searchBarData, setSearchBarData] = React.useState([]);
+  const [currentGoal, setCurrentGoal] = React.useState();
   const [upcomingBirthdayList, setUpcomingBirthdayList] = React.useState([]);
-
   const userName = JSON.parse(localStorage.getItem('user')).userName;
 
   const [searchFilterModalOpen, setSearchFilterModalOpen] = useState(false);
@@ -60,12 +61,25 @@ function Home() {
         encountersResult,
     );
 
+    await updateGoal();
+
     setSearchBarData(searchDataResult);
 
     const upcomingBirthdays = await getPeopleWithUpcomingBirthday();
 
     setUpcomingBirthdayList(upcomingBirthdays);
   }
+
+  const updateGoal = async () => {
+    const user = await getUser();
+    const goalResult = await getGoal(user.goals[0]);
+    const unmarshalledGoal = unmarshalGoal(goalResult);
+    if (!unmarshalledGoal.encountered) {
+      setCurrentGoal(null);
+    } else {
+      setCurrentGoal(unmarshalledGoal);
+    }
+  };
 
   useEffect(() => {
     try {
@@ -167,11 +181,20 @@ function Home() {
             <Streaks encounter={encountersList}/>
           </div>
           <div className={classes.home_subtitleContainer}>
+            <div className={classes.home_subtitle}>Current Goal</div>
+          </div>
+          <div className={classes.home_cardGridContainer}>
+            <GoalSummary goal={currentGoal} update={updateGoal} />
+          </div>
+
+
+          <div className={classes.home_subtitleContainer}>
             <div className={classes.home_subtitle}>Recently Updated</div>
             <Link to="/people" style={{ textDecoration: 'none' }}>
               <CustomButton btnText="View All" />
             </Link>
-          </div>
+          </div >
+
 
           <div
             className={
