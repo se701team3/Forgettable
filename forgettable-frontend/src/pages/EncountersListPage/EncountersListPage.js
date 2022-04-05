@@ -6,6 +6,7 @@ import classes from './EncountersListPage.module.css';
 import IconButton from '../../components/IconButton/IconButton';
 import EncounterDrawer from '../../components/EncounterDrawer/EncounterDrawer';
 import InfiniteScroll from 'react-infinite-scroll-component';
+// eslint-disable-next-line max-len
 import EncounterDetailsModal from '../../components/EncounterDetailsModal/EncounterDetailsModal';
 import {
   deleteEncounter,
@@ -15,7 +16,7 @@ import {
   getEncounter,
 } from '../../services';
 import CustomModal from '../../components/CustomModal/CustomModal';
-import {ToastContainer, toast} from 'react-toastify';
+import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {toastGenerator} from '../../functions/helper';
 import {unmarshalEncounters} from '../../functions/dataUnmarshaller';
@@ -73,24 +74,33 @@ export default function EncountersListPage() {
   const [markers, setMarkers] = useState([]);
 
   useEffect(async () => {
-    const result = await getEncountersByPage(pageNum, PAGE_SIZE);
-    setEncounterList(result.map((encounter) => unmarshalEncounters(encounter)));
-    setMarkers(result.map((encounter) => {
-      return {
-        lat: encounter.latLong[0],
-        lng: encounter.latLong[1],
-        name: encounter.title,
-        id: encounter._id,
-      };
-    }));
-    setIsLoading(false);
+    try {
+      const result = await getEncountersByPage(pageNum, PAGE_SIZE);
+      // eslint-disable-next-line max-len
+      setEncounterList(result.map((encounter) => unmarshalEncounters(encounter)));
+      setMarkers(result.map((encounter) => {
+        return {
+          lat: encounter.latLong[0],
+          lng: encounter.latLong[1],
+          name: encounter.title,
+          id: encounter._id,
+        };
+      }));
+      setIsLoading(false);
+    } catch (error) {
+      alert(error);
+    }
   }, []);
 
   useEffect(async () => {
     if (location.state) {
       if (location.state.hasOwnProperty('id')) {
-        const encounter = await getEncounter(location.state.id);
-        setSelectedEncounter(unmarshalEncounters(encounter));
+        try {
+          const encounter = await getEncounter(location.state.id);
+          setSelectedEncounter(unmarshalEncounters(encounter));
+        } catch (error) {
+          alert(error);
+        }
       } else {
         setSelectedEncounter(location.state.encounter);
       }
@@ -117,17 +127,26 @@ export default function EncountersListPage() {
   };
 
   const onDeleteConfirmed = async (encounterId) => {
-    const result = await deleteEncounter(encounterId);
-    if (result) {
-      const updatedEncountersList = await getAllEncounters();
-      setEncounterList(updatedEncountersList);
-      toastGenerator('success', 'Encounter deleted!', 3000);
-    } else {
-      toastGenerator('error', 'Something went wrong... :(', 3000);
+    try {
+      const result = await deleteEncounter(encounterId);
+      if (result) {
+        try {
+          const updatedEncountersList = await getAllEncounters();
+          setEncounterList(updatedEncountersList);
+          toastGenerator('success', 'Encounter deleted!', 3000);
+        } catch (error) {
+          alert(error);
+        }
+      } else {
+        toastGenerator('error', 'Something went wrong... :(', 3000);
+      }
+      setDeleteModalOpen(false);
+      setEncounterModalOpen(false);
+    } catch (error) {
+      alert(error);
     }
-    setDeleteModalOpen(false);
-    setEncounterModalOpen(false);
   };
+
 
   const fetchMoreData = () => {
     if (!hasMore) {
@@ -136,12 +155,16 @@ export default function EncountersListPage() {
 
     setTimeout(async () => {
       const newPageNum = pageNum + 1;
-      const newResult = await getEncountersByPage(newPageNum, PAGE_SIZE);
-      setEncounterList([...encounterList, ...newResult]);
-      if (newResult.length < PAGE_SIZE || !newResult) {
-        setHasMore(false);
+      try {
+        const newResult = await getEncountersByPage(newPageNum, PAGE_SIZE);
+        setEncounterList([...encounterList, ...newResult]);
+        if (newResult.length < PAGE_SIZE || !newResult) {
+          setHasMore(false);
+        }
+        setPageNum(newPageNum);
+      } catch (error) {
+        alert(error);
       }
-      setPageNum(newPageNum);
     }, 1000);
   };
 
@@ -155,10 +178,13 @@ export default function EncountersListPage() {
   };
 
   const exportSearchString = async (searchString) => {
-    const searchResult = await searchEncounter(searchString, selectedFilter);
-    setEncounterList(searchResult);
+    try {
+      const searchResult = await searchEncounter(searchString);
+      setEncounterList(searchResult);
+    } catch (error) {
+      alert(error);
+    }
   };
-
   return (
     <div>
       {isHover && (

@@ -23,7 +23,7 @@ exports[`renders PersonPage UI with correct hierarchy 1`] = `
     </div>
   </CustomModal>
   <PersonDrawer
-    birthday={1970-01-01T00:00:00.000Z}
+    birthday={null}
     data-testid="drawer-component"
     firstMet={null}
     gender=""
@@ -34,7 +34,7 @@ exports[`renders PersonPage UI with correct hierarchy 1`] = `
     onEdit={[Function]}
     open={true}
     organisation=""
-    socialMedias={Array []}
+    socialMedia={Array []}
     staticDrawer={true}
   />
   <div

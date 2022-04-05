@@ -22,7 +22,9 @@ exports[`renders CustomModal UI to test correct hierarchy 1`] = `
       />
       <CustomButton
         btnText="Confirm"
+        className="warning"
         onClick={[Function]}
+        warning="warning"
       />
     </div>
   </div>
