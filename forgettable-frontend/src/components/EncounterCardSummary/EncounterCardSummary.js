@@ -22,7 +22,7 @@ const EncounterCardSummary = (props) => {
       <div className={classes.ContentContainer}>
         <div className={classes.HeaderContainer}>
           <Avatar
-            alt={props.firstName}
+            alt={props.name}
             src={getImageSrcFromBuffer(props.img)}
             sx={{
               height: '70px',
@@ -36,7 +36,7 @@ const EncounterCardSummary = (props) => {
             }}
           />
           <div className={classes.IdentityInfoConatiner}>
-            <h3 data-testid="name-element">{props.firstName}</h3>
+            <h3 data-testid="name-element">{props.name}</h3>
             <p data-testid="location-element">
               Met at: {props.location || 'some cool place'}
             </p>
@@ -64,7 +64,7 @@ const EncounterCardSummary = (props) => {
 
 EncounterCardSummary.propTypes = {
   id: PropTypes.string,
-  firstName: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   img: PropTypes.string,
   dateMet: PropTypes.instanceOf(Date),
   description: PropTypes.string.isRequired,

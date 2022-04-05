@@ -11,8 +11,7 @@ afterAll(async () => databaseOperations.closeDatabase());
 
 
 const person1Data: PersonModel = {
-    first_name: 'Ping',
-    last_name: 'Pong',
+    name: 'Ping Pong',
     interests: ['video games', 'hockey'],
     labels: ['Devop'],
     organisation: 'helloc',

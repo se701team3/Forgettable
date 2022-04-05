@@ -217,7 +217,7 @@ function Home() {
                   >
                     <PersonCardSummary
                       id={person._id}
-                      name={person.first_name}
+                      name={person.name}
                       img={person.image}
                       firstMet={person.firstMet}
                       onClick={() => {}}
@@ -276,7 +276,7 @@ function Home() {
                 <div key={index + 'e'} className={classes.home_cardWrapper} onMouseOver={(event) => handlePersonHover(event, index)} onMouseOut={handleOnMouseOut}>
                   <Link to={`/person/${birthdayPerson._id}`} style={{textDecoration: 'none'}}>
                     <UpcomingBirthdaySummary
-                      firstName={birthdayPerson.first_name}
+                      name={birthdayPerson.name}
                       birthday={birthdayPerson.birthday}
                       img={birthdayPerson.image}
                       onClick={() => { }}
@@ -299,7 +299,7 @@ function SummaryDrawer(summaryInfo) {
       <PersonDrawer
         open={true}
         id={summaryInfo.info.id}
-        name={summaryInfo.info.firstName}
+        name={summaryInfo.info.name}
         img={summaryInfo.info.image}
         firstMet={summaryInfo.info.firstMet}
         onClick={summaryInfo.info.onClick}

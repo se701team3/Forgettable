@@ -10,8 +10,7 @@ afterEach(async () => databaseOperations.clearDatabase());
 afterAll(async () => databaseOperations.closeDatabase());
 
 const personOne: PersonModel = {
-    first_name: 'Des',
-    last_name: 'Tiny',
+    name: 'Des Tiny',
     birthday: new Date('0000-00-00'),
     gender: "Not human",
     location: "Everywhere",

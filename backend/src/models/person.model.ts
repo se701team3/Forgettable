@@ -5,8 +5,7 @@ import mongoose, { Schema, model } from 'mongoose';
 import { Importance } from '../enums/importance';
 
 export interface PersonModel {
-  first_name: string,
-  last_name: string,
+  name: string,
   birthday: Date,
   gender: string,
   location: string,
@@ -24,8 +23,7 @@ export interface PersonModel {
 }
 
 const schema = new Schema<PersonModel>({
-  first_name: { type: String, required: true },
-  last_name: { type: String, required: false },
+  name: { type: String, required: true },
   birthday: { type: Date, required: false },
   gender: { type: String, required: false },
   location: { type: String, required: false },

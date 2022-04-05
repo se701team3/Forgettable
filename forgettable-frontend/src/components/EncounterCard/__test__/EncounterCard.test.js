@@ -5,11 +5,11 @@ import EncounterCard from '../EncounterCard';
 import {render, screen} from '@testing-library/react';
 
 const persons = [
-  {first_name: 'Kent', last_name: 'Dodds'},
-  {first_name: 'Jed', last_name: 'Watson'},
-  {first_name: 'Marley', last_name: 'George'},
-  {first_name: 'Jack', last_name: 'Winston'},
-  {first_name: 'John', last_name: 'Doe'},
+  {name: 'Kent Dodds'},
+  {name: 'Jed Watson'},
+  {name: 'Marley George'},
+  {name: 'Jack Winston'},
+  {name: 'John Doe'},
 ];
 const title = 'Example Title';
 const description = 'Example Description';
@@ -95,9 +95,9 @@ it('Renders the correct number of avatars when persons number is greater than ma
 
 it('Renders the correct number of avatars when persons number is lower than max (4) and not one', () => {
   const persons = [
-    {first_name: 'Kent', last_name: 'Dodds'},
-    {first_name: 'Jed', last_name: 'Watson'},
-    {first_name: 'Marley', last_name: 'George'},
+    {name: 'Kent Dodds'},
+    {name: 'Jed Watson'},
+    {name: 'Marley George'},
   ];
   render(<EncounterCard
     title={title}
@@ -115,7 +115,7 @@ it('Renders the correct number of avatars when persons number is lower than max 
 
 it('Renders the correct number of avatars when persons number is one', () => {
   const persons = [
-    {first_name: 'Kent', last_name: 'Dodds'},
+    {name: 'Kent Dobbs'},
   ];
   render(<EncounterCard
     title={title}

@@ -25,8 +25,7 @@ export const createUser = async (
     // Don't return auth_id in the response
     res.status(httpStatus.CREATED).json({
       _id: createdUser._id,
-      first_name: createdUser.first_name,
-      last_name: createdUser.last_name,
+      name: createdUser.name,
       persons: createdUser.persons,
       encounters: createdUser.encounters,
       goals: createdUser.goals,
@@ -55,8 +54,7 @@ export const getUser = async (
       // Don't return auth_id in the response
       res.status(httpStatus.OK).json({
         _id: user._id,
-        first_name: user.first_name,
-        last_name: user.last_name,
+        name: user.name,
         persons: user.persons,
         encounters: user.encounters,
         goals: user.goals,
