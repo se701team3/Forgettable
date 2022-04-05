@@ -26,8 +26,7 @@ afterAll(async () => await databaseOperations.closeDatabase());
 
 const user1Data: UserModel = {
     auth_id: null as any,
-    first_name: 'Bing',
-    last_name: 'Bong',
+    name: 'Bing Bong',
     encounters: [] as any,
     persons: [] as any,
     goals: [] as any,
@@ -36,8 +35,7 @@ const user1Data: UserModel = {
 
 const user2Data: UserModel = {
     auth_id: null as any,
-    first_name: 'Adam',
-    last_name: 'Weng',
+    name: 'Adam Weng',
     encounters: [] as any,
     persons: [] as any,
     goals: [] as any,
@@ -45,8 +43,7 @@ const user2Data: UserModel = {
 }
 
 const person1Data: PersonModel = {
-    first_name: 'Ping',
-    last_name: 'Pong',
+    name: 'Ping Pong',
     interests: ['video games', 'hockey'],
     labels: ['Devop'],
     organisation: 'helloc',
@@ -64,8 +61,7 @@ const person1Data: PersonModel = {
 };
 
 const person2Data: PersonModel = {
-    first_name: 'Adam',
-    last_name: 'Bong',
+    name: 'Adam Bong',
     interests: ['badminton', 'golf'],
     labels: ['Devop'],
     organisation: 'helloc',

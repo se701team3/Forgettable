@@ -30,7 +30,7 @@ exports[`renders PersonPage UI with correct hierarchy 1`] = `
     img=""
     interests={Array []}
     location=""
-    name=" "
+    name=""
     onEdit={[Function]}
     open={true}
     organisation=""
@@ -70,13 +70,12 @@ exports[`renders PersonPage UI with correct hierarchy 1`] = `
                   "birthday": null,
                   "encounters": Array [],
                   "firstMet": null,
-                  "firstName": "",
                   "gender": "",
                   "howWeMet": "",
                   "image": "",
                   "interests": Array [],
-                  "lastName": "",
                   "location": "",
+                  "name": "",
                   "organisation": "",
                   "socialMedia": Array [],
                   "timeUpdated": null,

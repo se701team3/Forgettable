@@ -137,7 +137,7 @@ export default function PersonsListPage(props) {
       {isHover &&
         <PersonDrawer
           open={true}
-          name={`${selectedInfo.firstName} ${selectedInfo.lastName || ''}`}
+          name={`${selectedInfo.name}`}
           id={selectedInfo.id}
           birthday={selectedInfo.birthday}
           img={selectedInfo.image}
@@ -209,7 +209,7 @@ export default function PersonsListPage(props) {
                 >
                   <PersonCard
                     id= {person.id}
-                    name= {`${person.first_name} ${person.last_name || ''}`}
+                    name= {`${person.name}`}
                     numEncounters = {person.encounters?.length}
                     lastMet= {person.lastMet}
                     onClick={() => onClickPersonCard(person._id)}

@@ -13,7 +13,7 @@ exports[`renders EncounterCardSummary UI with correct hierarchy 1`] = `
       className="HeaderContainer"
     >
       <ForwardRef(Avatar)
-        alt="Mercury"
+        alt="Mercury Element"
         src={null}
         sx={
           Object {
@@ -31,7 +31,7 @@ exports[`renders EncounterCardSummary UI with correct hierarchy 1`] = `
         <h3
           data-testid="name-element"
         >
-          Mercury
+          Mercury Element
         </h3>
         <p
           data-testid="location-element"

@@ -63,13 +63,13 @@ exports[`renders Create person page correctly 1`] = `
           <label
             className="inputLabelPrimary"
           >
-            First Name
+            Full Name
             <input
               autoFocus={true}
               className="inputFieldPrimary"
-              name="first_name"
+              name="name"
               onChange={[Function]}
-              placeholder="E.g. John"
+              placeholder="E.g. John Smith"
               required={true}
               value=""
             />
@@ -138,20 +138,6 @@ exports[`renders Create person page correctly 1`] = `
       <div
         className="column"
       >
-        <div>
-          <label
-            className="inputLabelPrimary"
-          >
-            Last Name
-            <input
-              className="inputFieldPrimary"
-              name="last_name"
-              onChange={[Function]}
-              placeholder="E.g. Smith"
-              value=""
-            />
-          </label>
-        </div>
         <div>
           <label
             className="inputLabelPrimary"

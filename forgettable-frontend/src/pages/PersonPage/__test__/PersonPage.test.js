@@ -29,8 +29,7 @@ it('should display the correct user returned from the person api call',
     async () => {
       api.getPerson.mockImplementation(() =>
         Promise.resolve({
-          first_name: 'Hiruna',
-          last_name: 'Smith',
+          name: 'Hiruna Smith',
         }),
       );
 
@@ -52,15 +51,13 @@ it(
     async () => {
       api.getPerson.mockImplementation(() =>
         Promise.resolve({
-          first_name: 'Hiruna',
-          last_name: 'Smith',
+          name: 'Hiruna Smith',
           encounters: [{
             title: 'encounter 1',
             description: 'description 1',
             persons: [
               {
-                first_name: 'person 1',
-                last_name: 'person 1',
+                name: 'person 1',
               },
             ],
             location: 'place 1',
@@ -72,8 +69,7 @@ it(
             description: 'description 2',
             persons: [
               {
-                first_name: 'person 2',
-                last_name: 'person 2',
+                name: 'person 2',
               },
             ],
             location: 'place 2',
@@ -103,15 +99,13 @@ it('should show the deletion confirmation modal when the delete button on an enc
     async () => {
       api.getPerson.mockImplementation(() =>
         Promise.resolve({
-          first_name: 'Hiruna',
-          last_name: 'Smith',
+          name: 'Hiruna Smith',
           encounters: [{
             title: 'encounter 1',
             description: 'description 1',
             persons: [
               {
-                first_name: 'person 1',
-                last_name: 'person 1',
+                name: 'person 1',
               },
             ],
             location: 'place 1',
@@ -150,15 +144,13 @@ it('should show success message when encounter is successfully deleted',
     async () => {
       api.getPerson.mockImplementation(() =>
         Promise.resolve({
-          first_name: 'Hiruna',
-          last_name: 'Smith',
+          name: 'Hiruna Smith',
           encounters: [{
             title: 'encounter 1',
             description: 'description 1',
             persons: [
               {
-                first_name: 'person 1',
-                last_name: 'person 1',
+                name: 'person 1',
               },
             ],
             location: 'place 1',
@@ -207,15 +199,13 @@ it('should show success message when encounter could not be deleted',
     async () => {
       api.getPerson.mockImplementation(() =>
         Promise.resolve({
-          first_name: 'Hiruna',
-          last_name: 'Smith',
+          name: 'Hiruna Smith',
           encounters: [{
             title: 'encounter 1',
             description: 'description 1',
             persons: [
               {
-                first_name: 'person 1',
-                last_name: 'person 1',
+                name: 'person 1',
               },
             ],
             location: 'place 1',

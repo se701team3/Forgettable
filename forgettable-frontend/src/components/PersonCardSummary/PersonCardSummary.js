@@ -12,7 +12,7 @@ import {getImageSrcFromBuffer} from '../../functions/getImageSrcFromBuffer';
  * Author: Mercury Lin (lin8231)
  */
 const PersonCardSummary = (props) => {
-  const firstName = props.name.split(' ')[0];
+  const name = props.name.split(' ')[0];
   return (
     <div
       className={classes.PersonCardSummary}
@@ -21,7 +21,7 @@ const PersonCardSummary = (props) => {
     >
       <div className={classes.ContentContainer}>
         <Avatar
-          alt={firstName}
+          alt={name}
           // this style is written inline because MUI does not support className
           style={{
             height: '70px',
@@ -37,7 +37,7 @@ const PersonCardSummary = (props) => {
         />
         <div className={classes.TextInfoContainer}>
           <h3 data-testid="name-element">
-            {firstName}
+            {name}
           </h3>
           <p data-testid="first-met-element">
               First met {getFirstMetTimeString(props.firstMet)}

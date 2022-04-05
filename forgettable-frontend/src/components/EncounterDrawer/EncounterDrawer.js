@@ -79,8 +79,7 @@ EncounterDrawer.propTypes = {
   encounterTitle: PropTypes.string.isRequired,
   persons: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
-    first_name: PropTypes.string.isRequired,
-    last_name: PropTypes.string,
+    name: PropTypes.string.isRequired,
     image: PropTypes.string,
   })).isRequired,
   dateMet: PropTypes.instanceOf(Date),

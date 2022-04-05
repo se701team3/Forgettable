@@ -23,24 +23,19 @@ exports[`renders EncounterCard UI to test correct hierarchy 1`] = `
           persons={
             Array [
               Object {
-                "first_name": "Kent",
-                "last_name": "Dodds",
+                "name": "Kent Dodds",
               },
               Object {
-                "first_name": "Jed",
-                "last_name": "Watson",
+                "name": "Jed Watson",
               },
               Object {
-                "first_name": "Marley",
-                "last_name": "George",
+                "name": "Marley George",
               },
               Object {
-                "first_name": "Jack",
-                "last_name": "Winston",
+                "name": "Jack Winston",
               },
               Object {
-                "first_name": "John",
-                "last_name": "Doe",
+                "name": "John Doe",
               },
             ]
           }

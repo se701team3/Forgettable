@@ -18,7 +18,7 @@ jest.mock('react-router-dom', () => ({
 it('renders UpcomingBirthdaySummary UI with correct hierarchy', () => {
   const renderer = new ShallowRenderer();
   renderer.render(<UpcomingBirthdaySummary
-    firstName='Bob'
+    name='Bob'
     onClick={() => { }} />);
   const result = renderer.getRenderOutput();
   expect(result).toMatchSnapshot();
@@ -31,7 +31,7 @@ it('successfully fires event when card is clicked', () => {
 
   const {getByTestId} = render(
       <UpcomingBirthdaySummary
-        firstName='Bob'
+        name='Bob'
         birthday={moment(1648698811606).toDate()}
         onClick={handleClick}
       />);
