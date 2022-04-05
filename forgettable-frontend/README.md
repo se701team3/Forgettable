@@ -13,9 +13,11 @@
    * It must export a variable called firebaseConfig which contains information about the firebase configuration.
     This information can be found for a Firebase project by going into `Project Settings`, then within `Your apps` and 
     copying the firebaseConfig variable for the Forgettable web app.
-3. Run `npm i` to install all the required dependencies
-4. npm `npm start` to start the application
-5. To exit the application press `Ctrl + C`
+3. Create .env under repo's `forgettable-frontend` folder
+    - `REACT_APP_MAPS_API_KEY` should be set to a Google Cloud API key with Places and Maps APIs enabled
+4. Run `npm i` to install all the required dependencies
+5. npm `npm start` to start the application
+6. To exit the application press `Ctrl + C`
 
 ## Available Scripts
 In this project directory you can run:

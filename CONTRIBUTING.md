@@ -55,7 +55,7 @@ The 'fork and pull' model is used for this project. Once you have an issue assig
 3. The description should describe some additional details about the changes made.
 4. Remember to link the pull request to the issue that it fixes e.g. "Fixes #46"
 5. The code must also pass the automated test and build in the CI pipeline
-6. Every pull request must be reviewed by at least two other people.
+6. Every pull request must be reviewed by at least one other person.
 7. Once it is successfully reviewed, it can be merged into the main repository.
 
 # Coding style guide
